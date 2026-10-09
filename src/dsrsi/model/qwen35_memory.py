@@ -7,7 +7,7 @@ execution are implemented separately; no inference-cache mutation occurs here.
 from __future__ import annotations
 
 from contextlib import nullcontext
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 import json
 from pathlib import Path
 
@@ -71,6 +71,15 @@ class MemoryQwen(nn.Module):
         self.base.eval()
         self.head.eval()
         return self
+
+    def frozen_auxiliary_parameters(self):
+        """Frozen memory modules are not part of the fingerprinted base file."""
+        return {name: p for name, p in self.named_parameters()
+                if not p.requires_grad and not name.startswith(("base.", "head."))}
+
+    def memory_architecture_identity(self):
+        return {"memory_config": asdict(self.memory_config), "writer_after": self.writer_after,
+                "reader_before": list(self.reader_before)}
 
     @staticmethod
     def _memory_context(hidden):

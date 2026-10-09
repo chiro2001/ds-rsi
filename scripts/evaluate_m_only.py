@@ -23,6 +23,7 @@ def main():
                                  "missing_evidence", "language_preservation"])
     parser.add_argument("--languages", nargs="+", choices=["zh", "en", "cross_language"], default=["zh"])
     parser.add_argument("--threads", type=int, default=8)
+    parser.add_argument("--include-foreign", action="store_true", help="replace all selected payloads with the other counterfactual world")
     args = parser.parse_args()
     if args.worlds < 1 or args.distractors < 8 or args.threads < 1:
         raise ValueError("positive worlds/threads and at least 8 distractors are required")
@@ -32,8 +33,8 @@ def main():
     from transformers import AutoTokenizer
     from dsrsi.data.compiler import EpisodeCompiler, tokenizer_fingerprint
     from dsrsi.data.generate import EpisodeGenerator
-    from dsrsi.evaluation.m_only import MOnlyEvaluator
-    from dsrsi.evaluation.checkpoint import load_ab_weights
+    from dsrsi.evaluation.m_only import MOnlyEvaluator, normalized_answer
+    from dsrsi.evaluation.checkpoint import load_ab_weights, load_c_tool_weights
     from dsrsi.evaluation.metrics import summarize_records
     from dsrsi.model.qwen35_memory import MemoryQwen
     from dsrsi.training.checkpoint import CheckpointStore, file_sha256
@@ -49,7 +50,8 @@ def main():
     tokenizer = AutoTokenizer.from_pretrained(root, local_files_only=True)
     model = MemoryQwen.from_local_checkpoint(root)
     compiler = EpisodeCompiler(tokenizer)
-    checkpoint_dir, manifest = load_ab_weights(model, store, base_identity=actual_base, committed=committed)
+    loader = load_c_tool_weights if config["stage"] == "C_tools" else load_ab_weights
+    checkpoint_dir, manifest = loader(model, store, base_identity=actual_base, committed=committed)
     evaluator = MOnlyEvaluator(model, compiler, max_new_tokens=args.max_new_tokens)
     generator = EpisodeGenerator(seed=config["seed"], split=args.split, distractors=args.distractors)
     records = []
@@ -66,7 +68,21 @@ def main():
                             results = [evaluator.retrieval(response, sources, life_id=episode.episode_id)
                                        for response in episode.responses]
                     else:
-                        results = evaluator.episode(row)
+                        replacements = None
+                        foreign_expected = {}
+                        modes = ("actual", "oracle", "off", "shuffled")
+                        if args.include_foreign:
+                            foreign = generator.episode(world, variant=1 - variant, family=family, language=language)
+                            with torch.no_grad():
+                                replacements = evaluator.source_records(compiler.compile(foreign))
+                            foreign_expected = {p["probe_id"]: p["target"] for p in foreign["probes"]}
+                            modes += ("foreign",)
+                        results = evaluator.episode(row, modes=modes, replacement_records=replacements)
+                        for result in results:
+                            if result["mode"] == "foreign":
+                                result["counterfactual_payload_answer"] = foreign_expected[result["probe_id"]]
+                                result["follows_counterfactual_payload"] = (normalized_answer(result["text"])
+                                    == normalized_answer(foreign_expected[result["probe_id"]]))
                     for result in results:
                         result.update(episode_id=row["episode_id"], world_id=row["world_id"], variant=variant,
                                       family=family, language=language)
@@ -77,6 +93,7 @@ def main():
               "manifest_sha256": file_sha256(checkpoint_dir / "manifest.json"), "base_identity": actual_base,
               "families": args.families, "languages": args.languages, "distractors": args.distractors,
               "canonical_execution_quantum": 1,
+              "foreign_payload_ablation": args.include_foreign and not args.retrieval_only,
               "checkpoint_progress": manifest["progress"], "max_new_tokens": args.max_new_tokens,
               "worlds": args.worlds, "summary": summary, "records": records,
               "capability_gate_passed": False}

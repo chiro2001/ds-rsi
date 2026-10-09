@@ -47,6 +47,7 @@ class SupervisedSequence:
     allow_tools: list[str] = field(default_factory=list)
     wall_time: float | None = None
     write_enabled: bool = False
+    supervision_kind: str = "answer"
 
     @property
     def prompt_ids(self):
@@ -244,6 +245,7 @@ class EpisodeCompiler:
                     responses.append(self._response(history, message, event_id=f"assistant-{index}",
                                                      logical_begin=cursor, mode="tools", reset=[], tools=tools))
                     responses[-1].allow_tools = [tool["function"]["name"] for tool in tools]
+                    responses[-1].supervision_kind = "tool" if message.get("tool_calls") else "answer"
                 history.append(message)
         if not responses:
             raise ValueError("episode has no supervised assistant events")

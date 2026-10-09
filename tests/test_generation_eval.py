@@ -91,6 +91,30 @@ def test_retrieval_only_is_answer_free_and_matches_generation_addresses():
     assert before["evidence_available"] and before["required_groups"] == 1
 
 
+def test_foreign_payload_removes_all_original_selected_content_but_preserves_addresses():
+    evaluator, row, episode, records = build()
+    foreign = [replace(r, stream_id="other-life", slots=r.slots + 100) for r in records]
+    original = evaluator.model.forward_cached
+    captured = []
+    def capture(*args, **kwargs):
+        if kwargs.get("records"):
+            captured.append(kwargs["records"])
+        return original(*args, **kwargs)
+    evaluator.model.forward_cached = capture
+    actual = evaluator.generate(episode.responses[0], records, life_id=episode.episode_id, expected="x")
+    captured.clear()
+    altered = evaluator.generate(episode.responses[0], records, life_id=episode.episode_id, expected="x",
+                                 mode="foreign", replacement_records=foreign)
+    assert actual.selected_records == altered.selected_records
+    originals = {r.record_id: r for r in records}
+    for r in captured[0]:
+        assert torch.equal(r.slots, originals[r.record_id].slots + 100)
+        assert torch.equal(r.keys, originals[r.record_id].keys) and r.stream_id == episode.episode_id
+    with pytest.raises(ValueError, match="independent"):
+        evaluator.generate(episode.responses[0], records, life_id=episode.episode_id, expected="x",
+                           mode="foreign", replacement_records=records)
+
+
 def test_evaluation_weights_loader_rejects_wrong_base_without_changing_weights(tmp_path):
     from dsrsi.training.runner import Trainer, TrainConfig
     from dsrsi.evaluation.checkpoint import load_ab_weights
@@ -126,3 +150,19 @@ def test_evaluation_rejects_divergent_rank_weights_even_with_valid_checksums(tmp
     store.commit(pending, world_size=2, identity=trainer.identity, progress=trainer.progress)
     with pytest.raises(CheckpointError, match="rank 1 weights differ"):
         load_ab_weights(tiny(), store, base_identity="base")
+
+
+def test_memory_architecture_mismatch_is_rejected_even_when_tensor_shapes_match(tmp_path):
+    from dsrsi.training.runner import Trainer, TrainConfig
+    from dsrsi.evaluation.checkpoint import load_ab_weights
+    from dsrsi.training.checkpoint import CheckpointError
+    evaluator, _, _, _ = build()
+    trainer = Trainer(evaluator.model, evaluator.compiler, tmp_path, TrainConfig(distractors=2), base_identity="base")
+    trainer.run(max_micro_steps=1, install_signals=False)
+    changed = tiny()
+    changed.memory_config = replace(changed.memory_config, heads=1)
+    for module in changed.modules():
+        if hasattr(module, "heads"):
+            module.heads = 1
+    with pytest.raises(CheckpointError, match="architecture differs"):
+        load_ab_weights(changed, trainer.store, base_identity="base")

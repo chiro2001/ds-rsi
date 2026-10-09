@@ -46,8 +46,8 @@ class MOnlyEvaluator:
                                                      wall_times=[span.wall_time]))
         return records
 
-    def _prompt_forward(self, response, records, *, life_id, mode):
-        if mode not in {"actual", "oracle", "off", "shuffled"}:
+    def _prompt_forward(self, response, records, *, life_id, mode, replacement_records=None):
+        if mode not in {"actual", "oracle", "off", "shuffled", "foreign"}:
             raise ValueError("invalid ablation mode")
         if response.mode != "m_only" or response.write_enabled:
             raise ValueError("evaluation must not write supervised completions")
@@ -97,6 +97,13 @@ class MOnlyEvaluator:
                     raise ValueError("content-shuffle ablation needs at least two independent records")
                 by_id = {record.record_id: available[(index + 1) % len(available)].slots for index, record in enumerate(available)}
                 selected = [replace(record, slots=by_id[record.record_id]) for record in selected]
+            elif mode == "foreign":
+                if not replacement_records or any(r.stream_id == life_id for r in replacement_records):
+                    raise ValueError("foreign-content ablation requires independent counterfactual-life payloads")
+                replacements = {r.record_id: r.slots for r in replacement_records}
+                if any(r.record_id not in replacements for r in selected):
+                    raise ValueError("foreign-content ablation lacks a matching payload")
+                selected = [replace(r, slots=replacements[r.record_id]) for r in selected]
             return selected
 
         output = self.model.forward_cached(prompt[:, -1:], cache, selector=selector,
@@ -113,9 +120,9 @@ class MOnlyEvaluator:
                 "selected_records": [r.record_id for r in selected]}
 
     @torch.no_grad()
-    def generate(self, response, records, *, life_id, expected, mode="actual"):
+    def generate(self, response, records, *, life_id, expected, mode="actual", replacement_records=None):
         output, selected, actual_coverage, _, lookup_position = self._prompt_forward(
-            response, records, life_id=life_id, mode=mode)
+            response, records, life_id=life_id, mode=mode, replacement_records=replacement_records)
         device = self.model.base.embed_tokens.weight.device
         generated = []
         stopped = False
@@ -135,7 +142,7 @@ class MOnlyEvaluator:
                                [r.record_id for r in selected])
 
     @torch.no_grad()
-    def episode(self, row, *, modes=("actual", "oracle", "off", "shuffled")):
+    def episode(self, row, *, modes=("actual", "oracle", "off", "shuffled"), replacement_records=None):
         if row.get("split") == "train":
             raise ValueError("held-out evaluation cannot use training worlds")
         self.model.eval()
@@ -143,5 +150,5 @@ class MOnlyEvaluator:
         records = self.source_records(episode)
         expected = {probe["probe_id"]: probe["target"] for probe in row["probes"]}
         return [asdict(self.generate(response, records, life_id=episode.episode_id,
-                                     expected=expected[response.event_id], mode=mode))
+                                     expected=expected[response.event_id], mode=mode, replacement_records=replacement_records))
                 for response in episode.responses for mode in modes]

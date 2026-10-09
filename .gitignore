@@ -22,6 +22,9 @@ artifacts/
 *.safetensors
 *.bin
 *.log
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
 data/*
 !data/examples/
 !data/manifests/

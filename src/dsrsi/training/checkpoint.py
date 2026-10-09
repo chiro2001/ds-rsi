@@ -67,6 +67,11 @@ def _class_name(value: Any) -> str | None:
     return None if value is None else f"{type(value).__module__}.{type(value).__qualname__}"
 
 
+def frozen_auxiliary_parameters(model):
+    provider = getattr(model, "frozen_auxiliary_parameters", None)
+    return {} if provider is None else provider()
+
+
 def _optimizer_names(model, optimizer) -> list[list[str]]:
     names = {id(param): name for name, param in model.named_parameters()}
     try:
@@ -127,6 +132,7 @@ def capture_training_state(
         "format_version": FORMAT_VERSION, "rank": rank, "world_size": world_size,
         "progress": asdict(progress),
         "weights": cpu_tree(params),
+        "frozen_auxiliary": cpu_tree(frozen_auxiliary_parameters(model)),
         "buffers": cpu_tree(dict(model.named_buffers())),
         "gradients": cpu_tree({name: param.grad for name, param in params.items()}),
         "optimizer": {
@@ -162,6 +168,11 @@ def restore_training_state(
     buffers = dict(model.named_buffers())
     _check_tensors(params, payload["weights"], "trainable parameters")
     _check_tensors(buffers, payload["buffers"], "buffers")
+    frozen = frozen_auxiliary_parameters(model)
+    if "frozen_auxiliary" in payload:
+        _check_tensors(frozen, payload["frozen_auxiliary"], "frozen auxiliary parameters")
+    elif payload["progress"]["stage"] not in {"A", "B"}:
+        raise CheckpointError("new training stages require complete frozen auxiliary state")
     if set(params) != set(payload["gradients"]):
         raise CheckpointError("gradient names differ")
     for name, grad in payload["gradients"].items():
@@ -186,6 +197,8 @@ def restore_training_state(
             param.grad = None if grad is None else grad.to(param.device).clone()
         for name, buf in buffers.items():
             buf.copy_(payload["buffers"][name].to(buf.device))
+        for name, value in payload.get("frozen_auxiliary", {}).items():
+            frozen[name].copy_(value.to(frozen[name].device))
     optimizer.load_state_dict(saved_opt["state"])
     for name, obj in (("scheduler", scheduler), ("scaler", scaler)):
         if obj is not None:

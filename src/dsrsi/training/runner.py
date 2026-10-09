@@ -10,7 +10,8 @@ import time
 import torch
 
 from dsrsi.data.generate import EpisodeGenerator
-from .checkpoint import CheckpointStore, Progress, capture_training_state, restore_training_state, file_sha256
+from .checkpoint import (CheckpointStore, Progress, capture_training_state, restore_training_state, file_sha256,
+                         frozen_auxiliary_parameters)
 from .control import ControlChannel
 from .episode_objective import EpisodeObjective
 from .distributed import CollectiveContext
@@ -31,6 +32,11 @@ class TrainConfig:
     def __post_init__(self):
         if self.stage not in {"A", "B"} or min(self.student_token_budget, self.gradient_accumulation) < 1:
             raise ValueError("invalid training stage/budget/accumulation")
+        self._validate_common()
+
+    def _validate_common(self):
+        if min(self.student_token_budget, self.gradient_accumulation) < 1:
+            raise ValueError("invalid training budget/accumulation")
         if self.learning_rate <= 0 or self.distractors < 1 or self.save_every_micro < 1:
             raise ValueError("invalid optimizer/distractor/checkpoint configuration")
 
@@ -49,7 +55,9 @@ class Trainer:
         reference = self.collectives.broadcast_json(descriptor if self.rank == 0 else None)
         self.collectives.require_all_success(None if descriptor == reference else "rank trainer identity/layout differs")
         if not resume:
-            self.collectives.broadcast_parameters(p for p in model.parameters() if p.requires_grad)
+            parameters = [p for p in model.parameters() if p.requires_grad]
+            parameters += list(frozen_auxiliary_parameters(model).values())
+            self.collectives.broadcast_parameters(parameters)
 
     def _initialize(self, base_identity, resume, initialize_from):
         model, compiler, config = self.model, self.compiler, self.config
@@ -84,6 +92,8 @@ class Trainer:
                          "execution_semantics": "ab-episode-v2-explicit-optimizer-backend"}
         if self.world_size > 1:
             self.identity["execution_semantics"] = "ab-episode-v4-query-weighted-coordinated-gradients"
+        if not resume or "memory_architecture" in self.store.load_committed()[1]["identity"]:
+            self.identity["memory_architecture"] = model.memory_architecture_identity()
         if initialization is not None:
             self.identity["initialization"] = initialization
         self.progress = Progress(config.stage)
@@ -171,6 +181,18 @@ class Trainer:
         self.collectives.run_local("acknowledge control", lambda: self.control.acknowledge(request, checkpoint))
         return status if request.action != "checkpoint" else None
 
+    def _forward_episode(self, ordinal):
+        world, variant = divmod(ordinal, 2)
+        mix = int.from_bytes(hashlib.sha256(f"{self.config.seed}:{world}:mix".encode()).digest()[:8], "big") % 100
+        keep = mix >= (75 if self.config.stage == "A" else 70)
+        row = self.generator.episode(world, variant=variant, family="language_preservation" if keep else None)
+        if self.config.stage == "A":
+            oracle = True
+        else:
+            draw = int.from_bytes(hashlib.sha256(f"{self.config.seed}:{ordinal}:oracle".encode()).digest()[:8], "big") / 2**64
+            oracle = draw < 0.8
+        return row, oracle, self.objective(row, oracle_include=oracle)
+
     def run(self, *, max_micro_steps=None, install_signals=True):
         def prepare():
             if install_signals:
@@ -187,21 +209,7 @@ class Trainer:
                 return "stopped"
             started = time.monotonic()
             ordinal = self.cursor["next_ordinal"]
-            def compute():
-                world, variant = divmod(ordinal, 2)
-                # Pair members share task kind; only source outcomes/values differ.
-                mix = int.from_bytes(hashlib.sha256(f"{self.config.seed}:{world}:mix".encode()).digest()[:8], "big") % 100
-                keep = mix >= (75 if self.config.stage == "A" else 70)
-                row = self.generator.episode(world, variant=variant, family="language_preservation" if keep else None)
-                if self.config.stage == "A":
-                    oracle = True
-                else:
-                    # Annealing needs an independent held-out retrieval gate.
-                    draw = int.from_bytes(hashlib.sha256(f"{self.config.seed}:{ordinal}:oracle".encode()).digest()[:8], "big") / 2**64
-                    oracle = draw < 0.8
-                result = self.objective(row, oracle_include=oracle)
-                return row, oracle, result
-            row, oracle, result = self.collectives.run_local("episode forward", compute)
+            row, oracle, result = self.collectives.run_local("episode forward", lambda: self._forward_episode(ordinal))
             student_tokens, teacher_tokens, global_queries = self.collectives.totals(
                 result.student_tokens, result.teacher_tokens, result.queries)
             # synchronize_gradients averages ranks. This factor makes that
@@ -224,6 +232,7 @@ class Trainer:
                        "padding_positions": result.padding_positions, "supervised_tokens": result.supervised_tokens,
                        "covered_queries": result.covered_queries, "queries": result.queries,
                        "global_queries": global_queries,
+                       "tool_events": result.tool_events, "reply_events": result.reply_events, "tool_loss": result.tool_loss,
                        "oracle_included": oracle, "micro_seconds": time.monotonic() - started})
             # No autograd graphs survive this boundary. Completed gradients are
             # saved even before an accumulation group has reached its optimizer step.

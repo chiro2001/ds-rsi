@@ -13,7 +13,7 @@ from dsrsi.data.tools import TOOL_PROPERTIES
 
 
 class HarnessStore:
-    def __init__(self, path, life_id, *, revision=None, expected_database_id=None):
+    def __init__(self, path, life_id, *, revision=None, expected_database_id=None, database_id=None):
         self.path = Path(path).resolve()
         if revision is not None and not self.path.is_file():
             raise FileNotFoundError("restoring a harness requires its durable journal")
@@ -38,9 +38,10 @@ class HarnessStore:
             CREATE VIRTUAL TABLE IF NOT EXISTS history_fts USING fts5(text, tokenize='trigram');
         """)
         with self.connection:
-            self.connection.execute("INSERT OR IGNORE INTO meta VALUES ('database_id', ?)", (uuid.uuid4().hex,))
+            self.connection.execute("INSERT OR IGNORE INTO meta VALUES ('database_id', ?)", (database_id or uuid.uuid4().hex,))
         self.database_id = self.connection.execute("SELECT value FROM meta WHERE name='database_id'").fetchone()[0]
-        if expected_database_id is not None and expected_database_id != self.database_id:
+        if ((expected_database_id is not None and expected_database_id != self.database_id)
+                or (database_id is not None and database_id != self.database_id)):
             raise ValueError("harness journal identity differs from snapshot")
         if revision is None:
             head = self.connection.execute("SELECT revision FROM heads WHERE life_id=?", (life_id,)).fetchone()

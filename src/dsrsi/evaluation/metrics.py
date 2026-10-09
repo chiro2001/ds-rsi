@@ -35,4 +35,7 @@ def summarize_records(records, *, retrieval_only=False):
                          "complete_counterfactual_pairs": len(complete),
                          "paired_exact_match": (sum(all(r["exact_match"] for r in pair) for pair in complete) / len(complete)
                                                  if complete else None)}
+        if mode == "foreign":
+            summary[mode]["follows_counterfactual_payload"] = (sum(r["follows_counterfactual_payload"] for r in values) / len(values)
+                if all("follows_counterfactual_payload" in r for r in values) else None)
     return summary

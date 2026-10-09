@@ -21,6 +21,9 @@ class ObjectiveOutput:
     keep_kl: float
     covered_queries: int
     queries: int
+    tool_events: int = 0
+    reply_events: int = 0
+    tool_loss: float = 0.0
 
 
 class EpisodeObjective:

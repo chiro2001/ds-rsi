@@ -46,7 +46,19 @@ class MOnlyEvaluator:
                                                      wall_times=[span.wall_time]))
         return records
 
-    def _prompt_forward(self, response, records, *, life_id, mode, replacement_records=None):
+    def _encode_prefix(self, response):
+        device = self.model.base.embed_tokens.weight.device
+        prompt = torch.tensor([response.prompt_ids], device=device)
+        if not prompt.shape[1]:
+            raise ValueError("empty answer-free prefix")
+        cache = StreamingCache(self.model.base.config.layer_types, window=2048, rebase_interval=None)
+        cache.clock = response.logical_begin
+        cache.position_origin = response.logical_begin
+        for index in range(prompt.shape[1] - 1):
+            cache = self.model.forward_cached(prompt[:, index:index + 1], cache, memory_enabled=False).cache
+        return prompt, cache
+
+    def _prompt_forward(self, response, records, *, life_id, mode, replacement_records=None, prefix=None):
         if mode not in {"actual", "oracle", "off", "shuffled", "foreign"}:
             raise ValueError("invalid ablation mode")
         if response.mode != "m_only" or response.write_enabled:
@@ -56,19 +68,13 @@ class MOnlyEvaluator:
         dropped = set(response.memory_transform.get("drop_events", []))
         pool = [r for r in records if r.record_id not in dropped]
         device = self.model.base.embed_tokens.weight.device
-        prompt = torch.tensor([response.prompt_ids], device=device)
-        if not prompt.shape[1]:
-            raise ValueError("empty answer-free prefix")
         # Reset all working state; absolute memory time remains independent of
         # the fresh prefix's local rotary coordinate system.
-        cache = StreamingCache(self.model.base.config.layer_types, window=2048, rebase_interval=None)
-        cache.clock = response.logical_begin
-        cache.position_origin = response.logical_begin
         # Use the same canonical single-token numerical path as StreamExecutor.
         # Parallel BF16 GDN prefill is a diagnostic path, not interchangeable.
-        for index in range(prompt.shape[1] - 1):
-            prefix = self.model.forward_cached(prompt[:, index:index + 1], cache, memory_enabled=False)
-            cache = prefix.cache
+        prompt, cache = self._encode_prefix(response) if prefix is None else prefix
+        if cache.clock != response.logical_begin + prompt.shape[1] - 1:
+            raise ValueError("shared answer-free prefix has a different logical range")
         selected = []
         actual_coverage = False
         groups = [set(group) for group in response.support_groups]
@@ -120,9 +126,9 @@ class MOnlyEvaluator:
                 "selected_records": [r.record_id for r in selected]}
 
     @torch.no_grad()
-    def generate(self, response, records, *, life_id, expected, mode="actual", replacement_records=None):
+    def generate(self, response, records, *, life_id, expected, mode="actual", replacement_records=None, prefix=None):
         output, selected, actual_coverage, _, lookup_position = self._prompt_forward(
-            response, records, life_id=life_id, mode=mode, replacement_records=replacement_records)
+            response, records, life_id=life_id, mode=mode, replacement_records=replacement_records, prefix=prefix)
         device = self.model.base.embed_tokens.weight.device
         generated = []
         stopped = False
@@ -149,6 +155,12 @@ class MOnlyEvaluator:
         episode = self.compiler.compile(row)
         records = self.source_records(episode)
         expected = {probe["probe_id"]: probe["target"] for probe in row["probes"]}
-        return [asdict(self.generate(response, records, life_id=episode.episode_id,
-                                     expected=expected[response.event_id], mode=mode, replacement_records=replacement_records))
-                for response in episode.responses for mode in modes]
+        results = []
+        for response in episode.responses:
+            # Only this immutable, answer-free prefix is shared across modes.
+            # forward_cached forks its cache; no generated state is reused.
+            prefix = self._encode_prefix(response)
+            for mode in modes:
+                results.append(asdict(self.generate(response, records, life_id=episode.episode_id,
+                    expected=expected[response.event_id], mode=mode, replacement_records=replacement_records, prefix=prefix)))
+        return results

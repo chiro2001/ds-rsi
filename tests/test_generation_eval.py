@@ -166,3 +166,14 @@ def test_memory_architecture_mismatch_is_rejected_even_when_tensor_shapes_match(
             module.heads = 1
     with pytest.raises(CheckpointError, match="architecture differs"):
         load_ab_weights(changed, trainer.store, base_identity="base")
+
+
+def test_sharing_answer_free_prefix_across_modes_matches_independent_generation_exactly():
+    from dataclasses import asdict
+    evaluator, row, episode, records = build()
+    modes = ("actual", "off", "oracle", "shuffled")
+    want = [asdict(evaluator.generate(response, records, life_id=episode.episode_id,
+            expected=next(p["target"] for p in row["probes"] if p["probe_id"] == response.event_id), mode=mode))
+            for response in episode.responses for mode in modes]
+    got = evaluator.episode(row, modes=modes)
+    assert got == want

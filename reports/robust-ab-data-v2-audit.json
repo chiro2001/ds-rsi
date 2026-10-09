@@ -1,0 +1,39 @@
+{
+  "status": "versioned_programmatic_controls_audit",
+  "data_identity": {
+    "revision": "ab-v2-matched-entities",
+    "files": {
+      "generate.py": "2eba0d2a0ef139e180ce4b6308543ef1f470b728c5d1af65b52ec55ee1867534",
+      "compiler.py": "8d9d43e2113f7b95209756dc6fa12277081d0f9b4a651972022007ae0c1ecdb3",
+      "tools.py": "e524e10e7079c1b6891a5faa511c32e6147096835795f3bdd4d3bd75aad37a81",
+      "robust.py": "6cb9e1707d75c8501b360f389427469d99ce1c96f3919efa6eec527634a42508"
+    }
+  },
+  "worlds": 400,
+  "distractors": 7,
+  "prefix_counts": {
+    "白杨": 107,
+    "海松": 107,
+    "青杉": 90,
+    "红枫": 96
+  },
+  "support_position_counts": {
+    "3": 53,
+    "7": 54,
+    "4": 53,
+    "5": 49,
+    "0": 50,
+    "2": 33,
+    "6": 53,
+    "1": 55
+  },
+  "negative_counts": {
+    "same_entity_other_attribute": 1200,
+    "nearby_same_prefix_entity": 1600
+  },
+  "native_tokenizer_compiled_episodes": 432,
+  "native_tokenizer_maximum_source_tokens": 51,
+  "legacy_actual_npu_resume_micro_step": 6,
+  "four_rank_npu_complete_recovery_match": true,
+  "semantic_capability_gate_passed": false
+}

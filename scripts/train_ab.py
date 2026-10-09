@@ -20,6 +20,9 @@ def main():
     parser.add_argument("--lr", type=float, default=5e-4)
     parser.add_argument("--seed", type=int, default=20261010)
     parser.add_argument("--distractors", type=int, default=7)
+    parser.add_argument("--data-revision", choices=["ab-v1", "ab-v2-matched-entities"], default="ab-v2-matched-entities")
+    parser.add_argument("--curriculum", choices=["mixed", "facts", "locations"], default="mixed")
+    parser.add_argument("--save-every-micro", type=int, default=100)
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--init-from", help="explicit A-to-B weights initialization from a source run; resets training state")
@@ -57,7 +60,8 @@ def main():
             compiler = EpisodeCompiler(tokenizer)
             config = TrainConfig(stage=args.stage, student_token_budget=args.student_tokens,
                                  gradient_accumulation=args.grad_accum, learning_rate=args.lr,
-                                 seed=args.seed, distractors=args.distractors)
+                                 seed=args.seed, distractors=args.distractors, data_revision=args.data_revision,
+                                 curriculum=args.curriculum, save_every_micro=args.save_every_micro)
             return identity, model, compiler, config
         identity, model, compiler, config = context.run_local("load training artifacts", load)
         trainer = Trainer(model, compiler, args.run_dir, config, base_identity=identity, resume=args.resume,

@@ -89,3 +89,23 @@ def test_stage_initialization_cannot_replace_full_resume(tmp_path):
     with pytest.raises(ValueError, match="distinct operations"):
         Trainer(tiny(), None, tmp_path, TrainConfig(), base_identity="base",
                 resume=True, initialize_from=tmp_path / "source")
+
+
+def test_data_revision_cannot_silently_change_during_resume(tmp_path):
+    from dsrsi.training.checkpoint import CheckpointError
+    trainer = build(tmp_path)
+    trainer.run(max_micro_steps=1, install_signals=False)
+    with pytest.raises(CheckpointError):
+        Trainer(tiny(), trainer.compiler, tmp_path,
+                TrainConfig(student_token_budget=100000, distractors=2, seed=11, data_revision="ab-v1"),
+                base_identity="fixed-native-tiny", resume=True)
+
+
+def test_explicit_legacy_resume_keeps_original_config_identity_and_ordinals(tmp_path):
+    cfg = TrainConfig(student_token_budget=100000, distractors=2, seed=11, data_revision="ab-v1")
+    compiler = EpisodeCompiler(SmallVocabularyTokenizer(), max_query_tokens=1000)
+    trainer = Trainer(tiny(), compiler, tmp_path, cfg, base_identity="legacy")
+    assert "data" not in trainer.identity and "data_revision" not in trainer.identity["train_config"]
+    trainer.run(max_micro_steps=1, install_signals=False)
+    resumed = Trainer(tiny(), compiler, tmp_path, cfg, base_identity="legacy", resume=True)
+    assert resumed.cursor == trainer.cursor and resumed.identity == trainer.identity

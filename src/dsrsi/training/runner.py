@@ -9,7 +9,7 @@ import time
 
 import torch
 
-from dsrsi.data.generate import EpisodeGenerator
+from dsrsi.data.robust import AB_DATA_REVISION, LEGACY_AB_REVISION, data_identity, make_generator
 from .checkpoint import (CheckpointStore, Progress, capture_training_state, restore_training_state, file_sha256,
                          frozen_auxiliary_parameters)
 from .control import ControlChannel
@@ -28,11 +28,17 @@ class TrainConfig:
     seed: int = 20261010
     distractors: int = 7
     save_every_micro: int = 100
+    data_revision: str = AB_DATA_REVISION
+    curriculum: str = "mixed"
 
     def __post_init__(self):
         if self.stage not in {"A", "B"} or min(self.student_token_budget, self.gradient_accumulation) < 1:
             raise ValueError("invalid training stage/budget/accumulation")
         self._validate_common()
+        if self.data_revision not in (LEGACY_AB_REVISION, AB_DATA_REVISION) or self.curriculum not in ("mixed", "facts", "locations"):
+            raise ValueError("unknown data revision/curriculum")
+        if self.data_revision == LEGACY_AB_REVISION and self.curriculum != "mixed":
+            raise ValueError("legacy A/B data requires its unchanged mixed curriculum")
 
     def _validate_common(self):
         if min(self.student_token_budget, self.gradient_accumulation) < 1:
@@ -87,9 +93,17 @@ class Trainer:
                                            lr=config.learning_rate, weight_decay=config.weight_decay,
                                            foreach=False, fused=False)
         self.optimizer.zero_grad(set_to_none=True)
-        self.generator = EpisodeGenerator(seed=config.seed, distractors=config.distractors)
-        self.identity = {"base": base_identity, "train_config": asdict(config),
+        self.generator = make_generator(revision=config.data_revision, seed=config.seed, distractors=config.distractors)
+        config_identity = asdict(config)
+        if config.data_revision == LEGACY_AB_REVISION:
+            # Legacy replay is explicit and retains the original identity and
+            # generator. Never reinterpret old ordinals with new data.
+            config_identity.pop("data_revision")
+            config_identity.pop("curriculum")
+        self.identity = {"base": base_identity, "train_config": config_identity,
                          "execution_semantics": "ab-episode-v2-explicit-optimizer-backend"}
+        if config.data_revision != LEGACY_AB_REVISION:
+            self.identity["data"] = data_identity(config.data_revision)
         if self.world_size > 1:
             self.identity["execution_semantics"] = "ab-episode-v4-query-weighted-coordinated-gradients"
         if not resume or "memory_architecture" in self.store.load_committed()[1]["identity"]:
@@ -185,7 +199,8 @@ class Trainer:
         world, variant = divmod(ordinal, 2)
         mix = int.from_bytes(hashlib.sha256(f"{self.config.seed}:{world}:mix".encode()).digest()[:8], "big") % 100
         keep = mix >= (75 if self.config.stage == "A" else 70)
-        row = self.generator.episode(world, variant=variant, family="language_preservation" if keep else None)
+        family = {"mixed": None, "facts": "single_fact", "locations": "paraphrase_coreference"}[self.config.curriculum]
+        row = self.generator.episode(world, variant=variant, family="language_preservation" if keep else family)
         if self.config.stage == "A":
             oracle = True
         else:

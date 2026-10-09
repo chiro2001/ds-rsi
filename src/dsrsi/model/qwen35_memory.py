@@ -1,0 +1,205 @@
+"""Native Qwen3.5 text backbone with causal latent-memory insertion.
+
+This is the uncached M-only training path. Continuous state and bounded-cache
+execution are implemented separately; no inference-cache mutation occurs here.
+"""
+
+from __future__ import annotations
+
+from contextlib import nullcontext
+from dataclasses import dataclass
+import json
+from pathlib import Path
+
+import torch
+from torch import nn
+from safetensors import safe_open
+from transformers.models.qwen3_5.configuration_qwen3_5 import Qwen3_5TextConfig
+from transformers.models.qwen3_5.modeling_qwen3_5 import (
+    Qwen3_5TextModel, Qwen3_5TextRotaryEmbedding,
+    create_causal_mask, create_recurrent_attention_mask,
+)
+
+from dsrsi.memory.modules import AddressEncoder, Consolidator, MemoryConfig, MemoryReader, MemoryWriter, TimeSourceEncoder
+from dsrsi.memory.store import MemoryRecord, pack_records
+from dsrsi.training.losses import LossSum, response_cross_entropy_from_hidden
+
+
+@dataclass
+class MemoryModelOutput:
+    hidden: torch.Tensor
+    query_features: torch.Tensor
+    loss: LossSum | None = None
+    logits: torch.Tensor | None = None
+
+
+class MemoryQwen(nn.Module):
+    def __init__(self, backbone, head, *, memory_config=None, writer_after=11, reader_before=(12, 20)):
+        super().__init__()
+        self.base = backbone
+        self.head = head
+        self.base.requires_grad_(False)
+        self.head.requires_grad_(False)
+        cfg = memory_config or MemoryConfig(hidden_size=backbone.config.hidden_size)
+        if cfg.hidden_size != backbone.config.hidden_size:
+            raise ValueError("memory and backbone hidden widths differ")
+        if (not 0 <= writer_after < len(backbone.layers) or not reader_before
+                or len(set(reader_before)) != len(reader_before)
+                or any(not writer_after < index < len(backbone.layers) for index in reader_before)):
+            raise ValueError("read sites must be distinct existing layers after the write feature site")
+        self.memory_config = cfg
+        self.writer_after = writer_after
+        self.reader_before = tuple(reader_before)
+        self.writer = MemoryWriter(cfg)
+        self.readers = nn.ModuleDict({str(index): MemoryReader(cfg) for index in reader_before})
+        self.address = AddressEncoder(cfg)
+        self.consolidator = Consolidator(cfg)
+        self.time_source = TimeSourceEncoder(cfg)
+        self.base.eval()
+        self.head.eval()
+
+    def train(self, mode=True):
+        super().train(mode)
+        self.base.eval()
+        self.head.eval()
+        return self
+
+    @staticmethod
+    def _memory_context(hidden):
+        if hidden.dtype in (torch.bfloat16, torch.float16):
+            return torch.autocast(device_type=hidden.device.type, dtype=hidden.dtype)
+        return nullcontext()
+
+    def _prepare(self, input_ids, attention_mask=None):
+        if input_ids.ndim != 2:
+            raise ValueError("input_ids must be [B,T]")
+        hidden = self.base.embed_tokens(input_ids)
+        positions = torch.arange(input_ids.shape[1], device=input_ids.device)
+        positions = positions.view(1, 1, -1).expand(4, input_ids.shape[0], -1)
+        text_positions = positions[0]
+        kwargs = {"config": self.base.config, "inputs_embeds": hidden,
+                  "attention_mask": attention_mask, "past_key_values": None,
+                  "position_ids": text_positions}
+        masks = {"full_attention": create_causal_mask(**kwargs),
+                 "linear_attention": create_recurrent_attention_mask(**kwargs)}
+        rotary = self.base.rotary_emb(hidden, positions[1:])
+        return hidden, text_positions, masks, rotary
+
+    def _layer(self, index, hidden, positions, masks, rotary):
+        return self.base.layers[index](hidden, position_embeddings=rotary,
+                                       attention_mask=masks[self.base.config.layer_types[index]],
+                                       position_ids=positions, past_key_values=None, use_cache=False)
+
+    def source_features(self, input_ids, attention_mask=None):
+        # Frozen source encoding may omit its graph; Writer below must not.
+        with torch.no_grad():
+            hidden, positions, masks, rotary = self._prepare(input_ids, attention_mask)
+            for index in range(self.writer_after + 1):
+                hidden = self._layer(index, hidden, positions, masks, rotary)
+        return hidden
+
+    def write_records(self, input_ids, *, stream_ids, logical_begins, record_ids,
+                      attention_mask=None, wall_times=None, codec_version="v0"):
+        batch, length = input_ids.shape
+        if not all(len(values) == batch for values in (stream_ids, logical_begins, record_ids)):
+            raise ValueError("one source identity and logical range is required per row")
+        if attention_mask is None:
+            attention_mask = torch.ones_like(input_ids, dtype=torch.bool)
+        lengths = attention_mask.sum(-1)
+        expected = torch.arange(length, device=input_ids.device)[None] < lengths[:, None]
+        if not torch.equal(attention_mask.bool(), expected):
+            raise ValueError("sources require prefix-valid padding")
+        features = self.source_features(input_ids, attention_mask)
+        with self._memory_context(features):
+            slots = self.writer(features, attention_mask.bool())
+            keys = self.address.encode_keys(slots)
+        wall_times = [None] * batch if wall_times is None else wall_times
+        if len(wall_times) != batch:
+            raise ValueError("one optional wall time is required per source")
+        records = []
+        for row in range(batch):
+            begin, end = logical_begins[row], logical_begins[row] + int(lengths[row]) - 1
+            records.append(MemoryRecord(record_ids[row], stream_ids[row], slots[row], keys[row],
+                                        begin, end, end + 1, codec_version=codec_version, wall_time=wall_times[row]))
+        return records
+
+    def forward(self, input_ids, *, records=None, query_indices=None, logical_begins=None,
+                stream_ids=None, attention_mask=None, labels=None, memory_enabled=True,
+                return_logits=False, wall_times=None):
+        batch, length = input_ids.shape
+        if attention_mask is None:
+            attention_mask = torch.ones_like(input_ids, dtype=torch.bool)
+        if query_indices is None:
+            if labels is not None:
+                raise ValueError("teacher-forcing requires the explicit answer-free retrieval index")
+            query_indices = attention_mask.sum(-1) - 1
+        query_indices = torch.as_tensor(query_indices, device=input_ids.device, dtype=torch.long)
+        if query_indices.shape != (batch,) or torch.any(query_indices < 0) or torch.any(query_indices >= length):
+            raise ValueError("invalid query indices")
+        if not attention_mask[torch.arange(batch, device=input_ids.device), query_indices].all():
+            raise ValueError("query cannot use padding")
+        if labels is not None:
+            if labels.shape != input_ids.shape:
+                raise ValueError("labels and input shape differ")
+            before_or_at_query = torch.arange(length, device=input_ids.device)[None] <= query_indices[:, None]
+            if torch.any((labels != -100) & before_or_at_query):
+                raise ValueError("retrieval index sees supervised answer tokens")
+        records = records or [[] for _ in range(batch)]
+        if len(records) != batch or any(len(row) > 8 for row in records):
+            raise ValueError("provided candidate batches must contain at most 8 records per row")
+        has_memory = memory_enabled and any(records)
+        if has_memory and (logical_begins is None or stream_ids is None
+                           or len(logical_begins) != batch or len(stream_ids) != batch):
+            raise ValueError("memory reads require explicit life ids and logical positions")
+        hidden, positions, masks, rotary = self._prepare(input_ids, attention_mask)
+        query_features = None
+        packed = None
+        for index in range(len(self.base.layers)):
+            if index in self.reader_before and has_memory:
+                if packed is None:
+                    query_positions = [logical_begins[row] + int(query_indices[row]) for row in range(batch)]
+                    slots, valid, time_features = pack_records(
+                        records, memory_dim=self.memory_config.memory_dim, query_positions=query_positions,
+                        stream_ids=stream_ids, device=hidden.device, dtype=hidden.dtype, wall_times=wall_times)
+                    read_positions = torch.arange(length, device=hidden.device)[None] >= query_indices[:, None]
+                    mask = valid[:, None] & (read_positions & attention_mask.bool())[:, :, None]
+                    with self._memory_context(hidden):
+                        features = self.time_source(time_features)
+                    packed = slots, mask, features
+                with self._memory_context(hidden):
+                    hidden = self.readers[str(index)](hidden, packed[0], packed[1], slot_features=packed[2])
+            hidden = self._layer(index, hidden, positions, masks, rotary)
+            if index == self.writer_after:
+                query_features = hidden[torch.arange(batch, device=hidden.device), query_indices]
+        hidden = self.base.norm(hidden)
+        loss = response_cross_entropy_from_hidden(hidden, self.head.weight, labels) if labels is not None else None
+        logits = self.head(hidden) if return_logits else None
+        return MemoryModelOutput(hidden, query_features, loss, logits)
+
+    @classmethod
+    def from_local_checkpoint(cls, path, *, device="cpu", memory_config=None):
+        """Load only language tensors; retain original embedding/output tying."""
+        path = Path(path)
+        raw = json.loads((path / "config.json").read_text())
+        config = Qwen3_5TextConfig(**raw.get("text_config", raw))
+        config._attn_implementation = "eager"
+        prefix = "model.language_model."
+        index = json.loads((path / "model.safetensors.index.json").read_text())["weight_map"]
+        tensors = {}
+        for filename in sorted(set(index.values())):
+            with safe_open(path / filename, framework="pt", device="cpu") as reader:
+                for key in reader.keys():
+                    if key.startswith(prefix):
+                        tensors[key[len(prefix):]] = reader.get_tensor(key)
+        with torch.device("meta"):
+            base = Qwen3_5TextModel(config)
+            head = nn.Linear(config.hidden_size, config.vocab_size, bias=False)
+        base.load_state_dict(tensors, strict=True, assign=True)
+        # Nonpersistent rotary buffers were constructed on meta and are absent
+        # from the weight file. Recreate only this parameter-free component.
+        base.rotary_emb = Qwen3_5TextRotaryEmbedding(config, device="cpu")
+        if not config.tie_word_embeddings:
+            raise ValueError("this loader requires the selected checkpoint's tied text head")
+        head.weight = base.embed_tokens.weight
+        model = cls(base, head, memory_config=memory_config)
+        return model.to(device)

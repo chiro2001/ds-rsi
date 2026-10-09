@@ -1,0 +1,16 @@
+{
+  "status": "pretrained_cpu_integration_only",
+  "base": "/models/Qwen3.5-0.8B",
+  "base_parameters": 752393024,
+  "memory_parameters": 3228036,
+  "base_dtype": "torch.bfloat16",
+  "source_tokens": 25,
+  "response_tokens": 72,
+  "disabled_max_abs_diff": 0,
+  "pre_lookup_prefix_max_abs_diff": 0,
+  "answer_loss": 3.5590248107910156,
+  "writer_grad_squared_norm": 12.008980092716229,
+  "base_has_gradients": false,
+  "elapsed_seconds": 8.005065770354122,
+  "trained_recall_claimed": false
+}

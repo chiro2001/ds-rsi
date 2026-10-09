@@ -1,0 +1,131 @@
+#!/usr/bin/env python3
+"""Two-rank CPU recovery on full pretrained weights; not a capability test."""
+
+import argparse
+from dataclasses import asdict
+import json
+from pathlib import Path
+import random
+import time
+
+import numpy as np
+import torch
+import torch.multiprocessing as mp
+
+
+def assert_equal(left, right, path="state"):
+    if isinstance(left, torch.Tensor):
+        if not torch.equal(left, right):
+            raise AssertionError(f"{path}: tensors differ")
+    elif isinstance(left, dict):
+        if left.keys() != right.keys():
+            raise AssertionError(f"{path}: keys differ")
+        for key in left:
+            assert_equal(left[key], right[key], f"{path}.{key}")
+    elif isinstance(left, (list, tuple)):
+        if len(left) != len(right):
+            raise AssertionError(f"{path}: lengths differ")
+        for index, (a, b) in enumerate(zip(left, right)):
+            assert_equal(a, b, f"{path}[{index}]")
+    elif left != right:
+        raise AssertionError(f"{path}: {left!r} != {right!r}")
+
+
+def worker(rank, base, run_root, threads, identity):
+    from transformers import AutoTokenizer
+    from dsrsi.data.compiler import EpisodeCompiler
+    from dsrsi.model.qwen35_memory import MemoryQwen
+    from dsrsi.training.checkpoint import capture_rng, restore_rng, capture_training_state
+    from dsrsi.training.distributed import CollectiveContext
+    from dsrsi.training.runner import TrainConfig, Trainer
+
+    torch.set_num_threads(threads)
+    context = CollectiveContext.initialize(device="cpu", backend="gloo", rank=rank, world_size=2,
+                                           init_method="file://" + str(Path(run_root) / "rendezvous"),
+                                           timeout_seconds=120)
+    started = time.monotonic()
+    try:
+        def load():
+            random.seed(20261010)
+            np.random.seed(20261010)
+            torch.manual_seed(20261010)
+            return MemoryQwen.from_local_checkpoint(base), EpisodeCompiler(
+                AutoTokenizer.from_pretrained(base, local_files_only=True))
+        model, compiler = context.run_local("load actual base", load)
+        initial = {name: p.detach().clone() for name, p in model.named_parameters()
+                   if not name.startswith(("base.", "head."))}
+        initial_rng = capture_rng("cpu")
+        config = TrainConfig(student_token_budget=100000, gradient_accumulation=4,
+                             distractors=1, seed=20261010, save_every_micro=100)
+        def trainer(directory, resume=False):
+            return Trainer(model, compiler, Path(run_root) / directory, config,
+                           base_identity=identity, collectives=context, resume=resume)
+        def snapshot(instance):
+            return capture_training_state(model, instance.optimizer, progress=instance.progress,
+                                          data_cursor=instance.cursor, life_state=instance.life,
+                                          device="cpu", rank=rank, world_size=2)
+        full = trainer("full")
+        assert full.run(max_micro_steps=5, install_signals=False) == "stopped"
+        reference = snapshot(full)
+        del full
+        with torch.no_grad():
+            for name, p in model.named_parameters():
+                if name in initial:
+                    p.copy_(initial[name])
+                p.grad = None
+        restore_rng(initial_rng, "cpu")
+        resumed = trainer("resumed")
+        original = resumed.objective
+        calls = 0
+        def pause(row, **kwargs):
+            nonlocal calls
+            result = original(row, **kwargs)
+            calls += 1
+            if rank == 1 and calls == 3:
+                resumed.control._signal_action = "pause"
+            return result
+        resumed.objective = pause
+        assert resumed.run(max_micro_steps=5, install_signals=False) == "paused"
+        assert resumed.progress.micro_step == 3 and resumed.progress.accumulation_index == 3
+        resumed = trainer("resumed", resume=True)
+        assert resumed.run(max_micro_steps=5, install_signals=False) == "stopped"
+        context.run_local("compare complete training states", lambda: assert_equal(reference, snapshot(resumed)))
+        report = {"rank": rank, "progress": asdict(resumed.progress), "cursor": resumed.cursor,
+                  "exact_state_match": True, "worker_pause_micro_step": 3,
+                  "pending_gradient_microbatches": resumed.progress.accumulation_index,
+                  "elapsed_seconds": time.monotonic() - started}
+        (Path(run_root) / f"result_rank_{rank}.json").write_text(json.dumps(report, indent=2) + "\n")
+    finally:
+        context.close()
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--base", required=True)
+    parser.add_argument("--run-root", required=True)
+    parser.add_argument("--output", required=True)
+    parser.add_argument("--threads-per-rank", type=int, default=2)
+    args = parser.parse_args()
+    if args.threads_per_rank < 1:
+        raise ValueError("threads must be positive")
+    root = Path(args.run_root).resolve()
+    root.mkdir(parents=True, exist_ok=False)
+    from dsrsi.data.compiler import tokenizer_fingerprint
+    from dsrsi.training.checkpoint import file_sha256
+    base = Path(args.base).resolve()
+    index = json.loads((base / "model.safetensors.index.json").read_text())["weight_map"]
+    identity = {"tokenizer": tokenizer_fingerprint(base),
+                "weights": {name: file_sha256(base / name) for name in sorted(set(index.values()))}}
+    mp.spawn(worker, args=(str(base), str(root), args.threads_per_rank, identity), nprocs=2, join=True)
+    report = {"status": "pretrained_cpu_gloo_recovery_only", "world_size": 2,
+              "threads_per_rank": args.threads_per_rank, "base_identity": identity,
+              "ranks": [json.loads((root / f"result_rank_{rank}.json").read_text()) for rank in range(2)],
+              "trained_recall_claimed": False, "hccl_verified": False}
+    output = Path(args.output)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
+    print(json.dumps(report, ensure_ascii=False))
+
+
+if __name__ == "__main__":
+    main()

@@ -2,7 +2,7 @@
 
 日期：2026-10-10。实现和测试将在本约定下推进，性能目标以实测记录更新。
 
-基础实现位于 `src/dsrsi/training/checkpoint.py` 与 `control.py`，现已接入单 rank A/B 执行器，并完成实际 0.8B CPU 暂停/恢复 smoke，见 [验证报告](../reports/20261010-stream-harness-recovery.md)。控制命令使用纯标准库，避免请求本身加载 Torch；多 rank 协调与 NPU 延迟尚待验证。
+基础实现位于 `src/dsrsi/training/checkpoint.py`、`control.py` 与 `distributed.py`，现已接入多 rank A/B 执行器，完成完整 0.8B 双 rank Gloo 暂停/恢复对照，见 [分布式报告](../reports/20261010-distributed-and-evaluation.md)。控制命令使用纯标准库；HCCL、NPU 延迟尚待验证。具体入口见 [执行指南](running-ab.md)。
 
 外部请求接口：
 
@@ -10,7 +10,7 @@
 python -m dsrsi.training.control --run-dir runs/<run-id> --action pause
 ```
 
-该命令写控制请求；执行器须在可恢复边界轮询并处理，不代表目前已有正式训练进程接入。
+该命令写控制请求，执行器在所有 rank 协调的可恢复边界处理；当前没有正式训练负载在运行。
 
 ## 控制语义
 
@@ -42,6 +42,8 @@ autograd 图不直接序列化。跨段训练在边界完成反传并 detach 数
 每个 rank 写独立状态文件到临时位置，flush/fsync 后原子改名。全部 rank 文件校验完成后 rank0 才提交 manifest，再原子更新 latest 指针。恢复仅接受有完整 manifest 且文件大小/摘要相符的 checkpoint；临时或部分写入不作为最新状态。
 
 保存失败不能覆盖上一个已提交 checkpoint。停止时写 status=paused/stopped；不能以 filename=final 充当完成判据。
+
+普通计算/反传/优化器或读盘异常会协调全体退出，不将失败微批写成新的有效 checkpoint。进程突然死亡或设备/集合通信故障仍需依靠进程组超时与 launcher 清理，恢复从旧 latest 重做其后工作。
 
 ## 恢复校验
 

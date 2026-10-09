@@ -287,18 +287,20 @@ class CheckpointStore:
         })
         return final
 
-    def load_latest(self, *, identity: dict, rank: int = 0, world_size: int = 1) -> tuple[dict, dict]:
+    def load_committed(self) -> tuple[Path, dict]:
+        """Pin and verify a generation once, also for read-only evaluation."""
         descriptor = json.loads((self.root / "latest.json").read_text())
         directory = self._inside(self.root / descriptor["directory"])
+        if directory.name.endswith(".pending"):
+            raise CheckpointError("latest must reference a committed generation")
         manifest_path = directory / "manifest.json"
         if file_sha256(manifest_path) != descriptor["manifest_sha256"]:
             raise CheckpointError("manifest checksum mismatch")
         manifest = json.loads(manifest_path.read_text())
-        if manifest["format_version"] != FORMAT_VERSION or manifest["world_size"] != world_size:
+        world_size = manifest["world_size"]
+        if manifest["format_version"] != FORMAT_VERSION or world_size < 1:
             raise CheckpointError("format/world_size mismatch")
-        if manifest["identity"] != identity:
-            raise CheckpointError("base/config/data identity mismatch")
-        if not 0 <= rank < world_size or len(manifest["files"]) != world_size:
+        if len(manifest["files"]) != world_size:
             raise CheckpointError("invalid checkpoint rank inventory")
         for expected_rank, entry in enumerate(manifest["files"]):
             path = directory / f"rank_{expected_rank:05d}.pt"
@@ -306,9 +308,25 @@ class CheckpointStore:
                 raise CheckpointError("rank manifest mismatch")
             if not path.is_file() or path.stat().st_size != entry["bytes"] or file_sha256(path) != entry["sha256"]:
                 raise CheckpointError(f"rank {expected_rank} payload checksum mismatch")
+        return directory, manifest
+
+    def load_rank(self, directory: Path, manifest: dict, *, rank: int) -> dict:
+        directory = self._inside(directory)
+        world_size = manifest["world_size"]
+        if not 0 <= rank < world_size:
+            raise CheckpointError("invalid checkpoint rank inventory")
         path = directory / f"rank_{rank:05d}.pt"
         payload = torch.load(path, map_location="cpu", weights_only=True)
-        if (payload["rank"] != rank or payload["world_size"] != world_size
+        if (payload["format_version"] != FORMAT_VERSION or payload["rank"] != rank or payload["world_size"] != world_size
                 or payload["progress"] != manifest["progress"]):
             raise CheckpointError("rank payload disagrees with committed manifest")
+        return payload
+
+    def load_latest(self, *, identity: dict, rank: int = 0, world_size: int = 1) -> tuple[dict, dict]:
+        directory, manifest = self.load_committed()
+        if manifest["world_size"] != world_size:
+            raise CheckpointError("format/world_size mismatch")
+        if manifest["identity"] != identity:
+            raise CheckpointError("base/config/data identity mismatch")
+        payload = self.load_rank(directory, manifest, rank=rank)
         return payload, manifest

@@ -59,3 +59,33 @@ def test_budget_completion_flushes_partial_gradients_and_marks_completed(tmp_pat
     assert trainer.progress.optimizer_step == 1 and trainer.progress.accumulation_index == 0
     _, manifest = trainer.store.load_latest(identity=trainer.identity)
     assert manifest["status"] == "completed"
+
+
+def test_explicit_stage_transition_transfers_weights_and_resets_training_state(tmp_path):
+    source = build(tmp_path / "A")
+    source.run(max_micro_steps=5, install_signals=False)
+    torch.manual_seed(87)
+    model = tiny()
+    compiler = EpisodeCompiler(SmallVocabularyTokenizer(), max_query_tokens=1000)
+    cfg = TrainConfig(stage="B", student_token_budget=100000, distractors=2, seed=11,
+                      gradient_accumulation=4, save_every_micro=100)
+    target = Trainer(model, compiler, tmp_path / "B", cfg, base_identity="fixed-native-tiny",
+                     initialize_from=source.run_dir)
+    assert target.progress.micro_step == 0 and target.cursor["next_ordinal"] == 0
+    assert not target.optimizer.state and all(p.grad is None for p in model.parameters())
+    assert all(p.requires_grad for p in model.address.parameters())
+    for module in ("writer", "readers", "time_source"):
+        for name, tensor in getattr(source.model, module).state_dict().items():
+            assert torch.equal(tensor, getattr(target.model, module).state_dict()[name])
+    assert target.identity["initialization"]["progress"]["micro_step"] == 5
+    target.run(max_micro_steps=1, install_signals=False)
+    torch.manual_seed(87)
+    resumed = Trainer(tiny(), compiler, tmp_path / "B", cfg, base_identity="fixed-native-tiny", resume=True)
+    assert resumed.identity == target.identity and resumed.progress == target.progress
+    assert resumed.run(max_micro_steps=2, install_signals=False) == "stopped"
+
+
+def test_stage_initialization_cannot_replace_full_resume(tmp_path):
+    with pytest.raises(ValueError, match="distinct operations"):
+        Trainer(tiny(), None, tmp_path, TrainConfig(), base_identity="base",
+                resume=True, initialize_from=tmp_path / "source")

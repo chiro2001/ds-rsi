@@ -1,0 +1,174 @@
+{
+  "status": "cpu_template_check_only",
+  "transformers_version": "5.14.1",
+  "tokenizer_path": "/home/l00886679/models/Qwen3.5-0.8B",
+  "tokenizer_config_sha256": "49e2b6e395f959f077f1e992b338919c0d4a9732fc6e613995e06557f843500c",
+  "eos_token": "<|im_end|>",
+  "eos_token_id": 248046,
+  "pad_token_id": 248044,
+  "has_generation_tag": false,
+  "serialized_tool_format": "<tool_call><function=name><parameter=key>value</parameter></function></tool_call>",
+  "checks": [
+    {
+      "episode": "preview_fact_zh",
+      "probe": "p1",
+      "prefix_tokens": 28,
+      "supervised_target_tokens_including_end": 7,
+      "trailing_template_tokens": 1,
+      "prefix_compatible": true
+    },
+    {
+      "episode": "preview_fact_en",
+      "probe": "p1",
+      "prefix_tokens": 27,
+      "supervised_target_tokens_including_end": 7,
+      "trailing_template_tokens": 1,
+      "prefix_compatible": true
+    },
+    {
+      "episode": "preview_paraphrase",
+      "probe": "p1",
+      "prefix_tokens": 27,
+      "supervised_target_tokens_including_end": 7,
+      "trailing_template_tokens": 1,
+      "prefix_compatible": true
+    },
+    {
+      "episode": "preview_episode_reason",
+      "probe": "p1",
+      "prefix_tokens": 26,
+      "supervised_target_tokens_including_end": 25,
+      "trailing_template_tokens": 1,
+      "prefix_compatible": true
+    },
+    {
+      "episode": "preview_temporal_update",
+      "probe": "p_now",
+      "prefix_tokens": 18,
+      "supervised_target_tokens_including_end": 4,
+      "trailing_template_tokens": 1,
+      "prefix_compatible": true
+    },
+    {
+      "episode": "preview_temporal_update",
+      "probe": "p_past",
+      "prefix_tokens": 23,
+      "supervised_target_tokens_including_end": 4,
+      "trailing_template_tokens": 1,
+      "prefix_compatible": true
+    },
+    {
+      "episode": "preview_streaming_task",
+      "probe": "p1",
+      "prefix_tokens": 22,
+      "supervised_target_tokens_including_end": 14,
+      "trailing_template_tokens": 1,
+      "prefix_compatible": true
+    },
+    {
+      "episode": "preview_compression",
+      "probe": "p1",
+      "prefix_tokens": 26,
+      "supervised_target_tokens_including_end": 17,
+      "trailing_template_tokens": 1,
+      "prefix_compatible": true
+    },
+    {
+      "episode": "preview_missing_evidence",
+      "probe": "p1",
+      "prefix_tokens": 22,
+      "supervised_target_tokens_including_end": 12,
+      "trailing_template_tokens": 1,
+      "prefix_compatible": true
+    },
+    {
+      "episode": "preview_explicit_tools",
+      "assistant_event": 1,
+      "prefix_tokens": 517,
+      "supervised_target_tokens_including_end": 40,
+      "trailing_template_tokens": 1,
+      "prefix_compatible": true,
+      "tool_call": true
+    },
+    {
+      "episode": "preview_explicit_tools",
+      "assistant_event": 3,
+      "prefix_tokens": 587,
+      "supervised_target_tokens_including_end": 10,
+      "trailing_template_tokens": 1,
+      "prefix_compatible": true,
+      "tool_call": false
+    },
+    {
+      "episode": "preview_explicit_tools",
+      "assistant_event": 5,
+      "prefix_tokens": 608,
+      "supervised_target_tokens_including_end": 45,
+      "trailing_template_tokens": 1,
+      "prefix_compatible": true,
+      "tool_call": true
+    },
+    {
+      "episode": "preview_explicit_tools",
+      "assistant_event": 7,
+      "prefix_tokens": 683,
+      "supervised_target_tokens_including_end": 11,
+      "trailing_template_tokens": 1,
+      "prefix_compatible": true,
+      "tool_call": false
+    },
+    {
+      "episode": "preview_explicit_tools",
+      "assistant_event": 9,
+      "prefix_tokens": 706,
+      "supervised_target_tokens_including_end": 31,
+      "trailing_template_tokens": 1,
+      "prefix_compatible": true,
+      "tool_call": true
+    },
+    {
+      "episode": "preview_explicit_tools",
+      "assistant_event": 11,
+      "prefix_tokens": 768,
+      "supervised_target_tokens_including_end": 7,
+      "trailing_template_tokens": 1,
+      "prefix_compatible": true,
+      "tool_call": false
+    },
+    {
+      "episode": "preview_history_tools",
+      "assistant_event": 1,
+      "prefix_tokens": 517,
+      "supervised_target_tokens_including_end": 33,
+      "trailing_template_tokens": 1,
+      "prefix_compatible": true,
+      "tool_call": true
+    },
+    {
+      "episode": "preview_history_tools",
+      "assistant_event": 3,
+      "prefix_tokens": 601,
+      "supervised_target_tokens_including_end": 30,
+      "trailing_template_tokens": 1,
+      "prefix_compatible": true,
+      "tool_call": true
+    },
+    {
+      "episode": "preview_history_tools",
+      "assistant_event": 5,
+      "prefix_tokens": 681,
+      "supervised_target_tokens_including_end": 14,
+      "trailing_template_tokens": 1,
+      "prefix_compatible": true,
+      "tool_call": false
+    },
+    {
+      "episode": "preview_cross_record_multihop",
+      "probe": "p1",
+      "prefix_tokens": 23,
+      "supervised_target_tokens_including_end": 6,
+      "trailing_template_tokens": 1,
+      "prefix_compatible": true
+    }
+  ]
+}

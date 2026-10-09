@@ -1,0 +1,93 @@
+status: design_only
+schema_version: "0.1"
+base_model: Qwen3.5-0.8B
+architecture_spec: docs/qwen35-08b-memory-architecture-v0.md
+protocol_spec: docs/training-protocol-v0.md
+example_episodes: data/examples/memory_episodes.jsonl
+
+student_input_token_budget: 50000000
+teacher_compute_counted_separately: true
+language_sampling: {zh: 0.60, en: 0.30, cross_language: 0.10}
+write_policy:
+  stride_tokens: 256
+  flush_on_explicit_source_end: true
+  flush_on_arbitrary_batch_end: false
+  disable_writes_during_m_only_probe: true
+
+memory:
+  leaf_slots: 8
+  slot_dim: 256
+  keys_per_record: 2
+  key_dim: 128
+  retrieve_records: 8
+  initial_pool_record_counts: [16, 64]
+  later_pool_record_counts: [256, 1024]
+
+losses:
+  answer_ce: {weight: 1.0, normalization: per_supervised_event, include_end_marker: true}
+  route:
+    weight: 0.05
+    temperature: 0.07
+    aggregation: log_mean_exp_over_keys
+    targets: all_required_support_groups
+    stop_gradient_to_writer: true
+    stop_gradient_to_backbone: true
+  keep:
+    weight: 0.2
+    teacher: original_base_model
+    distribution_target: teacher_top32_plus_tail
+    frozen_base_samples_require_irrelevant_memory: true
+    stop_gradient_to_irrelevant_memory_payload: true
+  compression:
+    gold_answer_ce_weight: 1.0
+    correct_leaf_teacher_kl_weight: 0.2
+  tool_ce:
+    weight: 1.0
+    train_from_stage: C
+    supervise_assistant_calls_and_replies: true
+    supervise_environment_results: false
+
+stages:
+  A:
+    student_input_tokens: 30000000
+    freeze_base: true
+    train_modules: [writer, readers, gates, time_source_encoder]
+    oracle_inclusion_probability: 1.0
+    route_loss_enabled: false
+    compression_loss_enabled: false
+    unit_sampling: {memory_episode: 0.75, language_keep: 0.25}
+    memory_family_sampling:
+      single_fact: 0.40
+      paraphrase_coreference: 0.25
+      episode_and_task: 0.20
+      temporal_update: 0.10
+      missing_evidence: 0.05
+  B:
+    student_input_tokens: 20000000
+    freeze_base: true
+    train_modules: [writer, readers, gates, time_source_encoder, query_address]
+    oracle_inclusion_start: 0.80
+    oracle_inclusion_target: 0.20
+    transition_depends_on_dev_retrieval: true
+    missing_actual_retrieval_target: insufficient_evidence
+    unit_sampling: {memory_episode: 0.70, language_keep: 0.30}
+  C:
+    token_budget: pending_A_B_results_and_measured_throughput
+    enable_local_lora: true
+    train_streaming_state_and_tools: true
+    target_attention_window: 2048
+  D:
+    token_budget: pending_C_results
+    train_consolidator_first: true
+    compression_depths: [1, 2, 4, 8]
+
+evaluation:
+  inject_oracle_records_into_actual_retrieval: false
+  free_generation: true
+  separately_report: [oracle_m_only, actual_m_only, streaming, tools_enabled, tools_disabled]
+  split_atomically_by: [world_id, episode_id, counterfactual_group_id]
+  initial_mechanism_targets:
+    oracle_control_fact_em: 0.80
+    m_off_or_shuffled_min_accuracy_drop: 0.50
+    required_support_group_coverage_at_8: 0.90
+    max_relative_language_nll_increase: 0.05

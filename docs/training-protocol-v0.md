@@ -1,6 +1,7 @@
 # Qwen3.5-0.8B：训练样本与损失协议 v0
 
 日期：2026-10-10。状态：设计与语义样例，尚未实现数据编译器、模型损失或训练。模板核验于 2026-10-09 完成。
+实施更新：回答 CE、分块输出头、必要证据组寻址与 top-k+tail KL 已实现在 `src/dsrsi/training/losses.py`，通过 CPU 数值/梯度测试；数据编译、模型接入与正式训练尚待完成。
 对应 [模型结构](qwen35-08b-memory-architecture-v0.md)；可查看 [样例 JSONL](../data/examples/memory_episodes.jsonl) 和 [首轮课程配置](../configs/training_protocol_v0.yaml)。
 
 ## 1. 首轮需要证明的能力

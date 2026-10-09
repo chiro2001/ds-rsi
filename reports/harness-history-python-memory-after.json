@@ -1,0 +1,36 @@
+{
+  "status": "synthetic_history_python_allocation_profile",
+  "records": [
+    {
+      "history_records": 1000,
+      "restore": {
+        "seconds": 0.004978067707270384,
+        "python_peak_bytes": 8660
+      },
+      "open": {
+        "seconds": 0.0012829061597585678,
+        "python_peak_bytes": 20204
+      },
+      "search": {
+        "seconds": 0.0035983920097351074,
+        "python_peak_bytes": 10222
+      }
+    },
+    {
+      "history_records": 12000,
+      "restore": {
+        "seconds": 0.038488459307700396,
+        "python_peak_bytes": 8514
+      },
+      "open": {
+        "seconds": 0.015088089741766453,
+        "python_peak_bytes": 20204
+      },
+      "search": {
+        "seconds": 0.036266596987843513,
+        "python_peak_bytes": 10222
+      }
+    }
+  ],
+  "measured_scope": "tracemalloc Python allocations; excludes SQLite C allocator and model tensors"
+}

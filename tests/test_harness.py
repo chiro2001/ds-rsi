@@ -73,3 +73,31 @@ def test_native_function_tag_parser_matches_tool_schema():
         parse_native_tool_calls(text.replace("memory.write", "shell.execute"))
     with pytest.raises(ValueError, match="malformed"):
         parse_native_tool_calls(text.replace("</function>", ""))
+
+
+def test_sql_search_filters_invisible_branches_before_result_limit_and_preserves_casefold(tmp_path):
+    store = HarnessStore(tmp_path / "journal.sqlite", "life")
+    old = store.append_history("user", "青杉仓校验码已登记，Straße 码。", clock=1)
+    reference = store.state_dict()
+    for clock in range(2, 22):
+        store.append_history("user", "青杉仓校验码未来分支记录。", clock=clock)
+    restored = HarnessStore.from_state_dict(reference)
+    restored.append_history("user", "恢复分支当前记录。", clock=22)
+    found = restored.execute("history.search", {"query": "校验码"}, clock=22)["results"]
+    assert [r["id"] for r in found] == [old]
+    assert restored.execute("history.search", {"query": "SS"}, clock=22)["results"][0]["id"] == old
+    assert restored.execute("history.open", {"id": old}, clock=22)["found"]
+    store.close()
+    restored.close()
+
+
+def test_broken_or_cross_life_ancestry_is_rejected_on_restore(tmp_path):
+    store = HarnessStore(tmp_path / "journal.sqlite", "life")
+    store.append_history("user", "第一条", clock=1)
+    store.append_history("user", "第二条", clock=2)
+    reference = store.state_dict()
+    with store.connection:
+        store.connection.execute("UPDATE events SET parent_revision=999999 WHERE revision=?", (store.revision,))
+    with pytest.raises(ValueError, match="ancestor chain"):
+        HarnessStore.from_state_dict(reference)
+    store.close()

@@ -67,7 +67,7 @@ class StreamExecutor:
                               updated.pending_begin, updated.pending_end, updated.cache.clock,
                               codec_version=updated.memory.codec_version,
                               source_role=metadata.get("role", "user"), source_kind=metadata.get("kind", "observation"),
-                              wall_time=metadata.get("wall_time"))
+                              wall_time=metadata.get("wall_time"), history_ref=metadata.get("history_ref"))
         self._fit_record(updated, record)
         updated.pending = None
         updated.pending_begin = updated.pending_end = None
@@ -75,13 +75,15 @@ class StreamExecutor:
         return updated
 
     def forward(self, input_ids, state, *, write=True, memory_enabled=True, force_read_at=(),
-                flush=False, role="user", kind="observation", wall_time=None):
+                flush=False, role="user", kind="observation", wall_time=None, history_ref=None, retrieval_observer=None):
         if input_ids.ndim != 2 or input_ids.shape[0] != 1 or input_ids.shape[1] < 1:
             raise ValueError("one nonempty stream per life is required")
         if any(not 0 <= position < input_ids.shape[1] for position in force_read_at):
             raise ValueError("forced reads must be visible positions in this input")
         updated = state.fork()
         metadata = {"role": role, "kind": kind, "wall_time": wall_time}
+        if history_ref is not None:
+            metadata["history_ref"] = history_ref
         if updated.pending is not None and (not write or updated.pending_metadata != metadata):
             updated = self.flush(updated)
         force = set(force_read_at)
@@ -108,7 +110,10 @@ class StreamExecutor:
             def selector(features, position):
                 with self.model._memory_context(features):
                     query = self.model.address.encode_query(features)[0]
-                return updated.memory.retrieve(query, stream_id=updated.life_id, query_position=position, topk=8)
+                selected = updated.memory.retrieve(query, stream_id=updated.life_id, query_position=position, topk=8)
+                if retrieval_observer is not None:
+                    retrieval_observer(query, updated.memory.eligible(stream_id=updated.life_id, query_position=position), position, selected)
+                return selected
 
             result = self.model.forward_cached(
                 input_ids[:, offset:offset + length], updated.cache,

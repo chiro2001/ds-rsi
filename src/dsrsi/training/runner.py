@@ -215,12 +215,13 @@ class Trainer:
             # synchronize_gradients averages ranks. This factor makes that
             # average equal the mean over all valid queries, rather than giving
             # a one-query rank the same weight as a multi-query rank.
-            weight = self.world_size * result.queries / global_queries
+            weight = self.world_size * result.queries / global_queries if global_queries else 0.0
             self.collectives.run_local("episode backward", lambda: (
-                result.loss * weight / self.config.gradient_accumulation).backward())
+                result.loss * weight / self.config.gradient_accumulation).backward() if result.queries else None)
+            self.collectives.run_local("commit numerical state", self._finish_micro)
             self.cursor["next_ordinal"] += self.world_size
             self.progress = replace(self.progress, micro_step=self.progress.micro_step + 1,
-                                    accumulation_index=self.progress.accumulation_index + 1,
+                                    accumulation_index=self.progress.accumulation_index + int(global_queries > 0),
                                     student_tokens=self.progress.student_tokens + student_tokens,
                                     teacher_tokens=self.progress.teacher_tokens + teacher_tokens)
             if self.progress.accumulation_index == self.config.gradient_accumulation:
@@ -245,3 +246,6 @@ class Trainer:
         self._optimizer_step(partial=True)
         self._save("completed")
         return "completed"
+
+    def _finish_micro(self):
+        """Stateful trainers detach numerical state after a successful backward."""

@@ -4,7 +4,7 @@
 
 模型沿用预训练语言主干，新增记忆写入、语义寻址、读取与压缩模块。隐空间记忆允许逐渐遗失细节；harness 提供可读写、修改、删除的明文记忆与上下文历史查询。运行状态跨交互接续，并能保存和恢复。
 
-当前状态：流式状态框架、harness、A/B 与 C 工具执行器、LoRA、完整恢复和独立评测已有实现，121 项 CPU 测试通过；完整 0.8B 权重完成双 rank CPU 暂停/恢复对照。正式训练、持续上下文课程和能力验收仍未完成。见 [C 工具与消融报告](reports/20261010-c-tools-and-content-ablation.md)；a3-21 授权的八颗芯片当前均返回 RAS 80C98001。
+当前状态：A/B、C 工具与持续短 unroll 执行器、LoRA、harness、完整恢复和独立评测已有实现，131 项 CPU 测试通过；完整 0.8B 双 rank CPU 验证了消息中途、待写 buffer 和连续状态的恢复。正式训练、长期语义与能力验收未完成。见 [连续训练与历史内存报告](reports/20261010-continuous-training-and-history-memory.md)；授权芯片当前仍报 RAS 80C98001。
 
 ## 入口
 
@@ -16,6 +16,7 @@
 - [训练中断与恢复约定](docs/training-recovery.md)
 - [A/B 执行、阶段转换与独立评测](docs/running-ab.md)
 - [C 工具训练、LoRA 与记忆回放](docs/stage-c-tools.md)
+- [C 跨段持续状态训练](docs/stage-c-context.md)
 
 首轮学生输入预算为 50M token，分读写与寻址两个阶段，实际吞吐和后续阶段预算通过验证确定。数据、模型权重、训练状态和大日志存放在仓库外；仓库保存代码、配置、数据清单、语义样例与评测摘要。
 

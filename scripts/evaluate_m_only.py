@@ -34,7 +34,7 @@ def main():
     from dsrsi.data.compiler import EpisodeCompiler, tokenizer_fingerprint
     from dsrsi.data.generate import EpisodeGenerator
     from dsrsi.evaluation.m_only import MOnlyEvaluator, normalized_answer
-    from dsrsi.evaluation.checkpoint import load_ab_weights, load_c_tool_weights
+    from dsrsi.evaluation.checkpoint import load_ab_weights, load_c_tool_weights, load_context_weights
     from dsrsi.evaluation.metrics import summarize_records
     from dsrsi.model.qwen35_memory import MemoryQwen
     from dsrsi.training.checkpoint import CheckpointStore, file_sha256
@@ -50,7 +50,7 @@ def main():
     tokenizer = AutoTokenizer.from_pretrained(root, local_files_only=True)
     model = MemoryQwen.from_local_checkpoint(root)
     compiler = EpisodeCompiler(tokenizer)
-    loader = load_c_tool_weights if config["stage"] == "C_tools" else load_ab_weights
+    loader = {"C_tools": load_c_tool_weights, "C_context": load_context_weights}.get(config["stage"], load_ab_weights)
     checkpoint_dir, manifest = loader(model, store, base_identity=actual_base, committed=committed)
     evaluator = MOnlyEvaluator(model, compiler, max_new_tokens=args.max_new_tokens)
     generator = EpisodeGenerator(seed=config["seed"], split=args.split, distractors=args.distractors)

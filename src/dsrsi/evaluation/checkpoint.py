@@ -69,3 +69,20 @@ def _load_groups(model, store, directory, manifest, *, require_frozen=False):
             for name, value in current.items():
                 value.copy_(reference[label][name].to(value.device))
     return directory, manifest
+
+
+def load_context_weights(model, store, *, base_identity, committed=None):
+    from dsrsi.model.lora import LoRAConfig, install_lora
+    from dsrsi.training.context_runner import configure_context_trainable
+    directory, manifest = store.load_committed() if committed is None else committed
+    identity = manifest["identity"]
+    if identity["base"] != base_identity or manifest["progress"]["stage"] != "C_context":
+        raise CheckpointError("continuous evaluation base/stage mismatch")
+    if identity["memory_architecture"] != model.memory_architecture_identity():
+        raise CheckpointError("continuous memory architecture differs")
+    layout = identity["lora"]
+    actual = install_lora(model, LoRAConfig(**{key: layout[key] for key in ("rank", "alpha", "start_layer", "end_layer")}))
+    if actual != layout:
+        raise CheckpointError("continuous LoRA layout differs")
+    configure_context_trainable(model)
+    return _load_groups(model, store, directory, manifest, require_frozen=True)

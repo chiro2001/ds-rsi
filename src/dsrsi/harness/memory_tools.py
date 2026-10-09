@@ -23,6 +23,7 @@ class HarnessStore:
         self.life_id = life_id
         self.connection = sqlite3.connect(self.path)
         self.connection.row_factory = sqlite3.Row
+        self.connection.create_function("DS_CASEFOLD", 1, lambda value: value.casefold(), deterministic=True)
         self.connection.execute("PRAGMA journal_mode=WAL")
         self.connection.execute("PRAGMA synchronous=FULL")
         self.connection.executescript("""
@@ -51,23 +52,47 @@ class HarnessStore:
         self.last_clock = 0
         self._replay()
 
-    def _ancestors(self):
-        if self.revision == 0:
-            return []
-        rows = self.connection.execute("""
-            WITH RECURSIVE chain AS (
-              SELECT * FROM events WHERE revision=?
-              UNION ALL SELECT e.* FROM events e JOIN chain c ON e.revision=c.parent_revision
-            ) SELECT * FROM chain ORDER BY revision
-        """, (self.revision,)).fetchall()
-        if not rows or any(row["life_id"] != self.life_id for row in rows):
-            raise ValueError("harness revision is missing or belongs to another life")
-        return rows
+    @staticmethod
+    def _chain_sql():
+        # Carry scalar ancestry and E changes, never every historical text blob
+        # through Python. Parent revisions are strictly older than their child.
+        return """WITH RECURSIVE chain AS (
+          SELECT revision,parent_revision,life_id,logical_clock,kind,
+            CASE WHEN kind IN ('memory.write','memory.update','memory.delete') THEN payload END AS payload
+          FROM events WHERE revision=?
+          UNION ALL SELECT e.revision,e.parent_revision,e.life_id,e.logical_clock,e.kind,
+            CASE WHEN e.kind IN ('memory.write','memory.update','memory.delete') THEN e.payload END
+          FROM events e JOIN chain c ON e.revision=c.parent_revision
+          WHERE c.parent_revision<c.revision
+        ) """
+
+    def _visible_revision(self, revision):
+        if revision > self.revision or revision < 1:
+            return False
+        row = self.connection.execute("""WITH RECURSIVE path(revision,parent_revision) AS (
+          SELECT revision,parent_revision FROM events WHERE revision=?
+          UNION ALL SELECT e.revision,e.parent_revision FROM events e JOIN path p ON e.revision=p.parent_revision
+          WHERE p.revision>?
+        ) SELECT 1 FROM path WHERE revision=? LIMIT 1""", (self.revision, revision, revision)).fetchone()
+        return row is not None
 
     def _replay(self):
-        for row in self._ancestors():
+        if self.revision == 0:
+            return
+        head = self.connection.execute("SELECT life_id FROM events WHERE revision=?", (self.revision,)).fetchone()
+        if head is None or head[0] != self.life_id:
+            raise ValueError("harness revision is missing or belongs to another life")
+        summary = self.connection.execute(self._chain_sql() + """SELECT MAX(logical_clock),
+          SUM(CASE WHEN life_id!=? OR parent_revision>=revision OR (parent_revision>0 AND
+            NOT EXISTS(SELECT 1 FROM events p WHERE p.revision=chain.parent_revision)) THEN 1 ELSE 0 END)
+          FROM chain""", (self.revision, self.life_id)).fetchone()
+        if summary[1]:
+            raise ValueError("harness ancestor chain is invalid or belongs to another life")
+        self.last_clock = summary[0]
+        rows = self.connection.execute(self._chain_sql() + """SELECT kind,payload FROM chain
+          WHERE kind IN ('memory.write','memory.update','memory.delete') ORDER BY revision""", (self.revision,))
+        for row in rows:
             payload = json.loads(row["payload"])
-            self.last_clock = max(self.last_clock, row["logical_clock"])
             if row["kind"] in {"memory.write", "memory.update"}:
                 self.memory[payload["key"]] = payload
             elif row["kind"] == "memory.delete":
@@ -139,31 +164,33 @@ class HarnessStore:
             self._append(name, {"key": record["key"], "record_id": record["record_id"]}, clock)
             del self.memory[record["key"]]
             return {"ok": True, "deleted_record_id": record["record_id"]}
-        visible = {row["revision"] for row in self._ancestors() if row["kind"] == "history" and row["logical_clock"] <= clock}
         if name == "history.open":
             identifier = arguments["id"]
             row = self.connection.execute("SELECT * FROM history WHERE event_id=?", (identifier.removeprefix("h_"),)).fetchone()
-            if row is None or row["revision"] not in visible:
+            if (row is None or row["life_id"] != self.life_id or row["logical_clock"] > clock
+                    or not self._visible_revision(row["revision"])):
                 return {"found": False}
             return {"found": True, "id": identifier, "role": row["role"], "text": row["text"], "clock": row["logical_clock"]}
         terms = arguments["query"].split()
-        if not terms or not visible:
+        if not terms or self.revision == 0:
             return {"results": []}
         long_terms = [term for term in terms if len(term) >= 3]
         if long_terms:
             expression = " OR ".join('"' + term.replace('"', '""') + '"' for term in long_terms)
-            rows = self.connection.execute("""
-                SELECT h.*, bm25(history_fts) AS relevance FROM history_fts
+            rows = self.connection.execute(self._chain_sql() + """
+                SELECT h.event_id,h.logical_clock,substr(h.text,1,160) AS summary, bm25(history_fts) AS relevance FROM history_fts
                 JOIN history h ON h.revision=history_fts.rowid
                 WHERE history_fts MATCH ? AND h.life_id=? AND h.logical_clock<=?
-                ORDER BY relevance, h.logical_clock DESC
-            """, (expression, self.life_id, clock)).fetchall()
+                AND h.revision IN (SELECT revision FROM chain)
+                ORDER BY relevance, h.logical_clock DESC LIMIT 8
+            """, (self.revision, expression, self.life_id, clock)).fetchall()
         else:
-            rows = self.connection.execute("SELECT * FROM history WHERE life_id=? AND logical_clock<=? ORDER BY logical_clock DESC",
-                                           (self.life_id, clock)).fetchall()
-            rows = [row for row in rows if any(term.casefold() in row["text"].casefold() for term in terms)]
-        rows = [row for row in rows if row["revision"] in visible][:8]
-        return {"results": [{"id": "h_" + row["event_id"], "summary": row["text"][:160], "clock": row["logical_clock"]} for row in rows]}
+            matching = " OR ".join("instr(DS_CASEFOLD(text),?)>0" for _ in terms)
+            rows = self.connection.execute(self._chain_sql() + """SELECT event_id,logical_clock,substr(text,1,160) AS summary
+              FROM history WHERE life_id=? AND logical_clock<=? AND revision IN (SELECT revision FROM chain) AND ("""
+              + matching + ") ORDER BY logical_clock DESC LIMIT 8",
+              (self.revision, self.life_id, clock, *(term.casefold() for term in terms))).fetchall()
+        return {"results": [{"id": "h_" + row["event_id"], "summary": row["summary"], "clock": row["logical_clock"]} for row in rows]}
 
     def state_dict(self):
         return {"schema_version": 1, "path": str(self.path), "database_id": self.database_id,

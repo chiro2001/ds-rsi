@@ -6,6 +6,8 @@
 
 当前状态：A/B、C 工具与持续短 unroll 执行器、LoRA、harness、完整恢复和独立评测已有实现。因 a3-21 故障，已按用户授权迁到 a3-22 健康空闲 chip8–11；完整 0.8B 的四 rank HCCL 已验证 A/B 入口、工具训练和持续上下文，暂停恢复的完整训练态与连续执行逐位一致。正式训练、长期语义与能力验收未完成。原 CPU 证据见 [连续训练与历史内存报告](reports/20261010-continuous-training-and-history-memory.md)，NPU 原始结果见 [A/B](reports/pretrained-npu-hccl-recovery.json)、[工具](reports/pretrained-npu-tools-recovery.json) 与 [持续状态](reports/pretrained-npu-context-recovery.json)。
 
+真实A/v2首1,000微批已完成，消费116.5万学生输入token；独立自由回忆EM仅9.4%、校验码0%、反事实成对0%，M5未通过。新v3取消实体编号最小值捷径，并加入答案首次分歧前的内容反事实损失与单条记忆译码课程，完整四rank NPU恢复再次逐位一致。本地170项CPU测试通过；当前继续A机制训练，具体见 [译码课程与诊断](docs/counterfactual-codec-curriculum.md)。时间/来源条件化压缩与紧预算持续写入已有实现及实际NPU梯度证据，D训练仍未接入。
+
 ## 入口
 
 - [远期目标、里程碑与验收](ROADMAP.md)

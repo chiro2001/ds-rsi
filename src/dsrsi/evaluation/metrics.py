@@ -5,8 +5,12 @@ from collections import defaultdict
 
 def retrieval_summary(records):
     eligible = [r for r in records if r["required_groups"] and r["evidence_available"]]
+    limits = {r.get("retrieval_k", 8) for r in records}
+    if len(limits) > 1:
+        raise ValueError("cannot aggregate mixed retrieval limits as one coverage metric")
+    limit = next(iter(limits), 8)
     return {"queries": len(records), "eligible_queries": len(eligible),
-            "required_group_coverage_at_8": (sum(r["support_coverage"] for r in eligible) / len(eligible)
+            f"required_group_coverage_at_{limit}": (sum(r["support_coverage"] for r in eligible) / len(eligible)
                                               if eligible else None),
             "excluded_missing_or_no_support_queries": len(records) - len(eligible)}
 
@@ -35,7 +39,7 @@ def summarize_records(records, *, retrieval_only=False):
                          "complete_counterfactual_pairs": len(complete),
                          "paired_exact_match": (sum(all(r["exact_match"] for r in pair) for pair in complete) / len(complete)
                                                  if complete else None)}
-        if mode == "foreign":
+        if mode in ("foreign", "oracle_foreign"):
             summary[mode]["follows_counterfactual_payload"] = (sum(r["follows_counterfactual_payload"] for r in values) / len(values)
                 if all("follows_counterfactual_payload" in r for r in values) else None)
     return summary

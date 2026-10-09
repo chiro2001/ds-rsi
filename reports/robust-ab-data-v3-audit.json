@@ -1,0 +1,23 @@
+{
+  "data_identity": {
+    "revision": "ab-v3-random-entity-order",
+    "files": {
+      "generate.py": "2eba0d2a0ef139e180ce4b6308543ef1f470b728c5d1af65b52ec55ee1867534",
+      "compiler.py": "8d9d43e2113f7b95209756dc6fa12277081d0f9b4a651972022007ae0c1ecdb3",
+      "tools.py": "e524e10e7079c1b6891a5faa511c32e6147096835795f3bdd4d3bd75aad37a81",
+      "robust.py": "6cb9e1707d75c8501b360f389427469d99ce1c96f3919efa6eec527634a42508",
+      "robust_order.py": "2931199fa47beadbee5c8a096f50acb37a61da2f3c388c806b318dfae7fc4f21"
+    }
+  },
+  "worlds": 400,
+  "distractors": 7,
+  "target_numeric_rank_counts": {
+    "0": 68,
+    "2": 84,
+    "4": 76,
+    "3": 91,
+    "1": 81
+  },
+  "counterfactual_question_ids_and_negative_payloads_preserved": true,
+  "free_recall_gate_passed": false
+}

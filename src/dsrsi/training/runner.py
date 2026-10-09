@@ -9,7 +9,7 @@ import time
 
 import torch
 
-from dsrsi.data.robust import AB_DATA_REVISION, LEGACY_AB_REVISION, data_identity, make_generator
+from dsrsi.data.revisions import AB_DATA_REVISION, AB_REVISIONS, LEGACY_AB_REVISION, data_identity, make_generator
 from .checkpoint import (CheckpointStore, Progress, capture_training_state, restore_training_state, file_sha256,
                          frozen_auxiliary_parameters)
 from .control import ControlChannel
@@ -30,15 +30,22 @@ class TrainConfig:
     save_every_micro: int = 100
     data_revision: str = AB_DATA_REVISION
     curriculum: str = "mixed"
+    memory_candidates: int = 8
+    counterfactual_weight: float = 0.0
+    counterfactual_margin: float = 2.0
 
     def __post_init__(self):
         if self.stage not in {"A", "B"} or min(self.student_token_budget, self.gradient_accumulation) < 1:
             raise ValueError("invalid training stage/budget/accumulation")
         self._validate_common()
-        if self.data_revision not in (LEGACY_AB_REVISION, AB_DATA_REVISION) or self.curriculum not in ("mixed", "facts", "locations"):
+        if self.data_revision not in AB_REVISIONS or self.curriculum not in ("mixed", "facts", "locations"):
             raise ValueError("unknown data revision/curriculum")
         if self.data_revision == LEGACY_AB_REVISION and self.curriculum != "mixed":
             raise ValueError("legacy A/B data requires its unchanged mixed curriculum")
+        if not 1 <= self.memory_candidates <= 8 or min(self.counterfactual_weight, self.counterfactual_margin) < 0:
+            raise ValueError("invalid candidate/contrastive curriculum")
+        if self.data_revision == LEGACY_AB_REVISION and (self.memory_candidates != 8 or self.counterfactual_weight):
+            raise ValueError("legacy replay requires its original candidate and loss semantics")
 
     def _validate_common(self):
         if min(self.student_token_budget, self.gradient_accumulation) < 1:
@@ -77,24 +84,36 @@ class Trainer:
             from dsrsi.evaluation.checkpoint import load_ab_weights
             source_store = CheckpointStore(Path(initialize_from) / "checkpoints")
             committed = source_store.load_committed()
-            if config.stage != "B" or committed[1]["progress"]["stage"] != "A":
-                raise ValueError("explicit initialization currently supports only A-to-B")
+            if config.stage not in ("A", "B") or committed[1]["progress"]["stage"] != "A":
+                raise ValueError("explicit initialization supports A-to-B or a versioned A-to-A curriculum change")
+            source_config = committed[1]["identity"]["train_config"]
+            if config.stage == "A" and (source_config.get("data_revision", LEGACY_AB_REVISION),
+                                       source_config.get("curriculum", "mixed"), source_config.get("memory_candidates", 8),
+                                       source_config.get("counterfactual_weight", 0.0)) == (
+                                           config.data_revision, config.curriculum, config.memory_candidates, config.counterfactual_weight):
+                raise ValueError("A-to-A initialization must explicitly change data revision or curriculum")
             if self.run_dir.resolve() == Path(initialize_from).resolve():
                 raise ValueError("stage transition requires a new run directory")
             source, manifest = load_ab_weights(model, source_store, base_identity=base_identity, committed=committed)
-            initialization = {"transition": "A-to-B-reset-training-state", "checkpoint": source.name,
+            initialization = {"transition": f"A-to-{config.stage}-reset-training-state", "checkpoint": source.name,
                               "manifest_sha256": file_sha256(source / "manifest.json"),
                               "identity": manifest["identity"], "progress": manifest["progress"]}
         elif resume:
             # Resume pins lineage and never follows an advancing source latest.
             initialization = self.store.load_committed()[1]["identity"].get("initialization")
-        self.objective = EpisodeObjective(model, compiler, stage=config.stage)
+        self.objective = EpisodeObjective(model, compiler, stage=config.stage, memory_candidates=config.memory_candidates,
+            counterfactual_weight=config.counterfactual_weight, counterfactual_margin=config.counterfactual_margin)
         self.optimizer = torch.optim.AdamW([p for p in model.parameters() if p.requires_grad],
                                            lr=config.learning_rate, weight_decay=config.weight_decay,
                                            foreach=False, fused=False)
         self.optimizer.zero_grad(set_to_none=True)
         self.generator = make_generator(revision=config.data_revision, seed=config.seed, distractors=config.distractors)
         config_identity = asdict(config)
+        if config.memory_candidates == 8:
+            config_identity.pop("memory_candidates")
+        if not config.counterfactual_weight:
+            config_identity.pop("counterfactual_weight")
+            config_identity.pop("counterfactual_margin")
         if config.data_revision == LEGACY_AB_REVISION:
             # Legacy replay is explicit and retains the original identity and
             # generator. Never reinterpret old ordinals with new data.
@@ -206,7 +225,11 @@ class Trainer:
         else:
             draw = int.from_bytes(hashlib.sha256(f"{self.config.seed}:{ordinal}:oracle".encode()).digest()[:8], "big") / 2**64
             oracle = draw < 0.8
-        return row, oracle, self.objective(row, oracle_include=oracle)
+        kwargs = {}
+        if self.config.counterfactual_weight and row["family"] not in ("language_preservation", "missing_evidence"):
+            kwargs["counterfactual_row"] = self.generator.episode(world, variant=1 - variant,
+                family="language_preservation" if keep else family)
+        return row, oracle, self.objective(row, oracle_include=oracle, **kwargs)
 
     def run(self, *, max_micro_steps=None, install_signals=True):
         def prepare():
@@ -244,6 +267,7 @@ class Trainer:
             self._log({"event": "micro", "episode_id": row["episode_id"], "family": row["family"],
                        "loss": float(result.loss.detach()), "answer_loss": result.answer_loss,
                        "route_loss": result.route_loss, "keep_kl": result.keep_kl,
+                       "counterfactual_loss": result.counterfactual_loss,
                        "student_input_tokens": result.student_tokens, "teacher_input_tokens": result.teacher_tokens,
                        "padding_positions": result.padding_positions, "supervised_tokens": result.supervised_tokens,
                        "covered_queries": result.covered_queries, "queries": result.queries,

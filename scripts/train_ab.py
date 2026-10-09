@@ -20,12 +20,16 @@ def main():
     parser.add_argument("--lr", type=float, default=5e-4)
     parser.add_argument("--seed", type=int, default=20261010)
     parser.add_argument("--distractors", type=int, default=7)
-    parser.add_argument("--data-revision", choices=["ab-v1", "ab-v2-matched-entities"], default="ab-v2-matched-entities")
+    parser.add_argument("--data-revision", choices=["ab-v1", "ab-v2-matched-entities", "ab-v3-random-entity-order"],
+                        default="ab-v3-random-entity-order")
     parser.add_argument("--curriculum", choices=["mixed", "facts", "locations"], default="mixed")
     parser.add_argument("--save-every-micro", type=int, default=100)
+    parser.add_argument("--memory-candidates", type=int, default=8)
+    parser.add_argument("--counterfactual-weight", type=float, default=0.0)
+    parser.add_argument("--counterfactual-margin", type=float, default=2.0)
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--resume", action="store_true")
-    parser.add_argument("--init-from", help="explicit A-to-B weights initialization from a source run; resets training state")
+    parser.add_argument("--init-from", help="explicit A-to-B or versioned A-to-A weights initialization; resets training state")
     parser.add_argument("--max-micro-steps", type=int)
     parser.add_argument("--cpu-threads", type=int, help="CPU threads per rank; defaults to max(1, 8/world_size)")
     args = parser.parse_args()
@@ -61,7 +65,9 @@ def main():
             config = TrainConfig(stage=args.stage, student_token_budget=args.student_tokens,
                                  gradient_accumulation=args.grad_accum, learning_rate=args.lr,
                                  seed=args.seed, distractors=args.distractors, data_revision=args.data_revision,
-                                 curriculum=args.curriculum, save_every_micro=args.save_every_micro)
+                                 curriculum=args.curriculum, save_every_micro=args.save_every_micro,
+                                 memory_candidates=args.memory_candidates, counterfactual_weight=args.counterfactual_weight,
+                                 counterfactual_margin=args.counterfactual_margin)
             return identity, model, compiler, config
         identity, model, compiler, config = context.run_local("load training artifacts", load)
         trainer = Trainer(model, compiler, args.run_dir, config, base_identity=identity, resume=args.resume,

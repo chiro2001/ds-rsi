@@ -177,3 +177,13 @@ def test_sharing_answer_free_prefix_across_modes_matches_independent_generation_
             for response in episode.responses for mode in modes]
     got = evaluator.episode(row, modes=modes)
     assert got == want
+
+
+def test_oracle_foreign_replaces_payload_in_the_same_single_support_selection():
+    evaluator, row, episode, records = build()
+    evaluator.memory_candidates = 1
+    replacements = [replace(r, stream_id="other", slots=r.slots + 5) for r in records]
+    a = evaluator.generate(episode.responses[0],records,life_id=episode.episode_id,expected="x",mode="oracle")
+    b = evaluator.generate(episode.responses[0],records,life_id=episode.episode_id,expected="x",mode="oracle_foreign",
+                           replacement_records=replacements)
+    assert a.selected_records == b.selected_records == episode.responses[0].support_groups[0]

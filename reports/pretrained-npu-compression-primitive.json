@@ -1,0 +1,11 @@
+{
+  "status": "actual_pretrained_npu_compression_primitive_only",
+  "device": "npu:0",
+  "child_records": 4,
+  "summary_slots": 16,
+  "summary_wall_time": 1768190400.0,
+  "finite_nonzero_consolidator_gradient_norm": 21.462224553097382,
+  "future_commit_does_not_change_slots_or_keys": true,
+  "loss": 4.8390889167785645,
+  "semantic_compression_capability_claimed": false
+}

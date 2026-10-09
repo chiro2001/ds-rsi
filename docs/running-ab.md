@@ -19,7 +19,7 @@ PYTHONPATH=src python -m dsrsi.training.control \
 
 恢复使用相同参数并追加 `--resume`；`--max-micro-steps` 是该 run 的累计上限，可提高或去掉。恢复不能修改 stage、预算、学习率、累积数、seed、干扰数或 world size。
 
-新 A/B run 默认使用 `--data-revision ab-v2-matched-entities`：正负记录共享实体前缀，近似名称和同实体不同属性提供硬负例，支撑位置随机且 ID 不携带正负类别。数据、编译器与工具模板文件的 SHA256 纳入 checkpoint 身份，恢复与独立评测均校验。`--curriculum mixed|facts|locations` 固定训练分布，`--save-every-micro` 固定自动保存间隔。
+新 A/B run 默认使用 `--data-revision ab-v3-random-entity-order`：正负记录共享实体前缀，近似名称和同实体不同属性提供硬负例，支撑位置随机且 ID 不携带正负类别；所有实体编号另行随机置换，目标不固定为最小编号。v2的实施和指纹保持原样。数据、编译器与工具模板文件的 SHA256 纳入 checkpoint 身份，恢复与独立评测均校验。`--curriculum mixed|facts|locations`、`--memory-candidates`、`--counterfactual-weight` 固定训练分布与损失，`--save-every-micro` 固定自动保存间隔。见 [内容译码课程](counterfactual-codec-curriculum.md)。
 
 旧 A/B run 仍须显式 `--data-revision ab-v1 --curriculum mixed` 恢复；旧生成器与原配置身份保持不变。默认新版本会拒绝恢复旧版本，不能默默将旧 ordinal 替换成新数据。C 原有 replay 数据与执行身份不因 A/B 新默认而自动重解释；恢复旧 C 必须匹配其原实施文件指纹，权重接续与完整状态恢复仍是不同操作。
 
@@ -84,6 +84,8 @@ PYTHONPATH=src python scripts/train_ab.py \
 ```
 
 `--init-from` 明确导入 A 的读写/时间模块和 buffers，并记录来源 manifest 摘要与进度；新 run 的优化器、累计梯度、游标、RNG 和 token 账本重新开始，寻址模块开始训练。这是阶段转换，不是精确恢复。B 后续恢复只用 `--resume`，保留其已记录来源，不重新跟随 A 的 latest。即使 A 尚未达标，接口也可用于短负载验证，但不能据此声称通过阶段门槛。
+
+同样的入口支持显式数据/课程变更后的 A→A 权重初始化，要求新run和不同数据、课程、候选数或CF配置；原A完整状态保留。预算在来源链中累计，不把新run重置当作此前训练未消费token。
 
 ## 自由生成与检索诊断
 

@@ -24,9 +24,12 @@ def main():
     parser.add_argument("--languages", nargs="+", choices=["zh", "en", "cross_language"], default=["zh"])
     parser.add_argument("--threads", type=int, default=8)
     parser.add_argument("--device", default="cpu")
+    parser.add_argument("--eval-data-revision", choices=["ab-v1", "ab-v2-matched-entities", "ab-v3-random-entity-order"],
+                        help="explicit distribution challenge; default matches the pinned training revision")
     parser.add_argument("--include-foreign", action="store_true", help="replace all selected payloads with the other counterfactual world")
-    parser.add_argument("--modes", nargs="+", choices=["actual", "oracle", "off", "shuffled", "foreign"],
+    parser.add_argument("--modes", nargs="+", choices=["actual", "oracle", "oracle_foreign", "off", "shuffled", "foreign"],
                         default=["actual", "oracle", "off", "shuffled"])
+    parser.add_argument("--memory-candidates", type=int, default=8)
     args = parser.parse_args()
     if args.worlds < 1 or args.distractors < 8 or args.threads < 1:
         raise ValueError("positive worlds/threads and at least 8 distractors are required")
@@ -40,7 +43,7 @@ def main():
         raise ValueError("held-out evaluation currently runs on one logical device")
     from transformers import AutoTokenizer
     from dsrsi.data.compiler import EpisodeCompiler, tokenizer_fingerprint
-    from dsrsi.data.robust import LEGACY_AB_REVISION, data_identity, make_generator
+    from dsrsi.data.revisions import LEGACY_AB_REVISION, data_identity, make_generator
     from dsrsi.evaluation.m_only import MOnlyEvaluator, normalized_answer
     from dsrsi.evaluation.checkpoint import load_ab_weights, load_c_tool_weights, load_context_weights
     from dsrsi.evaluation.metrics import summarize_records
@@ -63,8 +66,9 @@ def main():
     compiler = EpisodeCompiler(tokenizer)
     loader = {"C_tools": load_c_tool_weights, "C_context": load_context_weights}.get(config["stage"], load_ab_weights)
     checkpoint_dir, manifest = loader(model, store, base_identity=actual_base, committed=committed)
-    evaluator = MOnlyEvaluator(model, compiler, max_new_tokens=args.max_new_tokens)
-    generator = make_generator(revision=data_revision, seed=config["seed"], split=args.split, distractors=args.distractors)
+    evaluator = MOnlyEvaluator(model, compiler, max_new_tokens=args.max_new_tokens, memory_candidates=args.memory_candidates)
+    eval_revision = args.eval_data_revision or data_revision
+    generator = make_generator(revision=eval_revision, seed=config["seed"], split=args.split, distractors=args.distractors)
     records = []
     model.eval()
     for world in range(args.worlds):
@@ -82,7 +86,7 @@ def main():
                         replacements = None
                         foreign_expected = {}
                         modes = tuple(args.modes)
-                        if args.include_foreign or "foreign" in modes:
+                        if args.include_foreign or any(m in modes for m in ("foreign", "oracle_foreign")):
                             foreign = generator.episode(world, variant=1 - variant, family=family, language=language)
                             with torch.no_grad():
                                 replacements = evaluator.source_records(compiler.compile(foreign))
@@ -91,7 +95,7 @@ def main():
                                 modes += ("foreign",)
                         results = evaluator.episode(row, modes=modes, replacement_records=replacements)
                         for result in results:
-                            if result["mode"] == "foreign":
+                            if result["mode"] in ("foreign", "oracle_foreign"):
                                 result["counterfactual_payload_answer"] = foreign_expected[result["probe_id"]]
                                 result["follows_counterfactual_payload"] = (normalized_answer(result["text"])
                                     == normalized_answer(foreign_expected[result["probe_id"]]))
@@ -105,9 +109,12 @@ def main():
               "manifest_sha256": file_sha256(checkpoint_dir / "manifest.json"), "base_identity": actual_base,
               "families": args.families, "languages": args.languages, "distractors": args.distractors,
               "canonical_execution_quantum": 1,
-              "data_revision": data_revision, "device": device,
+              "training_data_revision": data_revision, "data_revision": eval_revision,
+              "evaluation_data_identity": data_identity(eval_revision), "distribution_challenge": eval_revision != data_revision,
+              "device": device,
+              "memory_candidates": args.memory_candidates,
               "modes": modes if not args.retrieval_only else [],
-              "foreign_payload_ablation": (args.include_foreign or "foreign" in args.modes) and not args.retrieval_only,
+              "foreign_payload_ablation": (args.include_foreign or any(m in args.modes for m in ("foreign", "oracle_foreign"))) and not args.retrieval_only,
               "checkpoint_progress": manifest["progress"], "max_new_tokens": args.max_new_tokens,
               "worlds": args.worlds, "summary": summary, "records": records,
               "capability_gate_passed": False}

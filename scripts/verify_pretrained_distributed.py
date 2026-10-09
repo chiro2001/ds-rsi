@@ -32,7 +32,7 @@ def assert_equal(left, right, path="state"):
         raise AssertionError(f"{path}: {left!r} != {right!r}")
 
 
-def worker(rank, base, run_root, threads, identity, requested_device, world_size):
+def worker(rank, base, run_root, threads, identity, requested_device, world_size, controls):
     from transformers import AutoTokenizer
     from dsrsi.data.compiler import EpisodeCompiler
     from dsrsi.model.qwen35_memory import MemoryQwen
@@ -61,7 +61,7 @@ def worker(rank, base, run_root, threads, identity, requested_device, world_size
                    if not name.startswith(("base.", "head."))}
         initial_rng = capture_rng(device)
         config = TrainConfig(student_token_budget=100000, gradient_accumulation=4,
-                             distractors=1, seed=20261010, save_every_micro=100)
+                             seed=20261010, save_every_micro=100, **controls)
         def trainer(directory, resume=False):
             return Trainer(model, compiler, Path(run_root) / directory, config,
                            base_identity=identity, collectives=context, resume=resume)
@@ -112,6 +112,10 @@ def main():
     parser.add_argument("--threads-per-rank", type=int, default=2)
     parser.add_argument("--device", choices=["cpu", "npu"], default="cpu")
     parser.add_argument("--world-size", type=int, default=2)
+    parser.add_argument("--memory-candidates", type=int, default=8)
+    parser.add_argument("--counterfactual-weight", type=float, default=0.0)
+    parser.add_argument("--curriculum", choices=["mixed", "facts", "locations"], default="mixed")
+    parser.add_argument("--distractors", type=int, default=1)
     args = parser.parse_args()
     if args.threads_per_rank < 1 or args.world_size < 2:
         raise ValueError("threads must be positive and world size at least two")
@@ -123,10 +127,13 @@ def main():
     index = json.loads((base / "model.safetensors.index.json").read_text())["weight_map"]
     identity = {"tokenizer": tokenizer_fingerprint(base),
                 "weights": {name: file_sha256(base / name) for name in sorted(set(index.values()))}}
-    mp.spawn(worker, args=(str(base), str(root), args.threads_per_rank, identity, args.device, args.world_size),
+    controls = {"memory_candidates": args.memory_candidates, "counterfactual_weight": args.counterfactual_weight,
+                "curriculum": args.curriculum, "distractors": args.distractors}
+    mp.spawn(worker, args=(str(base), str(root), args.threads_per_rank, identity, args.device, args.world_size, controls),
              nprocs=args.world_size, join=True)
     report = {"status": f"pretrained_{args.device}_{'hccl' if args.device == 'npu' else 'gloo'}_recovery_only",
               "world_size": args.world_size,
+              "controls": controls,
               "threads_per_rank": args.threads_per_rank, "base_identity": identity,
               "ranks": [json.loads((root / f"result_rank_{rank}.json").read_text()) for rank in range(args.world_size)],
               "trained_recall_claimed": False, "hccl_verified": args.device == "npu"}

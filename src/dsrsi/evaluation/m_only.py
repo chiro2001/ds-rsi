@@ -27,10 +27,13 @@ def normalized_answer(text):
 
 
 class MOnlyEvaluator:
-    def __init__(self, model, compiler, *, max_new_tokens=32):
+    def __init__(self, model, compiler, *, max_new_tokens=32, memory_candidates=8):
         if max_new_tokens < 1:
             raise ValueError("generation budget must be positive")
         self.model, self.compiler, self.max_new_tokens = model, compiler, max_new_tokens
+        if not 1 <= memory_candidates <= 8:
+            raise ValueError("memory candidates must be in 1..8")
+        self.memory_candidates = memory_candidates
 
     def source_records(self, episode):
         if episode.source_encoding != "independent_events":
@@ -59,7 +62,7 @@ class MOnlyEvaluator:
         return prompt, cache
 
     def _prompt_forward(self, response, records, *, life_id, mode, replacement_records=None, prefix=None):
-        if mode not in {"actual", "oracle", "off", "shuffled", "foreign"}:
+        if mode not in {"actual", "oracle", "oracle_foreign", "off", "shuffled", "foreign"}:
             raise ValueError("invalid ablation mode")
         if response.mode != "m_only" or response.write_enabled:
             raise ValueError("evaluation must not write supervised completions")
@@ -92,18 +95,18 @@ class MOnlyEvaluator:
             keys = torch.stack([r.keys.to(device) for r in available])
             scores = routing_scores(q, keys)[0]
             ordering = torch.argsort(scores, descending=True, stable=True).tolist()
-            actual = {available[index].record_id for index in ordering[:8]}
+            actual = {available[index].record_id for index in ordering[:self.memory_candidates]}
             actual_coverage = all(actual & group for group in groups)
-            if mode == "oracle":
+            if mode in ("oracle", "oracle_foreign"):
                 positives = [i for i, record in enumerate(available) if any(record.record_id in group for group in groups)]
                 ordering = positives + [i for i in ordering if i not in positives]
-            selected = [available[index] for index in ordering[:8]]
+            selected = [available[index] for index in ordering[:self.memory_candidates]]
             if mode == "shuffled":
                 if len(available) < 2:
                     raise ValueError("content-shuffle ablation needs at least two independent records")
                 by_id = {record.record_id: available[(index + 1) % len(available)].slots for index, record in enumerate(available)}
                 selected = [replace(record, slots=by_id[record.record_id]) for record in selected]
-            elif mode == "foreign":
+            elif mode in ("foreign", "oracle_foreign"):
                 if not replacement_records or any(r.stream_id == life_id for r in replacement_records):
                     raise ValueError("foreign-content ablation requires independent counterfactual-life payloads")
                 replacements = {r.record_id: r.slots for r in replacement_records}
@@ -122,6 +125,7 @@ class MOnlyEvaluator:
     def retrieval(self, response, records, *, life_id):
         _, selected, coverage, evidence_available, _ = self._prompt_forward(response, records, life_id=life_id, mode="actual")
         return {"probe_id": response.event_id, "required_groups": len(response.support_groups),
+                "retrieval_k": self.memory_candidates,
                 "evidence_available": evidence_available, "support_coverage": coverage,
                 "selected_records": [r.record_id for r in selected]}
 

@@ -2,6 +2,9 @@ name: CPU tests
 on: [push, pull_request]
 permissions:
   contents: read
+concurrency:
+  group: cpu-tests-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   recovery-and-core:
     runs-on: ubuntu-latest

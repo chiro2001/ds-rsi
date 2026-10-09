@@ -37,7 +37,7 @@ autograd 图不直接序列化。跨段训练在边界完成反传并 detach 数
 6. life state：KV、GDN/conv、位置原点、逻辑时钟、待写缓冲、M 与索引、harness 引用/版本。
 7. world size、rank 设备映射、训练配置、代码 commit 与 checkpoint 版本。
 
-当前 A/B 和 C 工具实现另存冻结的增量模块：它们不属于底座权重文件，不能只引用底座指纹。记忆结构的 heads/读写位置等也须核验，即使 tensor shape 相同仍可能改变执行语义。C 工具阶段已有执行文件/包版本身份与持久 journal 校验，见 [C 工具阶段](stage-c-tools.md)；完整持续状态 unroll 的训练接入仍待完成。
+当前 A/B 和 C 实现另存冻结的增量模块：它们不属于底座权重文件，不能只引用底座指纹。记忆结构的 heads/读写位置等也须核验，即使 tensor shape 相同仍可能改变执行语义。C 已有执行文件/包版本身份与持久 journal 校验；[持续短 unroll](stage-c-context.md)还保存学生/教师 life、部分消息和剩余 tape。长期语义及 NPU 验收仍待完成。
 
 ## 原子提交
 

@@ -19,7 +19,7 @@ PYTHONPATH=src python -m dsrsi.training.control \
 
 恢复使用相同参数并追加 `--resume`；`--max-micro-steps` 是该 run 的累计上限，可提高或去掉。恢复不能修改 stage、预算、学习率、累积数、seed、干扰数或 world size。
 
-新 A/B run 默认使用 `--data-revision ab-v3-random-entity-order`：正负记录共享实体前缀，近似名称和同实体不同属性提供硬负例，支撑位置随机且 ID 不携带正负类别；所有实体编号另行随机置换，目标不固定为最小编号。v2的实施和指纹保持原样。数据、编译器与工具模板文件的 SHA256 纳入 checkpoint 身份，恢复与独立评测均校验。`--curriculum mixed|facts|locations`、`--memory-candidates`、`--counterfactual-weight` 固定训练分布与损失，`--save-every-micro` 固定自动保存间隔。见 [内容译码课程](counterfactual-codec-curriculum.md)。
+新 A/B run 默认使用 `--data-revision ab-v4-fields-and-language`：延续同前缀/异属性负例、随机支撑/编号顺序，并让反事实改动覆盖各代码字符、保持任务扩至六类。v1–v3的实施和指纹保持原样。数据、编译器与工具模板文件的 SHA256 纳入 checkpoint 身份，恢复与独立评测均校验。`--curriculum mixed|facts|locations`、`--memory-candidates`、`--counterfactual-weight`、`--keep-fraction`、`--keep-weight` 固定训练分布与损失，`--save-every-micro` 固定自动保存间隔。见 [内容译码课程](counterfactual-codec-curriculum.md)。
 
 旧 A/B run 仍须显式 `--data-revision ab-v1 --curriculum mixed` 恢复；旧生成器与原配置身份保持不变。默认新版本会拒绝恢复旧版本，不能默默将旧 ordinal 替换成新数据。C 原有 replay 数据与执行身份不因 A/B 新默认而自动重解释；恢复旧 C 必须匹配其原实施文件指纹，权重接续与完整状态恢复仍是不同操作。
 

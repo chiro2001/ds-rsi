@@ -24,7 +24,7 @@ def main():
     parser.add_argument("--languages", nargs="+", choices=["zh", "en", "cross_language"], default=["zh"])
     parser.add_argument("--threads", type=int, default=8)
     parser.add_argument("--device", default="cpu")
-    parser.add_argument("--eval-data-revision", choices=["ab-v1", "ab-v2-matched-entities", "ab-v3-random-entity-order"],
+    parser.add_argument("--eval-data-revision", choices=["ab-v1", "ab-v2-matched-entities", "ab-v3-random-entity-order", "ab-v4-fields-and-language"],
                         help="explicit distribution challenge; default matches the pinned training revision")
     parser.add_argument("--include-foreign", action="store_true", help="replace all selected payloads with the other counterfactual world")
     parser.add_argument("--modes", nargs="+", choices=["actual", "oracle", "oracle_foreign", "off", "shuffled", "foreign"],

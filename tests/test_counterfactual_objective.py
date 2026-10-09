@@ -13,7 +13,7 @@ from dsrsi.training.runner import TrainConfig, Trainer
 def test_counterfactual_loss_only_scores_before_the_first_distinguishing_token():
     model = tiny()
     compiler = EpisodeCompiler(SmallVocabularyTokenizer(), max_query_tokens=1000)
-    generator = make_generator(distractors=2)
+    generator = make_generator(revision="ab-v3-random-entity-order", distractors=2)
     a = generator.episode(5, variant=0, family="single_fact", language="en")
     b = generator.episode(5, variant=1, family="single_fact", language="en")
     response = compiler.compile(a).responses[0]

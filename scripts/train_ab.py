@@ -20,13 +20,15 @@ def main():
     parser.add_argument("--lr", type=float, default=5e-4)
     parser.add_argument("--seed", type=int, default=20261010)
     parser.add_argument("--distractors", type=int, default=7)
-    parser.add_argument("--data-revision", choices=["ab-v1", "ab-v2-matched-entities", "ab-v3-random-entity-order"],
-                        default="ab-v3-random-entity-order")
+    parser.add_argument("--data-revision", choices=["ab-v1", "ab-v2-matched-entities", "ab-v3-random-entity-order", "ab-v4-fields-and-language"],
+                        default="ab-v4-fields-and-language")
     parser.add_argument("--curriculum", choices=["mixed", "facts", "locations"], default="mixed")
     parser.add_argument("--save-every-micro", type=int, default=100)
     parser.add_argument("--memory-candidates", type=int, default=8)
     parser.add_argument("--counterfactual-weight", type=float, default=0.0)
     parser.add_argument("--counterfactual-margin", type=float, default=2.0)
+    parser.add_argument("--keep-fraction", type=float)
+    parser.add_argument("--keep-weight", type=float, default=0.2)
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--init-from", help="explicit A-to-B or versioned A-to-A weights initialization; resets training state")
@@ -67,7 +69,8 @@ def main():
                                  seed=args.seed, distractors=args.distractors, data_revision=args.data_revision,
                                  curriculum=args.curriculum, save_every_micro=args.save_every_micro,
                                  memory_candidates=args.memory_candidates, counterfactual_weight=args.counterfactual_weight,
-                                 counterfactual_margin=args.counterfactual_margin)
+                                 counterfactual_margin=args.counterfactual_margin, keep_fraction=args.keep_fraction,
+                                 keep_weight=args.keep_weight)
             return identity, model, compiler, config
         identity, model, compiler, config = context.run_local("load training artifacts", load)
         trainer = Trainer(model, compiler, args.run_dir, config, base_identity=identity, resume=args.resume,

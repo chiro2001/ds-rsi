@@ -33,6 +33,8 @@ class TrainConfig:
     memory_candidates: int = 8
     counterfactual_weight: float = 0.0
     counterfactual_margin: float = 2.0
+    keep_fraction: float | None = None
+    keep_weight: float = 0.2
 
     def __post_init__(self):
         if self.stage not in {"A", "B"} or min(self.student_token_budget, self.gradient_accumulation) < 1:
@@ -46,6 +48,10 @@ class TrainConfig:
             raise ValueError("invalid candidate/contrastive curriculum")
         if self.data_revision == LEGACY_AB_REVISION and (self.memory_candidates != 8 or self.counterfactual_weight):
             raise ValueError("legacy replay requires its original candidate and loss semantics")
+        if (self.keep_fraction is not None and not 0 <= self.keep_fraction <= 1) or self.keep_weight <= 0:
+            raise ValueError("invalid language keep mixture/weight")
+        if self.data_revision == LEGACY_AB_REVISION and (self.keep_fraction is not None or self.keep_weight != 0.2):
+            raise ValueError("legacy replay requires its original keep semantics")
 
     def _validate_common(self):
         if min(self.student_token_budget, self.gradient_accumulation) < 1:
@@ -89,8 +95,10 @@ class Trainer:
             source_config = committed[1]["identity"]["train_config"]
             if config.stage == "A" and (source_config.get("data_revision", LEGACY_AB_REVISION),
                                        source_config.get("curriculum", "mixed"), source_config.get("memory_candidates", 8),
-                                       source_config.get("counterfactual_weight", 0.0)) == (
-                                           config.data_revision, config.curriculum, config.memory_candidates, config.counterfactual_weight):
+                                       source_config.get("counterfactual_weight", 0.0), source_config.get("keep_fraction"),
+                                       source_config.get("keep_weight", 0.2)) == (
+                                           config.data_revision, config.curriculum, config.memory_candidates, config.counterfactual_weight,
+                                           config.keep_fraction, config.keep_weight):
                 raise ValueError("A-to-A initialization must explicitly change data revision or curriculum")
             if self.run_dir.resolve() == Path(initialize_from).resolve():
                 raise ValueError("stage transition requires a new run directory")
@@ -102,13 +110,18 @@ class Trainer:
             # Resume pins lineage and never follows an advancing source latest.
             initialization = self.store.load_committed()[1]["identity"].get("initialization")
         self.objective = EpisodeObjective(model, compiler, stage=config.stage, memory_candidates=config.memory_candidates,
-            counterfactual_weight=config.counterfactual_weight, counterfactual_margin=config.counterfactual_margin)
+            counterfactual_weight=config.counterfactual_weight, counterfactual_margin=config.counterfactual_margin,
+            keep_weight=config.keep_weight)
         self.optimizer = torch.optim.AdamW([p for p in model.parameters() if p.requires_grad],
                                            lr=config.learning_rate, weight_decay=config.weight_decay,
                                            foreach=False, fused=False)
         self.optimizer.zero_grad(set_to_none=True)
         self.generator = make_generator(revision=config.data_revision, seed=config.seed, distractors=config.distractors)
         config_identity = asdict(config)
+        if config.keep_fraction is None:
+            config_identity.pop("keep_fraction")
+        if config.keep_weight == 0.2:
+            config_identity.pop("keep_weight")
         if config.memory_candidates == 8:
             config_identity.pop("memory_candidates")
         if not config.counterfactual_weight:
@@ -217,7 +230,8 @@ class Trainer:
     def _forward_episode(self, ordinal):
         world, variant = divmod(ordinal, 2)
         mix = int.from_bytes(hashlib.sha256(f"{self.config.seed}:{world}:mix".encode()).digest()[:8], "big") % 100
-        keep = mix >= (75 if self.config.stage == "A" else 70)
+        fraction = self.config.keep_fraction
+        keep = mix >= ((75 if self.config.stage == "A" else 70) if fraction is None else 100 * (1 - fraction))
         family = {"mixed": None, "facts": "single_fact", "locations": "paraphrase_coreference"}[self.config.curriculum]
         row = self.generator.episode(world, variant=variant, family="language_preservation" if keep else family)
         if self.config.stage == "A":

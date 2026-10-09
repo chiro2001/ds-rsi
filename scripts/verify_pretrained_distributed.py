@@ -116,6 +116,8 @@ def main():
     parser.add_argument("--counterfactual-weight", type=float, default=0.0)
     parser.add_argument("--curriculum", choices=["mixed", "facts", "locations"], default="mixed")
     parser.add_argument("--distractors", type=int, default=1)
+    parser.add_argument("--keep-fraction", type=float)
+    parser.add_argument("--keep-weight", type=float, default=0.2)
     args = parser.parse_args()
     if args.threads_per_rank < 1 or args.world_size < 2:
         raise ValueError("threads must be positive and world size at least two")
@@ -128,7 +130,8 @@ def main():
     identity = {"tokenizer": tokenizer_fingerprint(base),
                 "weights": {name: file_sha256(base / name) for name in sorted(set(index.values()))}}
     controls = {"memory_candidates": args.memory_candidates, "counterfactual_weight": args.counterfactual_weight,
-                "curriculum": args.curriculum, "distractors": args.distractors}
+                "curriculum": args.curriculum, "distractors": args.distractors,
+                "keep_fraction": args.keep_fraction, "keep_weight": args.keep_weight}
     mp.spawn(worker, args=(str(base), str(root), args.threads_per_rank, identity, args.device, args.world_size, controls),
              nprocs=args.world_size, join=True)
     report = {"status": f"pretrained_{args.device}_{'hccl' if args.device == 'npu' else 'gloo'}_recovery_only",

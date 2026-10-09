@@ -1,0 +1,52 @@
+{
+  "run": "ab-A-v3-codec-01",
+  "progress": {
+    "stage": "A",
+    "optimizer_step": 125,
+    "micro_step": 500,
+    "accumulation_index": 0,
+    "student_tokens": 1030410,
+    "teacher_tokens": 27986
+  },
+  "cumulative_a_student_tokens": 2195422,
+  "profile": [
+    {
+      "micro_begin": 0,
+      "micro_end": 100,
+      "fact_queries": 310,
+      "answer_ce": 1.8065907097631886,
+      "counterfactual_loss": 2.0125008580319945
+    },
+    {
+      "micro_begin": 100,
+      "micro_end": 200,
+      "fact_queries": 312,
+      "answer_ce": 1.808894748489062,
+      "counterfactual_loss": 1.1176458955767488
+    },
+    {
+      "micro_begin": 200,
+      "micro_end": 300,
+      "fact_queries": 302,
+      "answer_ce": 1.691979381817066,
+      "counterfactual_loss": 0.4124399566728969
+    },
+    {
+      "micro_begin": 300,
+      "micro_end": 400,
+      "fact_queries": 310,
+      "answer_ce": 1.5134476088708446,
+      "counterfactual_loss": 0.0390349811438147
+    },
+    {
+      "micro_begin": 400,
+      "micro_end": 500,
+      "fact_queries": 288,
+      "answer_ce": 1.410734322335985,
+      "counterfactual_loss": 0.0067966849475684385
+    }
+  ],
+  "sum_slowest_rank_micro_seconds": 765.1238544299267,
+  "micro_student_tokens_per_second": 1346.7231403571006,
+  "trained_recall_claimed": false
+}

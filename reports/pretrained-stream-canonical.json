@@ -1,0 +1,18 @@
+{
+  "status": "pretrained_bf16_stream_integration_only",
+  "tokens": 26,
+  "native_cold_max_abs_diff": 0,
+  "chunk_vs_step_max_abs_diff": 0,
+  "chunk_vs_step_mean_abs_diff": 0,
+  "chunk_vs_step_min_cosine": 1,
+  "canonical_execution_quantum": 1,
+  "parallel_diagnostic_max_abs_diff": 0.5625,
+  "snapshot_restore_max_abs_diff": 0,
+  "logical_clock": 26,
+  "position_origin": 16,
+  "cache_tensor_bytes": 19955712,
+  "memory_records": 3,
+  "memory_tensor_bytes": 15360,
+  "trained_long_context_claimed": false,
+  "elapsed_seconds": 32.88647582009435
+}

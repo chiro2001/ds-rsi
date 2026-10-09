@@ -1,0 +1,24 @@
+{
+  "status": "pretrained_cpu_microbatch_pause_resume_smoke",
+  "final_status": "paused",
+  "progress": {
+    "accumulation_index": 1,
+    "micro_step": 21,
+    "optimizer_step": 5,
+    "stage": "A",
+    "student_tokens": 3054,
+    "teacher_tokens": 356
+  },
+  "control_command_seconds": 0.21762323379516602,
+  "request_to_manifest_seconds": 3.371248960494995,
+  "checkpoint_save_seconds": 0.09454085025936365,
+  "restored_ready_microsteps": [
+    0,
+    6,
+    14
+  ],
+  "world_size": 1,
+  "device": "cpu",
+  "trained_recall_claimed": false,
+  "formal_50M_training_claimed": false
+}

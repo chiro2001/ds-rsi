@@ -118,7 +118,8 @@ class EpisodeGenerator:
         return {"schema_version": "0.1", "status": "generated_training_episode",
                 "episode_id": f"{self.split}-e{ordinal:08d}-v{variant}", "world_id": f"{self.split}-w{ordinal:08d}",
                 "counterfactual_group_id": f"{self.split}-cf{ordinal:08d}", "split": self.split,
-                "family": family, "language": language, "source_encoding": "independent_events",
+                "family": family, "language": language, "source_language": src_lang,
+                "query_language": query_lang, "source_encoding": "independent_events",
                 "source_events": events, "probes": probes,
                 "annotations": {"query_resets": RESET, "evidence_available": family != "missing_evidence",
                                 "stateless_seed": self.seed, "ordinal": ordinal, "variant": variant}}

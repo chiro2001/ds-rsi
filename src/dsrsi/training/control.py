@@ -9,7 +9,7 @@ import uuid
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
-from .checkpoint import atomic_json
+from dsrsi.utils.atomic import atomic_json
 
 ACTIONS = {"checkpoint": 1, "pause": 2, "stop": 3}
 

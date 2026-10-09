@@ -2,7 +2,7 @@
 
 日期：2026-10-10。实现和测试将在本约定下推进，性能目标以实测记录更新。
 
-基础实现位于 `src/dsrsi/training/checkpoint.py` 与 `control.py`，12 项 CPU 对照测试已通过，见 [验证报告](../reports/20261010-bootstrap.md)。实际训练循环的 rank 协调与 NPU 延迟尚待验证。
+基础实现位于 `src/dsrsi/training/checkpoint.py` 与 `control.py`，现已接入单 rank A/B 执行器，并完成实际 0.8B CPU 暂停/恢复 smoke，见 [验证报告](../reports/20261010-stream-harness-recovery.md)。控制命令使用纯标准库，避免请求本身加载 Torch；多 rank 协调与 NPU 延迟尚待验证。
 
 外部请求接口：
 

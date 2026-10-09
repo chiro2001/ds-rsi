@@ -1,11 +1,18 @@
 import json
 import signal
+import subprocess
+import sys
 
 import pytest
 import torch
 
 from dsrsi.training.checkpoint import CheckpointStore, Progress, capture_training_state
 from dsrsi.training.control import ControlChannel
+
+
+def test_control_import_does_not_initialize_torch_or_accelerator_runtime():
+    code = "import sys; from dsrsi.training.control import ControlChannel; assert 'torch' not in sys.modules; assert 'torch_npu' not in sys.modules"
+    subprocess.run([sys.executable, "-c", code], check=True)
 
 
 def committed(tmp_path, status):

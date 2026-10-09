@@ -33,6 +33,14 @@ class MemoryModelOutput:
     logits: torch.Tensor | None = None
 
 
+@dataclass
+class CachedModelOutput:
+    hidden: torch.Tensor
+    write_features: torch.Tensor
+    cache: object
+    selected_records: list
+
+
 class MemoryQwen(nn.Module):
     def __init__(self, backbone, head, *, memory_config=None, writer_after=11, reader_before=(12, 20)):
         super().__init__()
@@ -175,6 +183,46 @@ class MemoryQwen(nn.Module):
         loss = response_cross_entropy_from_hidden(hidden, self.head.weight, labels) if labels is not None else None
         logits = self.head(hidden) if return_logits else None
         return MemoryModelOutput(hidden, query_features, loss, logits)
+
+    def forward_cached(self, input_ids, cache, *, records=None, selector=None, stream_id=None,
+                       memory_enabled=True, lookup_position=None, lookup_wall_time=None):
+        """One causal span of one life; the executor handles canonical boundaries."""
+        from .streaming_layers import run_layer
+        if input_ids.ndim != 2 or input_ids.shape[0] != 1 or input_ids.shape[1] < 1:
+            raise ValueError("each streaming cache represents one nonempty life")
+        if tuple(self.base.config.layer_types) != cache.layer_types:
+            raise ValueError("cache layer topology differs from backbone")
+        until_rebase = cache.until_rebase()
+        if until_rebase is not None and input_ids.shape[1] > until_rebase:
+            raise ValueError("executor must split at the canonical rebase boundary")
+        updated = cache.fork()
+        updated.rebase_at_boundary()
+        hidden = self.base.embed_tokens(input_ids)
+        write_features = None
+        selected = list(records or [])
+        packed = None
+        for index in range(len(self.base.layers)):
+            if index in self.reader_before and memory_enabled and selected:
+                if stream_id is None or len(selected) > 8:
+                    raise ValueError("stream reads require a life id and bounded candidates")
+                if packed is None:
+                    position = updated.clock if lookup_position is None else lookup_position
+                    slots, valid, metadata = pack_records(
+                        [selected], memory_dim=self.memory_config.memory_dim,
+                        query_positions=[position], stream_ids=[stream_id], device=hidden.device,
+                        dtype=hidden.dtype, wall_times=[lookup_wall_time])
+                    with self._memory_context(hidden):
+                        metadata = self.time_source(metadata)
+                    packed = slots, valid, metadata
+                with self._memory_context(hidden):
+                    hidden = self.readers[str(index)](hidden, packed[0], packed[1], slot_features=packed[2])
+            hidden = run_layer(self.base, index, hidden, updated)
+            if index == self.writer_after:
+                write_features = hidden
+                if selector is not None and memory_enabled:
+                    selected = list(selector(hidden[:, 0], updated.clock))
+        updated.finish_span(input_ids.shape[1])
+        return CachedModelOutput(self.base.norm(hidden), write_features, updated, selected)
 
     @classmethod
     def from_local_checkpoint(cls, path, *, device="cpu", memory_config=None):

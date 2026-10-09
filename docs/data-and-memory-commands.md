@@ -1,6 +1,6 @@
 # 当前可执行的数据与记忆检查
 
-日期：2026-10-10。以下为数据和模型接入验证；正式训练命令将在执行器完成后提供。
+日期：2026-10-10。以下提供数据、模型接入和单 rank A/B 开发命令；正式多芯片训练须先通过健康与协调恢复验证。
 
 ## 本地环境
 
@@ -40,6 +40,22 @@ PYTHONPATH=src .venv/bin/python scripts/verify_pretrained_bridge.py \
 
 需要原始 config、tokenizer 与 safetensors/index 文件。脚本只在 CPU 上检查加载、原生一致性、因果注入和 Writer 梯度，不报告训练后的回忆能力。
 
-## 仍待实现
+## 单 rank 开发训练与恢复
 
-完整课程消费、实际支撑跨度映射、训练池重编码、寻址到候选集的编排、流式功能缓存、原生工具执行器、多 rank 中断恢复与训练评测。不能将当前的池 token 统计或 CPU 接入检查当作完成了训练。
+```bash
+PYTHONPATH=src .venv/bin/python scripts/train_ab.py \
+  --base /path/to/Qwen3.5-0.8B --run-dir runs/ab-development \
+  --stage A --student-tokens 30000000 --device cpu --max-micro-steps 6
+
+.venv/bin/python -m dsrsi.training.control --run-dir runs/ab-development --action pause
+
+PYTHONPATH=src .venv/bin/python scripts/train_ab.py \
+  --base /path/to/Qwen3.5-0.8B --run-dir runs/ab-development \
+  --stage A --student-tokens 30000000 --device cpu --resume --max-micro-steps 10
+```
+
+`max-micro-steps` 是累计开发运行限额，触发 stopped 状态而非完成训练。完整恢复需保持 base、配置与数据语义；单 rank CLI 明确拒绝 WORLD_SIZE>1。已在完整权重的 CPU 容器验证，不能据此承诺 NPU 吞吐或多 rank 恢复。
+
+## 仍待实现或验证
+
+正式课程与开发集 gate、长源段证据映射、连续状态 LoRA 和工具训练、Consolidator 语义训练、多 rank/NPU 中断恢复与自由生成评测。基础接口和单 rank 执行已实现；不能将池统计或 CPU smoke 当作完成了能力训练。

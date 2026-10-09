@@ -2,6 +2,16 @@
 
 日期：2026-10-10。实现和测试将在本约定下推进，性能目标以实测记录更新。
 
+基础实现位于 `src/dsrsi/training/checkpoint.py` 与 `control.py`，12 项 CPU 对照测试已通过，见 [验证报告](../reports/20261010-bootstrap.md)。实际训练循环的 rank 协调与 NPU 延迟尚待验证。
+
+外部请求接口：
+
+```bash
+python -m dsrsi.training.control --run-dir runs/<run-id> --action pause
+```
+
+该命令写控制请求；执行器须在可恢复边界轮询并处理，不代表目前已有正式训练进程接入。
+
 ## 控制语义
 
 - checkpoint：保存完整状态后继续。

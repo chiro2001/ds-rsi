@@ -27,6 +27,13 @@ def test_child_metadata_conditions_compression_and_future_commit_time_cannot_cha
     assert not torch.equal(parent.slots, changed.slots)
     assert parent.wall_time == 130.0 and parent.child_refs == tuple(r.record_id for r in children)
     assert parent.source_begin == 0 and parent.source_end == 15 and parent.level == 1
+    next_leaf = replace(children[-1], record_id="next", source_begin=16, source_end=19,
+                        visible_after=20, wall_time=140.0)
+    with torch.no_grad():
+        grandparent = model.consolidate_records([parent, next_leaf], record_id="grand", visible_after=3000)
+        delayed_grandparent = model.consolidate_records([later, next_leaf], record_id="delayed", visible_after=3000)
+    assert torch.equal(grandparent.slots, delayed_grandparent.slots)
+    assert torch.equal(grandparent.keys, delayed_grandparent.keys)
     with pytest.raises(ValueError, match="visibility"):
         model.consolidate_records(children, record_id="future", visible_after=15)
     with pytest.raises(ValueError, match="streams"):

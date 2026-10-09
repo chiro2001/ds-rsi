@@ -21,7 +21,7 @@ from transformers.models.qwen3_5.modeling_qwen3_5 import (
 )
 
 from dsrsi.memory.modules import AddressEncoder, Consolidator, MemoryConfig, MemoryReader, MemoryWriter, TimeSourceEncoder
-from dsrsi.memory.store import MemoryRecord, pack_records
+from dsrsi.memory.store import MemoryRecord, pack_records, record_features
 from dsrsi.training.losses import LossSum, response_cross_entropy_from_hidden
 
 
@@ -90,15 +90,21 @@ class MemoryQwen(nn.Module):
         codec = children[0].codec_version
         if any(r.stream_id != stream or r.codec_version != codec for r in children):
             raise ValueError("compression cannot mix streams or codecs")
-        anchor = max(r.visible_after for r in children)
-        visibility = anchor if visible_after is None else visible_after
-        if visibility < anchor:
+        anchor = max(r.source_end for r in children) + 1
+        earliest_commit = max(r.visible_after for r in children)
+        visibility = earliest_commit if visible_after is None else visible_after
+        if visibility < earliest_commit:
             raise ValueError("summary visibility cannot precede any completed child")
         known_walls = [r.wall_time for r in children if r.wall_time is not None]
         wall_anchor = max(known_walls) if known_walls else None
         slots, valid, features = pack_records([children], memory_dim=self.memory_config.memory_dim,
-            query_positions=[anchor], stream_ids=[stream], device=children[0].slots.device,
+            query_positions=[earliest_commit], stream_ids=[stream], device=children[0].slots.device,
             dtype=children[0].slots.dtype, wall_times=[wall_anchor])
+        # Eligibility follows commit visibility; content ages follow source
+        # time. A delayed child summary must not move the recursive anchor.
+        features = torch.tensor([[record_features(r, anchor, wall_anchor)
+                                  for r in children for _ in range(r.slots.shape[0])]],
+                                device=slots.device, dtype=torch.float32)
         with self._memory_context(slots):
             summaries = self.consolidator(slots + self.time_source(features), valid)
             keys = self.address.encode_keys(summaries)

@@ -34,7 +34,7 @@ PYTHONPATH=src python scripts/train_tools.py \
   --init-from runs/B --student-tokens 1000000 --cpu-threads 4
 ```
 
-1M 是本子阶段的实验默认上限，最终课程预算需开发集和吞吐验证。正式路径从已验证的 B 初始化；`--allow-untrained-memory` 仅用于明确标识的工具独立实验，不构成 A/B 达标证据。NPU 入口复用授权映射和健康检查，HCCL 仍待健康设备验证。
+1M 是本子阶段的实验默认上限，最终课程预算需开发集和吞吐验证。正式路径从已验证的 B 初始化；`--allow-untrained-memory` 仅用于明确标识的工具独立实验，不构成 A/B 达标证据。NPU 入口复用授权映射和健康检查，a3-22 chip8–11 的完整0.8B 四 rank HCCL 暂停恢复已逐位一致，见 [NPU 原始结果](../reports/pretrained-npu-tools-recovery.json)。
 
 用相同参数追加 `--resume` 完整恢复，不重新提供 `--init-from`。暂停与 A/B 共用纯标准库控制 CLI，全体 rank 在可恢复事件边界保存。checkpoint 记录 LoRA 布局、实际记忆结构、训练/数据配置、执行文件及包版本指纹、累计梯度、优化器、RNG、游标和 journal 引用；journal 必须一起保留。相关执行文件改变时，C 的精确恢复会拒绝不一致身份。
 

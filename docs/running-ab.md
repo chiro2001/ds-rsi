@@ -1,6 +1,6 @@
 # A/B 执行、恢复与独立评测
 
-日期：2026-10-10。Gloo 双 rank 已在完整 Qwen3.5-0.8B 权重上验证；HCCL/NPU 尚未验证。授权 chip8–15 的八颗芯片当前全部返回 `80C98001`，下列 NPU 命令只作为恢复健康后验证的入口。
+日期：2026-10-10。Gloo 双 rank 已在完整 Qwen3.5-0.8B 权重上验证。a3-21 故障后已按用户授权改用 a3-22 健康空闲 chip8–11，完整0.8B 的四 rank HCCL A/B、C_tools、C_context 暂停恢复对照均已逐位一致，原始结果见 reports 中 pretrained-npu 开头的三份 JSON。
 
 ## CPU 小负载与中断
 
@@ -40,17 +40,33 @@ PYTHONPATH=src python scripts/verify_pretrained_distributed.py \
   --output artifacts/recovery-proof.json --threads-per-rank 2
 ```
 
-在已验证授权映射的训练环境内，健康恢复后先做短负载；不得通过隐藏告警或复位设备绕过检查：
+在 a3-22 的独立容器内执行；容器仅映射 `/dev/davinci8`–`11` 原名节点，运行时自动压缩为逻辑设备0–3。宿主机先检查空闲与健康并建立容器：
 
 ```bash
-ASCEND_RT_VISIBLE_DEVICES=8,9,10,11,12,13,14,15 PYTHONPATH=src \
-  torchrun --standalone --nproc-per-node=8 scripts/train_ab.py \
+python3 scripts/launch_a322.py --project /home/l00886679/ds-rsi
+```
+
+容器内先做短负载：
+
+```bash
+DSRSI_PHYSICAL_CHIPS=8,9,10,11 ASCEND_RT_VISIBLE_DEVICES=0,1,2,3 PYTHONPATH=src \
+  torchrun --master-addr=127.0.0.1 --master-port=29583 --nproc-per-node=4 scripts/train_ab.py \
   --base /path/to/Qwen3.5-0.8B --run-dir runs/ab-hccl-smoke \
   --device npu --stage A --student-tokens 100000 --distractors 1 \
   --max-micro-steps 5
 ```
 
-CLI 按 LOCAL_RANK 绑定逻辑设备并核验全部授权芯片健康。以上映射、设备可见性与 HCCL 精确恢复还须在健康机器上验证，不能把 CPU 对照当作完成 NPU 验证。
+CLI 检查 host22、物理节点集合、逻辑可见设备数与 LOCAL_RANK，逐颗核验对应物理芯片健康。不能把宿主机物理编号8–11直接传给隔离容器的运行时可见编号。启动前的无进程检查由宿主机执行；各 rank 启动后的健康检查允许同一任务的其他 rank 已占用设备。
+
+实际 NPU 中断/恢复对照入口（必须使用新的 run-root）：
+
+```bash
+python scripts/verify_pretrained_distributed.py \
+  --base /models/Qwen3.5-0.8B --device npu --world-size 4 \
+  --run-root runs/hccl-recovery-new --output artifacts/hccl-recovery.json
+```
+
+所有 NPU 训练入口统一开启确定性算法。该验证入口由末 rank 第3微批提出暂停，检查全部 rank 的优化器、待累计梯度、RNG、游标等完整状态与连续执行到第5微批逐位一致。
 
 ## 阶段接续
 

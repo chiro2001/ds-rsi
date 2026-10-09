@@ -1,0 +1,24 @@
+{
+  "status": "four_rank_npu_external_pause_and_new_process_resume",
+  "pause_response_seconds": 5.723209550138563,
+  "paused_progress": {
+    "accumulation_index": 1,
+    "micro_step": 1,
+    "optimizer_step": 0,
+    "stage": "A",
+    "student_tokens": 658,
+    "teacher_tokens": 0
+  },
+  "resumed_progress": {
+    "accumulation_index": 1,
+    "micro_step": 5,
+    "optimizer_step": 1,
+    "stage": "A",
+    "student_tokens": 2376,
+    "teacher_tokens": 358
+  },
+  "world_size": 4,
+  "exact_state_match_new_process_resume_vs_continuous_cli": true,
+  "all_rank_state_including_rng_compared": true,
+  "capability_claimed": false
+}

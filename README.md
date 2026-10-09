@@ -4,7 +4,7 @@
 
 模型沿用预训练语言主干，新增记忆写入、语义寻址、读取与压缩模块。隐空间记忆允许逐渐遗失细节；harness 提供可读写、修改、删除的明文记忆与上下文历史查询。运行状态跨交互接续，并能保存和恢复。
 
-当前状态：A/B、C 工具与持续短 unroll 执行器、LoRA、harness、完整恢复和独立评测已有实现，131 项 CPU 测试通过；完整 0.8B 双 rank CPU 验证了消息中途、待写 buffer 和连续状态的恢复。正式训练、长期语义与能力验收未完成。见 [连续训练与历史内存报告](reports/20261010-continuous-training-and-history-memory.md)；授权芯片当前仍报 RAS 80C98001。
+当前状态：A/B、C 工具与持续短 unroll 执行器、LoRA、harness、完整恢复和独立评测已有实现。因 a3-21 故障，已按用户授权迁到 a3-22 健康空闲 chip8–11；完整 0.8B 的四 rank HCCL 已验证 A/B 入口、工具训练和持续上下文，暂停恢复的完整训练态与连续执行逐位一致。正式训练、长期语义与能力验收未完成。原 CPU 证据见 [连续训练与历史内存报告](reports/20261010-continuous-training-and-history-memory.md)，NPU 原始结果见 [A/B](reports/pretrained-npu-hccl-recovery.json)、[工具](reports/pretrained-npu-tools-recovery.json) 与 [持续状态](reports/pretrained-npu-context-recovery.json)。
 
 ## 入口
 
@@ -22,6 +22,6 @@
 
 ## 资源与运行约束
 
-当前授权：**a3-21，chip8–15**。chip0–7 与其他人的容器和进程不在本项目操作范围内。接到暂停或设备变化通知后，在最近可恢复边界保存并停止本项目负载。
+当前使用：**a3-22（host22），空闲 chip8–11**。独立非 privileged 容器保留物理节点 `/dev/davinci8`–`11`，运行时按可见设备压缩为逻辑 npu:0–3，`ASCEND_RT_VISIBLE_DEVICES=0,1,2,3`，`DSRSI_PHYSICAL_CHIPS=8,9,10,11`。启动前逐芯片核验健康、进程和运行容器的设备映射；其他人的容器和进程不在本项目操作范围内。接到暂停或设备变化通知后，在最近可恢复边界保存并停止本项目负载。
 
-所有长期训练须先通过中断/恢复对照、因果性、分块一致性、Writer 梯度与真实记忆贡献检查。NPU 入口仍需健康设备上的短负载和 HCCL 验证。
+所有长期训练须先通过中断/恢复对照、因果性、分块一致性、Writer 梯度与真实记忆贡献检查。NPU 短负载和 HCCL 完整恢复已验证；实际记忆能力、语言保持与正式课程验收仍需训练和独立评测。

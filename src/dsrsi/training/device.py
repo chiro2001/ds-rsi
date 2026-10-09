@@ -2,9 +2,11 @@
 
 import os
 import re
-import subprocess
+from pathlib import Path
 
 import torch
+
+from .resource import authorized_mapping, verify_health
 
 
 def resolve_device(requested):
@@ -15,16 +17,23 @@ def resolve_device(requested):
             raise ValueError("only CPU and authorized NPU execution are implemented")
         return requested, world_size
     device = f"npu:{local_rank}" if world_size > 1 or requested == "npu" else requested
-    if os.environ.get("ASCEND_RT_VISIBLE_DEVICES", "") != "8,9,10,11,12,13,14,15":
-        raise RuntimeError("NPU execution requires the explicitly authorized chip8-15 mapping")
-    for card in range(4, 8):
-        for chip in (0, 1):
-            result = subprocess.run(["npu-smi", "info", "-t", "health", "-i", str(card), "-c", str(chip)],
-                                    capture_output=True, text=True, check=True)
-            if re.search(r"Health Status\s*:\s*OK\b", result.stdout) is None:
-                raise RuntimeError("authorized devices are not verified healthy; refuse to train on known RAS errors")
+    chips = authorized_mapping()
+    nodes = {int(path.name.removeprefix("davinci")) for path in Path("/dev").glob("davinci*")
+             if path.name.removeprefix("davinci").isdigit()}
+    if nodes != set(chips):
+        raise RuntimeError("isolated device nodes must retain exactly the authorized physical chip names")
+    if not 1 <= world_size <= len(chips) or not 0 <= local_rank < world_size:
+        raise RuntimeError("requested parallel topology is outside the authorized mapping")
+    if re_match := re.fullmatch(r"npu:(\d+)", device):
+        index = int(re_match.group(1))
+    else:
+        raise ValueError("NPU device must be npu or npu:<logical index>")
+    if index >= len(chips):
+        raise RuntimeError("requested device is outside the authorized mapping")
+    verify_health(chips)
     import torch_npu  # noqa: F401
-    if world_size > 8 or not 0 <= int(device.split(":")[1]) < 8:
-        raise RuntimeError("requested rank is outside the authorized device mapping")
+    if torch.npu.device_count() != len(chips):
+        raise RuntimeError("runtime device count differs from the authorized physical mapping")
     torch.npu.set_device(torch.device(device))
+    torch.use_deterministic_algorithms(True)
     return device, world_size

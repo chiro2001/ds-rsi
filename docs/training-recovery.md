@@ -2,7 +2,7 @@
 
 日期：2026-10-10。实现和测试将在本约定下推进，性能目标以实测记录更新。
 
-基础实现位于 `src/dsrsi/training/checkpoint.py`、`control.py` 与 `distributed.py`，现已接入多 rank A/B 执行器，完成完整 0.8B 双 rank Gloo 暂停/恢复对照，见 [分布式报告](../reports/20261010-distributed-and-evaluation.md)。控制命令使用纯标准库；HCCL、NPU 延迟尚待验证。具体入口见 [执行指南](running-ab.md)。
+基础实现位于 `src/dsrsi/training/checkpoint.py`、`control.py` 与 `distributed.py`，现已接入多 rank A/B、C_tools 和 C_context 执行器。完整0.8B 的双 rank Gloo 与 a3-22 chip8–11 四 rank HCCL 暂停恢复对照均逐位一致。NPU A/B 外部暂停请求到全部 launcher 退出本次实测约5.7秒；另起进程恢复后的完整状态（含全部 RNG）与同一 CLI 连续训练逐位一致，见 [外部控制结果](../reports/pretrained-npu-external-control.json)。这是短负载的单次测量，不能代替不同窗口和干扰长度下的响应时间 profile。控制命令使用纯标准库，具体入口见 [执行指南](running-ab.md)。
 
 外部请求接口：
 

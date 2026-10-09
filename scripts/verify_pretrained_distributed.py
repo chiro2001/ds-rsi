@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Two-rank CPU recovery on full pretrained weights; not a capability test."""
+"""CPU/Gloo or authorized NPU/HCCL full-state recovery; no capability claim."""
 
 import argparse
 from dataclasses import asdict
 import json
+import os
 from pathlib import Path
 import random
 import time
@@ -31,30 +32,34 @@ def assert_equal(left, right, path="state"):
         raise AssertionError(f"{path}: {left!r} != {right!r}")
 
 
-def worker(rank, base, run_root, threads, identity):
+def worker(rank, base, run_root, threads, identity, requested_device, world_size):
     from transformers import AutoTokenizer
     from dsrsi.data.compiler import EpisodeCompiler
     from dsrsi.model.qwen35_memory import MemoryQwen
     from dsrsi.training.checkpoint import capture_rng, restore_rng, capture_training_state
     from dsrsi.training.distributed import CollectiveContext
     from dsrsi.training.runner import TrainConfig, Trainer
+    from dsrsi.training.device import resolve_device
 
     torch.set_num_threads(threads)
-    context = CollectiveContext.initialize(device="cpu", backend="gloo", rank=rank, world_size=2,
+    os.environ.update(LOCAL_RANK=str(rank), WORLD_SIZE=str(world_size))
+    device, _ = resolve_device(requested_device)
+    context = CollectiveContext.initialize(device=device, backend="hccl" if device.startswith("npu") else "gloo",
+                                           rank=rank, world_size=world_size,
                                            init_method="file://" + str(Path(run_root) / "rendezvous"),
-                                           timeout_seconds=120)
+                                           timeout_seconds=180)
     started = time.monotonic()
     try:
         def load():
             random.seed(20261010)
             np.random.seed(20261010)
             torch.manual_seed(20261010)
-            return MemoryQwen.from_local_checkpoint(base), EpisodeCompiler(
+            return MemoryQwen.from_local_checkpoint(base, device=device), EpisodeCompiler(
                 AutoTokenizer.from_pretrained(base, local_files_only=True))
         model, compiler = context.run_local("load actual base", load)
         initial = {name: p.detach().clone() for name, p in model.named_parameters()
                    if not name.startswith(("base.", "head."))}
-        initial_rng = capture_rng("cpu")
+        initial_rng = capture_rng(device)
         config = TrainConfig(student_token_budget=100000, gradient_accumulation=4,
                              distractors=1, seed=20261010, save_every_micro=100)
         def trainer(directory, resume=False):
@@ -63,7 +68,7 @@ def worker(rank, base, run_root, threads, identity):
         def snapshot(instance):
             return capture_training_state(model, instance.optimizer, progress=instance.progress,
                                           data_cursor=instance.cursor, life_state=instance.life,
-                                          device="cpu", rank=rank, world_size=2)
+                                          device=device, rank=rank, world_size=world_size)
         full = trainer("full")
         assert full.run(max_micro_steps=5, install_signals=False) == "stopped"
         reference = snapshot(full)
@@ -73,7 +78,7 @@ def worker(rank, base, run_root, threads, identity):
                 if name in initial:
                     p.copy_(initial[name])
                 p.grad = None
-        restore_rng(initial_rng, "cpu")
+        restore_rng(initial_rng, device)
         resumed = trainer("resumed")
         original = resumed.objective
         calls = 0
@@ -81,7 +86,7 @@ def worker(rank, base, run_root, threads, identity):
             nonlocal calls
             result = original(row, **kwargs)
             calls += 1
-            if rank == 1 and calls == 3:
+            if rank == world_size - 1 and calls == 3:
                 resumed.control._signal_action = "pause"
             return result
         resumed.objective = pause
@@ -90,7 +95,7 @@ def worker(rank, base, run_root, threads, identity):
         resumed = trainer("resumed", resume=True)
         assert resumed.run(max_micro_steps=5, install_signals=False) == "stopped"
         context.run_local("compare complete training states", lambda: assert_equal(reference, snapshot(resumed)))
-        report = {"rank": rank, "progress": asdict(resumed.progress), "cursor": resumed.cursor,
+        report = {"rank": rank, "device": device, "progress": asdict(resumed.progress), "cursor": resumed.cursor,
                   "exact_state_match": True, "worker_pause_micro_step": 3,
                   "pending_gradient_microbatches": resumed.progress.accumulation_index,
                   "elapsed_seconds": time.monotonic() - started}
@@ -105,9 +110,11 @@ def main():
     parser.add_argument("--run-root", required=True)
     parser.add_argument("--output", required=True)
     parser.add_argument("--threads-per-rank", type=int, default=2)
+    parser.add_argument("--device", choices=["cpu", "npu"], default="cpu")
+    parser.add_argument("--world-size", type=int, default=2)
     args = parser.parse_args()
-    if args.threads_per_rank < 1:
-        raise ValueError("threads must be positive")
+    if args.threads_per_rank < 1 or args.world_size < 2:
+        raise ValueError("threads must be positive and world size at least two")
     root = Path(args.run_root).resolve()
     root.mkdir(parents=True, exist_ok=False)
     from dsrsi.data.compiler import tokenizer_fingerprint
@@ -116,11 +123,13 @@ def main():
     index = json.loads((base / "model.safetensors.index.json").read_text())["weight_map"]
     identity = {"tokenizer": tokenizer_fingerprint(base),
                 "weights": {name: file_sha256(base / name) for name in sorted(set(index.values()))}}
-    mp.spawn(worker, args=(str(base), str(root), args.threads_per_rank, identity), nprocs=2, join=True)
-    report = {"status": "pretrained_cpu_gloo_recovery_only", "world_size": 2,
+    mp.spawn(worker, args=(str(base), str(root), args.threads_per_rank, identity, args.device, args.world_size),
+             nprocs=args.world_size, join=True)
+    report = {"status": f"pretrained_{args.device}_{'hccl' if args.device == 'npu' else 'gloo'}_recovery_only",
+              "world_size": args.world_size,
               "threads_per_rank": args.threads_per_rank, "base_identity": identity,
-              "ranks": [json.loads((root / f"result_rank_{rank}.json").read_text()) for rank in range(2)],
-              "trained_recall_claimed": False, "hccl_verified": False}
+              "ranks": [json.loads((root / f"result_rank_{rank}.json").read_text()) for rank in range(args.world_size)],
+              "trained_recall_claimed": False, "hccl_verified": args.device == "npu"}
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")

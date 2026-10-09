@@ -1,6 +1,6 @@
 # C：跨段持续状态训练
 
-日期：2026-10-10。子阶段 `C_context` 已有执行器与恢复对照；长历史语义能力、正式训练与 NPU 验收尚未完成。
+日期：2026-10-10。子阶段 `C_context` 已有执行器与恢复对照；完整0.8B 的 a3-22 chip8–11 四 rank HCCL 暂停恢复与连续训练逐位一致，见 [NPU 原始结果](../reports/pretrained-npu-context-recovery.json)。长历史语义能力和正式训练验收尚未完成。
 
 ## 追加消息与 TBPTT
 

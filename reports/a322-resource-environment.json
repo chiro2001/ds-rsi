@@ -1,0 +1,75 @@
+{
+  "ssh_host": "a3-22",
+  "hostname": "host22",
+  "physical_chips": [
+    8,
+    9,
+    10,
+    11
+  ],
+  "runtime_logical_chips": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "container": "ds-rsi-a322-npu",
+  "image_id": "sha256:ac8bc091ee72fb66b0e1904fb7196bc858f313b4ad1d4bc0d029db041c5536d2",
+  "privileged": false,
+  "devices": [
+    {
+      "PathOnHost": "/dev/davinci8",
+      "PathInContainer": "/dev/davinci8",
+      "CgroupPermissions": "rwm"
+    },
+    {
+      "PathOnHost": "/dev/davinci9",
+      "PathInContainer": "/dev/davinci9",
+      "CgroupPermissions": "rwm"
+    },
+    {
+      "PathOnHost": "/dev/davinci10",
+      "PathInContainer": "/dev/davinci10",
+      "CgroupPermissions": "rwm"
+    },
+    {
+      "PathOnHost": "/dev/davinci11",
+      "PathInContainer": "/dev/davinci11",
+      "CgroupPermissions": "rwm"
+    },
+    {
+      "PathOnHost": "/dev/davinci_manager",
+      "PathInContainer": "/dev/davinci_manager",
+      "CgroupPermissions": "rwm"
+    },
+    {
+      "PathOnHost": "/dev/devmm_svm",
+      "PathInContainer": "/dev/devmm_svm",
+      "CgroupPermissions": "rwm"
+    },
+    {
+      "PathOnHost": "/dev/hisi_hdc",
+      "PathInContainer": "/dev/hisi_hdc",
+      "CgroupPermissions": "rwm"
+    }
+  ],
+  "device_env": [
+    "DSRSI_PHYSICAL_CHIPS=8,9,10,11",
+    "ASCEND_RT_VISIBLE_DEVICES=0,1,2,3"
+  ],
+  "packages": {
+    "torch": "2.10.0+cpu",
+    "torch-npu": "2.10.0.post4",
+    "transformers": "5.14.1",
+    "numpy": "1.26.4",
+    "safetensors": "0.8.0"
+  },
+  "bf16_matmul_backward_finite": true,
+  "single_actual_model_microbatch_completed": true,
+  "four_rank_hccl_ab_exact_recovery": true,
+  "four_rank_hccl_tools_exact_recovery": true,
+  "four_rank_hccl_context_exact_recovery": true,
+  "new_process_cli_complete_state_including_rng_match": true,
+  "npu_deterministic_algorithms": true,
+  "selected_chips_no_remaining_processes_after_verification": true
+}

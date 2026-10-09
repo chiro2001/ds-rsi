@@ -55,3 +55,24 @@ def test_lora_refuses_early_sites_and_duplicate_installation():
     install_lora(model, LoRAConfig(rank=2))
     with pytest.raises(ValueError, match="already installed"):
         install_lora(model)
+
+
+def test_frozen_trained_lora_is_saved_and_restored_as_auxiliary_state():
+    from dsrsi.training.checkpoint import capture_training_state, restore_training_state, Progress
+    model = tiny()
+    install_lora(model, LoRAConfig(rank=2))
+    model.requires_grad_(False)
+    model.consolidator.requires_grad_(True)
+    for name, p in model.named_parameters():
+        if ".lora_b" in name:
+            p.data.fill_(0.37)
+    optimizer = torch.optim.AdamW(model.consolidator.parameters())
+    payload = capture_training_state(model, optimizer, progress=Progress("D_content"), data_cursor={}, life_state={})
+    names = {name for name, p in model.named_parameters() if ".lora_" in name}
+    assert names <= payload["frozen_auxiliary"].keys()
+    assert not any(name.endswith("original.weight") for name in payload["frozen_auxiliary"])
+    for name, p in model.named_parameters():
+        if ".lora_b" in name:
+            p.data.zero_()
+    restore_training_state(payload, model, optimizer)
+    assert all(torch.equal(p, payload["frozen_auxiliary"][name]) for name, p in model.named_parameters() if name in names)

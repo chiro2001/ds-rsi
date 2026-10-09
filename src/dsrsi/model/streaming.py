@@ -38,20 +38,31 @@ class StreamExecutor:
             raise BudgetExceeded("new record alone exceeds memory tensor budget")
         while state.memory.tensor_bytes + record.tensor_bytes > state.memory.max_tensor_bytes:
             children = list(state.memory.records.values())[:4]
-            if len(children) < 2:
-                raise BudgetExceeded("insufficient children for semantic compaction")
-            source = torch.cat([child.slots for child in children], dim=0)[None]
-            with self.model._memory_context(source):
-                slots = self.model.consolidator(source)
-                keys = self.model.address.encode_keys(slots)
-            parent = MemoryRecord(self._id(state), state.life_id, slots[0], keys[0],
-                                  min(r.source_begin for r in children), max(r.source_end for r in children),
-                                  state.cache.clock, codec_version=state.memory.codec_version,
-                                  source_kind="summary", level=max(r.level for r in children) + 1,
-                                  child_refs=tuple(r.record_id for r in children))
+            if not children:
+                raise BudgetExceeded("empty store cannot compact an oversized source")
+            # Prefer compacting past records. If too few remain, or the
+            # compressor cannot make that union smaller, include the completed
+            # incoming source in the same atomic replacement.
+            include_incoming = len(children) < 2
+            if not include_incoming:
+                parent = self.model.consolidate_records(children, record_id=self._id(state),
+                                                         visible_after=state.cache.clock)
+                include_incoming = parent.tensor_bytes >= sum(child.tensor_bytes for child in children)
+            if include_incoming:
+                children = children + [record]
+                parent = self.model.consolidate_records(children, record_id=self._id(state),
+                                                         visible_after=state.cache.clock)
             old_bytes = sum(child.tensor_bytes for child in children)
             if parent.tensor_bytes >= old_bytes:
                 raise BudgetExceeded("configured compressor does not reduce the selected payload")
+            if include_incoming:
+                # If other old records remain, make room transactionally first.
+                # At most four selected past records plus incoming are merged.
+                resulting = state.memory.tensor_bytes - old_bytes + record.tensor_bytes + parent.tensor_bytes
+                if resulting > state.memory.max_tensor_bytes:
+                    raise BudgetExceeded("configured summary cannot fit this memory budget")
+                state.memory.compact(parent, [child.record_id for child in children], incoming=record)
+                return
             state.memory.compact(parent, [child.record_id for child in children])
         state.memory.append(record)
 

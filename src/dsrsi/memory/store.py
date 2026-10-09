@@ -82,11 +82,15 @@ class MemoryStore:
     def drop(self, record_id: str):
         return self.records.pop(record_id)
 
-    def compact(self, parent: MemoryRecord, children: list[str]):
+    def compact(self, parent: MemoryRecord, children: list[str], *, incoming: MemoryRecord | None = None):
         self._validate(parent)
         if not children or len(set(children)) != len(children):
             raise ValueError("compaction children must be distinct and nonempty")
-        old = [self.records[key] for key in children]
+        if incoming is not None:
+            self._validate(incoming)
+            if incoming.record_id not in children:
+                raise ValueError("compaction must retain the incoming source in its child lineage")
+        old = [incoming if incoming is not None and key == incoming.record_id else self.records[key] for key in children]
         if set(parent.child_refs) != set(children):
             raise ValueError("parent must retain child references")
         if any(r.stream_id != parent.stream_id for r in old):
@@ -96,12 +100,14 @@ class MemoryStore:
                 or parent.visible_after < max(r.visible_after for r in old)
                 or parent.level <= max(r.level for r in old)):
             raise ValueError("parent source range, visibility or level is invalid")
-        resulting_bytes = self.tensor_bytes - sum(r.tensor_bytes for r in old) + parent.tensor_bytes
+        resulting_bytes = self.tensor_bytes - sum(r.tensor_bytes for r in old
+            if incoming is None or r.record_id != incoming.record_id) + parent.tensor_bytes
         if resulting_bytes > self.max_tensor_bytes:
             raise BudgetExceeded("compaction does not meet the configured byte budget")
         # Commit only after all validation: no partial child deletion on failure.
         for key in children:
-            del self.records[key]
+            if incoming is None or key != incoming.record_id:
+                del self.records[key]
         self.records[parent.record_id] = parent
 
     def eligible(self, *, stream_id: str, query_position: int):

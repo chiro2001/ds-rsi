@@ -73,9 +73,40 @@ class MemoryQwen(nn.Module):
         return self
 
     def frozen_auxiliary_parameters(self):
-        """Frozen memory modules are not part of the fingerprinted base file."""
+        """Frozen added modules, including learned LoRA, are absent from base."""
         return {name: p for name, p in self.named_parameters()
-                if not p.requires_grad and not name.startswith(("base.", "head."))}
+                if not p.requires_grad and (not name.startswith(("base.", "head.")) or ".lora_" in name)}
+
+    def consolidate_records(self, children, *, record_id, visible_after=None):
+        """Compress completed records using their own time/source metadata.
+
+        The feature anchor is independent of a future query or answer. The
+        optional commit time controls visibility, never compressor features.
+        """
+        children = list(children)
+        if len(children) < 2 or len({r.record_id for r in children}) != len(children):
+            raise ValueError("compression requires at least two distinct completed records")
+        stream = children[0].stream_id
+        codec = children[0].codec_version
+        if any(r.stream_id != stream or r.codec_version != codec for r in children):
+            raise ValueError("compression cannot mix streams or codecs")
+        anchor = max(r.visible_after for r in children)
+        visibility = anchor if visible_after is None else visible_after
+        if visibility < anchor:
+            raise ValueError("summary visibility cannot precede any completed child")
+        known_walls = [r.wall_time for r in children if r.wall_time is not None]
+        wall_anchor = max(known_walls) if known_walls else None
+        slots, valid, features = pack_records([children], memory_dim=self.memory_config.memory_dim,
+            query_positions=[anchor], stream_ids=[stream], device=children[0].slots.device,
+            dtype=children[0].slots.dtype, wall_times=[wall_anchor])
+        with self._memory_context(slots):
+            summaries = self.consolidator(slots + self.time_source(features), valid)
+            keys = self.address.encode_keys(summaries)
+        return MemoryRecord(record_id, stream, summaries[0], keys[0],
+            min(r.source_begin for r in children), max(r.source_end for r in children), visibility,
+            codec_version=codec, source_kind="summary", level=max(r.level for r in children) + 1,
+            child_refs=tuple(r.record_id for r in children),
+            wall_time=wall_anchor if len(known_walls) == len(children) else None)
 
     def memory_architecture_identity(self):
         return {"memory_config": asdict(self.memory_config), "writer_after": self.writer_after,

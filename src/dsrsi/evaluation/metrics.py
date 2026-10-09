@@ -1,6 +1,24 @@
 """Separate memory coverage, free answer accuracy and paired-world accuracy."""
 
 from collections import defaultdict
+import re
+import unicodedata
+
+
+def code_field_summary(records, *, target_key="expected"):
+    def parse(value):
+        if not isinstance(value, str):
+            return None
+        value = unicodedata.normalize("NFKC", value).strip().rstrip("。.!！ ")
+        return re.fullmatch(r"([A-Z])([0-9])-([0-9]{3})", value)
+    values = [(row, parse(row.get(target_key))) for row in records]
+    values = [(row, target) for row, target in values if target is not None]
+    if not values:
+        return None
+    parsed = [(parse(row.get("text")), target) for row, target in values]
+    return {"queries": len(values), "valid_format": sum(answer is not None for answer, _ in parsed) / len(values),
+            **{name: sum(answer is not None and answer.group(index) == target.group(index) for answer, target in parsed)
+                     / len(values) for index, name in ((1, "letter_accuracy"), (2, "digit_accuracy"), (3, "suffix_accuracy"))}}
 
 
 def retrieval_summary(records):
@@ -39,7 +57,11 @@ def summarize_records(records, *, retrieval_only=False):
                          "complete_counterfactual_pairs": len(complete),
                          "paired_exact_match": (sum(all(r["exact_match"] for r in pair) for pair in complete) / len(complete)
                                                  if complete else None)}
+        if code_field_summary(values) is not None:
+            summary[mode]["code_fields"] = code_field_summary(values)
         if mode in ("foreign", "oracle_foreign"):
             summary[mode]["follows_counterfactual_payload"] = (sum(r["follows_counterfactual_payload"] for r in values) / len(values)
                 if all("follows_counterfactual_payload" in r for r in values) else None)
+            if code_field_summary(values, target_key="counterfactual_payload_answer") is not None:
+                summary[mode]["counterfactual_code_fields"] = code_field_summary(values, target_key="counterfactual_payload_answer")
     return summary

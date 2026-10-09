@@ -91,7 +91,7 @@ def main():
                             with torch.no_grad():
                                 replacements = evaluator.source_records(compiler.compile(foreign))
                             foreign_expected = {p["probe_id"]: p["target"] for p in foreign["probes"]}
-                            if "foreign" not in modes:
+                            if args.include_foreign and "foreign" not in modes:
                                 modes += ("foreign",)
                         results = evaluator.episode(row, modes=modes, replacement_records=replacements)
                         for result in results:

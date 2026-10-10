@@ -34,6 +34,7 @@ def worker(rank, base, source, root, identity, threads, requested_device, world_
     from dsrsi.training.context_runner import ContextTrainer, ContextTrainConfig
     from dsrsi.training.distributed import CollectiveContext
     from dsrsi.training.device import resolve_device
+    from dsrsi.evaluation.checkpoint import memory_architecture_for_run
     torch.set_num_threads(threads)
     os.environ.update(LOCAL_RANK=str(rank), WORLD_SIZE=str(world_size))
     device, _ = resolve_device(requested_device)
@@ -49,7 +50,8 @@ def worker(rank, base, source, root, identity, threads, requested_device, world_
             np.random.seed(config.seed)
             torch.manual_seed(config.seed)
             def load():
-                return MemoryQwen.from_local_checkpoint(base, device=device), EpisodeCompiler(
+                architecture = memory_architecture_for_run(Path(root) / directory if resume else source)
+                return MemoryQwen.from_local_checkpoint(base, device=device, memory_architecture=architecture), EpisodeCompiler(
                     AutoTokenizer.from_pretrained(base, local_files_only=True))
             model, compiler = context.run_local("load continuous pretrained model", load)
             return ContextTrainer(model, compiler, Path(root) / directory, config, base_identity=identity,
@@ -69,14 +71,18 @@ def worker(rank, base, source, root, identity, threads, requested_device, world_
             nonlocal calls
             result = original(ordinal)
             calls += 1
-            if rank == world_size - 1 and calls == 3:
+            lookup = part.model.memory_config.reader_gate_mode == "lookup"
+            ready = (calls >= 3 and bool(part.stream.cache.read_gates)) if lookup else calls == 3
+            if rank == world_size - 1 and ready:
                 part.control._signal_action = "pause"
             return result
         part._forward_episode = pause
         assert part.run(max_micro_steps=16, install_signals=False) == "paused"
         paused = {"clock": part.stream.cache.clock, "frame_offset": part.cursor["frame_offset"],
                   "pending_writer_tokens": 0 if part.stream.pending is None else part.stream.pending.shape[1],
-                  "accumulation_index": part.progress.accumulation_index}
+                  "accumulation_index": part.progress.accumulation_index,
+                  "read_gate_count": len(part.stream.cache.read_gates),
+                  "read_gate_position": part.stream.cache.read_gate_position}
         del part, original, pause
         gc.collect()
         resumed = make("resumed", resume=True)
@@ -91,6 +97,8 @@ def worker(rank, base, source, root, identity, threads, requested_device, world_
                   "student_cache_tensor_bytes": resumed.stream.cache.tensor_bytes,
                   "teacher_cache_tensor_bytes": resumed.teacher.cache.tensor_bytes,
                   "memory_records": len(resumed.stream.memory.records), "memory_tensor_bytes": resumed.stream.memory.tensor_bytes,
+                  "reader_gate_mode": resumed.model.memory_config.reader_gate_mode,
+                  "final_read_gate_count": len(resumed.stream.cache.read_gates),
                   "elapsed_seconds": time.monotonic() - started}
         (Path(root) / f"result_rank_{rank}.json").write_text(json.dumps(result, indent=2) + "\n")
     finally:

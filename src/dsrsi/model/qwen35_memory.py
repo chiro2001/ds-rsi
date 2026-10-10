@@ -118,10 +118,14 @@ class MemoryQwen(nn.Module):
         config = asdict(self.memory_config)
         if not self.memory_config.writer_anchor_weight:
             config.pop("writer_anchor_weight")
+        if self.memory_config.reader_gate_mode == "token":
+            config.pop("reader_gate_mode")
         result = {"memory_config": config, "writer_after": self.writer_after,
                   "reader_before": list(self.reader_before)}
         if self.memory_config.writer_anchor_weight:
             result["writer_anchor_version"] = "position_pool_v1"
+        if self.memory_config.reader_gate_mode == "lookup":
+            result["reader_gate_version"] = "lookup_v1"
         return result
 
     @staticmethod
@@ -227,7 +231,12 @@ class MemoryQwen(nn.Module):
                         features = self.time_source(time_features)
                     packed = slots, mask, features
                 with self._memory_context(hidden):
-                    hidden = self.readers[str(index)](hidden, packed[0], packed[1], slot_features=packed[2])
+                    reader = self.readers[str(index)]
+                    gate = None
+                    if self.memory_config.reader_gate_mode == "lookup":
+                        visible = hidden[torch.arange(batch, device=hidden.device), query_indices][:, None]
+                        gate = reader.lookup_gate(visible)
+                    hidden = reader(hidden, packed[0], packed[1], slot_features=packed[2], read_gate=gate)
             hidden = self._layer(index, hidden, positions, masks, rotary)
             if index == self.writer_after:
                 query_features = hidden[torch.arange(batch, device=hidden.device), query_indices]
@@ -253,6 +262,15 @@ class MemoryQwen(nn.Module):
         write_features = None
         selected = list(records or [])
         packed = None
+        gate_position = updated.clock if lookup_position is None else lookup_position
+        lookup_gates = self.memory_config.reader_gate_mode == "lookup" and memory_enabled
+        if lookup_gates:
+            if gate_position > updated.clock:
+                raise ValueError("lookup gate cannot use a future position")
+            if selector is not None or updated.read_gate_position != gate_position:
+                if gate_position != updated.clock:
+                    raise ValueError("new lookup decisions must be computed at the current visible position")
+                updated.read_gate_position, updated.read_gates = gate_position, {}
         for index in range(len(self.base.layers)):
             if index in self.reader_before and memory_enabled and selected:
                 if stream_id is None or len(selected) > 8:
@@ -267,7 +285,16 @@ class MemoryQwen(nn.Module):
                         metadata = self.time_source(metadata)
                     packed = slots, valid, metadata
                 with self._memory_context(hidden):
-                    hidden = self.readers[str(index)](hidden, packed[0], packed[1], slot_features=packed[2])
+                    name = str(index)
+                    reader = self.readers[name]
+                    gate = None
+                    if lookup_gates:
+                        if name not in updated.read_gates:
+                            if gate_position != updated.clock:
+                                raise ValueError("past lookup decision is missing; cannot silently recompute it")
+                            updated.read_gates[name] = reader.lookup_gate(hidden[:, :1])
+                        gate = updated.read_gates[name]
+                    hidden = reader(hidden, packed[0], packed[1], slot_features=packed[2], read_gate=gate)
             hidden = run_layer(self.base, index, hidden, updated)
             if index == self.writer_after:
                 write_features = hidden

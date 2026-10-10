@@ -2,6 +2,7 @@
 """Pinned-checkpoint diagnostics of code positions, payload sensitivity and readers."""
 
 import argparse
+import copy
 from collections import defaultdict
 import json
 from pathlib import Path
@@ -19,6 +20,7 @@ def main():
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--worlds-per-position", type=int, default=2)
     parser.add_argument("--language", choices=["zh", "en", "cross_language"], default="en")
+    parser.add_argument("--reader-gate-mode", choices=["token", "lookup"], help="explicit untrained architecture intervention")
     args = parser.parse_args()
     if args.worlds_per_position < 1:
         parser.error("worlds per position must be positive")
@@ -47,9 +49,17 @@ def main():
     revision = config["data_revision"]
     if revision != "ab-v4-fields-and-language" or data_identity(revision) != committed[1]["identity"]["data"]:
         raise ValueError("this stratified diagnostic requires the pinned v4 fields distribution")
-    model = MemoryQwen.from_local_checkpoint(root, device=device,
-        memory_architecture=committed[1]["identity"].get("memory_architecture")).eval()
-    checkpoint, manifest = load_ab_weights(model, store, base_identity=base_identity, committed=committed)
+    architecture = copy.deepcopy(committed[1]["identity"].get("memory_architecture"))
+    if args.reader_gate_mode is not None:
+        if args.reader_gate_mode == "lookup":
+            architecture["memory_config"]["reader_gate_mode"] = "lookup"
+            architecture["reader_gate_version"] = "lookup_v1"
+        else:
+            architecture["memory_config"].pop("reader_gate_mode", None)
+            architecture.pop("reader_gate_version", None)
+    model = MemoryQwen.from_local_checkpoint(root, device=device, memory_architecture=architecture).eval()
+    checkpoint, manifest = load_ab_weights(model, store, base_identity=base_identity, committed=committed,
+                                           allow_reader_gate_change=args.reader_gate_mode is not None)
     compiler = EpisodeCompiler(AutoTokenizer.from_pretrained(root, local_files_only=True))
     generator = make_generator(revision=revision, seed=config["seed"], split="dev", distractors=config["distractors"])
     objective = EpisodeObjective(model, compiler, stage=config["stage"], memory_candidates=1)
@@ -119,6 +129,8 @@ def main():
     report = {"status": "teacher_forced_codec_diagnostic", "checkpoint": checkpoint.name,
         "manifest_sha256": file_sha256(checkpoint / "manifest.json"), "checkpoint_progress": manifest["progress"],
         "base_identity": base_identity, "data_identity": data_identity(revision), "language": args.language,
+        "memory_architecture": model.memory_architecture_identity(),
+        "untrained_architecture_challenge": model.memory_architecture_identity() != manifest["identity"]["memory_architecture"],
         "worlds_per_position": args.worlds_per_position, "device": device, "memory_candidates": 1,
         "source_encoding": "training_batched_independent_events", "canonical_execution_quantum": 1,
         "gold_prefix_used": True, "future_tokens_used_in_canonical_prediction": False,

@@ -37,7 +37,9 @@ def native_logits(model, response, records, *, life_id, reader_trace=None):
         def capture(name):
             def hook(module, args, kwargs, output):
                 hidden = args[0]
-                gate = module.gate(module.h_norm(hidden)).sigmoid().float()
+                supplied = kwargs.get("read_gate")
+                gate = (module.gate(module.h_norm(hidden)).sigmoid() if supplied is None
+                        else supplied.expand(hidden.shape[0], hidden.shape[1], 1)).float()
                 relative = ((output.float() - hidden.float()).square().mean(-1).sqrt()
                             / hidden.float().square().mean(-1).sqrt().clamp_min(1e-12))
                 slots, valid = args[1], args[2]

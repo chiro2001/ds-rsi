@@ -16,22 +16,33 @@ def memory_architecture_for_run(run_dir):
 
 
 def compatible_writer_anchor_change(source, target):
+    return compatible_memory_change(source, target, writer=True)
+
+
+def compatible_memory_change(source, target, *, writer=False, reader=False):
     a, b = copy.deepcopy(source), copy.deepcopy(target)
     for layout in (a, b):
-        if layout.pop("writer_anchor_version", None) not in (None, "position_pool_v1"):
-            return False
-        layout["memory_config"].pop("writer_anchor_weight", None)
+        if writer:
+            if layout.pop("writer_anchor_version", None) not in (None, "position_pool_v1"):
+                return False
+            layout["memory_config"].pop("writer_anchor_weight", None)
+        if reader:
+            if layout.pop("reader_gate_version", None) not in (None, "lookup_v1"):
+                return False
+            layout["memory_config"].pop("reader_gate_mode", None)
     return a == b
 
 
-def load_ab_weights(model, store, *, base_identity, committed=None, allow_writer_anchor_change=False):
+def load_ab_weights(model, store, *, base_identity, committed=None, allow_writer_anchor_change=False,
+                    allow_reader_gate_change=False):
     directory, manifest = store.load_committed() if committed is None else committed
     identity = manifest["identity"]
     if identity["base"] != base_identity:
         raise CheckpointError("evaluation base differs from checkpoint's frozen base")
     source_architecture = identity.get("memory_architecture", model.memory_architecture_identity())
     if source_architecture != model.memory_architecture_identity():
-        if not allow_writer_anchor_change or not compatible_writer_anchor_change(source_architecture, model.memory_architecture_identity()):
+        if not compatible_memory_change(source_architecture, model.memory_architecture_identity(),
+                                         writer=allow_writer_anchor_change, reader=allow_reader_gate_change):
             raise CheckpointError("memory architecture differs from checkpoint")
     config = identity["train_config"]
     if config["stage"] not in {"A", "B"} or config["stage"] != manifest["progress"]["stage"]:

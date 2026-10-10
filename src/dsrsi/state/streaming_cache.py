@@ -30,10 +30,14 @@ class StreamingCache:
         self.rebase_interval = rebase_interval
         self.clock = 0
         self.position_origin = 0
+        self.read_gate_position = None
+        self.read_gates = {}
 
     def fork(self):
         other = StreamingCache(self.layer_types, window=self.window, rebase_interval=self.rebase_interval)
         other.clock, other.position_origin = self.clock, self.position_origin
+        other.read_gate_position = self.read_gate_position
+        other.read_gates = dict(self.read_gates)
         for index, state in enumerate(self.layers):
             # Native single-token causal_conv1d_update mutates its input. Clone
             # only that small buffer; recurrent delta-rule state is functional.
@@ -89,6 +93,7 @@ class StreamingCache:
 
     def detached(self):
         other = self.fork()
+        other.read_gates = {name: gate.detach() for name, gate in other.read_gates.items()}
         for state in other.layers:
             state.keys = None if state.keys is None else state.keys.detach()
             state.values = None if state.values is None else state.values.detach()
@@ -97,12 +102,15 @@ class StreamingCache:
         return other
 
     def state_dict(self):
-        return {"layer_types": list(self.layer_types), "window": self.window,
+        result = {"layer_types": list(self.layer_types), "window": self.window,
                 "rebase_interval": self.rebase_interval, "clock": self.clock,
                 "position_origin": self.position_origin,
                 "layers": [cpu_tree({"keys": s.keys, "values": s.values, "kv_start": s.kv_start,
                                      "conv_states": s.conv_states, "recurrent_states": s.recurrent_states})
                            for s in self.layers]}
+        if self.read_gate_position is not None:
+            result.update(read_gate_position=self.read_gate_position, read_gates=cpu_tree(self.read_gates))
+        return result
 
     @classmethod
     def from_state_dict(cls, data, *, device="cpu"):
@@ -112,6 +120,19 @@ class StreamingCache:
             raise ValueError("invalid streaming cache snapshot")
         def moved(value):
             return None if value is None else value.to(device).clone()
+        if ("read_gate_position" in data) != ("read_gates" in data):
+            raise ValueError("partial lookup-gate snapshot")
+        if "read_gate_position" in data:
+            position = data["read_gate_position"]
+            if not isinstance(position, int) or not 0 <= position < cache.clock:
+                raise ValueError("lookup-gate snapshot has an invalid logical position")
+            for name, gate in data["read_gates"].items():
+                if (not isinstance(name, str) or not isinstance(gate, torch.Tensor) or gate.shape != (1, 1, 1)
+                        or not gate.is_floating_point() or not torch.isfinite(gate).all()
+                        or not ((gate >= 0) & (gate <= 1)).all()):
+                    raise ValueError("lookup-gate snapshot has an invalid gate")
+            cache.read_gate_position = position
+            cache.read_gates = {name: moved(gate) for name, gate in data["read_gates"].items()}
         for index, item in enumerate(data["layers"]):
             state = LayerState(moved(item["keys"]), moved(item["values"]), item["kv_start"],
                                [moved(t) for t in item["conv_states"]], [moved(t) for t in item["recurrent_states"]])
@@ -129,4 +150,4 @@ class StreamingCache:
     def tensor_bytes(self):
         tensors = [value for state in self.layers for value in
                    [state.keys, state.values, *state.conv_states, *state.recurrent_states] if value is not None]
-        return sum(t.numel() * t.element_size() for t in tensors)
+        return sum(t.numel() * t.element_size() for t in [*tensors, *self.read_gates.values()])

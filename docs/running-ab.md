@@ -6,6 +6,8 @@
 
 当前A实验为 `ab-A-anchor1-fields-01`，采用 [Writer位置池化](writer-position-anchors.md)。原v4已累计2000微批完整停止，完整代码EM仍0；新结构通过显式权重接续保留原run并另起训练态，首批上限500微批。恢复此新run使用下文配置，将run-dir改为 `runs/ab-A-anchor1-fields-01`、预算改为 `24552452`、累计上限改为 `500`，只用 `--resume`。架构从checkpoint继承，不再次加 `--init-from`，不能在恢复时改变anchor权重。
 
+最新正式A为 `ab-A-anchor1-lookup-01`，继续 [检索期间保持门控](reader-lookup-gates.md) 实验。恢复时run-dir使用此名称，预算为 `23849322`、首批累计上限500，只用 `--resume`；框架从checkpoint继承位置池化及lookup门控。前述位置池化run已完成500微批并完整停止，完整代码仍0。HCCL任务须串行，不能同时在这些芯片启动验证与训练。
+
 ## 三芯片接续
 
 原v4在第1000微批、250优化器步完整停止，累计梯度为空。显式转换保留其训练态并创建 `ab-A-v4-fields-keep-3chip-01`，原checkpoint、第四rank状态和暂停请求保留：

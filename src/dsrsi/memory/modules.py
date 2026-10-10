@@ -22,6 +22,7 @@ class MemoryConfig:
     summary_slots: int = 16
     reader_alpha: float = 0.05
     writer_anchor_weight: float = 0.0
+    reader_gate_mode: str = "token"
 
     def __post_init__(self):
         for name in ("hidden_size", "memory_dim", "slots", "heads", "intermediate", "key_dim", "keys", "summary_slots"):
@@ -31,6 +32,8 @@ class MemoryConfig:
             raise ValueError("memory_dim must be divisible by heads")
         if not math.isfinite(self.writer_anchor_weight) or not 0 <= self.writer_anchor_weight <= 1:
             raise ValueError("writer anchor weight must be finite and in [0,1]")
+        if self.reader_gate_mode not in {"token", "lookup"}:
+            raise ValueError("reader gate mode must be token or lookup")
 
 
 class RMSNorm(nn.Module):
@@ -166,7 +169,10 @@ class MemoryReader(nn.Module):
         nn.init.zeros_(self.gate.bias)
         self.alpha = nn.Parameter(torch.tensor(config.reader_alpha))
 
-    def forward(self, hidden, slots, valid=None, *, slot_features=None, enabled=True):
+    def lookup_gate(self, hidden):
+        return self.gate(self.h_norm(hidden)).sigmoid()
+
+    def forward(self, hidden, slots, valid=None, *, slot_features=None, enabled=True, read_gate=None):
         if hidden.ndim != 3 or hidden.shape[-1] != self.hidden_size:
             raise ValueError("reader hidden must be [B,T,hidden_size]")
         if not enabled or slots is None or slots.shape[1] == 0:
@@ -184,7 +190,10 @@ class MemoryReader(nn.Module):
         z = self.z_norm(z.masked_fill(~any_valid[..., None], 0))
         h = self.h_norm(hidden)
         delta = self.o(_attention(self.q(h), self.k(z), self.v(z), valid, self.heads))
-        return hidden + (self.alpha.to(delta.dtype) * self.gate(h).sigmoid() * delta).to(hidden.dtype)
+        if read_gate is not None and read_gate.shape != (hidden.shape[0], 1, 1):
+            raise ValueError("lookup gate must be one scalar per life, shared across the span")
+        gate = self.gate(h).sigmoid() if read_gate is None else read_gate
+        return hidden + (self.alpha.to(delta.dtype) * gate.to(delta.dtype) * delta).to(hidden.dtype)
 
 
 class AddressEncoder(nn.Module):

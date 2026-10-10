@@ -1,6 +1,7 @@
 """Teacher-forced, position-specific diagnostics, never a recall capability gate."""
 
 from dataclasses import replace
+import math
 
 import torch
 import torch.nn.functional as F
@@ -34,16 +35,32 @@ def native_logits(model, response, records, *, life_id, reader_trace=None):
     handles = []
     if reader_trace is not None:
         def capture(name):
-            def hook(module, args, output):
+            def hook(module, args, kwargs, output):
                 hidden = args[0]
                 gate = module.gate(module.h_norm(hidden)).sigmoid().float()
                 relative = ((output.float() - hidden.float()).square().mean(-1).sqrt()
                             / hidden.float().square().mean(-1).sqrt().clamp_min(1e-12))
+                slots, valid = args[1], args[2]
+                features = kwargs.get("slot_features")
+                z = module.z_norm(slots if features is None else slots + features)
+                q = module.q(module.h_norm(hidden))[:, positions]
+                k = module.k(z)
+                width = q.shape[-1] // module.heads
+                q = q.reshape(1, len(positions), module.heads, width).transpose(1, 2).float()
+                k = k.reshape(1, slots.shape[1], module.heads, width).transpose(1, 2).float()
+                mask = valid[:, None, None] if valid.ndim == 2 else valid[:, None, positions]
+                scores = (q @ k.transpose(-1, -2) / math.sqrt(width)).masked_fill(~mask, -torch.inf)
+                scores = torch.where(mask.any(-1, keepdim=True), scores, torch.zeros_like(scores))
+                probabilities = scores.softmax(-1).masked_fill(~mask, 0)
+                entropy = -(probabilities * probabilities.clamp_min(1e-38).log()).sum(-1)
                 reader_trace[name] = {"alpha": float(module.alpha),
                     "gate": gate[0, positions, 0].tolist(),
-                    "relative_residual_rms": relative[0, positions].tolist()}
+                    "relative_residual_rms": relative[0, positions].tolist(),
+                    "attention_mass_per_slot": probabilities[0].mean(0).tolist(),
+                    "attention_entropy": entropy[0].mean(0).tolist(),
+                    "attention_peak_slot_per_head": probabilities[0].argmax(-1).tolist()}
             return hook
-        handles = [module.register_forward_hook(capture(name)) for name, module in model.readers.items()]
+        handles = [module.register_forward_hook(capture(name), with_kwargs=True) for name, module in model.readers.items()]
     try:
         ids = torch.tensor([response.input_ids[:-1]], device=device)
         state = model(ids, records=[records], query_indices=[response.retrieval_query_index],

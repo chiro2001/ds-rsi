@@ -40,6 +40,8 @@ def test_diagnostic_scores_each_target_before_consuming_it_and_agrees_with_nativ
     assert torch.allclose(canonical, native, atol=5e-5, rtol=5e-5)
     assert set(trace) == set(model.readers)
     assert all(len(x["gate"]) == len(targets) for x in trace.values())
+    assert all(len(x["attention_mass_per_slot"]) == len(targets) for x in trace.values())
+    assert all(abs(sum(mass) - 1) < 1e-6 for x in trace.values() for mass in x["attention_mass_per_slot"])
     # Alter a later teacher-forced token; an earlier predicted position cannot change.
     changed = copy.deepcopy(response)
     changed.input_ids[-2] = (changed.input_ids[-2] + 1) % model.base.config.vocab_size

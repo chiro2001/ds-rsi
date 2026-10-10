@@ -1,0 +1,34 @@
+{
+  "kind": "ab-replica-reduction-at-optimizer-boundary-v1",
+  "source_run": "/workspace/runs/ab-A-v4-fields-keep-01",
+  "source_checkpoint": "micro_000000001000_a8ddb47ebe",
+  "source_manifest_sha256": "3f68bbc42757532adef5b113f438c58f5aebdcde4bab3d9cbed24f03741e6441",
+  "source_world_size": 4,
+  "target_world_size": 3,
+  "next_global_ordinal": 4000,
+  "progress": {
+    "accumulation_index": 0,
+    "micro_step": 1000,
+    "optimizer_step": 250,
+    "stage": "A",
+    "student_tokens": 1853398,
+    "teacher_tokens": 106446
+  },
+  "rank_rng_mapping": {
+    "0": 0,
+    "1": 1,
+    "2": 2
+  },
+  "inactive_source_rng_ranks": [
+    3
+  ],
+  "inactive_rng_preserved_in_source_checkpoint": true,
+  "optimizer_and_counters_reset": false,
+  "same_trajectory_as_original_topology": false,
+  "future_global_episodes_per_optimizer_step": 12,
+  "source_control_requests_copied": false,
+  "target_run": "/workspace/runs/ab-A-v4-fields-keep-3chip-01",
+  "target_checkpoint": "micro_000000001000_4f5a3f58bc",
+  "target_manifest_sha256": "c10ab4ae8d63ff0f9d3eed11f365889d7433e25534dd8e5840ca2c5f9c93c83c",
+  "retained_rank_payloads_exact_match_except_world_size": true
+}

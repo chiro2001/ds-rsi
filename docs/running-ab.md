@@ -2,6 +2,42 @@
 
 日期：2026-10-10。Gloo 双 rank 已在完整 Qwen3.5-0.8B 权重上验证。a3-21 故障后已按用户授权改用 a3-22 健康空闲 chip8–11，完整0.8B 的四 rank HCCL A/B、C_tools、C_context 暂停恢复对照均已逐位一致，原始结果见 reports 中 pretrained-npu 开头的三份 JSON。
 
+最新资源：用户暂停后明确恢复，并确认可用chip12、14、15以及原14/15预留已释放。当前容器为 `ds-rsi-a322-npu-3chip`，逻辑npu:0–2；下文chip8–11四rank指历史验证，不可据此占用现有忙碌芯片。
+
+## 三芯片接续
+
+原v4在第1000微批、250优化器步完整停止，累计梯度为空。显式转换保留其训练态并创建 `ab-A-v4-fields-keep-3chip-01`，原checkpoint、第四rank状态和暂停请求保留：
+
+```bash
+python -m dsrsi.training.topology \
+  --source-run runs/ab-A-v4-fields-keep-01 \
+  --target-run runs/ab-A-v4-fields-keep-3chip-01 --world-size 3
+```
+
+该命令只执行一次，可先加 `--dry-run` 核验。之后使用 `--resume`，不能使用会重置优化器的 `--init-from`：
+
+```bash
+torchrun --master-addr=127.0.0.1 --master-port=29583 --nproc-per-node=3 \
+  scripts/train_ab.py --base /models/Qwen3.5-0.8B \
+  --run-dir runs/ab-A-v4-fields-keep-3chip-01 --device npu --stage A \
+  --student-tokens 27804578 --distractors 7 \
+  --data-revision ab-v4-fields-and-language --curriculum facts \
+  --memory-candidates 1 --counterfactual-weight 1 --counterfactual-margin 2 \
+  --keep-fraction 0.4 --keep-weight 0.5 --save-every-micro 100 \
+  --max-micro-steps 2000 --resume
+```
+
+每100微批完整保存，累计到第2000微批安全保存为stopped后重新评测；这不是A阶段完成。每步episode数由16降为12，学习率和四微批累积保持原配置，迁移后不声称四rank轨迹一致。
+
+单颗chip12隔离时，npu-smi不会在容器内显示其双die卡；宿主启动前逐颗验证健康和空闲，将报告只读挂载到 `/run/dsrsi-host-health/`。运行时只对缺失兄弟节点且返回Invalid card id的情况接受300秒内的匹配报告，其他错误拒绝启动。每次后续启动前在宿主刷新：
+
+```bash
+python3 scripts/launch_a322.py --chips 12,14,15 \
+  --name ds-rsi-a322-npu-3chip --refresh-health-only
+```
+
+刷新只读健康信息；设备使用授权和无其他负载检查仍须在真正启动前核验。不要映射正在被其他任务使用的chip13。
+
 ## CPU 小负载与中断
 
 在项目根目录使用已安装本项目及固定 Transformers 版本的 Python 环境；模型目录必须含原始配置、tokenizer、索引和全部权重文件。

@@ -1,0 +1,142 @@
+{
+  "status": "actual_checkpoint_replica_reduction_and_full_state_recovery_verified",
+  "device": "npu",
+  "world_size": 3,
+  "conversions": {
+    "full": {
+      "kind": "ab-replica-reduction-at-optimizer-boundary-v1",
+      "source_run": "/workspace/runs/ab-A-v4-fields-keep-01",
+      "source_checkpoint": "micro_000000001000_a8ddb47ebe",
+      "source_manifest_sha256": "3f68bbc42757532adef5b113f438c58f5aebdcde4bab3d9cbed24f03741e6441",
+      "source_world_size": 4,
+      "target_world_size": 3,
+      "next_global_ordinal": 4000,
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 1000,
+        "optimizer_step": 250,
+        "stage": "A",
+        "student_tokens": 1853398,
+        "teacher_tokens": 106446
+      },
+      "rank_rng_mapping": {
+        "0": 0,
+        "1": 1,
+        "2": 2
+      },
+      "inactive_source_rng_ranks": [
+        3
+      ],
+      "inactive_rng_preserved_in_source_checkpoint": true,
+      "optimizer_and_counters_reset": false,
+      "same_trajectory_as_original_topology": false,
+      "future_global_episodes_per_optimizer_step": 12,
+      "source_control_requests_copied": false,
+      "target_run": "/workspace/runs/replica-reduction-proof-20261010/full",
+      "target_checkpoint": "micro_000000001000_38899c3d84",
+      "target_manifest_sha256": "ac0b8e14735edaabdec31a6d95d9190e90fc1ef1b1b4dc043dc4287596c11e94",
+      "retained_rank_payloads_exact_match_except_world_size": true
+    },
+    "resumed": {
+      "kind": "ab-replica-reduction-at-optimizer-boundary-v1",
+      "source_run": "/workspace/runs/ab-A-v4-fields-keep-01",
+      "source_checkpoint": "micro_000000001000_a8ddb47ebe",
+      "source_manifest_sha256": "3f68bbc42757532adef5b113f438c58f5aebdcde4bab3d9cbed24f03741e6441",
+      "source_world_size": 4,
+      "target_world_size": 3,
+      "next_global_ordinal": 4000,
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 1000,
+        "optimizer_step": 250,
+        "stage": "A",
+        "student_tokens": 1853398,
+        "teacher_tokens": 106446
+      },
+      "rank_rng_mapping": {
+        "0": 0,
+        "1": 1,
+        "2": 2
+      },
+      "inactive_source_rng_ranks": [
+        3
+      ],
+      "inactive_rng_preserved_in_source_checkpoint": true,
+      "optimizer_and_counters_reset": false,
+      "same_trajectory_as_original_topology": false,
+      "future_global_episodes_per_optimizer_step": 12,
+      "source_control_requests_copied": false,
+      "target_run": "/workspace/runs/replica-reduction-proof-20261010/resumed",
+      "target_checkpoint": "micro_000000001000_100e9bc8ab",
+      "target_manifest_sha256": "93b2dff0020eccfbb8341369df6de29b4142c2974f24e8b56148eee092392f3c",
+      "retained_rank_payloads_exact_match_except_world_size": true
+    }
+  },
+  "ranks": [
+    {
+      "rank": 0,
+      "device": "npu:0",
+      "initial_ordinal": 4000,
+      "cursor": {
+        "next_ordinal": 4015,
+        "schema_version": 1
+      },
+      "progress": {
+        "stage": "A",
+        "optimizer_step": 251,
+        "micro_step": 1005,
+        "accumulation_index": 1,
+        "student_tokens": 1860737,
+        "teacher_tokens": 106760
+      },
+      "exact_complete_state_match": true,
+      "paused_after_new_microbatches": 3,
+      "paused_pending_gradient_microbatches": 3,
+      "elapsed_seconds": 22.939167250180617
+    },
+    {
+      "rank": 1,
+      "device": "npu:1",
+      "initial_ordinal": 4001,
+      "cursor": {
+        "next_ordinal": 4016,
+        "schema_version": 1
+      },
+      "progress": {
+        "stage": "A",
+        "optimizer_step": 251,
+        "micro_step": 1005,
+        "accumulation_index": 1,
+        "student_tokens": 1860737,
+        "teacher_tokens": 106760
+      },
+      "exact_complete_state_match": true,
+      "paused_after_new_microbatches": 3,
+      "paused_pending_gradient_microbatches": 3,
+      "elapsed_seconds": 22.795812090160325
+    },
+    {
+      "rank": 2,
+      "device": "npu:2",
+      "initial_ordinal": 4002,
+      "cursor": {
+        "next_ordinal": 4017,
+        "schema_version": 1
+      },
+      "progress": {
+        "stage": "A",
+        "optimizer_step": 251,
+        "micro_step": 1005,
+        "accumulation_index": 1,
+        "student_tokens": 1860737,
+        "teacher_tokens": 106760
+      },
+      "exact_complete_state_match": true,
+      "paused_after_new_microbatches": 3,
+      "paused_pending_gradient_microbatches": 3,
+      "elapsed_seconds": 22.892750279977918
+    }
+  ],
+  "same_trajectory_as_four_rank_training_claimed": false,
+  "trained_recall_claimed": false
+}

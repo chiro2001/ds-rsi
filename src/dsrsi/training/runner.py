@@ -142,6 +142,10 @@ class Trainer:
             self.identity["memory_architecture"] = model.memory_architecture_identity()
         if initialization is not None:
             self.identity["initialization"] = initialization
+        if resume:
+            migrations = self.store.load_committed()[1]["identity"].get("topology_migrations")
+            if migrations is not None:
+                self.identity["topology_migrations"] = migrations
         self.progress = Progress(config.stage)
         self.cursor = {"next_ordinal": self.rank, "schema_version": 1}
         self.life = {"mode": "m_only", "streams": {}, "harness_refs": {}}

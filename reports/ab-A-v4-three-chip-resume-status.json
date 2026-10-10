@@ -1,0 +1,53 @@
+{
+  "captured_at": "2026-10-10T12:50:09.572065+00:00",
+  "run": "runs/ab-A-v4-fields-keep-3chip-01",
+  "checkpoint": "micro_000000001100_0aef436db5",
+  "checkpoint_status": "checkpoint",
+  "checkpoint_world_size": 3,
+  "saved_progress": {
+    "accumulation_index": 0,
+    "micro_step": 1100,
+    "optimizer_step": 275,
+    "stage": "A",
+    "student_tokens": 1994510,
+    "teacher_tokens": 114004
+  },
+  "observed_rank_progress": [
+    {
+      "stage": "A",
+      "optimizer_step": 293,
+      "micro_step": 1172,
+      "accumulation_index": 0,
+      "student_tokens": 2095626,
+      "teacher_tokens": 119368
+    },
+    {
+      "stage": "A",
+      "optimizer_step": 293,
+      "micro_step": 1172,
+      "accumulation_index": 0,
+      "student_tokens": 2095626,
+      "teacher_tokens": 119368
+    },
+    {
+      "stage": "A",
+      "optimizer_step": 293,
+      "micro_step": 1172,
+      "accumulation_index": 0,
+      "student_tokens": 2095626,
+      "teacher_tokens": 119368
+    }
+  ],
+  "physical_chips": [
+    12,
+    14,
+    15
+  ],
+  "planned_micro_step_limit": 2000,
+  "control_ack": {
+    "action": "checkpoint",
+    "checkpoint": "/workspace/runs/ab-A-v4-fields-keep-3chip-01/checkpoints/micro_000000001032_dec5a9c88e",
+    "request_id": "3666e0d39c524cfb8aec9f56844bf253"
+  },
+  "capability_gate_passed": false
+}

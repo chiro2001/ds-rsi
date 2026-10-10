@@ -55,6 +55,19 @@ def test_conversion_preserves_optimizer_rng_and_consumed_tokens_without_touching
     assert (directory / "rank_00003.pt").exists()
 
 
+def test_repeated_reduction_keeps_frontier_that_is_not_divisible_by_current_world_size(tmp_path):
+    make_source(tmp_path / "source")
+    reduce_ab_replicas(tmp_path / "source", tmp_path / "three", world_size=3)
+    # Frontier16 is a valid migrated three-rank boundary, with cursors16,17,18.
+    # It need not be a multiple of the new world size.
+    report = reduce_ab_replicas(tmp_path / "three", tmp_path / "two", world_size=2)
+    assert report["next_global_ordinal"] == 16
+    store = CheckpointStore(tmp_path / "two/checkpoints")
+    directory, manifest = store.load_committed()
+    assert len(manifest["identity"]["topology_migrations"]) == 2
+    assert [store.load_rank(directory, manifest, rank=r)["data_cursor"]["next_ordinal"] for r in range(2)] == [16, 17]
+
+
 @pytest.mark.parametrize("mutation,error", [
     (lambda p: p["data_cursor"].update(next_ordinal=33), "cursors"),
     (lambda p: p["life_state"]["streams"].update(life="persisted"), "persistent"),

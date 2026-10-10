@@ -115,8 +115,14 @@ class MemoryQwen(nn.Module):
             wall_time=wall_anchor if len(known_walls) == len(children) else None)
 
     def memory_architecture_identity(self):
-        return {"memory_config": asdict(self.memory_config), "writer_after": self.writer_after,
-                "reader_before": list(self.reader_before)}
+        config = asdict(self.memory_config)
+        if not self.memory_config.writer_anchor_weight:
+            config.pop("writer_anchor_weight")
+        result = {"memory_config": config, "writer_after": self.writer_after,
+                  "reader_before": list(self.reader_before)}
+        if self.memory_config.writer_anchor_weight:
+            result["writer_anchor_version"] = "position_pool_v1"
+        return result
 
     @staticmethod
     def _memory_context(hidden):
@@ -271,7 +277,7 @@ class MemoryQwen(nn.Module):
         return CachedModelOutput(self.base.norm(hidden), write_features, updated, selected)
 
     @classmethod
-    def from_local_checkpoint(cls, path, *, device="cpu", memory_config=None):
+    def from_local_checkpoint(cls, path, *, device="cpu", memory_config=None, memory_architecture=None):
         """Load only language tensors; retain original embedding/output tying."""
         path = Path(path)
         raw = json.loads((path / "config.json").read_text())
@@ -295,5 +301,14 @@ class MemoryQwen(nn.Module):
         if not config.tie_word_embeddings:
             raise ValueError("this loader requires the selected checkpoint's tied text head")
         head.weight = base.embed_tokens.weight
-        model = cls(base, head, memory_config=memory_config)
+        layout = {}
+        if memory_architecture is not None:
+            if memory_config is not None:
+                raise ValueError("explicit memory config and checkpoint architecture cannot be combined")
+            memory_config = MemoryConfig(**memory_architecture["memory_config"])
+            layout = {"writer_after": memory_architecture["writer_after"],
+                      "reader_before": tuple(memory_architecture["reader_before"])}
+        model = cls(base, head, memory_config=memory_config, **layout)
+        if memory_architecture is not None and model.memory_architecture_identity() != memory_architecture:
+            raise ValueError("unknown or inconsistent checkpoint memory architecture")
         return model.to(device)

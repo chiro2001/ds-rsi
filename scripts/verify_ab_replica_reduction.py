@@ -36,7 +36,8 @@ def worker(rank, base, root, size, requested_device):
             index = json.loads((checkpoint_root / "model.safetensors.index.json").read_text())["weight_map"]
             identity = {"tokenizer": tokenizer_fingerprint(checkpoint_root),
                 "weights": {name: file_sha256(checkpoint_root / name) for name in sorted(set(index.values()))}}
-            model = MemoryQwen.from_local_checkpoint(base, device=device)
+            model = MemoryQwen.from_local_checkpoint(base, device=device,
+                memory_architecture=manifest["identity"].get("memory_architecture"))
             compiler = EpisodeCompiler(AutoTokenizer.from_pretrained(base, local_files_only=True))
             return model, compiler, identity, config
         model, compiler, identity, config = context.run_local("load migration proof artifacts", load)

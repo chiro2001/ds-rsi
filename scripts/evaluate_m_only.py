@@ -62,7 +62,8 @@ def main():
         raise RuntimeError("evaluation data/compiler identity differs from the pinned training revision")
     torch.manual_seed(config["seed"])
     tokenizer = AutoTokenizer.from_pretrained(root, local_files_only=True)
-    model = MemoryQwen.from_local_checkpoint(root, device=device)
+    model = MemoryQwen.from_local_checkpoint(root, device=device,
+        memory_architecture=committed[1]["identity"].get("memory_architecture"))
     compiler = EpisodeCompiler(tokenizer)
     loader = {"C_tools": load_c_tool_weights, "C_context": load_context_weights}.get(config["stage"], load_ab_weights)
     checkpoint_dir, manifest = loader(model, store, base_identity=actual_base, committed=committed)

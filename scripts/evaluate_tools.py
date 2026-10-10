@@ -45,7 +45,8 @@ def main():
     committed = store.load_committed()
     config = committed[1]["identity"]["train_config"]
     torch.manual_seed(config["seed"])
-    model = MemoryQwen.from_local_checkpoint(root)
+    model = MemoryQwen.from_local_checkpoint(root,
+        memory_architecture=committed[1]["identity"].get("memory_architecture"))
     directory, manifest = load_c_tool_weights(model, store, base_identity=base, committed=committed)
     compiler = EpisodeCompiler(AutoTokenizer.from_pretrained(root, local_files_only=True),
                                max_query_tokens=config["max_query_tokens"])

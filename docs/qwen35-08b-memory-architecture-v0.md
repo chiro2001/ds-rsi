@@ -69,6 +69,8 @@ h_out = h + alpha * sigmoid(gate_proj(RMSNorm(h))) * r
 
 Writer 默认每满 256 token 提交；在明确、已观察到的源段结束事件可提交不足 256 token 的有效片段。它不因任意物理 chunk/batch 结束自动提交，padding 不参与池化。
 
+第2000微批仍不能读回三位随机后缀，诊断发现源attention饱和。新实验追加8个有效token位置区间的平均池化通道，复用原V/O投影、保持参数与slot数量；原结构可完整恢复。细节及尚未达标的证据见 [Writer位置池化](writer-position-anchors.md)。
+
 ## 4. M 的记录与存储预算
 
 ```text

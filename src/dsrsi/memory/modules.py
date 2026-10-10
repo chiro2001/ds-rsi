@@ -21,6 +21,7 @@ class MemoryConfig:
     keys: int = 2
     summary_slots: int = 16
     reader_alpha: float = 0.05
+    writer_anchor_weight: float = 0.0
 
     def __post_init__(self):
         for name in ("hidden_size", "memory_dim", "slots", "heads", "intermediate", "key_dim", "keys", "summary_slots"):
@@ -28,6 +29,8 @@ class MemoryConfig:
                 raise ValueError(f"{name} must be positive")
         if self.memory_dim % self.heads:
             raise ValueError("memory_dim must be divisible by heads")
+        if not math.isfinite(self.writer_anchor_weight) or not 0 <= self.writer_anchor_weight <= 1:
+            raise ValueError("writer anchor weight must be finite and in [0,1]")
 
 
 class RMSNorm(nn.Module):
@@ -109,6 +112,36 @@ class SlotCompressor(nn.Module):
 class MemoryWriter(SlotCompressor):
     def __init__(self, config: MemoryConfig):
         super().__init__(config.hidden_size, config, config.slots)
+        self.anchor_weight = config.writer_anchor_weight
+
+    def forward(self, source, valid=None):
+        if not self.anchor_weight:
+            return super().forward(source, valid)
+        if source.ndim != 3 or source.shape[-1] != self.input_width:
+            raise ValueError("writer input must be [B,S,input_width]")
+        if valid is None:
+            valid = torch.ones(source.shape[:2], device=source.device, dtype=torch.bool)
+        if valid.shape != source.shape[:2] or valid.dtype != torch.bool or not valid.any(-1).all():
+            raise ValueError("every writer source must have nonempty boolean validity")
+        h = self.input_norm(source.masked_fill(~valid[..., None], 0))
+        z = self.queries.to(source.dtype)[None].expand(source.shape[0], -1, -1)
+        values = self.v(h)
+        attended = _attention(self.q(self.query_norm(z)), self.k(h), values, valid, self.heads)
+        # Adaptive contiguous bins over *valid* token order. Every observed
+        # position has a direct gradient path, even if learned attention has
+        # saturated elsewhere. Short sources use overlapping nonempty bins.
+        slots = z.shape[1]
+        lengths = valid.sum(-1)[:, None, None]
+        index = torch.arange(slots, device=source.device)[None, :, None]
+        begin = index * lengths // slots
+        end = ((index + 1) * lengths + slots - 1) // slots
+        ranks = valid.long().cumsum(-1)[:, None] - 1
+        bins = (ranks >= begin) & (ranks < end) & valid[:, None]
+        with torch.autocast(device_type=source.device.type, enabled=False):
+            weights = bins.float() / bins.sum(-1, keepdim=True).float()
+            anchored = torch.matmul(weights, values.float()).to(values.dtype)
+        z = z + self.o(attended + self.anchor_weight * anchored)
+        return self.final_norm(z + self.ffn(self.ffn_norm(z)))
 
 
 class Consolidator(SlotCompressor):

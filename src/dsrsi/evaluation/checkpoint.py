@@ -1,17 +1,38 @@
 """Read-only A/B weights loading; never restore optimizer, cursors or RNG."""
 
+import copy
+from pathlib import Path
+
 import torch
 
 from dsrsi.training.checkpoint import CheckpointError, frozen_auxiliary_parameters
 
 
-def load_ab_weights(model, store, *, base_identity, committed=None):
+def memory_architecture_for_run(run_dir):
+    if run_dir is None:
+        return None
+    from dsrsi.training.checkpoint import CheckpointStore
+    return CheckpointStore(Path(run_dir) / "checkpoints").load_committed()[1]["identity"].get("memory_architecture")
+
+
+def compatible_writer_anchor_change(source, target):
+    a, b = copy.deepcopy(source), copy.deepcopy(target)
+    for layout in (a, b):
+        if layout.pop("writer_anchor_version", None) not in (None, "position_pool_v1"):
+            return False
+        layout["memory_config"].pop("writer_anchor_weight", None)
+    return a == b
+
+
+def load_ab_weights(model, store, *, base_identity, committed=None, allow_writer_anchor_change=False):
     directory, manifest = store.load_committed() if committed is None else committed
     identity = manifest["identity"]
     if identity["base"] != base_identity:
         raise CheckpointError("evaluation base differs from checkpoint's frozen base")
-    if identity.get("memory_architecture", model.memory_architecture_identity()) != model.memory_architecture_identity():
-        raise CheckpointError("memory architecture differs from checkpoint")
+    source_architecture = identity.get("memory_architecture", model.memory_architecture_identity())
+    if source_architecture != model.memory_architecture_identity():
+        if not allow_writer_anchor_change or not compatible_writer_anchor_change(source_architecture, model.memory_architecture_identity()):
+            raise CheckpointError("memory architecture differs from checkpoint")
     config = identity["train_config"]
     if config["stage"] not in {"A", "B"} or config["stage"] != manifest["progress"]["stage"]:
         raise CheckpointError("evaluation loader supports explicit A/B checkpoints")

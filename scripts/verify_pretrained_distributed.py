@@ -32,10 +32,11 @@ def assert_equal(left, right, path="state"):
         raise AssertionError(f"{path}: {left!r} != {right!r}")
 
 
-def worker(rank, base, run_root, threads, identity, requested_device, world_size, controls):
+def worker(rank, base, run_root, threads, identity, requested_device, world_size, controls, writer_anchor_weight):
     from transformers import AutoTokenizer
     from dsrsi.data.compiler import EpisodeCompiler
     from dsrsi.model.qwen35_memory import MemoryQwen
+    from dsrsi.memory.modules import MemoryConfig
     from dsrsi.training.checkpoint import capture_rng, restore_rng, capture_training_state
     from dsrsi.training.distributed import CollectiveContext
     from dsrsi.training.runner import TrainConfig, Trainer
@@ -54,7 +55,8 @@ def worker(rank, base, run_root, threads, identity, requested_device, world_size
             random.seed(20261010)
             np.random.seed(20261010)
             torch.manual_seed(20261010)
-            return MemoryQwen.from_local_checkpoint(base, device=device), EpisodeCompiler(
+            return MemoryQwen.from_local_checkpoint(base, device=device,
+                memory_config=MemoryConfig(writer_anchor_weight=writer_anchor_weight)), EpisodeCompiler(
                 AutoTokenizer.from_pretrained(base, local_files_only=True))
         model, compiler = context.run_local("load actual base", load)
         initial = {name: p.detach().clone() for name, p in model.named_parameters()
@@ -118,6 +120,7 @@ def main():
     parser.add_argument("--distractors", type=int, default=1)
     parser.add_argument("--keep-fraction", type=float)
     parser.add_argument("--keep-weight", type=float, default=0.2)
+    parser.add_argument("--writer-anchor-weight", type=float, default=0)
     args = parser.parse_args()
     if args.threads_per_rank < 1 or args.world_size < 2:
         raise ValueError("threads must be positive and world size at least two")
@@ -132,11 +135,13 @@ def main():
     controls = {"memory_candidates": args.memory_candidates, "counterfactual_weight": args.counterfactual_weight,
                 "curriculum": args.curriculum, "distractors": args.distractors,
                 "keep_fraction": args.keep_fraction, "keep_weight": args.keep_weight}
-    mp.spawn(worker, args=(str(base), str(root), args.threads_per_rank, identity, args.device, args.world_size, controls),
+    mp.spawn(worker, args=(str(base), str(root), args.threads_per_rank, identity, args.device, args.world_size, controls,
+                           args.writer_anchor_weight),
              nprocs=args.world_size, join=True)
     report = {"status": f"pretrained_{args.device}_{'hccl' if args.device == 'npu' else 'gloo'}_recovery_only",
               "world_size": args.world_size,
               "controls": controls,
+              "writer_anchor_weight": args.writer_anchor_weight,
               "threads_per_rank": args.threads_per_rank, "base_identity": identity,
               "ranks": [json.loads((root / f"result_rank_{rank}.json").read_text()) for rank in range(args.world_size)],
               "trained_recall_claimed": False, "hccl_verified": args.device == "npu"}

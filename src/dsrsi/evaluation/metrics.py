@@ -18,7 +18,9 @@ def code_field_summary(records, *, target_key="expected"):
     parsed = [(parse(row.get("text")), target) for row, target in values]
     return {"queries": len(values), "valid_format": sum(answer is not None for answer, _ in parsed) / len(values),
             **{name: sum(answer is not None and answer.group(index) == target.group(index) for answer, target in parsed)
-                     / len(values) for index, name in ((1, "letter_accuracy"), (2, "digit_accuracy"), (3, "suffix_accuracy"))}}
+                     / len(values) for index, name in ((1, "letter_accuracy"), (2, "digit_accuracy"), (3, "suffix_accuracy"))},
+            "suffix_digit_accuracy": [sum(answer is not None and answer.group(3)[i] == target.group(3)[i]
+                                          for answer, target in parsed) / len(values) for i in range(3)]}
 
 
 def retrieval_summary(records):

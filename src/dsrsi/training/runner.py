@@ -61,12 +61,14 @@ class TrainConfig:
 
 
 class Trainer:
-    def __init__(self, model, compiler, run_dir, config, *, base_identity, resume=False, collectives=None, initialize_from=None):
+    def __init__(self, model, compiler, run_dir, config, *, base_identity, resume=False, collectives=None,
+                 initialize_from=None, allow_writer_anchor_change=False):
         self.model, self.compiler, self.config = model, compiler, config
         self.run_dir = Path(run_dir)
         self.device = model.base.embed_tokens.weight.device
         self.collectives = collectives or CollectiveContext(device=self.device, enabled=False)
         self.rank, self.world_size = self.collectives.rank, self.collectives.world_size
+        self.allow_writer_anchor_change = allow_writer_anchor_change
         self.collectives.run_local("initialize trainer", lambda: self._initialize(base_identity, resume, initialize_from))
         descriptor = {"identity": self.identity, "resume": resume, "progress": asdict(self.progress),
                       "parameters": [[name, list(p.shape), str(p.dtype)] for name, p in model.named_parameters()
@@ -82,6 +84,8 @@ class Trainer:
         model, compiler, config = self.model, self.compiler, self.config
         if resume and initialize_from is not None:
             raise ValueError("resume and stage initialization are distinct operations")
+        if self.allow_writer_anchor_change and (resume or initialize_from is None):
+            raise ValueError("writer anchor changes require explicit weights initialization into a new run")
         self.run_dir.mkdir(parents=True, exist_ok=True)
         self.store = CheckpointStore(self.run_dir / "checkpoints")
         self.control = ControlChannel(self.run_dir)
@@ -93,7 +97,9 @@ class Trainer:
             if config.stage not in ("A", "B") or committed[1]["progress"]["stage"] != "A":
                 raise ValueError("explicit initialization supports A-to-B or a versioned A-to-A curriculum change")
             source_config = committed[1]["identity"]["train_config"]
-            if config.stage == "A" and (source_config.get("data_revision", LEGACY_AB_REVISION),
+            anchor_change = (self.allow_writer_anchor_change and committed[1]["identity"].get("memory_architecture")
+                             != model.memory_architecture_identity())
+            if config.stage == "A" and not anchor_change and (source_config.get("data_revision", LEGACY_AB_REVISION),
                                        source_config.get("curriculum", "mixed"), source_config.get("memory_candidates", 8),
                                        source_config.get("counterfactual_weight", 0.0), source_config.get("keep_fraction"),
                                        source_config.get("keep_weight", 0.2)) == (
@@ -102,10 +108,14 @@ class Trainer:
                 raise ValueError("A-to-A initialization must explicitly change data revision or curriculum")
             if self.run_dir.resolve() == Path(initialize_from).resolve():
                 raise ValueError("stage transition requires a new run directory")
-            source, manifest = load_ab_weights(model, source_store, base_identity=base_identity, committed=committed)
+            source, manifest = load_ab_weights(model, source_store, base_identity=base_identity, committed=committed,
+                                               allow_writer_anchor_change=self.allow_writer_anchor_change)
             initialization = {"transition": f"A-to-{config.stage}-reset-training-state", "checkpoint": source.name,
                               "manifest_sha256": file_sha256(source / "manifest.json"),
                               "identity": manifest["identity"], "progress": manifest["progress"]}
+            if anchor_change:
+                initialization["writer_anchor_change"] = {"source": manifest["identity"]["memory_architecture"],
+                                                            "target": model.memory_architecture_identity()}
         elif resume:
             # Resume pins lineage and never follows an advancing source latest.
             initialization = self.store.load_committed()[1]["identity"].get("initialization")

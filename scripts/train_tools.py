@@ -52,6 +52,7 @@ def main():
             from dsrsi.model.qwen35_memory import MemoryQwen
             from dsrsi.training.checkpoint import file_sha256
             from dsrsi.training.tool_runner import ToolTrainConfig
+            from dsrsi.evaluation.checkpoint import memory_architecture_for_run
             root = Path(args.base)
             index = json.loads((root / "model.safetensors.index.json").read_text())["weight_map"]
             identity = {"tokenizer": tokenizer_fingerprint(root),
@@ -61,7 +62,8 @@ def main():
                                      lora_alpha=args.lora_alpha, max_query_tokens=args.max_query_tokens,
                                      allow_untrained_memory=args.allow_untrained_memory,
                                      memory_replay_fraction=args.memory_replay_fraction, replay_distractors=args.replay_distractors)
-            model = MemoryQwen.from_local_checkpoint(root, device=device)
+            architecture = memory_architecture_for_run(args.run_dir if args.resume else args.init_from)
+            model = MemoryQwen.from_local_checkpoint(root, device=device, memory_architecture=architecture)
             compiler = EpisodeCompiler(AutoTokenizer.from_pretrained(root, local_files_only=True),
                                        max_query_tokens=config.max_query_tokens)
             return identity, model, compiler, config

@@ -1,0 +1,3997 @@
+{
+  "status": "teacher_forced_codec_diagnostic",
+  "checkpoint": "micro_000000001000_a8ddb47ebe",
+  "manifest_sha256": "3f68bbc42757532adef5b113f438c58f5aebdcde4bab3d9cbed24f03741e6441",
+  "checkpoint_progress": {
+    "accumulation_index": 0,
+    "micro_step": 1000,
+    "optimizer_step": 250,
+    "stage": "A",
+    "student_tokens": 1853398,
+    "teacher_tokens": 106446
+  },
+  "base_identity": {
+    "tokenizer": {
+      "tokenizer.json": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+      "tokenizer_config.json": "49e2b6e395f959f077f1e992b338919c0d4a9732fc6e613995e06557f843500c",
+      "chat_template.jinja": "273d8e0e683b885071fb17e08d71e5f2a5ddfb5309756181681de4f5a1822d80",
+      "config.json": "b90b86f35c8e6925ef74ee04d0e758f0a845c83a42089ad82bbaa948de9b4204"
+    },
+    "weights": {
+      "model.safetensors-00001-of-00001.safetensors": "04b1c301231dd422b8860db31311ab2721511346a32cb1e079c4c4e5f1fe4696"
+    }
+  },
+  "data_identity": {
+    "revision": "ab-v4-fields-and-language",
+    "files": {
+      "generate.py": "2eba0d2a0ef139e180ce4b6308543ef1f470b728c5d1af65b52ec55ee1867534",
+      "compiler.py": "8d9d43e2113f7b95209756dc6fa12277081d0f9b4a651972022007ae0c1ecdb3",
+      "tools.py": "e524e10e7079c1b6891a5faa511c32e6147096835795f3bdd4d3bd75aad37a81",
+      "robust.py": "6cb9e1707d75c8501b360f389427469d99ce1c96f3919efa6eec527634a42508",
+      "robust_order.py": "2931199fa47beadbee5c8a096f50acb37a61da2f3c388c806b318dfae7fc4f21",
+      "robust_fields.py": "4bf3133dd741390f4ba4b140ebbf9756f29599ee80becf378b67c2adb5ea8f05",
+      "general_keep.py": "13d13e6bf1b605e0524edba06cd749ca606ea1570c27bfe6d24d6baf8ebce8e8"
+    }
+  },
+  "language": "en",
+  "worlds_per_position": 2,
+  "device": "npu:2",
+  "memory_candidates": 1,
+  "source_encoding": "training_batched_independent_events",
+  "canonical_execution_quantum": 1,
+  "gold_prefix_used": true,
+  "future_tokens_used_in_canonical_prediction": false,
+  "summary": {
+    "queries": 20,
+    "teacher_forced_accuracy": {
+      "native": [
+        1,
+        1,
+        1,
+        0.2,
+        0.15,
+        0.1,
+        0.85
+      ],
+      "canonical": [
+        1,
+        1,
+        1,
+        0.2,
+        0.05,
+        0.1,
+        0.85
+      ]
+    },
+    "mean_target_nll": {
+      "native": [
+        0.04876713677149382,
+        0.07551519614062271,
+        0.00011380538987850741,
+        2.267945349216461,
+        2.332004261016846,
+        2.3014159321784975,
+        0.5025033076875843
+      ],
+      "canonical": [
+        0.04676595713099232,
+        0.07516459331527585,
+        0.0001223467241970866,
+        2.266060250997543,
+        2.3607173323631288,
+        2.2975688219070434,
+        0.48291691784979773
+      ]
+    },
+    "mean_changed_token_payload_advantage": {
+      "native": 4.428125059604644,
+      "canonical": 4.434374994039535
+    },
+    "max_target_nll_path_difference": 0.16620290279388428
+  },
+  "by_changed_character_position": {
+    "0": {
+      "queries": 4,
+      "teacher_forced_accuracy": {
+        "native": [
+          1,
+          1,
+          1,
+          0,
+          0,
+          0.25,
+          0.25
+        ],
+        "canonical": [
+          1,
+          1,
+          1,
+          0,
+          0,
+          0.25,
+          0.25
+        ]
+      },
+      "mean_target_nll": {
+        "native": [
+          0.04555698086915072,
+          0.009153239690931514,
+          1.835799264426896e-05,
+          2.358476459980011,
+          2.3303273916244507,
+          2.244550347328186,
+          1.3163178116083145
+        ],
+        "canonical": [
+          0.04523729289212497,
+          0.008896863502741326,
+          1.99076533817788e-05,
+          2.339729964733124,
+          2.3464417457580566,
+          2.2334726452827454,
+          1.2474067360162735
+        ]
+      },
+      "mean_changed_token_payload_advantage": {
+        "native": 14.890625238418579,
+        "canonical": 14.874999761581421
+      },
+      "max_target_nll_path_difference": 0.16620290279388428
+    },
+    "1": {
+      "queries": 4,
+      "teacher_forced_accuracy": {
+        "native": [
+          1,
+          1,
+          1,
+          0,
+          0.5,
+          0,
+          1
+        ],
+        "canonical": [
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "mean_target_nll": {
+        "native": [
+          0.18512250906496774,
+          0.10301664582220837,
+          0.0003044243467229535,
+          2.3313727974891663,
+          2.2920263409614563,
+          2.3414942622184753,
+          0.23993021063506603
+        ],
+        "canonical": [
+          0.17630951046885457,
+          0.09488271846203133,
+          0.00035228590695624007,
+          2.3375028371810913,
+          2.3370361328125,
+          2.316664934158325,
+          0.23182880692183971
+        ]
+      },
+      "mean_changed_token_payload_advantage": {
+        "native": 7.250000059604645,
+        "canonical": 7.296875178813934
+      },
+      "max_target_nll_path_difference": 0.11166000366210938
+    },
+    "3": {
+      "queries": 4,
+      "teacher_forced_accuracy": {
+        "native": [
+          1,
+          1,
+          1,
+          0.5,
+          0,
+          0,
+          1
+        ],
+        "canonical": [
+          1,
+          1,
+          1,
+          0.5,
+          0,
+          0,
+          1
+        ]
+      },
+      "mean_target_nll": {
+        "native": [
+          0.011120022041723132,
+          0.007665520301088691,
+          6.371510244207457e-05,
+          2.186823070049286,
+          2.4305410981178284,
+          2.297209918498993,
+          0.37809732306050137
+        ],
+        "canonical": [
+          0.010292235994711518,
+          0.007886591367423534,
+          6.606927763641579e-05,
+          2.169320732355118,
+          2.435990035533905,
+          2.305712401866913,
+          0.39330399135360494
+        ]
+      },
+      "mean_changed_token_payload_advantage": {
+        "native": -0.03125,
+        "canonical": 2.9802322387695312e-08
+      },
+      "max_target_nll_path_difference": 0.08359742164611816
+    },
+    "4": {
+      "queries": 4,
+      "teacher_forced_accuracy": {
+        "native": [
+          1,
+          1,
+          1,
+          0,
+          0.25,
+          0,
+          1
+        ],
+        "canonical": [
+          1,
+          1,
+          1,
+          0,
+          0.25,
+          0,
+          1
+        ]
+      },
+      "mean_target_nll": {
+        "native": [
+          0.0011711271072272211,
+          0.13178745191544294,
+          8.704773790668696e-05,
+          2.2289498448371887,
+          2.287403643131256,
+          2.286676347255707,
+          0.09693751065060496
+        ],
+        "canonical": [
+          0.0011164939205627888,
+          0.13862842973321676,
+          7.968749105202733e-05,
+          2.258237361907959,
+          2.287017345428467,
+          2.286941111087799,
+          0.09400146640837193
+        ]
+      },
+      "mean_changed_token_payload_advantage": {
+        "native": 0.0,
+        "canonical": 0.0
+      },
+      "max_target_nll_path_difference": 0.062049150466918945
+    },
+    "5": {
+      "queries": 4,
+      "teacher_forced_accuracy": {
+        "native": [
+          1,
+          1,
+          1,
+          0.5,
+          0,
+          0.25,
+          1
+        ],
+        "canonical": [
+          1,
+          1,
+          1,
+          0.5,
+          0,
+          0.25,
+          1
+        ]
+      },
+      "mean_target_nll": {
+        "native": [
+          0.0008650447744003031,
+          0.12595312297344208,
+          9.548176967655309e-05,
+          2.234104573726654,
+          2.319722831249237,
+          2.3371487855911255,
+          0.4812336824834347
+        ],
+        "canonical": [
+          0.0008742523787077516,
+          0.1255283635109663,
+          9.378329195897095e-05,
+          2.225510358810425,
+          2.397101402282715,
+          2.345053017139435,
+          0.4480435885488987
+        ]
+      },
+      "mean_changed_token_payload_advantage": {
+        "native": 0.03125,
+        "canonical": 0.0
+      },
+      "max_target_nll_path_difference": 0.11243391036987305
+    }
+  },
+  "records": [
+    {
+      "world": 0,
+      "variant": 0,
+      "episode_id": "v4-dev-e00000000-v0",
+      "changed_character_position": 4,
+      "changed_token_position": 4,
+      "expected": "W3-334",
+      "opposite_expected": "W3-354",
+      "native": {
+        "target_token_ids": [
+          54,
+          18,
+          12,
+          18,
+          18,
+          19,
+          248046
+        ],
+        "target_tokens": [
+          "W",
+          "3",
+          "-",
+          "3",
+          "3",
+          "4",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          54,
+          18,
+          12,
+          15,
+          15,
+          17,
+          248046
+        ],
+        "predicted_tokens": [
+          "W",
+          "3",
+          "-",
+          "0",
+          "0",
+          "2",
+          "<|im_end|>"
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          true
+        ],
+        "target_nll": [
+          0.0014937683008611202,
+          0.23366190493106842,
+          4.100715523236431e-05,
+          2.189544439315796,
+          2.216796636581421,
+          2.2295193672180176,
+          0.02365044690668583
+        ]
+      },
+      "canonical": {
+        "target_token_ids": [
+          54,
+          18,
+          12,
+          18,
+          18,
+          19,
+          248046
+        ],
+        "target_tokens": [
+          "W",
+          "3",
+          "-",
+          "3",
+          "3",
+          "4",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          54,
+          18,
+          12,
+          15,
+          15,
+          17,
+          248046
+        ],
+        "predicted_tokens": [
+          "W",
+          "3",
+          "-",
+          "0",
+          "0",
+          "2",
+          "<|im_end|>"
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          true
+        ],
+        "target_nll": [
+          0.001462581567466259,
+          0.2605295777320862,
+          4.100715523236431e-05,
+          2.2151522636413574,
+          2.27884578704834,
+          2.243743419647217,
+          0.028194807469844818
+        ]
+      },
+      "counterfactual": {
+        "native": {
+          "correct_payload_logp_advantage": 0.10059809684753418,
+          "actual_target_over_opposite_logit": 0.125,
+          "foreign_target_over_actual_logit": -0.125
+        },
+        "canonical": {
+          "correct_payload_logp_advantage": -4.76837158203125e-07,
+          "actual_target_over_opposite_logit": 0.125,
+          "foreign_target_over_actual_logit": -0.125
+        }
+      },
+      "reader": {
+        "12": {
+          "alpha": 0.05011731758713722,
+          "gate": [
+            0.828125,
+            0.5390625,
+            0.7890625,
+            0.8203125,
+            0.50390625,
+            0.3359375,
+            0.212890625
+          ],
+          "relative_residual_rms": [
+            2.3696634769439697,
+            1.5285941362380981,
+            2.033766031265259,
+            1.997136116027832,
+            1.3448542356491089,
+            0.8923624157905579,
+            0.569628119468689
+          ]
+        },
+        "20": {
+          "alpha": 0.10489440709352493,
+          "gate": [
+            0.953125,
+            0.92578125,
+            0.28125,
+            0.0203857421875,
+            0.03515625,
+            0.033203125,
+            0.01068115234375
+          ],
+          "relative_residual_rms": [
+            1.2577310800552368,
+            1.7573975324630737,
+            0.5258761048316956,
+            0.03213850036263466,
+            0.06623369455337524,
+            0.06230448558926582,
+            0.017152724787592888
+          ]
+        }
+      },
+      "payload": {
+        "relative_change_rms": 0.0002452906337566674,
+        "paired_slot_cosine_mean": 0.9999999403953552,
+        "within_record_slot_cosine_mean": 0.7470694780349731
+      },
+      "max_target_nll_path_difference": 0.062049150466918945
+    },
+    {
+      "world": 0,
+      "variant": 1,
+      "episode_id": "v4-dev-e00000000-v1",
+      "changed_character_position": 4,
+      "changed_token_position": 4,
+      "expected": "W3-354",
+      "opposite_expected": "W3-334",
+      "native": {
+        "target_token_ids": [
+          54,
+          18,
+          12,
+          18,
+          20,
+          19,
+          248046
+        ],
+        "target_tokens": [
+          "W",
+          "3",
+          "-",
+          "3",
+          "5",
+          "4",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          54,
+          18,
+          12,
+          15,
+          15,
+          17,
+          248046
+        ],
+        "predicted_tokens": [
+          "W",
+          "3",
+          "-",
+          "0",
+          "0",
+          "2",
+          "<|im_end|>"
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          true
+        ],
+        "target_nll": [
+          0.001611840445548296,
+          0.2602691650390625,
+          4.112635724595748e-05,
+          2.189544200897217,
+          2.442394733428955,
+          2.2295281887054443,
+          0.031914953142404556
+        ]
+      },
+      "canonical": {
+        "target_token_ids": [
+          54,
+          18,
+          12,
+          18,
+          20,
+          19,
+          248046
+        ],
+        "target_tokens": [
+          "W",
+          "3",
+          "-",
+          "3",
+          "5",
+          "4",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          54,
+          18,
+          12,
+          15,
+          15,
+          17,
+          248046
+        ],
+        "predicted_tokens": [
+          "W",
+          "3",
+          "-",
+          "0",
+          "0",
+          "2",
+          "<|im_end|>"
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          true
+        ],
+        "target_nll": [
+          0.001416871091350913,
+          0.2603393793106079,
+          4.124556289752945e-05,
+          2.206298828125,
+          2.4038453102111816,
+          2.229527473449707,
+          0.03592634201049805
+        ]
+      },
+      "counterfactual": {
+        "native": {
+          "correct_payload_logp_advantage": -0.10059809684753418,
+          "actual_target_over_opposite_logit": -0.125,
+          "foreign_target_over_actual_logit": 0.125
+        },
+        "canonical": {
+          "correct_payload_logp_advantage": 4.76837158203125e-07,
+          "actual_target_over_opposite_logit": -0.125,
+          "foreign_target_over_actual_logit": 0.125
+        }
+      },
+      "reader": {
+        "12": {
+          "alpha": 0.05011731758713722,
+          "gate": [
+            0.828125,
+            0.5390625,
+            0.7890625,
+            0.8203125,
+            0.50390625,
+            0.412109375,
+            0.2412109375
+          ],
+          "relative_residual_rms": [
+            2.3697147369384766,
+            1.5285142660140991,
+            2.0337891578674316,
+            1.9971466064453125,
+            1.3448846340179443,
+            1.0862826108932495,
+            0.6439509987831116
+          ]
+        },
+        "20": {
+          "alpha": 0.10489440709352493,
+          "gate": [
+            0.953125,
+            0.92578125,
+            0.279296875,
+            0.0203857421875,
+            0.03515625,
+            0.0244140625,
+            0.01068115234375
+          ],
+          "relative_residual_rms": [
+            1.2576757669448853,
+            1.7561630010604858,
+            0.5216845273971558,
+            0.032211244106292725,
+            0.0663205161690712,
+            0.04721853509545326,
+            0.017407266423106194
+          ]
+        }
+      },
+      "payload": {
+        "relative_change_rms": 0.0002452920889481902,
+        "paired_slot_cosine_mean": 0.9999999403953552,
+        "within_record_slot_cosine_mean": 0.7470681071281433
+      },
+      "max_target_nll_path_difference": 0.03854942321777344
+    },
+    {
+      "world": 1,
+      "variant": 0,
+      "episode_id": "v4-dev-e00000001-v0",
+      "changed_character_position": 4,
+      "changed_token_position": 4,
+      "expected": "W4-839",
+      "opposite_expected": "W4-859",
+      "native": {
+        "target_token_ids": [
+          54,
+          19,
+          12,
+          23,
+          18,
+          24,
+          248046
+        ],
+        "target_tokens": [
+          "W",
+          "4",
+          "-",
+          "8",
+          "3",
+          "9",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          54,
+          19,
+          12,
+          15,
+          18,
+          17,
+          248046
+        ],
+        "predicted_tokens": [
+          "W",
+          "4",
+          "-",
+          "0",
+          "3",
+          "2",
+          "<|im_end|>"
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          false,
+          true,
+          false,
+          true
+        ],
+        "target_nll": [
+          0.0007894498412497342,
+          0.016609368845820427,
+          0.00013302871957421303,
+          2.268355369567871,
+          2.120211601257324,
+          2.319010019302368,
+          0.14096955955028534
+        ]
+      },
+      "canonical": {
+        "target_token_ids": [
+          54,
+          19,
+          12,
+          23,
+          18,
+          24,
+          248046
+        ],
+        "target_tokens": [
+          "W",
+          "4",
+          "-",
+          "8",
+          "3",
+          "9",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          54,
+          19,
+          12,
+          15,
+          18,
+          18,
+          248046
+        ],
+        "predicted_tokens": [
+          "W",
+          "4",
+          "-",
+          "0",
+          "3",
+          "3",
+          "<|im_end|>"
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          false,
+          true,
+          false,
+          true
+        ],
+        "target_nll": [
+          0.0007932615117169917,
+          0.01682238094508648,
+          0.00011824862303910777,
+          2.3057491779327393,
+          2.107689142227173,
+          2.305842161178589,
+          0.1215178519487381
+        ]
+      },
+      "counterfactual": {
+        "native": {
+          "correct_payload_logp_advantage": 0.0,
+          "actual_target_over_opposite_logit": 0.25,
+          "foreign_target_over_actual_logit": -0.25
+        },
+        "canonical": {
+          "correct_payload_logp_advantage": 0.0,
+          "actual_target_over_opposite_logit": 0.25,
+          "foreign_target_over_actual_logit": -0.25
+        }
+      },
+      "reader": {
+        "12": {
+          "alpha": 0.05011731758713722,
+          "gate": [
+            0.78515625,
+            0.52734375,
+            0.80859375,
+            0.77734375,
+            0.48046875,
+            0.302734375,
+            0.228515625
+          ],
+          "relative_residual_rms": [
+            2.534672737121582,
+            1.7365121841430664,
+            2.2464239597320557,
+            2.047652244567871,
+            1.384946346282959,
+            0.852607786655426,
+            0.6352155208587646
+          ]
+        },
+        "20": {
+          "alpha": 0.10489440709352493,
+          "gate": [
+            0.94921875,
+            0.91015625,
+            0.1201171875,
+            0.01544189453125,
+            0.03173828125,
+            0.0341796875,
+            0.016357421875
+          ],
+          "relative_residual_rms": [
+            1.2511568069458008,
+            1.6227141618728638,
+            0.1765265315771103,
+            0.02220802754163742,
+            0.04964321106672287,
+            0.055535364896059036,
+            0.024074234068393707
+          ]
+        }
+      },
+      "payload": {
+        "relative_change_rms": 0.0,
+        "paired_slot_cosine_mean": 1.0,
+        "within_record_slot_cosine_mean": 0.7941680550575256
+      },
+      "max_target_nll_path_difference": 0.037393808364868164
+    },
+    {
+      "world": 1,
+      "variant": 1,
+      "episode_id": "v4-dev-e00000001-v1",
+      "changed_character_position": 4,
+      "changed_token_position": 4,
+      "expected": "W4-859",
+      "opposite_expected": "W4-839",
+      "native": {
+        "target_token_ids": [
+          54,
+          19,
+          12,
+          23,
+          20,
+          24,
+          248046
+        ],
+        "target_tokens": [
+          "W",
+          "4",
+          "-",
+          "8",
+          "5",
+          "9",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          54,
+          19,
+          12,
+          15,
+          18,
+          17,
+          248046
+        ],
+        "predicted_tokens": [
+          "W",
+          "4",
+          "-",
+          "0",
+          "3",
+          "2",
+          "<|im_end|>"
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          true
+        ],
+        "target_nll": [
+          0.0007894498412497342,
+          0.016609368845820427,
+          0.00013302871957421303,
+          2.268355369567871,
+          2.370211601257324,
+          2.368647813796997,
+          0.19121508300304413
+        ]
+      },
+      "canonical": {
+        "target_token_ids": [
+          54,
+          19,
+          12,
+          23,
+          20,
+          24,
+          248046
+        ],
+        "target_tokens": [
+          "W",
+          "4",
+          "-",
+          "8",
+          "5",
+          "9",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          54,
+          19,
+          12,
+          15,
+          18,
+          17,
+          248046
+        ],
+        "predicted_tokens": [
+          "W",
+          "4",
+          "-",
+          "0",
+          "3",
+          "2",
+          "<|im_end|>"
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          true
+        ],
+        "target_nll": [
+          0.0007932615117169917,
+          0.01682238094508648,
+          0.00011824862303910777,
+          2.3057491779327393,
+          2.357689142227173,
+          2.3686513900756836,
+          0.19036686420440674
+        ]
+      },
+      "counterfactual": {
+        "native": {
+          "correct_payload_logp_advantage": 0.0,
+          "actual_target_over_opposite_logit": -0.25,
+          "foreign_target_over_actual_logit": 0.25
+        },
+        "canonical": {
+          "correct_payload_logp_advantage": 0.0,
+          "actual_target_over_opposite_logit": -0.25,
+          "foreign_target_over_actual_logit": 0.25
+        }
+      },
+      "reader": {
+        "12": {
+          "alpha": 0.05011731758713722,
+          "gate": [
+            0.78515625,
+            0.52734375,
+            0.80859375,
+            0.77734375,
+            0.48046875,
+            0.328125,
+            0.255859375
+          ],
+          "relative_residual_rms": [
+            2.534672737121582,
+            1.7365121841430664,
+            2.2464239597320557,
+            2.047652244567871,
+            1.384946346282959,
+            0.9262445569038391,
+            0.719639778137207
+          ]
+        },
+        "20": {
+          "alpha": 0.10489440709352493,
+          "gate": [
+            0.94921875,
+            0.91015625,
+            0.1201171875,
+            0.01544189453125,
+            0.03173828125,
+            0.0302734375,
+            0.015869140625
+          ],
+          "relative_residual_rms": [
+            1.2511568069458008,
+            1.6227141618728638,
+            0.1765265315771103,
+            0.02220802754163742,
+            0.04964321106672287,
+            0.05000124126672745,
+            0.02385200560092926
+          ]
+        }
+      },
+      "payload": {
+        "relative_change_rms": 0.0,
+        "paired_slot_cosine_mean": 1.0,
+        "within_record_slot_cosine_mean": 0.7941680550575256
+      },
+      "max_target_nll_path_difference": 0.037393808364868164
+    },
+    {
+      "world": 5,
+      "variant": 0,
+      "episode_id": "v4-dev-e00000005-v0",
+      "changed_character_position": 5,
+      "changed_token_position": 5,
+      "expected": "M3-012",
+      "opposite_expected": "M3-019",
+      "native": {
+        "target_token_ids": [
+          44,
+          18,
+          12,
+          15,
+          16,
+          17,
+          248046
+        ],
+        "target_tokens": [
+          "M",
+          "3",
+          "-",
+          "0",
+          "1",
+          "2",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          44,
+          18,
+          12,
+          15,
+          15,
+          17,
+          248046
+        ],
+        "predicted_tokens": [
+          "M",
+          "3",
+          "-",
+          "0",
+          "0",
+          "2",
+          "<|im_end|>"
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          true,
+          false,
+          true,
+          true
+        ],
+        "target_nll": [
+          0.0016130305593833327,
+          0.11353685706853867,
+          7.2715018177405e-05,
+          2.096491813659668,
+          2.433884382247925,
+          2.064448833465576,
+          0.6678933501243591
+        ]
+      },
+      "canonical": {
+        "target_token_ids": [
+          44,
+          18,
+          12,
+          15,
+          16,
+          17,
+          248046
+        ],
+        "target_tokens": [
+          "M",
+          "3",
+          "-",
+          "0",
+          "1",
+          "2",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          44,
+          18,
+          12,
+          15,
+          15,
+          17,
+          248046
+        ],
+        "predicted_tokens": [
+          "M",
+          "3",
+          "-",
+          "0",
+          "0",
+          "2",
+          "<|im_end|>"
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          true,
+          false,
+          true,
+          true
+        ],
+        "target_nll": [
+          0.0016129115829244256,
+          0.11357303708791733,
+          6.97350042173639e-05,
+          2.0471413135528564,
+          2.4338862895965576,
+          2.17449688911438,
+          0.5669541358947754
+        ]
+      },
+      "counterfactual": {
+        "native": {
+          "correct_payload_logp_advantage": 0.1100320816040039,
+          "actual_target_over_opposite_logit": 0.5,
+          "foreign_target_over_actual_logit": -0.375
+        },
+        "canonical": {
+          "correct_payload_logp_advantage": -0.05334115028381348,
+          "actual_target_over_opposite_logit": 0.375,
+          "foreign_target_over_actual_logit": -0.375
+        }
+      },
+      "reader": {
+        "12": {
+          "alpha": 0.05011731758713722,
+          "gate": [
+            0.828125,
+            0.5859375,
+            0.77734375,
+            0.7734375,
+            0.6953125,
+            0.64453125,
+            0.341796875
+          ],
+          "relative_residual_rms": [
+            2.5782711505889893,
+            1.775539755821228,
+            1.9982671737670898,
+            1.9520831108093262,
+            1.8490573167800903,
+            1.673034906387329,
+            0.9339395761489868
+          ]
+        },
+        "20": {
+          "alpha": 0.10489440709352493,
+          "gate": [
+            0.9296875,
+            0.875,
+            0.15625,
+            0.01361083984375,
+            0.0225830078125,
+            0.02001953125,
+            0.0206298828125
+          ],
+          "relative_residual_rms": [
+            1.241166591644287,
+            1.532973051071167,
+            0.25698021054267883,
+            0.020653149113059044,
+            0.03739006817340851,
+            0.031533773988485336,
+            0.033171750605106354
+          ]
+        }
+      },
+      "payload": {
+        "relative_change_rms": 0.00012282494571991265,
+        "paired_slot_cosine_mean": 1.0,
+        "within_record_slot_cosine_mean": 0.7914332747459412
+      },
+      "max_target_nll_path_difference": 0.11004805564880371
+    },
+    {
+      "world": 5,
+      "variant": 1,
+      "episode_id": "v4-dev-e00000005-v1",
+      "changed_character_position": 5,
+      "changed_token_position": 5,
+      "expected": "M3-019",
+      "opposite_expected": "M3-012",
+      "native": {
+        "target_token_ids": [
+          44,
+          18,
+          12,
+          15,
+          16,
+          24,
+          248046
+        ],
+        "target_tokens": [
+          "M",
+          "3",
+          "-",
+          "0",
+          "1",
+          "9",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          44,
+          18,
+          12,
+          15,
+          15,
+          17,
+          248046
+        ],
+        "predicted_tokens": [
+          "M",
+          "3",
+          "-",
+          "0",
+          "0",
+          "2",
+          "<|im_end|>"
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          true,
+          false,
+          false,
+          true
+        ],
+        "target_nll": [
+          0.001609936123713851,
+          0.12414569407701492,
+          6.8662193370983e-05,
+          2.0471408367156982,
+          2.3608508110046387,
+          2.54948091506958,
+          0.8310868740081787
+        ]
+      },
+      "canonical": {
+        "target_token_ids": [
+          44,
+          18,
+          12,
+          15,
+          16,
+          24,
+          248046
+        ],
+        "target_tokens": [
+          "M",
+          "3",
+          "-",
+          "0",
+          "1",
+          "9",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          44,
+          18,
+          12,
+          15,
+          15,
+          17,
+          248046
+        ],
+        "predicted_tokens": [
+          "M",
+          "3",
+          "-",
+          "0",
+          "0",
+          "2",
+          "<|im_end|>"
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          true,
+          false,
+          false,
+          true
+        ],
+        "target_nll": [
+          0.0016104121459648013,
+          0.12417885661125183,
+          7.629103492945433e-05,
+          2.011054277420044,
+          2.445495367050171,
+          2.4961557388305664,
+          0.831280529499054
+        ]
+      },
+      "counterfactual": {
+        "native": {
+          "correct_payload_logp_advantage": 0.014967918395996094,
+          "actual_target_over_opposite_logit": -0.375,
+          "foreign_target_over_actual_logit": 0.5
+        },
+        "canonical": {
+          "correct_payload_logp_advantage": 0.05334115028381348,
+          "actual_target_over_opposite_logit": -0.375,
+          "foreign_target_over_actual_logit": 0.375
+        }
+      },
+      "reader": {
+        "12": {
+          "alpha": 0.05011731758713722,
+          "gate": [
+            0.828125,
+            0.5859375,
+            0.77734375,
+            0.7734375,
+            0.6953125,
+            0.64453125,
+            0.400390625
+          ],
+          "relative_residual_rms": [
+            2.5784692764282227,
+            1.7755329608917236,
+            1.9983545541763306,
+            1.952088475227356,
+            1.8490514755249023,
+            1.6729307174682617,
+            1.0818963050842285
+          ]
+        },
+        "20": {
+          "alpha": 0.10489440709352493,
+          "gate": [
+            0.93359375,
+            0.875,
+            0.158203125,
+            0.01324462890625,
+            0.0223388671875,
+            0.0203857421875,
+            0.0174560546875
+          ],
+          "relative_residual_rms": [
+            1.2461289167404175,
+            1.5368436574935913,
+            0.2607823610305786,
+            0.020015308633446693,
+            0.03717122972011566,
+            0.0319681316614151,
+            0.02814033441245556
+          ]
+        }
+      },
+      "payload": {
+        "relative_change_rms": 0.00012282503303140402,
+        "paired_slot_cosine_mean": 1.0,
+        "within_record_slot_cosine_mean": 0.7914276719093323
+      },
+      "max_target_nll_path_difference": 0.08464455604553223
+    },
+    {
+      "world": 6,
+      "variant": 0,
+      "episode_id": "v4-dev-e00000006-v0",
+      "changed_character_position": 1,
+      "changed_token_position": 1,
+      "expected": "U7-201",
+      "opposite_expected": "U5-201",
+      "native": {
+        "target_token_ids": [
+          52,
+          22,
+          12,
+          17,
+          15,
+          16,
+          248046
+        ],
+        "target_tokens": [
+          "U",
+          "7",
+          "-",
+          "2",
+          "0",
+          "1",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          52,
+          22,
+          12,
+          15,
+          15,
+          17,
+          248046
+        ],
+        "predicted_tokens": [
+          "U",
+          "7",
+          "-",
+          "0",
+          "0",
+          "2",
+          "<|im_end|>"
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          false,
+          true,
+          false,
+          true
+        ],
+        "target_nll": [
+          0.0014942444395273924,
+          0.025402823463082314,
+          5.4596363042946905e-05,
+          2.39335298538208,
+          2.2667300701141357,
+          2.444007635116577,
+          0.0875912681221962
+        ]
+      },
+      "canonical": {
+        "target_token_ids": [
+          52,
+          22,
+          12,
+          17,
+          15,
+          16,
+          248046
+        ],
+        "target_tokens": [
+          "U",
+          "7",
+          "-",
+          "2",
+          "0",
+          "1",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          52,
+          22,
+          12,
+          15,
+          18,
+          17,
+          248046
+        ],
+        "predicted_tokens": [
+          "U",
+          "7",
+          "-",
+          "0",
+          "3",
+          "2",
+          "<|im_end|>"
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          true
+        ],
+        "target_nll": [
+          0.0015156697481870651,
+          0.02288164384663105,
+          4.827859447686933e-05,
+          2.3687331676483154,
+          2.355992078781128,
+          2.4308202266693115,
+          0.10093080252408981
+        ]
+      },
+      "counterfactual": {
+        "native": {
+          "correct_payload_logp_advantage": 11.415406227111816,
+          "actual_target_over_opposite_logit": 7.8125,
+          "foreign_target_over_actual_logit": 11.4375
+        },
+        "canonical": {
+          "correct_payload_logp_advantage": 11.480377197265625,
+          "actual_target_over_opposite_logit": 7.9375,
+          "foreign_target_over_actual_logit": 11.5
+        }
+      },
+      "reader": {
+        "12": {
+          "alpha": 0.05011731758713722,
+          "gate": [
+            0.81640625,
+            0.60546875,
+            0.765625,
+            0.7890625,
+            0.515625,
+            0.494140625,
+            0.294921875
+          ],
+          "relative_residual_rms": [
+            2.105450391769409,
+            1.597477674484253,
+            1.6980587244033813,
+            1.7478550672531128,
+            1.2542781829833984,
+            1.23514723777771,
+            0.7237818241119385
+          ]
+        },
+        "20": {
+          "alpha": 0.10489440709352493,
+          "gate": [
+            0.9765625,
+            0.94921875,
+            0.1357421875,
+            0.01324462890625,
+            0.03515625,
+            0.0260009765625,
+            0.007354736328125
+          ],
+          "relative_residual_rms": [
+            1.231566071510315,
+            1.9104210138320923,
+            0.2617063522338867,
+            0.023882582783699036,
+            0.07239236682653427,
+            0.05439501255750656,
+            0.013831684365868568
+          ]
+        }
+      },
+      "payload": {
+        "relative_change_rms": 0.29820024967193604,
+        "paired_slot_cosine_mean": 0.955604076385498,
+        "within_record_slot_cosine_mean": 0.6189663410186768
+      },
+      "max_target_nll_path_difference": 0.08926200866699219
+    },
+    {
+      "world": 6,
+      "variant": 1,
+      "episode_id": "v4-dev-e00000006-v1",
+      "changed_character_position": 1,
+      "changed_token_position": 1,
+      "expected": "U5-201",
+      "opposite_expected": "U7-201",
+      "native": {
+        "target_token_ids": [
+          52,
+          20,
+          12,
+          17,
+          15,
+          16,
+          248046
+        ],
+        "target_tokens": [
+          "U",
+          "5",
+          "-",
+          "2",
+          "0",
+          "1",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          52,
+          20,
+          12,
+          15,
+          15,
+          15,
+          248046
+        ],
+        "predicted_tokens": [
+          "U",
+          "5",
+          "-",
+          "0",
+          "0",
+          "0",
+          "<|im_end|>"
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          false,
+          true,
+          false,
+          true
+        ],
+        "target_nll": [
+          0.0009750141180120409,
+          0.0033088955096900463,
+          4.255681051290594e-05,
+          2.3701958656311035,
+          2.2667274475097656,
+          2.3560380935668945,
+          0.0573665052652359
+        ]
+      },
+      "canonical": {
+        "target_token_ids": [
+          52,
+          20,
+          12,
+          17,
+          15,
+          16,
+          248046
+        ],
+        "target_tokens": [
+          "U",
+          "5",
+          "-",
+          "2",
+          "0",
+          "1",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          52,
+          20,
+          12,
+          15,
+          18,
+          15,
+          248046
+        ],
+        "predicted_tokens": [
+          "U",
+          "5",
+          "-",
+          "0",
+          "3",
+          "0",
+          "<|im_end|>"
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          true
+        ],
+        "target_nll": [
+          0.0009615565068088472,
+          0.0032583975698798895,
+          4.732496745418757e-05,
+          2.3336658477783203,
+          2.331937789916992,
+          2.3560385704040527,
+          0.06450605392456055
+        ]
+      },
+      "counterfactual": {
+        "native": {
+          "correct_payload_logp_advantage": 7.834594249725342,
+          "actual_target_over_opposite_logit": 11.4375,
+          "foreign_target_over_actual_logit": 7.8125
+        },
+        "canonical": {
+          "correct_payload_logp_advantage": 7.957123279571533,
+          "actual_target_over_opposite_logit": 11.5,
+          "foreign_target_over_actual_logit": 7.9375
+        }
+      },
+      "reader": {
+        "12": {
+          "alpha": 0.05011731758713722,
+          "gate": [
+            0.81640625,
+            0.60546875,
+            0.76953125,
+            0.77734375,
+            0.5390625,
+            0.494140625,
+            0.310546875
+          ],
+          "relative_residual_rms": [
+            2.321704864501953,
+            1.8159635066986084,
+            1.9421319961547852,
+            1.8838109970092773,
+            1.4587572813034058,
+            1.3697768449783325,
+            0.84132981300354
+          ]
+        },
+        "20": {
+          "alpha": 0.10489440709352493,
+          "gate": [
+            0.95703125,
+            0.9140625,
+            0.11572265625,
+            0.012451171875,
+            0.0302734375,
+            0.0174560546875,
+            0.00555419921875
+          ],
+          "relative_residual_rms": [
+            1.238468050956726,
+            1.7978105545043945,
+            0.21170558035373688,
+            0.02084602601826191,
+            0.05744659900665283,
+            0.03483710438013077,
+            0.01021451037377119
+          ]
+        }
+      },
+      "payload": {
+        "relative_change_rms": 0.298168808221817,
+        "paired_slot_cosine_mean": 0.955604076385498,
+        "within_record_slot_cosine_mean": 0.6794800162315369
+      },
+      "max_target_nll_path_difference": 0.06521034240722656
+    },
+    {
+      "world": 7,
+      "variant": 0,
+      "episode_id": "v4-dev-e00000007-v0",
+      "changed_character_position": 0,
+      "changed_token_position": 0,
+      "expected": "Q0-132",
+      "opposite_expected": "M0-132",
+      "native": {
+        "target_token_ids": [
+          48,
+          15,
+          12,
+          16,
+          18,
+          17,
+          248046
+        ],
+        "target_tokens": [
+          "Q",
+          "0",
+          "-",
+          "1",
+          "3",
+          "2",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          48,
+          15,
+          12,
+          15,
+          15,
+          17,
+          318
+        ],
+        "predicted_tokens": [
+          "Q",
+          "0",
+          "-",
+          "0",
+          "0",
+          "2",
+          " ("
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          false,
+          false,
+          true,
+          false
+        ],
+        "target_nll": [
+          0.16313648223876953,
+          0.0002798642381094396,
+          2.8490612749010324e-05,
+          2.4714889526367188,
+          2.229529857635498,
+          2.219179391860962,
+          1.141258955001831
+        ]
+      },
+      "canonical": {
+        "target_token_ids": [
+          48,
+          15,
+          12,
+          16,
+          18,
+          17,
+          248046
+        ],
+        "target_tokens": [
+          "Q",
+          "0",
+          "-",
+          "1",
+          "3",
+          "2",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          48,
+          15,
+          12,
+          15,
+          15,
+          17,
+          318
+        ],
+        "predicted_tokens": [
+          "Q",
+          "0",
+          "-",
+          "0",
+          "0",
+          "2",
+          " ("
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          false,
+          false,
+          true,
+          false
+        ],
+        "target_nll": [
+          0.16339729726314545,
+          0.0003156163729727268,
+          3.6477376852417365e-05,
+          2.4714889526367188,
+          2.180767059326172,
+          2.1816413402557373,
+          1.0425865650177002
+        ]
+      },
+      "counterfactual": {
+        "native": {
+          "correct_payload_logp_advantage": 16.838153839111328,
+          "actual_target_over_opposite_logit": 13.625,
+          "foreign_target_over_actual_logit": 17.0
+        },
+        "canonical": {
+          "correct_payload_logp_advantage": 16.837892532348633,
+          "actual_target_over_opposite_logit": 13.4375,
+          "foreign_target_over_actual_logit": 17.0
+        }
+      },
+      "reader": {
+        "12": {
+          "alpha": 0.05011731758713722,
+          "gate": [
+            0.82421875,
+            0.546875,
+            0.89453125,
+            0.7578125,
+            0.61328125,
+            0.53125,
+            0.27734375
+          ],
+          "relative_residual_rms": [
+            1.9177961349487305,
+            1.510544776916504,
+            1.9168622493743896,
+            1.756614327430725,
+            1.383035659790039,
+            1.2347763776779175,
+            0.6134113073348999
+          ]
+        },
+        "20": {
+          "alpha": 0.10489440709352493,
+          "gate": [
+            0.97265625,
+            0.94921875,
+            0.142578125,
+            0.0145263671875,
+            0.0174560546875,
+            0.048828125,
+            0.0289306640625
+          ],
+          "relative_residual_rms": [
+            1.3701781034469604,
+            1.380700707435608,
+            0.1926494687795639,
+            0.019992660731077194,
+            0.02427281066775322,
+            0.07047244161367416,
+            0.03732987120747566
+          ]
+        }
+      },
+      "payload": {
+        "relative_change_rms": 0.8940038084983826,
+        "paired_slot_cosine_mean": 0.5999819040298462,
+        "within_record_slot_cosine_mean": 0.810496985912323
+      },
+      "max_target_nll_path_difference": 0.09867238998413086
+    },
+    {
+      "world": 7,
+      "variant": 1,
+      "episode_id": "v4-dev-e00000007-v1",
+      "changed_character_position": 0,
+      "changed_token_position": 0,
+      "expected": "M0-132",
+      "opposite_expected": "Q0-132",
+      "native": {
+        "target_token_ids": [
+          44,
+          15,
+          12,
+          16,
+          18,
+          17,
+          248046
+        ],
+        "target_tokens": [
+          "M",
+          "0",
+          "-",
+          "1",
+          "3",
+          "2",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          44,
+          15,
+          12,
+          15,
+          15,
+          18,
+          318
+        ],
+        "predicted_tokens": [
+          "M",
+          "0",
+          "-",
+          "0",
+          "0",
+          "3",
+          " ("
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          false
+        ],
+        "target_nll": [
+          0.0012896086554974318,
+          0.0003927174839191139,
+          3.135155202471651e-05,
+          2.5380215644836426,
+          2.2071337699890137,
+          2.2596778869628906,
+          2.1624197959899902
+        ]
+      },
+      "canonical": {
+        "target_token_ids": [
+          44,
+          15,
+          12,
+          16,
+          18,
+          17,
+          248046
+        ],
+        "target_tokens": [
+          "M",
+          "0",
+          "-",
+          "1",
+          "3",
+          "2",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          44,
+          15,
+          12,
+          15,
+          15,
+          18,
+          318
+        ],
+        "predicted_tokens": [
+          "M",
+          "0",
+          "-",
+          "0",
+          "0",
+          "3",
+          " ("
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          false
+        ],
+        "target_nll": [
+          0.0012900849105790257,
+          0.00041774127748794854,
+          3.123234637314454e-05,
+          2.5136985778808594,
+          2.2822415828704834,
+          2.2894177436828613,
+          2.165565013885498
+        ]
+      },
+      "counterfactual": {
+        "native": {
+          "correct_payload_logp_advantage": 13.786847114562988,
+          "actual_target_over_opposite_logit": 17.0,
+          "foreign_target_over_actual_logit": 13.625
+        },
+        "canonical": {
+          "correct_payload_logp_advantage": 13.59960651397705,
+          "actual_target_over_opposite_logit": 17.0,
+          "foreign_target_over_actual_logit": 13.4375
+        }
+      },
+      "reader": {
+        "12": {
+          "alpha": 0.05011731758713722,
+          "gate": [
+            0.82421875,
+            0.58203125,
+            0.8515625,
+            0.78515625,
+            0.625,
+            0.515625,
+            0.23046875
+          ],
+          "relative_residual_rms": [
+            2.394611358642578,
+            1.557089924812317,
+            1.8973069190979004,
+            1.7970958948135376,
+            1.5279438495635986,
+            1.2634562253952026,
+            0.5568251609802246
+          ]
+        },
+        "20": {
+          "alpha": 0.10489440709352493,
+          "gate": [
+            0.953125,
+            0.91015625,
+            0.12255859375,
+            0.01165771484375,
+            0.016357421875,
+            0.0255126953125,
+            0.0203857421875
+          ],
+          "relative_residual_rms": [
+            1.2555904388427734,
+            1.337355613708496,
+            0.17797063291072845,
+            0.016793934628367424,
+            0.024417612701654434,
+            0.038924869149923325,
+            0.028334621340036392
+          ]
+        }
+      },
+      "payload": {
+        "relative_change_rms": 0.8943338990211487,
+        "paired_slot_cosine_mean": 0.5999819040298462,
+        "within_record_slot_cosine_mean": 0.8357692956924438
+      },
+      "max_target_nll_path_difference": 0.07510781288146973
+    },
+    {
+      "world": 8,
+      "variant": 0,
+      "episode_id": "v4-dev-e00000008-v0",
+      "changed_character_position": 3,
+      "changed_token_position": 3,
+      "expected": "X3-094",
+      "opposite_expected": "X3-494",
+      "native": {
+        "target_token_ids": [
+          55,
+          18,
+          12,
+          15,
+          24,
+          19,
+          248046
+        ],
+        "target_tokens": [
+          "X",
+          "3",
+          "-",
+          "0",
+          "9",
+          "4",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          55,
+          18,
+          12,
+          15,
+          15,
+          17,
+          248046
+        ],
+        "predicted_tokens": [
+          "X",
+          "3",
+          "-",
+          "0",
+          "0",
+          "2",
+          "<|im_end|>"
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          true,
+          false,
+          false,
+          true
+        ],
+        "target_nll": [
+          0.01069504301995039,
+          0.00488445395603776,
+          8.535020606359467e-05,
+          2.0691158771514893,
+          2.3701894283294678,
+          2.3004777431488037,
+          0.006612088996917009
+        ]
+      },
+      "canonical": {
+        "target_token_ids": [
+          55,
+          18,
+          12,
+          15,
+          24,
+          19,
+          248046
+        ],
+        "target_tokens": [
+          "X",
+          "3",
+          "-",
+          "0",
+          "9",
+          "4",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          55,
+          18,
+          12,
+          15,
+          15,
+          17,
+          248046
+        ],
+        "predicted_tokens": [
+          "X",
+          "3",
+          "-",
+          "0",
+          "0",
+          "2",
+          "<|im_end|>"
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          true,
+          false,
+          false,
+          true
+        ],
+        "target_nll": [
+          0.00950324535369873,
+          0.004333866760134697,
+          8.535020606359467e-05,
+          1.9862278699874878,
+          2.3811116218566895,
+          2.310824394226074,
+          0.006090415176004171
+        ]
+      },
+      "counterfactual": {
+        "native": {
+          "correct_payload_logp_advantage": -0.08288812637329102,
+          "actual_target_over_opposite_logit": 0.25,
+          "foreign_target_over_actual_logit": -0.375
+        },
+        "canonical": {
+          "correct_payload_logp_advantage": 0.036977410316467285,
+          "actual_target_over_opposite_logit": 0.37500011920928955,
+          "foreign_target_over_actual_logit": -0.375
+        }
+      },
+      "reader": {
+        "12": {
+          "alpha": 0.05011731758713722,
+          "gate": [
+            0.796875,
+            0.5859375,
+            0.76953125,
+            0.76953125,
+            0.65625,
+            0.53125,
+            0.21484375
+          ],
+          "relative_residual_rms": [
+            1.9428001642227173,
+            1.5343610048294067,
+            1.902860164642334,
+            1.787369966506958,
+            1.656491756439209,
+            1.3744455575942993,
+            0.5762233734130859
+          ]
+        },
+        "20": {
+          "alpha": 0.10489440709352493,
+          "gate": [
+            0.95703125,
+            0.8984375,
+            0.1640625,
+            0.01031494140625,
+            0.0223388671875,
+            0.023681640625,
+            0.01165771484375
+          ],
+          "relative_residual_rms": [
+            1.2328451871871948,
+            1.641412377357483,
+            0.2950839400291443,
+            0.01740328222513199,
+            0.041768208146095276,
+            0.04484687000513077,
+            0.02019685134291649
+          ]
+        }
+      },
+      "payload": {
+        "relative_change_rms": 0.0005133276572450995,
+        "paired_slot_cosine_mean": 0.9999998807907104,
+        "within_record_slot_cosine_mean": 0.7339687943458557
+      },
+      "max_target_nll_path_difference": 0.08288800716400146
+    },
+    {
+      "world": 8,
+      "variant": 1,
+      "episode_id": "v4-dev-e00000008-v1",
+      "changed_character_position": 3,
+      "changed_token_position": 3,
+      "expected": "X3-494",
+      "opposite_expected": "X3-094",
+      "native": {
+        "target_token_ids": [
+          55,
+          18,
+          12,
+          19,
+          24,
+          19,
+          248046
+        ],
+        "target_tokens": [
+          "X",
+          "3",
+          "-",
+          "4",
+          "9",
+          "4",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          55,
+          18,
+          12,
+          15,
+          15,
+          18,
+          248046
+        ],
+        "predicted_tokens": [
+          "X",
+          "3",
+          "-",
+          "0",
+          "0",
+          "3",
+          "<|im_end|>"
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          true
+        ],
+        "target_nll": [
+          0.010089349932968616,
+          0.0043173679150640965,
+          8.499260729877278e-05,
+          2.3612277507781982,
+          2.5262651443481445,
+          2.234184980392456,
+          0.003257565898820758
+        ]
+      },
+      "canonical": {
+        "target_token_ids": [
+          55,
+          18,
+          12,
+          19,
+          24,
+          19,
+          248046
+        ],
+        "target_tokens": [
+          "X",
+          "3",
+          "-",
+          "4",
+          "9",
+          "4",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          55,
+          18,
+          12,
+          15,
+          15,
+          17,
+          248046
+        ],
+        "predicted_tokens": [
+          "X",
+          "3",
+          "-",
+          "0",
+          "0",
+          "2",
+          "<|im_end|>"
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          true
+        ],
+        "target_nll": [
+          0.009504544548690319,
+          0.00433362927287817,
+          9.417090041097254e-05,
+          2.398205280303955,
+          2.536855697631836,
+          2.270009756088257,
+          0.0033124599140137434
+        ]
+      },
+      "counterfactual": {
+        "native": {
+          "correct_payload_logp_advantage": -0.042111873626708984,
+          "actual_target_over_opposite_logit": -0.375,
+          "foreign_target_over_actual_logit": 0.25
+        },
+        "canonical": {
+          "correct_payload_logp_advantage": -0.036977291107177734,
+          "actual_target_over_opposite_logit": -0.375,
+          "foreign_target_over_actual_logit": 0.37500011920928955
+        }
+      },
+      "reader": {
+        "12": {
+          "alpha": 0.05011731758713722,
+          "gate": [
+            0.796875,
+            0.5859375,
+            0.76953125,
+            0.76953125,
+            0.5,
+            0.3828125,
+            0.1982421875
+          ],
+          "relative_residual_rms": [
+            1.9425690174102783,
+            1.5341222286224365,
+            1.90265953540802,
+            1.7874183654785156,
+            1.3535330295562744,
+            0.9796593189239502,
+            0.5198686718940735
+          ]
+        },
+        "20": {
+          "alpha": 0.10489440709352493,
+          "gate": [
+            0.95703125,
+            0.8984375,
+            0.1640625,
+            0.01031494140625,
+            0.0247802734375,
+            0.0169677734375,
+            0.010009765625
+          ],
+          "relative_residual_rms": [
+            1.236305832862854,
+            1.6413179636001587,
+            0.2949634790420532,
+            0.01741238497197628,
+            0.047607019543647766,
+            0.032268423587083817,
+            0.017130915075540543
+          ]
+        }
+      },
+      "payload": {
+        "relative_change_rms": 0.0005133352824486792,
+        "paired_slot_cosine_mean": 0.9999998807907104,
+        "within_record_slot_cosine_mean": 0.73397296667099
+      },
+      "max_target_nll_path_difference": 0.036977529525756836
+    },
+    {
+      "world": 9,
+      "variant": 0,
+      "episode_id": "v4-dev-e00000009-v0",
+      "changed_character_position": 5,
+      "changed_token_position": 5,
+      "expected": "M6-169",
+      "opposite_expected": "M6-161",
+      "native": {
+        "target_token_ids": [
+          44,
+          21,
+          12,
+          16,
+          21,
+          24,
+          248046
+        ],
+        "target_tokens": [
+          "M",
+          "6",
+          "-",
+          "1",
+          "6",
+          "9",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          44,
+          21,
+          12,
+          15,
+          15,
+          17,
+          248046
+        ],
+        "predicted_tokens": [
+          "M",
+          "6",
+          "-",
+          "0",
+          "0",
+          "2",
+          "<|im_end|>"
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          true
+        ],
+        "target_nll": [
+          0.00011860620725201443,
+          0.13306497037410736,
+          0.00012027493357891217,
+          2.396392822265625,
+          2.2420780658721924,
+          2.367332696914673,
+          0.30884382128715515
+        ]
+      },
+      "canonical": {
+        "target_token_ids": [
+          44,
+          21,
+          12,
+          16,
+          21,
+          24,
+          248046
+        ],
+        "target_tokens": [
+          "M",
+          "6",
+          "-",
+          "1",
+          "6",
+          "9",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          44,
+          21,
+          12,
+          15,
+          15,
+          17,
+          248046
+        ],
+        "predicted_tokens": [
+          "M",
+          "6",
+          "-",
+          "0",
+          "0",
+          "2",
+          "<|im_end|>"
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          true
+        ],
+        "target_nll": [
+          0.0001368428929708898,
+          0.13218078017234802,
+          0.00011455356434453279,
+          2.4219229221343994,
+          2.3545119762420654,
+          2.3547797203063965,
+          0.27661409974098206
+        ]
+      },
+      "counterfactual": {
+        "native": {
+          "correct_payload_logp_advantage": 0.0,
+          "actual_target_over_opposite_logit": 0.0,
+          "foreign_target_over_actual_logit": 0.0
+        },
+        "canonical": {
+          "correct_payload_logp_advantage": 0.0,
+          "actual_target_over_opposite_logit": 0.0,
+          "foreign_target_over_actual_logit": 0.0
+        }
+      },
+      "reader": {
+        "12": {
+          "alpha": 0.05011731758713722,
+          "gate": [
+            0.8125,
+            0.57421875,
+            0.8046875,
+            0.76171875,
+            0.5703125,
+            0.4140625,
+            0.2265625
+          ],
+          "relative_residual_rms": [
+            2.717754364013672,
+            1.91680908203125,
+            2.0705113410949707,
+            1.9628896713256836,
+            1.592433214187622,
+            1.147294521331787,
+            0.6116523742675781
+          ]
+        },
+        "20": {
+          "alpha": 0.10489440709352493,
+          "gate": [
+            0.93359375,
+            0.8828125,
+            0.1474609375,
+            0.0140380859375,
+            0.01361083984375,
+            0.027587890625,
+            0.01165771484375
+          ],
+          "relative_residual_rms": [
+            1.2134640216827393,
+            1.7002692222595215,
+            0.2293858379125595,
+            0.020958729088306427,
+            0.023144995793700218,
+            0.046578116714954376,
+            0.018561292439699173
+          ]
+        }
+      },
+      "payload": {
+        "relative_change_rms": 0.0,
+        "paired_slot_cosine_mean": 1.0,
+        "within_record_slot_cosine_mean": 0.7697309851646423
+      },
+      "max_target_nll_path_difference": 0.11243391036987305
+    },
+    {
+      "world": 9,
+      "variant": 1,
+      "episode_id": "v4-dev-e00000009-v1",
+      "changed_character_position": 5,
+      "changed_token_position": 5,
+      "expected": "M6-161",
+      "opposite_expected": "M6-169",
+      "native": {
+        "target_token_ids": [
+          44,
+          21,
+          12,
+          16,
+          21,
+          16,
+          248046
+        ],
+        "target_tokens": [
+          "M",
+          "6",
+          "-",
+          "1",
+          "6",
+          "1",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          44,
+          21,
+          12,
+          15,
+          15,
+          17,
+          248046
+        ],
+        "predicted_tokens": [
+          "M",
+          "6",
+          "-",
+          "0",
+          "0",
+          "2",
+          "<|im_end|>"
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          true
+        ],
+        "target_nll": [
+          0.00011860620725201443,
+          0.13306497037410736,
+          0.00012027493357891217,
+          2.396392822265625,
+          2.2420780658721924,
+          2.367332696914673,
+          0.11711068451404572
+        ]
+      },
+      "canonical": {
+        "target_token_ids": [
+          44,
+          21,
+          12,
+          16,
+          21,
+          16,
+          248046
+        ],
+        "target_tokens": [
+          "M",
+          "6",
+          "-",
+          "1",
+          "6",
+          "1",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          44,
+          21,
+          12,
+          15,
+          15,
+          17,
+          248046
+        ],
+        "predicted_tokens": [
+          "M",
+          "6",
+          "-",
+          "0",
+          "0",
+          "2",
+          "<|im_end|>"
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          true
+        ],
+        "target_nll": [
+          0.0001368428929708898,
+          0.13218078017234802,
+          0.00011455356434453279,
+          2.4219229221343994,
+          2.3545119762420654,
+          2.3547797203063965,
+          0.11732558906078339
+        ]
+      },
+      "counterfactual": {
+        "native": {
+          "correct_payload_logp_advantage": 0.0,
+          "actual_target_over_opposite_logit": 0.0,
+          "foreign_target_over_actual_logit": 0.0
+        },
+        "canonical": {
+          "correct_payload_logp_advantage": 0.0,
+          "actual_target_over_opposite_logit": 0.0,
+          "foreign_target_over_actual_logit": 0.0
+        }
+      },
+      "reader": {
+        "12": {
+          "alpha": 0.05011731758713722,
+          "gate": [
+            0.8125,
+            0.57421875,
+            0.8046875,
+            0.76171875,
+            0.5703125,
+            0.4140625,
+            0.248046875
+          ],
+          "relative_residual_rms": [
+            2.717754364013672,
+            1.91680908203125,
+            2.0705113410949707,
+            1.9628896713256836,
+            1.592433214187622,
+            1.147294521331787,
+            0.6616206765174866
+          ]
+        },
+        "20": {
+          "alpha": 0.10489440709352493,
+          "gate": [
+            0.93359375,
+            0.8828125,
+            0.1474609375,
+            0.0140380859375,
+            0.01361083984375,
+            0.027587890625,
+            0.00860595703125
+          ],
+          "relative_residual_rms": [
+            1.2134640216827393,
+            1.7002692222595215,
+            0.2293858379125595,
+            0.020958729088306427,
+            0.023144995793700218,
+            0.046578116714954376,
+            0.013902462087571621
+          ]
+        }
+      },
+      "payload": {
+        "relative_change_rms": 0.0,
+        "paired_slot_cosine_mean": 1.0,
+        "within_record_slot_cosine_mean": 0.7697309851646423
+      },
+      "max_target_nll_path_difference": 0.11243391036987305
+    },
+    {
+      "world": 11,
+      "variant": 0,
+      "episode_id": "v4-dev-e00000011-v0",
+      "changed_character_position": 1,
+      "changed_token_position": 1,
+      "expected": "Q4-204",
+      "opposite_expected": "Q6-204",
+      "native": {
+        "target_token_ids": [
+          48,
+          19,
+          12,
+          17,
+          15,
+          19,
+          248046
+        ],
+        "target_tokens": [
+          "Q",
+          "4",
+          "-",
+          "2",
+          "0",
+          "4",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          48,
+          19,
+          12,
+          15,
+          18,
+          15,
+          248046
+        ],
+        "predicted_tokens": [
+          "Q",
+          "4",
+          "-",
+          "0",
+          "3",
+          "0",
+          "<|im_end|>"
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          true
+        ],
+        "target_nll": [
+          0.3882758915424347,
+          0.0029913701582700014,
+          0.00030203070491552353,
+          2.2561488151550293,
+          2.3304402828216553,
+          2.295703411102295,
+          0.5284714102745056
+        ]
+      },
+      "canonical": {
+        "target_token_ids": [
+          48,
+          19,
+          12,
+          17,
+          15,
+          19,
+          248046
+        ],
+        "target_tokens": [
+          "Q",
+          "4",
+          "-",
+          "2",
+          "0",
+          "4",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          48,
+          19,
+          12,
+          15,
+          17,
+          15,
+          248046
+        ],
+        "predicted_tokens": [
+          "Q",
+          "4",
+          "-",
+          "0",
+          "2",
+          "0",
+          "<|im_end|>"
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          true
+        ],
+        "target_nll": [
+          0.3882756531238556,
+          0.0029721157625317574,
+          0.0003875934926327318,
+          2.34181809425354,
+          2.3560078144073486,
+          2.1840434074401855,
+          0.4829678237438202
+        ]
+      },
+      "counterfactual": {
+        "native": {
+          "correct_payload_logp_advantage": 2.7523720264434814,
+          "actual_target_over_opposite_logit": 7.375,
+          "foreign_target_over_actual_logit": 2.375
+        },
+        "canonical": {
+          "correct_payload_logp_advantage": 2.7224466800689697,
+          "actual_target_over_opposite_logit": 7.375,
+          "foreign_target_over_actual_logit": 2.375
+        }
+      },
+      "reader": {
+        "12": {
+          "alpha": 0.05011731758713722,
+          "gate": [
+            0.79296875,
+            0.490234375,
+            0.82421875,
+            0.81640625,
+            0.61328125,
+            0.49609375,
+            0.25
+          ],
+          "relative_residual_rms": [
+            2.424473285675049,
+            1.6449517011642456,
+            2.2556138038635254,
+            2.107478380203247,
+            1.727176547050476,
+            1.5415843725204468,
+            0.6747872829437256
+          ]
+        },
+        "20": {
+          "alpha": 0.10489440709352493,
+          "gate": [
+            0.94921875,
+            0.9296875,
+            0.10986328125,
+            0.01324462890625,
+            0.0361328125,
+            0.0255126953125,
+            0.01544189453125
+          ],
+          "relative_residual_rms": [
+            1.3922797441482544,
+            1.702860951423645,
+            0.16695106029510498,
+            0.018770262598991394,
+            0.06283796578645706,
+            0.04683898389339447,
+            0.02372470684349537
+          ]
+        }
+      },
+      "payload": {
+        "relative_change_rms": 0.2114611268043518,
+        "paired_slot_cosine_mean": 0.9776689410209656,
+        "within_record_slot_cosine_mean": 0.7845064997673035
+      },
+      "max_target_nll_path_difference": 0.11166000366210938
+    },
+    {
+      "world": 11,
+      "variant": 1,
+      "episode_id": "v4-dev-e00000011-v1",
+      "changed_character_position": 1,
+      "changed_token_position": 1,
+      "expected": "Q6-204",
+      "opposite_expected": "Q4-204",
+      "native": {
+        "target_token_ids": [
+          48,
+          21,
+          12,
+          17,
+          15,
+          19,
+          248046
+        ],
+        "target_tokens": [
+          "Q",
+          "6",
+          "-",
+          "2",
+          "0",
+          "4",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          48,
+          21,
+          12,
+          15,
+          18,
+          17,
+          248046
+        ],
+        "predicted_tokens": [
+          "Q",
+          "6",
+          "-",
+          "0",
+          "3",
+          "2",
+          "<|im_end|>"
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          true
+        ],
+        "target_nll": [
+          0.34974488615989685,
+          0.38036349415779114,
+          0.0008185135084204376,
+          2.305793523788452,
+          2.3042075634002686,
+          2.2702279090881348,
+          0.2862916588783264
+        ]
+      },
+      "canonical": {
+        "target_token_ids": [
+          48,
+          21,
+          12,
+          17,
+          15,
+          19,
+          248046
+        ],
+        "target_tokens": [
+          "Q",
+          "6",
+          "-",
+          "2",
+          "0",
+          "4",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          48,
+          21,
+          12,
+          15,
+          18,
+          15,
+          248046
+        ],
+        "predicted_tokens": [
+          "Q",
+          "6",
+          "-",
+          "0",
+          "3",
+          "0",
+          "<|im_end|>"
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          true
+        ],
+        "target_nll": [
+          0.3144851624965668,
+          0.35041871666908264,
+          0.0009259465732611716,
+          2.3057942390441895,
+          2.3042068481445312,
+          2.295757532119751,
+          0.2789105474948883
+        ]
+      },
+      "counterfactual": {
+        "native": {
+          "correct_payload_logp_advantage": 6.9976277351379395,
+          "actual_target_over_opposite_logit": 2.375,
+          "foreign_target_over_actual_logit": 7.375
+        },
+        "canonical": {
+          "correct_payload_logp_advantage": 7.027553558349609,
+          "actual_target_over_opposite_logit": 2.375,
+          "foreign_target_over_actual_logit": 7.375
+        }
+      },
+      "reader": {
+        "12": {
+          "alpha": 0.05011731758713722,
+          "gate": [
+            0.79296875,
+            0.490234375,
+            0.8046875,
+            0.796875,
+            0.5625,
+            0.5390625,
+            0.2578125
+          ],
+          "relative_residual_rms": [
+            2.4096789360046387,
+            1.6816660165786743,
+            2.0292766094207764,
+            2.0316128730773926,
+            1.5790234804153442,
+            1.578354835510254,
+            0.6915814876556396
+          ]
+        },
+        "20": {
+          "alpha": 0.10489440709352493,
+          "gate": [
+            0.95703125,
+            0.93359375,
+            0.142578125,
+            0.0174560546875,
+            0.037841796875,
+            0.0225830078125,
+            0.01544189453125
+          ],
+          "relative_residual_rms": [
+            1.387205719947815,
+            1.8635529279708862,
+            0.24806895852088928,
+            0.028757138177752495,
+            0.0725460946559906,
+            0.045701995491981506,
+            0.027556993067264557
+          ]
+        }
+      },
+      "payload": {
+        "relative_change_rms": 0.21151651442050934,
+        "paired_slot_cosine_mean": 0.9776689410209656,
+        "within_record_slot_cosine_mean": 0.6807053685188293
+      },
+      "max_target_nll_path_difference": 0.03525972366333008
+    },
+    {
+      "world": 15,
+      "variant": 0,
+      "episode_id": "v4-dev-e00000015-v0",
+      "changed_character_position": 0,
+      "changed_token_position": 0,
+      "expected": "Z9-958",
+      "opposite_expected": "N9-958",
+      "native": {
+        "target_token_ids": [
+          57,
+          24,
+          12,
+          24,
+          20,
+          23,
+          248046
+        ],
+        "target_tokens": [
+          "Z",
+          "9",
+          "-",
+          "9",
+          "5",
+          "8",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          57,
+          24,
+          12,
+          22,
+          15,
+          21,
+          318
+        ],
+        "predicted_tokens": [
+          "Z",
+          "9",
+          "-",
+          "7",
+          "0",
+          "6",
+          " ("
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          false
+        ],
+        "target_nll": [
+          0.017451776191592216,
+          0.014616435393691063,
+          9.417489309271332e-06,
+          2.200077533721924,
+          2.455434560775757,
+          2.280749559402466,
+          1.1784590482711792
+        ]
+      },
+      "canonical": {
+        "target_token_ids": [
+          57,
+          24,
+          12,
+          24,
+          20,
+          23,
+          248046
+        ],
+        "target_tokens": [
+          "Z",
+          "9",
+          "-",
+          "9",
+          "5",
+          "8",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          57,
+          24,
+          12,
+          21,
+          21,
+          17,
+          318
+        ],
+        "predicted_tokens": [
+          "Z",
+          "9",
+          "-",
+          "6",
+          "6",
+          "2",
+          " ("
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          false
+        ],
+        "target_nll": [
+          0.015942955389618874,
+          0.013984783552587032,
+          7.629365427419543e-06,
+          2.149416208267212,
+          2.429194927215576,
+          2.2670464515686035,
+          1.012256145477295
+        ]
+      },
+      "counterfactual": {
+        "native": {
+          "correct_payload_logp_advantage": 15.107897758483887,
+          "actual_target_over_opposite_logit": 13.8125,
+          "foreign_target_over_actual_logit": 15.125
+        },
+        "canonical": {
+          "correct_payload_logp_advantage": 15.109375953674316,
+          "actual_target_over_opposite_logit": 13.9375,
+          "foreign_target_over_actual_logit": 15.125
+        }
+      },
+      "reader": {
+        "12": {
+          "alpha": 0.05011731758713722,
+          "gate": [
+            0.828125,
+            0.55078125,
+            0.80078125,
+            0.78515625,
+            0.50390625,
+            0.3828125,
+            0.2412109375
+          ],
+          "relative_residual_rms": [
+            1.9999656677246094,
+            1.256820559501648,
+            1.5865261554718018,
+            1.5251731872558594,
+            1.033231496810913,
+            0.7776345014572144,
+            0.4988667964935303
+          ]
+        },
+        "20": {
+          "alpha": 0.10489440709352493,
+          "gate": [
+            0.984375,
+            0.9296875,
+            0.2421875,
+            0.02294921875,
+            0.0263671875,
+            0.049560546875,
+            0.02001953125
+          ],
+          "relative_residual_rms": [
+            1.4817720651626587,
+            1.497799277305603,
+            0.43650081753730774,
+            0.035770997405052185,
+            0.04456609860062599,
+            0.0831725150346756,
+            0.031041696667671204
+          ]
+        }
+      },
+      "payload": {
+        "relative_change_rms": 0.9125844836235046,
+        "paired_slot_cosine_mean": 0.5834577679634094,
+        "within_record_slot_cosine_mean": 0.7212275862693787
+      },
+      "max_target_nll_path_difference": 0.16620290279388428
+    },
+    {
+      "world": 15,
+      "variant": 1,
+      "episode_id": "v4-dev-e00000015-v1",
+      "changed_character_position": 0,
+      "changed_token_position": 0,
+      "expected": "N9-958",
+      "opposite_expected": "Z9-958",
+      "native": {
+        "target_token_ids": [
+          45,
+          24,
+          12,
+          24,
+          20,
+          23,
+          248046
+        ],
+        "target_tokens": [
+          "N",
+          "9",
+          "-",
+          "9",
+          "5",
+          "8",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          45,
+          24,
+          12,
+          22,
+          21,
+          18,
+          248046
+        ],
+        "predicted_tokens": [
+          "N",
+          "9",
+          "-",
+          "7",
+          "6",
+          "3",
+          "<|im_end|>"
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          true
+        ],
+        "target_nll": [
+          0.00035005639074370265,
+          0.02132394164800644,
+          4.172316494077677e-06,
+          2.224317789077759,
+          2.429211378097534,
+          2.218594551086426,
+          0.7831334471702576
+        ]
+      },
+      "canonical": {
+        "target_token_ids": [
+          45,
+          24,
+          12,
+          24,
+          20,
+          23,
+          248046
+        ],
+        "target_tokens": [
+          "N",
+          "9",
+          "-",
+          "9",
+          "5",
+          "8",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          45,
+          24,
+          12,
+          22,
+          15,
+          18,
+          248046
+        ],
+        "predicted_tokens": [
+          "N",
+          "9",
+          "-",
+          "7",
+          "0",
+          "3",
+          "<|im_end|>"
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          true
+        ],
+        "target_nll": [
+          0.00031883400515653193,
+          0.020869312807917595,
+          4.291524874133756e-06,
+          2.224316120147705,
+          2.493563413619995,
+          2.1957850456237793,
+          0.7692192196846008
+        ]
+      },
+      "counterfactual": {
+        "native": {
+          "correct_payload_logp_advantage": 13.829602241516113,
+          "actual_target_over_opposite_logit": 15.125,
+          "foreign_target_over_actual_logit": 13.8125
+        },
+        "canonical": {
+          "correct_payload_logp_advantage": 13.953124046325684,
+          "actual_target_over_opposite_logit": 15.125,
+          "foreign_target_over_actual_logit": 13.9375
+        }
+      },
+      "reader": {
+        "12": {
+          "alpha": 0.05011731758713722,
+          "gate": [
+            0.828125,
+            0.58203125,
+            0.80859375,
+            0.7890625,
+            0.49609375,
+            0.400390625,
+            0.263671875
+          ],
+          "relative_residual_rms": [
+            1.9167660474777222,
+            1.416733980178833,
+            1.6224721670150757,
+            1.4748250246047974,
+            1.0226801633834839,
+            0.7777932286262512,
+            0.520673394203186
+          ]
+        },
+        "20": {
+          "alpha": 0.10489440709352493,
+          "gate": [
+            0.98828125,
+            0.93359375,
+            0.30859375,
+            0.0233154296875,
+            0.033203125,
+            0.0419921875,
+            0.0179443359375
+          ],
+          "relative_residual_rms": [
+            1.2147705554962158,
+            1.4623446464538574,
+            0.5129556655883789,
+            0.03428319841623306,
+            0.053704772144556046,
+            0.06615836918354034,
+            0.027134031057357788
+          ]
+        }
+      },
+      "payload": {
+        "relative_change_rms": 0.9123102426528931,
+        "paired_slot_cosine_mean": 0.5834577679634094,
+        "within_record_slot_cosine_mean": 0.783334493637085
+      },
+      "max_target_nll_path_difference": 0.06435203552246094
+    },
+    {
+      "world": 27,
+      "variant": 0,
+      "episode_id": "v4-dev-e00000027-v0",
+      "changed_character_position": 3,
+      "changed_token_position": 3,
+      "expected": "X6-510",
+      "opposite_expected": "X6-010",
+      "native": {
+        "target_token_ids": [
+          55,
+          21,
+          12,
+          20,
+          16,
+          15,
+          248046
+        ],
+        "target_tokens": [
+          "X",
+          "6",
+          "-",
+          "5",
+          "1",
+          "0",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          55,
+          21,
+          12,
+          15,
+          15,
+          19,
+          248046
+        ],
+        "predicted_tokens": [
+          "X",
+          "6",
+          "-",
+          "0",
+          "0",
+          "4",
+          "<|im_end|>"
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          true
+        ],
+        "target_nll": [
+          0.01116940751671791,
+          0.010728655382990837,
+          4.4225667807040736e-05,
+          2.2774860858917236,
+          2.430742025375366,
+          2.2956912517547607,
+          0.4229748547077179
+        ]
+      },
+      "canonical": {
+        "target_token_ids": [
+          55,
+          21,
+          12,
+          20,
+          16,
+          15,
+          248046
+        ],
+        "target_tokens": [
+          "X",
+          "6",
+          "-",
+          "5",
+          "1",
+          "0",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          55,
+          21,
+          12,
+          15,
+          15,
+          19,
+          248046
+        ],
+        "predicted_tokens": [
+          "X",
+          "6",
+          "-",
+          "0",
+          "0",
+          "4",
+          "<|im_end|>"
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          true
+        ],
+        "target_nll": [
+          0.011087827384471893,
+          0.012052802368998528,
+          4.4225667807040736e-05,
+          2.2774860858917236,
+          2.418958902359009,
+          2.3353238105773926,
+          0.4006708860397339
+        ]
+      },
+      "counterfactual": {
+        "native": {
+          "correct_payload_logp_advantage": 0.011976480484008789,
+          "actual_target_over_opposite_logit": -0.25,
+          "foreign_target_over_actual_logit": 0.25
+        },
+        "canonical": {
+          "correct_payload_logp_advantage": -0.012122392654418945,
+          "actual_target_over_opposite_logit": -0.25,
+          "foreign_target_over_actual_logit": 0.25
+        }
+      },
+      "reader": {
+        "12": {
+          "alpha": 0.05011731758713722,
+          "gate": [
+            0.8125,
+            0.56640625,
+            0.71875,
+            0.7265625,
+            0.5234375,
+            0.427734375,
+            0.392578125
+          ],
+          "relative_residual_rms": [
+            2.20137619972229,
+            1.5850181579589844,
+            1.805523157119751,
+            1.8731385469436646,
+            1.440210223197937,
+            1.127872109413147,
+            1.0121057033538818
+          ]
+        },
+        "20": {
+          "alpha": 0.10489440709352493,
+          "gate": [
+            0.96484375,
+            0.91015625,
+            0.26171875,
+            0.02099609375,
+            0.03173828125,
+            0.021240234375,
+            0.0203857421875
+          ],
+          "relative_residual_rms": [
+            1.1887545585632324,
+            1.8036432266235352,
+            0.5168126821517944,
+            0.03809879720211029,
+            0.06560061872005463,
+            0.04236476123332977,
+            0.03878268972039223
+          ]
+        }
+      },
+      "payload": {
+        "relative_change_rms": 0.0008474681526422501,
+        "paired_slot_cosine_mean": 0.9999996423721313,
+        "within_record_slot_cosine_mean": 0.6626919507980347
+      },
+      "max_target_nll_path_difference": 0.039632558822631836
+    },
+    {
+      "world": 27,
+      "variant": 1,
+      "episode_id": "v4-dev-e00000027-v1",
+      "changed_character_position": 3,
+      "changed_token_position": 3,
+      "expected": "X6-010",
+      "opposite_expected": "X6-510",
+      "native": {
+        "target_token_ids": [
+          55,
+          21,
+          12,
+          15,
+          16,
+          15,
+          248046
+        ],
+        "target_tokens": [
+          "X",
+          "6",
+          "-",
+          "0",
+          "1",
+          "0",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          55,
+          21,
+          12,
+          15,
+          15,
+          19,
+          248046
+        ],
+        "predicted_tokens": [
+          "X",
+          "6",
+          "-",
+          "0",
+          "0",
+          "4",
+          "<|im_end|>"
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          true,
+          false,
+          false,
+          true
+        ],
+        "target_nll": [
+          0.012526287697255611,
+          0.01073160395026207,
+          4.029192859889008e-05,
+          2.0394625663757324,
+          2.394967794418335,
+          2.358485698699951,
+          1.0795447826385498
+        ]
+      },
+      "canonical": {
+        "target_token_ids": [
+          55,
+          21,
+          12,
+          15,
+          16,
+          15,
+          248046
+        ],
+        "target_tokens": [
+          "X",
+          "6",
+          "-",
+          "0",
+          "1",
+          "0",
+          "<|im_end|>"
+        ],
+        "predicted_token_ids": [
+          55,
+          21,
+          12,
+          15,
+          15,
+          18,
+          248046
+        ],
+        "predicted_tokens": [
+          "X",
+          "6",
+          "-",
+          "0",
+          "0",
+          "3",
+          "<|im_end|>"
+        ],
+        "correct": [
+          true,
+          true,
+          true,
+          true,
+          false,
+          false,
+          true
+        ],
+        "target_nll": [
+          0.01107332669198513,
+          0.010826067067682743,
+          4.053033626405522e-05,
+          2.0153636932373047,
+          2.407033920288086,
+          2.3066916465759277,
+          1.163142204284668
+        ]
+      },
+      "counterfactual": {
+        "native": {
+          "correct_payload_logp_advantage": -0.011976480484008789,
+          "actual_target_over_opposite_logit": 0.25,
+          "foreign_target_over_actual_logit": -0.25
+        },
+        "canonical": {
+          "correct_payload_logp_advantage": 0.012122392654418945,
+          "actual_target_over_opposite_logit": 0.25,
+          "foreign_target_over_actual_logit": -0.25
+        }
+      },
+      "reader": {
+        "12": {
+          "alpha": 0.05011731758713722,
+          "gate": [
+            0.8125,
+            0.56640625,
+            0.71875,
+            0.7265625,
+            0.640625,
+            0.55859375,
+            0.38671875
+          ],
+          "relative_residual_rms": [
+            2.201012134552002,
+            1.5849038362503052,
+            1.805481195449829,
+            1.8728865385055542,
+            1.730582356452942,
+            1.5063974857330322,
+            1.0610010623931885
+          ]
+        },
+        "20": {
+          "alpha": 0.10489440709352493,
+          "gate": [
+            0.96484375,
+            0.91015625,
+            0.26171875,
+            0.0203857421875,
+            0.0279541015625,
+            0.0244140625,
+            0.0169677734375
+          ],
+          "relative_residual_rms": [
+            1.1884765625,
+            1.8001068830490112,
+            0.5167732238769531,
+            0.037019241601228714,
+            0.05576879903674126,
+            0.047814011573791504,
+            0.03350521996617317
+          ]
+        }
+      },
+      "payload": {
+        "relative_change_rms": 0.0008474777569063008,
+        "paired_slot_cosine_mean": 0.9999996423721313,
+        "within_record_slot_cosine_mean": 0.6626667976379395
+      },
+      "max_target_nll_path_difference": 0.08359742164611816
+    }
+  ],
+  "capability_gate_passed": false
+}

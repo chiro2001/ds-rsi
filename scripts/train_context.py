@@ -57,6 +57,7 @@ def main():
             from dsrsi.model.qwen35_memory import MemoryQwen
             from dsrsi.training.checkpoint import file_sha256
             from dsrsi.training.context_runner import ContextTrainConfig
+            from dsrsi.evaluation.checkpoint import memory_architecture_for_run
             root = Path(args.base)
             index = json.loads((root / "model.safetensors.index.json").read_text())["weight_map"]
             identity = {"tokenizer": tokenizer_fingerprint(root),
@@ -67,7 +68,8 @@ def main():
                 writer_stride=args.writer_stride, retrieval_interval=args.retrieval_interval,
                 memory_tensor_budget=args.memory_tensor_budget, interference_tokens=args.interference_tokens,
                 include_tools=not args.no_tools, allow_untrained_memory=args.allow_untrained_memory)
-            return identity, MemoryQwen.from_local_checkpoint(root, device=device), EpisodeCompiler(
+            architecture = memory_architecture_for_run(args.run_dir if args.resume else args.init_from)
+            return identity, MemoryQwen.from_local_checkpoint(root, device=device, memory_architecture=architecture), EpisodeCompiler(
                 AutoTokenizer.from_pretrained(root, local_files_only=True)), config
         identity, model, compiler, config = context.run_local("load continuous artifacts", load)
         from dsrsi.training.context_runner import ContextTrainer

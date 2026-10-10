@@ -4,6 +4,8 @@
 
 最新资源：用户暂停后明确恢复，并确认可用chip12、14、15以及原14/15预留已释放。当前容器为 `ds-rsi-a322-npu-3chip`，逻辑npu:0–2；下文chip8–11四rank指历史验证，不可据此占用现有忙碌芯片。
 
+当前A实验为 `ab-A-anchor1-fields-01`，采用 [Writer位置池化](writer-position-anchors.md)。原v4已累计2000微批完整停止，完整代码EM仍0；新结构通过显式权重接续保留原run并另起训练态，首批上限500微批。恢复此新run使用下文配置，将run-dir改为 `runs/ab-A-anchor1-fields-01`、预算改为 `24552452`、累计上限改为 `500`，只用 `--resume`。架构从checkpoint继承，不再次加 `--init-from`，不能在恢复时改变anchor权重。
+
 ## 三芯片接续
 
 原v4在第1000微批、250优化器步完整停止，累计梯度为空。显式转换保留其训练态并创建 `ab-A-v4-fields-keep-3chip-01`，原checkpoint、第四rank状态和暂停请求保留：

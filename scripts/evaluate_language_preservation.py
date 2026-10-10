@@ -36,7 +36,8 @@ def main():
                 "weights": {name: file_sha256(root / name) for name in sorted(set(index.values()))}}
     store = CheckpointStore(Path(args.run_dir) / "checkpoints")
     committed = store.load_committed()
-    model = MemoryQwen.from_local_checkpoint(root, device=device).eval()
+    model = MemoryQwen.from_local_checkpoint(root, device=device,
+        memory_architecture=committed[1]["identity"].get("memory_architecture")).eval()
     loader = {"C_tools": load_c_tool_weights, "C_context": load_context_weights}.get(
         committed[1]["progress"]["stage"], load_ab_weights)
     checkpoint, manifest = loader(model, store, base_identity=identity, committed=committed)

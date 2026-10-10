@@ -59,7 +59,7 @@ def reduce_ab_replicas(source_run, target_run, *, world_size, dry_run=False):
     payloads = [source.load_rank(directory, manifest, rank=rank) for rank in range(old_size)]
     reference = payloads[0]
     next_ordinal = reference["data_cursor"].get("next_ordinal")
-    if not isinstance(next_ordinal, int) or next_ordinal < 0 or next_ordinal % old_size:
+    if not isinstance(next_ordinal, int) or next_ordinal < 0:
         raise CheckpointError("source cursor is not a contiguous replica boundary")
     shared = ("weights", "frozen_auxiliary", "buffers", "optimizer", "scheduler", "scaler")
     for rank, payload in enumerate(payloads):

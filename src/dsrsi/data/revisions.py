@@ -7,12 +7,15 @@ from .robust import (AB_DATA_REVISION as AB_V2_REVISION, LEGACY_AB_REVISION,
                      data_identity as v2_identity, make_generator as v2_generator)
 from .robust_order import AB_ORDER_REVISION, RandomOrderEpisodeGenerator
 from .robust_fields import AB_FIELDS_REVISION, AllFieldsEpisodeGenerator
+from .indexed_digits import AB_INDEXED_REVISION, IndexedDigitEpisodeGenerator
 
 AB_DATA_REVISION = AB_FIELDS_REVISION
-AB_REVISIONS = (LEGACY_AB_REVISION, AB_V2_REVISION, AB_ORDER_REVISION, AB_FIELDS_REVISION)
+AB_REVISIONS = (LEGACY_AB_REVISION, AB_V2_REVISION, AB_ORDER_REVISION, AB_FIELDS_REVISION, AB_INDEXED_REVISION)
 
 
 def make_generator(*, revision=AB_DATA_REVISION, **kwargs):
+    if revision == AB_INDEXED_REVISION:
+        return IndexedDigitEpisodeGenerator(**kwargs)
     if revision == AB_FIELDS_REVISION:
         return AllFieldsEpisodeGenerator(**kwargs)
     if revision == AB_ORDER_REVISION:
@@ -21,6 +24,12 @@ def make_generator(*, revision=AB_DATA_REVISION, **kwargs):
 
 
 def data_identity(revision):
+    if revision == AB_INDEXED_REVISION:
+        identity = data_identity(AB_FIELDS_REVISION)
+        identity["revision"] = revision
+        path = Path(__file__).resolve().with_name("indexed_digits.py")
+        identity["files"][path.name] = hashlib.sha256(path.read_bytes()).hexdigest()
+        return identity
     if revision not in (AB_ORDER_REVISION, AB_FIELDS_REVISION):
         return v2_identity(revision)
     identity = v2_identity(AB_V2_REVISION)

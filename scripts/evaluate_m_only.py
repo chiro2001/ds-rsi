@@ -2,6 +2,7 @@
 """Held-out free generation and memory ablation on a committed checkpoint."""
 
 import argparse
+from collections import defaultdict
 import json
 from pathlib import Path
 
@@ -24,12 +25,14 @@ def main():
     parser.add_argument("--languages", nargs="+", choices=["zh", "en", "cross_language"], default=["zh"])
     parser.add_argument("--threads", type=int, default=8)
     parser.add_argument("--device", default="cpu")
-    parser.add_argument("--eval-data-revision", choices=["ab-v1", "ab-v2-matched-entities", "ab-v3-random-entity-order", "ab-v4-fields-and-language"],
+    parser.add_argument("--eval-data-revision", choices=["ab-v1", "ab-v2-matched-entities", "ab-v3-random-entity-order", "ab-v4-fields-and-language", "ab-v5-indexed-digits"],
                         help="explicit distribution challenge; default matches the pinned training revision")
     parser.add_argument("--include-foreign", action="store_true", help="replace all selected payloads with the other counterfactual world")
     parser.add_argument("--modes", nargs="+", choices=["actual", "oracle", "oracle_foreign", "off", "shuffled", "foreign"],
                         default=["actual", "oracle", "off", "shuffled"])
     parser.add_argument("--memory-candidates", type=int, default=8)
+    parser.add_argument("--probe-view", choices=["full", "indexed"], default="full",
+                        help="v5 auxiliary view is diagnostic only; formal recall uses full codes")
     args = parser.parse_args()
     if args.worlds < 1 or args.distractors < 8 or args.threads < 1:
         raise ValueError("positive worlds/threads and at least 8 distractors are required")
@@ -69,7 +72,11 @@ def main():
     checkpoint_dir, manifest = loader(model, store, base_identity=actual_base, committed=committed)
     evaluator = MOnlyEvaluator(model, compiler, max_new_tokens=args.max_new_tokens, memory_candidates=args.memory_candidates)
     eval_revision = args.eval_data_revision or data_revision
-    generator = make_generator(revision=eval_revision, seed=config["seed"], split=args.split, distractors=args.distractors)
+    if args.probe_view != "full" and eval_revision != "ab-v5-indexed-digits":
+        raise ValueError("indexed probe view requires the explicit v5 data revision")
+    view = {"probe_view": args.probe_view} if eval_revision == "ab-v5-indexed-digits" else {}
+    generator = make_generator(revision=eval_revision, seed=config["seed"], split=args.split,
+                               distractors=args.distractors, **view)
     records = []
     model.eval()
     for world in range(args.worlds):
@@ -103,8 +110,16 @@ def main():
                     for result in results:
                         result.update(episode_id=row["episode_id"], world_id=row["world_id"], variant=variant,
                                       family=family, language=language)
+                        result["codec_task"] = row["annotations"].get("codec_task", "full_code" if family == "single_fact" else None)
+                        result["answer_character_position"] = row["annotations"].get("answer_character_position")
                         records.append(result)
     summary = summarize_records(records, retrieval_only=args.retrieval_only)
+    by_task, by_position = defaultdict(list), defaultdict(list)
+    for record in records:
+        if record.get("codec_task") is not None:
+            by_task[record["codec_task"]].append(record)
+        if record.get("answer_character_position") is not None:
+            by_position[str(record["answer_character_position"])].append(record)
     report = {"status": "heldout_retrieval_only" if args.retrieval_only else "heldout_free_generation", "split": args.split,
               "checkpoint": checkpoint_dir.name, "training_world_size": manifest["world_size"],
               "manifest_sha256": file_sha256(checkpoint_dir / "manifest.json"), "base_identity": actual_base,
@@ -114,10 +129,14 @@ def main():
               "evaluation_data_identity": data_identity(eval_revision), "distribution_challenge": eval_revision != data_revision,
               "device": device,
               "memory_candidates": args.memory_candidates,
+              "probe_view": args.probe_view, "auxiliary_probe_diagnostic": args.probe_view == "indexed",
               "modes": modes if not args.retrieval_only else [],
               "foreign_payload_ablation": (args.include_foreign or any(m in args.modes for m in ("foreign", "oracle_foreign"))) and not args.retrieval_only,
               "checkpoint_progress": manifest["progress"], "max_new_tokens": args.max_new_tokens,
               "worlds": args.worlds, "summary": summary, "records": records,
+              "by_codec_task": {key: summarize_records(rows, retrieval_only=args.retrieval_only) for key, rows in by_task.items()},
+              "by_answer_character_position": {key: summarize_records(rows, retrieval_only=args.retrieval_only)
+                                               for key, rows in by_position.items()},
               "capability_gate_passed": False}
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)

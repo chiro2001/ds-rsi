@@ -32,7 +32,8 @@ def assert_equal(left, right, path="state"):
         raise AssertionError(f"{path}: {left!r} != {right!r}")
 
 
-def worker(rank, base, run_root, threads, identity, requested_device, world_size, controls, writer_anchor_weight, reader_gate_mode):
+def worker(rank, base, run_root, threads, identity, requested_device, world_size, controls, writer_anchor_weight,
+           reader_gate_mode, micro_steps):
     from transformers import AutoTokenizer
     from dsrsi.data.compiler import EpisodeCompiler
     from dsrsi.model.qwen35_memory import MemoryQwen
@@ -72,7 +73,17 @@ def worker(rank, base, run_root, threads, identity, requested_device, world_size
                                           data_cursor=instance.cursor, life_state=instance.life,
                                           device=device, rank=rank, world_size=world_size)
         full = trainer("full")
-        assert full.run(max_micro_steps=5, install_signals=False) == "stopped"
+        auxiliary = 0
+        full_objective = full.objective
+        def observe(row, **kwargs):
+            nonlocal auxiliary
+            auxiliary += int(row.get("annotations", {}).get("codec_task") == "indexed_character")
+            return full_objective(row, **kwargs)
+        full.objective = observe
+        assert full.run(max_micro_steps=micro_steps, install_signals=False) == "stopped"
+        global_auxiliary = context.totals(auxiliary, 0, 0)[0]
+        if config.data_revision == "ab-v5-indexed-digits" and not global_auxiliary:
+            raise AssertionError("recovery proof did not exercise any indexed-character episodes")
         reference = snapshot(full)
         del full
         with torch.no_grad():
@@ -92,14 +103,15 @@ def worker(rank, base, run_root, threads, identity, requested_device, world_size
                 resumed.control._signal_action = "pause"
             return result
         resumed.objective = pause
-        assert resumed.run(max_micro_steps=5, install_signals=False) == "paused"
+        assert resumed.run(max_micro_steps=micro_steps, install_signals=False) == "paused"
         assert resumed.progress.micro_step == 3 and resumed.progress.accumulation_index == 3
         resumed = trainer("resumed", resume=True)
-        assert resumed.run(max_micro_steps=5, install_signals=False) == "stopped"
+        assert resumed.run(max_micro_steps=micro_steps, install_signals=False) == "stopped"
         context.run_local("compare complete training states", lambda: assert_equal(reference, snapshot(resumed)))
         report = {"rank": rank, "device": device, "progress": asdict(resumed.progress), "cursor": resumed.cursor,
                   "exact_state_match": True, "worker_pause_micro_step": 3,
                   "pending_gradient_microbatches": resumed.progress.accumulation_index,
+                  "observed_auxiliary_episodes": auxiliary, "global_observed_auxiliary_episodes": global_auxiliary,
                   "elapsed_seconds": time.monotonic() - started}
         (Path(run_root) / f"result_rank_{rank}.json").write_text(json.dumps(report, indent=2) + "\n")
     finally:
@@ -122,8 +134,10 @@ def main():
     parser.add_argument("--keep-weight", type=float, default=0.2)
     parser.add_argument("--writer-anchor-weight", type=float, default=0)
     parser.add_argument("--reader-gate-mode", choices=["token", "lookup"], default="token")
+    parser.add_argument("--data-revision", default="ab-v4-fields-and-language")
+    parser.add_argument("--micro-steps", type=int, default=5)
     args = parser.parse_args()
-    if args.threads_per_rank < 1 or args.world_size < 2:
+    if args.threads_per_rank < 1 or args.world_size < 2 or args.micro_steps < 4:
         raise ValueError("threads must be positive and world size at least two")
     root = Path(args.run_root).resolve()
     root.mkdir(parents=True, exist_ok=False)
@@ -136,8 +150,9 @@ def main():
     controls = {"memory_candidates": args.memory_candidates, "counterfactual_weight": args.counterfactual_weight,
                 "curriculum": args.curriculum, "distractors": args.distractors,
                 "keep_fraction": args.keep_fraction, "keep_weight": args.keep_weight}
+    controls["data_revision"] = args.data_revision
     mp.spawn(worker, args=(str(base), str(root), args.threads_per_rank, identity, args.device, args.world_size, controls,
-                           args.writer_anchor_weight, args.reader_gate_mode),
+                           args.writer_anchor_weight, args.reader_gate_mode, args.micro_steps),
              nprocs=args.world_size, join=True)
     report = {"status": f"pretrained_{args.device}_{'hccl' if args.device == 'npu' else 'gloo'}_recovery_only",
               "world_size": args.world_size,

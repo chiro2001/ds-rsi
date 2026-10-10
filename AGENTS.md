@@ -5,7 +5,7 @@
 - 用户已授权恢复任务，当前使用 a3-22（host22）chip12、14、15，逻辑 npu:0–2；用户明确确认 `dsv41-real-operator-probe-20261010-v4` 的14/15预留已释放。使用前核验健康、进程和容器映射，独立非 privileged 容器保留物理设备节点原名。不停止、删除或重建其他人的容器或进程，不触碰忙碌或仍被预留的芯片。单颗die隔离时容器npu-smi不显示对应卡，使用只读挂载且300秒内的宿主健康报告；不为健康查询映射忙碌的chip13。
 - 收到暂停指令后首先安全保存并停止本项目负载；具体恢复语义见 docs/training-recovery.md。
 - checkpoint 必须保存完整训练态；中途停止不得写成 completed。恢复时校验底座、配置、数据和并行拓扑，不默默丢弃状态。
-- 当前正式A run为 `ab-A-anchor1-lookup-01`，继承Writer位置池化并增加 `reader_gate_version=lookup_v1`，首批上限500微批，来源权重/完整训练态保留。恢复只用 `--resume`并继承架构，不能默默改回token门控；架构/课程变更使用新run和显式来源，A预算按来源链累计。B/C fixture仅做工程验证，能力门槛仍未通过。
+- 当前正式A run为 `ab-A-v5-indexed-01`，使用 `ab-v5-indexed-digits`、Writer位置池化及lookup门控，首批上限1000微批。来源持续门控第500微批完整状态保留；恢复只用 `--resume`并匹配v5数据与预算23,146,192。约30%事实任务为辅助单数字题，dev/test默认完整代码；辅助EM不能代替M5。A预算按来源链累计；B/C fixture只做工程验证，能力门槛仍未通过。
 - 同一芯片上HCCL验证/训练串行启动，不能只改变torchrun端口后并行，NPU端口仍会冲突；启动失败先核验本项目进程组已退出及有效checkpoint，不能据观察超时重启。
 - A/B的4→3 rank转换只允许在已停止/暂停且累计梯度为空的优化器边界，使用 `python -m dsrsi.training.topology` 创建新run并保留旧run。保留优化器、账本、未消费游标和所用rank的RNG；不再参与的rank完整状态留在来源checkpoint。迁移会改变未来批量，不能声称与四rank轨迹逐位一致；C持续life与累计中途不可使用此转换。
 - 数据、模型权重、checkpoint、凭据、环境文件与大日志不入 Git；仓库仅纳入代码、配置、数据清单、示例与报告。

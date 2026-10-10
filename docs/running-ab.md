@@ -8,6 +8,8 @@
 
 最新正式A为 `ab-A-anchor1-lookup-01`，继续 [检索期间保持门控](reader-lookup-gates.md) 实验。恢复时run-dir使用此名称，预算为 `23849322`、首批累计上限500，只用 `--resume`；框架从checkpoint继承位置池化及lookup门控。前述位置池化run已完成500微批并完整停止，完整代码仍0。HCCL任务须串行，不能同时在这些芯片启动验证与训练。
 
+2026-10-11最新A课程为 `ab-A-v5-indexed-01`，见 [辅助位置课程](indexed-digit-curriculum.md)。恢复使用 `--data-revision ab-v5-indexed-digits --student-tokens 23146192 --max-micro-steps 1000 --resume`；其余facts、候选1、CF权重1/margin2、40%保持/权重0.5及累积4配置保持。架构从checkpoint继承，不能再次 `--init-from`。正式完整回忆默认 `--probe-view full`，辅助诊断显式 `--probe-view indexed`，两份报告不能混同。
+
 ## 三芯片接续
 
 原v4在第1000微批、250优化器步完整停止，累计梯度为空。显式转换保留其训练态并创建 `ab-A-v4-fields-keep-3chip-01`，原checkpoint、第四rank状态和暂停请求保留：

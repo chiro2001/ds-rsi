@@ -2,6 +2,7 @@
 """Compare original/optimized training and optimized mid-gradient recovery."""
 
 import argparse
+from contextlib import nullcontext
 from dataclasses import asdict, replace
 import json
 from pathlib import Path
@@ -19,6 +20,10 @@ def main():
     parser.add_argument("--output", required=True)
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--micro-steps", type=int, default=50)
+    parser.add_argument("--data-revision", choices=["ab-v5-indexed-digits", "ab-v6-natural-keep"],
+                        default="ab-v5-indexed-digits")
+    parser.add_argument("--gdn-inverse", choices=["scripted_rows"],
+                        help="profiling-only GDN test; both sides retain frozen prefix reuse")
     args = parser.parse_args()
     if args.micro_steps < 4:
         parser.error("at least four microsteps required")
@@ -56,8 +61,8 @@ def main():
     initial_rng = capture_rng(device)
     config = TrainConfig(student_token_budget=100000, gradient_accumulation=6,
                          distractors=7, seed=20261010, curriculum="facts", memory_candidates=1,
-                         data_revision="ab-v5-indexed-digits", counterfactual_weight=1,
-                         keep_fraction=0.4, keep_weight=0.5)
+                         data_revision=args.data_revision, counterfactual_weight=1,
+                         keep_fraction=0.4, keep_weight=0.5, reuse_frozen_prefix=bool(args.gdn_inverse))
     def reset():
         with torch.no_grad():
             for name, parameter in model.named_parameters():
@@ -68,42 +73,65 @@ def main():
                 buffer.copy_(initial_buffers[name])
         restore_rng(initial_rng, device)
     def trainer(name, optimized, resume=False):
-        return Trainer(model, compiler, root / name, replace(config, reuse_frozen_prefix=optimized),
+        return Trainer(model, compiler, root / name, replace(config, reuse_frozen_prefix=optimized or bool(args.gdn_inverse)),
                        base_identity=identity, resume=resume)
+    def scope():
+        if not args.gdn_inverse:
+            return nullcontext()
+        from dsrsi.model.experimental_gdn import experimental_gdn_inverse
+        return experimental_gdn_inverse(model, args.gdn_inverse)
     def snapshot(t):
         return capture_training_state(model, t.optimizer, progress=t.progress, data_cursor=t.cursor,
                                       life_state=t.life, device=device)
     base_trainer = trainer("baseline", False)
-    auxiliary = [0]
+    coverage = {"auxiliary": 0, "natural_keep": 0, "unknown_wall_keep": 0, "legacy_keep": 0, "full_code": 0}
     original = base_trainer.objective
     def observe(row, **kwargs):
-        auxiliary[0] += int(row.get("annotations", {}).get("codec_task") == "indexed_character")
+        a = row.get("annotations", {})
+        if a.get("natural_keep"):
+            coverage["natural_keep"] += 1
+            coverage["unknown_wall_keep"] += int(not a.get("keep_wall_time_known"))
+        elif row["family"] == "language_preservation":
+            coverage["legacy_keep"] += 1
+        elif a.get("codec_task") == "indexed_character":
+            coverage["auxiliary"] += 1
+        else:
+            coverage["full_code"] += 1
         return original(row, **kwargs)
     base_trainer.objective = observe
     assert base_trainer.run(max_micro_steps=args.micro_steps, install_signals=False) == "stopped"
-    if not auxiliary[0]:
+    if not coverage["auxiliary"]:
         raise AssertionError("proof did not exercise indexed-character episodes")
+    if args.data_revision == "ab-v6-natural-keep" and not all(coverage[k] for k in coverage):
+        raise AssertionError(f"proof did not cover the v6 episode kinds: {coverage}")
     reference = snapshot(base_trainer)
     del base_trainer
     reset()
     full = trainer("optimized", True)
-    assert full.run(max_micro_steps=args.micro_steps, install_signals=False) == "stopped"
+    with scope():
+        assert full.run(max_micro_steps=args.micro_steps, install_signals=False) == "stopped"
     require_equal(reference, snapshot(full), "original-vs-optimized")
     del full
     reset()
     part = trainer("resumed", True)
-    assert part.run(max_micro_steps=3, install_signals=False) == "stopped"
+    with scope():
+        assert part.run(max_micro_steps=3, install_signals=False) == "stopped"
     assert part.progress.accumulation_index == 3
     del part
     resumed = trainer("resumed", True, resume=True)
-    assert resumed.run(max_micro_steps=args.micro_steps, install_signals=False) == "stopped"
+    with scope():
+        assert resumed.run(max_micro_steps=args.micro_steps, install_signals=False) == "stopped"
     require_equal(reference, snapshot(resumed), "optimized-recovery")
-    report = {"status": "pretrained_prefix_reuse_training_equivalence_and_recovery_only",
+    report = {"status": ("pretrained_gdn_training_equivalence_and_recovery_only" if args.gdn_inverse else
+                         "pretrained_prefix_reuse_training_equivalence_and_recovery_only"),
               "source_checkpoint": checkpoint.name, "source_manifest_sha256": file_sha256(checkpoint / "manifest.json"),
               "source_weights_used_but_test_optimizer_and_cursor_started_fresh": True,
               "base_identity": identity, "device": device, "world_size": 1, "config": asdict(config),
               "micro_steps": args.micro_steps, "pause_micro_step": 3, "pause_accumulation_index": 3,
-              "observed_auxiliary_episodes": auxiliary[0], "final_progress": asdict(resumed.progress),
+              "observed_auxiliary_episodes": coverage["auxiliary"], "episode_coverage": coverage,
+              "gdn_inverse": args.gdn_inverse, "common_prefix_reuse": bool(args.gdn_inverse),
+              "profiling_scope_not_persisted_in_test_checkpoints": bool(args.gdn_inverse),
+              "final_progress": asdict(resumed.progress),
               "original_vs_optimized_exact_state_match": True, "optimized_recovery_exact_state_match": True,
               "formal_training_ledger_modified": False, "trained_recall_claimed": False}
     output = Path(args.output)

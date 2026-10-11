@@ -1,0 +1,66 @@
+{
+  "status": "stopped",
+  "run_id": "ab-A-v6-natural-keep-w1-prefix-02",
+  "checkpoint": "micro_000000000714_5559865da6",
+  "manifest_sha256": "d7a6d252be6105173e0d4f7df9b2cbf69c942f337c797de0fa2e2f2f4c3f8f4b",
+  "progress": {
+    "accumulation_index": 0,
+    "micro_step": 714,
+    "optimizer_step": 119,
+    "stage": "A",
+    "student_tokens": 696760,
+    "teacher_tokens": 57508
+  },
+  "train_config": {
+    "counterfactual_margin": 2.0,
+    "counterfactual_weight": 1.0,
+    "curriculum": "facts",
+    "data_revision": "ab-v6-natural-keep",
+    "distractors": 7,
+    "gradient_accumulation": 6,
+    "gradient_clip": 1.0,
+    "keep_fraction": 0.4,
+    "keep_weight": 1.0,
+    "learning_rate": 0.00025,
+    "memory_candidates": 1,
+    "reuse_frozen_prefix": true,
+    "save_every_micro": 100,
+    "seed": 20261010,
+    "stage": "A",
+    "student_token_budget": 16505710,
+    "weight_decay": 0.01
+  },
+  "ranks": [
+    {
+      "rank": 0,
+      "data_cursor": {
+        "next_ordinal": 1428,
+        "schema_version": 1
+      },
+      "optimizer_entries": 34,
+      "rng_components": [
+        "python",
+        "numpy",
+        "torch_cpu",
+        "accelerator"
+      ]
+    },
+    {
+      "rank": 1,
+      "data_cursor": {
+        "next_ordinal": 1429,
+        "schema_version": 1
+      },
+      "optimizer_entries": 34,
+      "rng_components": [
+        "python",
+        "numpy",
+        "torch_cpu",
+        "accelerator"
+      ]
+    }
+  ],
+  "source_chain_student_tokens": 14191050,
+  "remaining_chain_budget": 15808950,
+  "runtime_code_commit": "00d827ea5e45d673825f9dfe526ee37939de645c"
+}

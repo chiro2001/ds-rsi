@@ -12,8 +12,14 @@ w1第500完整回忆61/96、反事实成对25/48、native保持中英均过原�
 
 宿主npu-smi分别在物理14/15报告Python PID2950815/2947496，约15GB设备内存。只读进程树定位到UID1002、模块 `QwenMoE_myVQ.pipeline`；父进程来自cron、不是项目容器。本项目容器只剩sleep，训练launcher和rank worker已退出；没有停止、删除或修改这些外部负载。
 
+宿主21:42更新：chip12也被同一UID/模块占用，PID3005056/2947958；HBM占用50%、NPU利用率100%，进程内存合计约30GB。chip14/15 HBM各27%，NPU利用率75%/89%，进程内存约15GB各一份。三颗健康均OK。两个项目容器仍只剩sleep，没有性能或训练负载；当前全部授权芯片不可启动新GPU任务。
+
 一次空闲检查失败后，执行方没有将失败作为短接续的启动阻断，构成执行错误。短接续已正常完整停止，后来发出的pause请求保留在源control中，不复制到新执行分支。后续GPU启动由宿主 `run_a322_checked.py` 在同一进程完成健康/空闲及映射验证后执行；失败绝不调用docker exec。训练配置、累计梯度和旧checkpoint均未为绕过检查而重置。
 
 ## 后续
 
 在新run恢复基准GDN、保持前缀复用，并逐rank核对完整payload。所有CPU准备可完成；只有确认授权设备空闲后才启动GPU。当前14/15外部占用需要用户协调，或明确调整可用资源，不能自行干预其他人的进程或改用其他芯片。
+
+CPU恢复已完成：新run `ab-A-v6-natural-keep-w1-prefix-02`，checkpoint `micro_000000000714_5559865da6`、SHA `d7a6d252be6105173e0d4f7df9b2cbf69c942f337c797de0fa2e2f2f4c3f8f4b`，完整payload复制一致，gdn覆盖开关移除、前缀复用保留。全部325项CPU测试及代码00d827e的GitHub CI通过。统一启动器在当前占用状态下实际拒绝了一个Python版本查询，未执行docker exec；该验证没有启动GPU。恢复分支保留stopped状态，等待资源确认。
+
+原始：[基准执行恢复](ab-A-v6-w1-original-gdn-restoration.json)、[第714完整状态](ab-A-v6-w1-714-stopped-training-summary.json)。

@@ -9,6 +9,7 @@ from .robust_order import AB_ORDER_REVISION, RandomOrderEpisodeGenerator
 from .robust_fields import AB_FIELDS_REVISION, AllFieldsEpisodeGenerator
 from .indexed_digits import AB_INDEXED_REVISION, IndexedDigitEpisodeGenerator
 from .natural_keep import AB_NATURAL_KEEP_REVISION, NaturalKeepEpisodeGenerator
+from .compression import COMPRESSION_REVISION, CompressionEpisodeGenerator
 
 AB_DATA_REVISION = AB_FIELDS_REVISION
 AB_REVISIONS = (LEGACY_AB_REVISION, AB_V2_REVISION, AB_ORDER_REVISION, AB_FIELDS_REVISION,
@@ -18,6 +19,8 @@ AB_REVISIONS = (LEGACY_AB_REVISION, AB_V2_REVISION, AB_ORDER_REVISION, AB_FIELDS
 def make_generator(*, revision=AB_DATA_REVISION, **kwargs):
     if revision == AB_NATURAL_KEEP_REVISION:
         return NaturalKeepEpisodeGenerator(**kwargs)
+    if revision == COMPRESSION_REVISION:
+        return CompressionEpisodeGenerator(**kwargs)
     if revision == AB_INDEXED_REVISION:
         return IndexedDigitEpisodeGenerator(**kwargs)
     if revision == AB_FIELDS_REVISION:
@@ -36,6 +39,12 @@ def data_identity(revision):
                  Path(__file__).resolve().parents[1] / "training/episode_objective.py")
         for path in paths:
             identity["files"][path.name] = hashlib.sha256(path.read_bytes()).hexdigest()
+        return identity
+    if revision == COMPRESSION_REVISION:
+        identity = data_identity(AB_DATA_REVISION)
+        identity["revision"] = revision
+        path = Path(__file__).resolve().with_name("compression.py")
+        identity["files"][path.name] = hashlib.sha256(path.read_bytes()).hexdigest()
         return identity
     if revision == AB_INDEXED_REVISION:
         identity = data_identity(AB_FIELDS_REVISION)

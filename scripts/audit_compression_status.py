@@ -104,11 +104,11 @@ def source_scan():
     data_modules = sorted(p.name for p in (ROOT / "src/dsrsi/data").glob("*.py"))
     scripts = sorted(p.name for p in (ROOT / "scripts").glob("*.py") if p.name != Path(__file__).name)
     return {
-        "consolidator_frozen_in_every_stage": all(frozen.values()),
+        "consolidator_frozen_in_ab_c_and_loaders": all(frozen.values()),
         "consolidator_frozen_by_file": frozen,
         "compression_data_module_present": any("compress" in name or "summar" in name for name in data_modules),
         "compression_data_modules": data_modules,
-        "compression_objective_present": has("src/dsrsi/training/episode_objective.py", "CompressionObjective"),
+        "compression_objective_present": has("src/dsrsi/training/compression_objective.py", "class CompressionObjective"),
         "ab_objective_rejects_merge_events": has("src/dsrsi/training/episode_objective.py",
                                                  "A/B cannot silently train a compression transform"),
         "m_only_evaluator_rejects_merge_events": has("src/dsrsi/evaluation/m_only.py",
@@ -202,20 +202,24 @@ def main():
                                      slots=PRODUCTION["slots"], key_dim=PRODUCTION["key_dim"],
                                      summary_slots=PRODUCTION["summary_slots"])
     from dsrsi.memory.modules import Consolidator
+    scan = source_scan()
+    missing = []
+    if not scan["compression_data_module_present"]:
+        missing.append("D 内容课程尚未实现：没有生成 3d+1 叶链、支撑限定在第一组四叶的数据模块")
+    if not scan["compression_objective_present"]:
+        missing.append("D 目标函数尚未实现：压缩后回答 CE 与经自由生成筛查的叶教师 top32+tail KL 都无执行路径")
     report = {
         "status": "compression_protocol_not_trained",
         "capability_gate_passed": False,
         "consolidator_parameters_tiny": sum(p.numel() for p in model.consolidator.parameters()),
         "consolidator_parameters_production": sum(p.numel() for p in Consolidator(production_config).parameters()),
-        "source_scan": source_scan(),
+        "source_scan": scan,
         "production_sizes": production_sizes(),
         "curriculum_chain": chains,
         "invariants": invariants(),
         "runtime_compaction_policy": "StreamExecutor._fit_record compacts the first four stored records in "
                                      "insertion order; if that cannot reduce, it merges incoming with them",
-        "open_requirements": [
-            "D 内容课程尚未实现：没有生成 3d+1 叶链、支撑限定在第一组四叶的数据模块",
-            "D 目标函数尚未实现：压缩后回答 CE 与经自由生成筛查的叶教师 top32+tail KL 都无执行路径",
+        "open_requirements": missing + [
             "D 训练器尚未实现：train_ab.py 只接受 A/B；恢复/控制/账本与 stage D 未接入",
             "摘要寻址尚未适配：地址模块没有叶/摘要混合池覆盖训练",
             "压缩评测尚未实现：m_only 明确拒绝 merge_events，没有禁用/反事实 payload、递归深度分项和保留率评测",

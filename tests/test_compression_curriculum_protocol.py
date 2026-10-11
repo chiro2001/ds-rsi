@@ -1,4 +1,4 @@
-# Protocol invariants for the not-yet-implemented D compression curriculum.
+# Protocol invariants for D compression primitives and content curriculum.
 # These pin the mechanisms the D design in docs/semantic-compression.md builds
 # on: the 3d+1 leaf chain reaches real depth, only the Consolidator receives
 # gradients, child order is not an ordering channel, and retrieval keys are

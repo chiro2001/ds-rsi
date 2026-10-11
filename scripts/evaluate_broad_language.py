@@ -37,6 +37,8 @@ def main():
     parser.add_argument("--max-new-tokens", type=int, default=32)
     parser.add_argument("--bootstrap", type=int, default=2000)
     parser.add_argument("--skip-nll", action="store_true")
+    parser.add_argument("--memory-source-format", choices=["native_event", "raw_text"], default="native_event",
+                        help="Writer source encoding; raw_text reproduces the initial out-of-distribution stress test")
     parser.add_argument("--journal", help="atomic progress path; defaults to OUTPUT.journal.json")
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--stop-after-items", type=int, help="safe evaluation interruption for recovery verification")
@@ -55,7 +57,8 @@ def main():
     from dsrsi.data.language_probes import PROBE_REVISION as V1_REVISION
     from dsrsi.data.language_probes import matches, probes as v1_probes
     from dsrsi.evaluation.language_nll import (aggregate, build_scoring_sequence, document_totals,
-                                               paired_bootstrap, retention_gate, score_sequence)
+                                               paired_bootstrap, retention_gate, score_sequence,
+                                               unrelated_source_ids)
     from dsrsi.evaluation.checkpoint import load_ab_weights, load_c_tool_weights, load_context_weights
     from dsrsi.evaluation.m_only import MOnlyEvaluator
     from dsrsi.evaluation.pinned import load_pinned
@@ -109,7 +112,7 @@ def main():
         "config": {"window": args.window, "windows_per_language": args.windows_per_language,
                    "protocols": list(protocols), "modes": list(args.modes), "probe_set": args.probe_set,
                    "max_new_tokens": args.max_new_tokens, "bootstrap": args.bootstrap,
-                   "skip_nll": args.skip_nll},
+                   "skip_nll": args.skip_nll, "memory_source_format": args.memory_source_format},
         "implementation": {str(path.relative_to(source_root)): file_sha256(path)
                            for path in sorted((source_root / "src/dsrsi").rglob("*.py"))},
         "script_sha256": file_sha256(__file__)}
@@ -130,13 +133,12 @@ def main():
 
     unrelated = {}
     if "unrelated" in args.modes:
-        source_text = {"zh": "白杨-941208的箱封码是J8-672。",
-                       "en": "The seal code for Poplar-941208 is J8-672."}
-        for language, text in source_text.items():
-            ids = tokenizer.encode(text, add_special_tokens=False)
-            unrelated[language] = model.write_records(
-                torch.tensor([ids], device=device), stream_ids=[f"language-retention-{language}"],
-                logical_begins=[0], record_ids=[f"language-unrelated-{language}"])[0]
+        for language in ("zh", "en"):
+            ids = unrelated_source_ids(tokenizer, language, source_format=args.memory_source_format)
+            with torch.no_grad():
+                unrelated[language] = model.write_records(
+                    torch.tensor([ids], device=device), stream_ids=[f"language-retention-{language}"],
+                    logical_begins=[0], record_ids=[f"language-unrelated-{language}"])[0]
 
     if not args.skip_nll:
         manifest_document = json.loads(Path(args.manifest).read_text())
@@ -148,6 +150,8 @@ def main():
                "by_language_documents": {language: len(documents_for_language(documents, language))
                                          for language in ("zh", "en")},
                "document_sha256": {document.document_id: document.sha256 for document in documents},
+               "memory_source": {"format": args.memory_source_format, "wall_time": "unknown",
+                                 "logical_begin": 0, "query_logical_begin": 4096},
                "parity": {}}
         records = []
         for language in ("zh", "en"):

@@ -15,6 +15,8 @@
 
    NLL使用并行原生训练路径；生成探针使用规范单token流式路径。报告分别记录执行方式，不把teacher forcing写成自由生成。
 
+   无关M默认由与A/B相同的原生user消息框架写入（`--memory-source-format native_event`）；`raw_text`保留首轮裸文本写入压力测试。记录壁钟为unknown、查询逻辑起点为4096，两种写入格式单独报告。首轮未使用原生Writer输入的结果不能直接作为部署编码下的回归结论。
+
 2. **生成探针**：固定 36 题（`language-retention-dev-v1`）加 48 题确定性生成扩展（`language-retention-broad-v1`：算术 16、阅读 12、逻辑 8、代码 6、格式 6），中英各半，全部自由生成、答案不作为输入、带无关 M。
 
 ## 统计口径

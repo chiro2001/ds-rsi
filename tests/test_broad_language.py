@@ -10,13 +10,30 @@ from dsrsi.data.broad_language import (CORPUS_REVISION, CorpusDocument, extended
 from dsrsi.data.compiler import EpisodeCompiler
 from dsrsi.data.language_probes import matches
 from dsrsi.evaluation.language_nll import (aggregate, build_scoring_sequence, document_totals,
-                                           paired_bootstrap, retention_gate, score_sequence)
+                                           paired_bootstrap, retention_gate, score_sequence,
+                                           unrelated_source_ids, UNRELATED_TEXT)
 from test_compiler import BoundaryTokenizer
 
 
 class NativeTokenizer(BoundaryTokenizer):
     def decode(self, tokens, **kwargs):
         return "".join(chr(max(token - 3, 0)) for token in tokens)
+
+
+def test_unrelated_memory_uses_the_same_native_frame_as_compiled_source_events():
+    from dsrsi.data.language_probes import probes
+    tokenizer = NativeTokenizer()
+    compiler = EpisodeCompiler(tokenizer, max_query_tokens=10000)
+    for language in ("zh", "en"):
+        row = next(row for _, row in probes() if row["language"] == language)
+        expected = compiler.compile(row).source[0].input_ids
+        native = unrelated_source_ids(tokenizer, language)
+        raw = unrelated_source_ids(tokenizer, language, source_format="raw_text")
+        assert native == expected
+        assert raw == tokenizer.encode(UNRELATED_TEXT[language], add_special_tokens=False)
+        assert raw != native
+    with pytest.raises(ValueError, match="source format"):
+        unrelated_source_ids(tokenizer, "en", source_format="unsupported")
 
 
 def test_generated_cases_are_deterministic_complete_and_frozen():

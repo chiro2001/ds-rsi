@@ -14,6 +14,19 @@ PROTOCOLS = ("raw", "native")
 MODES = ("base", "off", "unrelated")
 INSTRUCTIONS = {"zh": "请自然地接着写下面的文本，不要添加解释或标题：",
                 "en": "Continue the text below naturally. Do not add explanations or headings:"}
+UNRELATED_TEXT = {"zh": "白杨-941208的箱封码是J8-672。",
+                  "en": "The seal code for Poplar-941208 is J8-672."}
+
+
+def unrelated_source_ids(tokenizer, language, *, source_format="native_event"):
+    """Use the same native user-event encoding as A/B Writer inputs by default."""
+    text = UNRELATED_TEXT[language]
+    if source_format == "raw_text":
+        return tokenizer.encode(text, add_special_tokens=False)
+    if source_format != "native_event":
+        raise ValueError("unknown unrelated-memory source format")
+    from dsrsi.data.compiler import EpisodeCompiler
+    return EpisodeCompiler(tokenizer).encode([{"role": "user", "content": text}])
 
 
 @dataclass(frozen=True)

@@ -33,7 +33,7 @@ def assert_equal(left, right, path="state"):
 
 
 def worker(rank, base, run_root, threads, identity, requested_device, world_size, controls, writer_anchor_weight,
-           reader_gate_mode, micro_steps, source_run, source_checkpoint, compare_prefix_reuse):
+           reader_gate_mode, micro_steps, source_run, source_checkpoint, compare_prefix_reuse, compare_scripted_gdn):
     from transformers import AutoTokenizer
     from dsrsi.data.compiler import EpisodeCompiler
     from dsrsi.model.qwen35_memory import MemoryQwen
@@ -80,8 +80,10 @@ def worker(rank, base, run_root, threads, identity, requested_device, world_size
         initial_rng = capture_rng(device)
         config = TrainConfig(student_token_budget=100000,
                              seed=20261010, save_every_micro=100, **controls)
-        def trainer(directory, resume=False, optimized=None):
+        def trainer(directory, resume=False, optimized=None, gdn=None):
             active_config = config if optimized is None else replace(config, reuse_frozen_prefix=optimized)
+            if gdn is not None:
+                active_config = replace(active_config, gdn_inverse=gdn or None)
             return Trainer(model, compiler, Path(run_root) / directory, active_config,
                            base_identity=identity, collectives=context, resume=resume)
         def reset():
@@ -97,7 +99,8 @@ def worker(rank, base, run_root, threads, identity, requested_device, world_size
             return capture_training_state(model, instance.optimizer, progress=instance.progress,
                                           data_cursor=instance.cursor, life_state=instance.life,
                                           device=device, rank=rank, world_size=world_size)
-        full = trainer("full", optimized=False if compare_prefix_reuse else None)
+        full = trainer("full", optimized=False if compare_prefix_reuse else None,
+                       gdn="" if compare_scripted_gdn else None)
         auxiliary, natural_keep, unknown_time_keep = 0, 0, 0
         full_objective = full.objective
         def observe(row, **kwargs):
@@ -118,10 +121,10 @@ def worker(rank, base, run_root, threads, identity, requested_device, world_size
         reference = snapshot(full)
         del full
         reset()
-        if compare_prefix_reuse:
-            optimized = trainer("optimized", optimized=True)
+        if compare_prefix_reuse or compare_scripted_gdn:
+            optimized = trainer("optimized", optimized=True if compare_prefix_reuse else None)
             assert optimized.run(max_micro_steps=micro_steps, install_signals=False) == "stopped"
-            context.run_local("compare original and prefix reuse states",
+            context.run_local("compare original and optimized states",
                               lambda: assert_equal(reference, snapshot(optimized)))
             del optimized
             reset()
@@ -150,6 +153,8 @@ def worker(rank, base, run_root, threads, identity, requested_device, world_size
                   "global_unknown_time_keep_episodes": global_unknown,
                   "source": source_metadata,
                   "original_vs_prefix_reuse_exact_state_match": True if compare_prefix_reuse else None,
+                  "original_vs_scripted_gdn_exact_state_match": True if compare_scripted_gdn else None,
+                  "gdn_execution": resumed.identity.get("gdn_execution"),
                   "elapsed_seconds": time.monotonic() - started}
         (Path(run_root) / f"result_rank_{rank}.json").write_text(json.dumps(report, indent=2) + "\n")
     finally:
@@ -179,11 +184,15 @@ def main():
     parser.add_argument("--reuse-frozen-prefix", action="store_true")
     parser.add_argument("--compare-prefix-reuse", action="store_true",
                         help="also compare unoptimized and optimized complete training states")
+    parser.add_argument("--compare-scripted-gdn", action="store_true",
+                        help="compare original-order GDN execution and its mid-gradient recovery")
     parser.add_argument("--source-run", help="load trained memory weights, without touching the source run")
     parser.add_argument("--source-checkpoint", help="explicit committed source generation for the read-only proof")
     args = parser.parse_args()
     if args.source_checkpoint and not args.source_run:
         parser.error("--source-checkpoint requires --source-run")
+    if args.compare_scripted_gdn and args.compare_prefix_reuse:
+        parser.error("compare one execution change at a time")
     if args.threads_per_rank < 1 or args.world_size < 2 or args.micro_steps < 4 or args.grad_accum <= 3:
         raise ValueError("threads must be positive, world size at least two and accumulation greater than the pause step3")
     root = Path(args.run_root).resolve()
@@ -201,9 +210,11 @@ def main():
     controls["data_revision"] = args.data_revision
     controls["gradient_accumulation"] = args.grad_accum
     controls["reuse_frozen_prefix"] = args.reuse_frozen_prefix or args.compare_prefix_reuse
+    if args.compare_scripted_gdn:
+        controls["gdn_inverse"] = "scripted_rows"
     mp.spawn(worker, args=(str(base), str(root), args.threads_per_rank, identity, args.device, args.world_size, controls,
                            args.writer_anchor_weight, args.reader_gate_mode, args.micro_steps,
-                           args.source_run, args.source_checkpoint, args.compare_prefix_reuse),
+                           args.source_run, args.source_checkpoint, args.compare_prefix_reuse, args.compare_scripted_gdn),
              nprocs=args.world_size, join=True)
     report = {"status": f"pretrained_{args.device}_{'hccl' if args.device == 'npu' else 'gloo'}_recovery_only",
               "world_size": args.world_size,
@@ -212,6 +223,7 @@ def main():
               "reader_gate_mode": args.reader_gate_mode,
               "source_run": args.source_run, "source_checkpoint": args.source_checkpoint,
               "compare_prefix_reuse": args.compare_prefix_reuse,
+              "compare_scripted_gdn": args.compare_scripted_gdn,
               "threads_per_rank": args.threads_per_rank, "base_identity": identity,
               "ranks": [json.loads((root / f"result_rank_{rank}.json").read_text()) for rank in range(args.world_size)],
               "trained_recall_claimed": False, "hccl_verified": args.device == "npu"}

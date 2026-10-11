@@ -1,6 +1,7 @@
 """Recoverable A/B executor with coordinated rank boundaries and gradients."""
 
 from dataclasses import asdict, dataclass, replace
+from contextlib import nullcontext
 import hashlib
 import json
 import os
@@ -36,6 +37,7 @@ class TrainConfig:
     keep_fraction: float | None = None
     keep_weight: float = 0.2
     reuse_frozen_prefix: bool = False
+    gdn_inverse: str | None = None
 
     def __post_init__(self):
         if self.stage not in {"A", "B"} or min(self.student_token_budget, self.gradient_accumulation) < 1:
@@ -43,6 +45,8 @@ class TrainConfig:
         self._validate_common()
         if type(self.reuse_frozen_prefix) is not bool:
             raise ValueError("frozen prefix reuse must be a boolean")
+        if self.gdn_inverse not in {None, "scripted_rows"}:
+            raise ValueError("only the verified original-order scripted GDN execution is supported")
         if self.data_revision not in AB_REVISIONS or self.curriculum not in ("mixed", "facts", "locations"):
             raise ValueError("unknown data revision/curriculum")
         if self.data_revision == LEGACY_AB_REVISION and self.curriculum != "mixed":
@@ -149,6 +153,8 @@ class Trainer:
         self.optimizer.zero_grad(set_to_none=True)
         self.generator = make_generator(revision=config.data_revision, seed=config.seed, distractors=config.distractors)
         config_identity = asdict(config)
+        if config.gdn_inverse is None:
+            config_identity.pop("gdn_inverse")
         if not config.reuse_frozen_prefix:
             config_identity.pop("reuse_frozen_prefix")
         if config.keep_fraction is None:
@@ -172,6 +178,9 @@ class Trainer:
         if config.reuse_frozen_prefix:
             path = Path(__file__).resolve().parents[1] / "model/frozen_prefix_reuse.py"
             self.identity["prefix_reuse"] = {"version": "native-frozen-prefix-reuse-v1", "sha256": file_sha256(path)}
+        if config.gdn_inverse is not None:
+            from dsrsi.model.gdn_execution import gdn_execution_identity
+            self.identity["gdn_execution"] = gdn_execution_identity()
         if self.world_size > 1:
             self.identity["execution_semantics"] = "ab-episode-v4-query-weighted-coordinated-gradients"
         if not resume or "memory_architecture" in self.store.load_committed()[1]["identity"]:
@@ -286,7 +295,13 @@ class Trainer:
         if self.config.counterfactual_weight and row["family"] not in ("language_preservation", "missing_evidence"):
             kwargs["counterfactual_row"] = self.generator.episode(world, variant=1 - variant,
                 family="language_preservation" if keep else family)
-        return row, oracle, self.objective(row, oracle_include=oracle, **kwargs)
+        scope = nullcontext()
+        if self.config.gdn_inverse == "scripted_rows":
+            from dsrsi.model.gdn_execution import scripted_gdn_scope
+            scope = scripted_gdn_scope(self.model)
+        with scope:
+            result = self.objective(row, oracle_include=oracle, **kwargs)
+        return row, oracle, result
 
     def run(self, *, max_micro_steps=None, install_signals=True):
         def prepare():

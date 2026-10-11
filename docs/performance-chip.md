@@ -66,4 +66,18 @@ python -m dsrsi.training.execution \
 
 所有性能候选须满足：损失与梯度等价或明确可接受的精度口径、真实NPU计时收益、完整中断恢复验证及配置/执行身份记录。吞吐改善不代替记忆能力验收；保持和完整自由回忆仍分别评测。先用已提交代码快照部署，保留未完成草稿，避免引用未部署模块导致启动失败。
 
+## 原算术次序GDN执行
+
+`--gdn-inverse scripted_rows` 只允许保留原逐行算术的TorchScript解释器方案，默认关闭；倍增/分块/solve不能作为正式配置。启用后固定HF参考函数、三个执行文件及torch/transformers/torch-npu版本的身份；普通resume必须保持开关与身份，不能在旧run上直接启用。episode临时scope退出后恢复原回退，异常同样恢复。
+
+旧run只在已停止、累积为空且全部梯度为空时迁移：
+
+```bash
+python -m dsrsi.training.execution --optimization scripted_gdn \
+  --source-run runs/ab-A-v6-natural-keep-w1-prefix-01 \
+  --target-run runs/ab-A-v6-natural-keep-w1-gdn-prefix-01 --dry-run
+```
+
+去掉dry-run创建新run后，使用原参数加 `--gdn-inverse scripted_rows --resume`。优化器、RNG、游标和累计账本均复制，前缀复用保留，来源latest和完整状态不变。此前单chip12完整样本/50微批/恢复逐位一致，实际两rank/HCCL验证尚待完成；通过前不执行正式迁移。TorchScript已deprecated，本方案依赖当前固定PyTorch环境，执行版本改变必须重新验证。
+
 `scripts/profile_ab_operators.py` 在单chip权重副本上执行一次正确调度的Ascend算子跟踪（warmup1/active1/step）。不创建优化器或修改来源状态，大工件只放忽略目录。v6长续写的单样本诊断显示ViewCopy/Mul/Slice占约48.8%设备算子时间，大量小操作与拷贝值得进一步验证融合候选；插桩间隙包含profiling开销，不能当作可消除的真实吞吐损失。见 [算子摘要](../reports/v6-natural-operator-trace-summary.json)。

@@ -31,6 +31,8 @@ def main():
     parser.add_argument("--keep-fraction", type=float)
     parser.add_argument("--keep-weight", type=float, default=0.2)
     parser.add_argument("--reuse-frozen-prefix", action="store_true")
+    parser.add_argument("--gdn-inverse", choices=["scripted_rows"],
+                        help="verified original-order rows; existing runs require explicit execution migration")
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--init-from", help="explicit A-to-B or versioned A-to-A weights initialization; resets training state")
@@ -111,6 +113,7 @@ def main():
                                  curriculum=args.curriculum, save_every_micro=args.save_every_micro,
                                  memory_candidates=args.memory_candidates, counterfactual_weight=args.counterfactual_weight,
                                  reuse_frozen_prefix=args.reuse_frozen_prefix,
+                                 gdn_inverse=args.gdn_inverse,
                                  counterfactual_margin=args.counterfactual_margin, keep_fraction=args.keep_fraction,
                                  keep_weight=args.keep_weight)
             return identity, model, compiler, config, anchor_change, gate_change

@@ -45,7 +45,8 @@ def inverse_blocks(lower):
         return torch.ones_like(lower)
     middle = n // 2
     diagonal = torch.stack((lower[..., :middle, :middle], lower[..., middle:, middle:]), dim=-3)
-    inverses = inverse_blocks(diagonal)
+    # Keep recursive rank bounded: Ascend Stack accepts at most eight dims.
+    inverses = inverse_blocks(diagonal.reshape(-1, middle, middle)).reshape_as(diagonal)
     first, last = inverses[..., 0, :, :], inverses[..., 1, :, :]
     bottom_left = last @ lower[..., middle:, :middle] @ first
     top = torch.cat((first, torch.zeros_like(first)), dim=-1)

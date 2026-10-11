@@ -1,0 +1,118 @@
+{
+  "status": "stopped",
+  "run_id": "ab-A-v6-natural-keep-w1-prefix-01",
+  "checkpoint": "micro_000000000500_7705c5499a",
+  "manifest_sha256": "2eb441f2b4c0cd1bb96a81f2bb3aa82e3370a85388dec03d15d934722aa004e4",
+  "world_size": 2,
+  "progress": {
+    "accumulation_index": 2,
+    "micro_step": 500,
+    "optimizer_step": 83,
+    "stage": "A",
+    "student_tokens": 489872,
+    "teacher_tokens": 39446
+  },
+  "train_config": {
+    "counterfactual_margin": 2.0,
+    "counterfactual_weight": 1.0,
+    "curriculum": "facts",
+    "data_revision": "ab-v6-natural-keep",
+    "distractors": 7,
+    "gradient_accumulation": 6,
+    "gradient_clip": 1.0,
+    "keep_fraction": 0.4,
+    "keep_weight": 1.0,
+    "learning_rate": 0.00025,
+    "memory_candidates": 1,
+    "reuse_frozen_prefix": true,
+    "save_every_micro": 100,
+    "seed": 20261010,
+    "stage": "A",
+    "student_token_budget": 16505710,
+    "weight_decay": 0.01
+  },
+  "memory_architecture": {
+    "memory_config": {
+      "heads": 4,
+      "hidden_size": 1024,
+      "intermediate": 512,
+      "key_dim": 128,
+      "keys": 2,
+      "memory_dim": 256,
+      "reader_alpha": 0.05,
+      "reader_gate_mode": "lookup",
+      "slots": 8,
+      "summary_slots": 16,
+      "writer_anchor_weight": 1.0
+    },
+    "reader_before": [
+      12,
+      20
+    ],
+    "reader_gate_version": "lookup_v1",
+    "writer_after": 11,
+    "writer_anchor_version": "position_pool_v1"
+  },
+  "source_checkpoint": "micro_000000002000_002c8b0b91",
+  "source_manifest_sha256": "bd7820461d1829b5d8a3fd0c87bfd54ebc882550a5a85bc78a27ab583bd61e0b",
+  "source_progress": {
+    "accumulation_index": 2,
+    "micro_step": 2000,
+    "optimizer_step": 333,
+    "stage": "A",
+    "student_tokens": 1927010,
+    "teacher_tokens": 161676
+  },
+  "source_chain_spent_before_new_run": 13494290,
+  "source_chain_student_tokens": 13984162,
+  "remaining_chain_budget": 16015838,
+  "runtime_code_commit": "bb1629d6811bd1b3ee32641cdb887d8f9bd917c8",
+  "ranks": [
+    {
+      "rank": 0,
+      "progress": {
+        "stage": "A",
+        "optimizer_step": 83,
+        "micro_step": 500,
+        "accumulation_index": 2,
+        "student_tokens": 489872,
+        "teacher_tokens": 39446
+      },
+      "data_cursor": {
+        "next_ordinal": 1000,
+        "schema_version": 1
+      },
+      "gradient_tensors": 34,
+      "optimizer_entries": 34,
+      "rng_components": [
+        "python",
+        "numpy",
+        "torch_cpu",
+        "accelerator"
+      ]
+    },
+    {
+      "rank": 1,
+      "progress": {
+        "stage": "A",
+        "optimizer_step": 83,
+        "micro_step": 500,
+        "accumulation_index": 2,
+        "student_tokens": 489872,
+        "teacher_tokens": 39446
+      },
+      "data_cursor": {
+        "next_ordinal": 1001,
+        "schema_version": 1
+      },
+      "gradient_tensors": 34,
+      "optimizer_entries": 34,
+      "rng_components": [
+        "python",
+        "numpy",
+        "torch_cpu",
+        "accelerator"
+      ]
+    }
+  ]
+}

@@ -13,3 +13,5 @@ dev/test默认仍全部输出完整代码，原M5的完整EM、payload消融与�
 完整217项CPU测试通过。三rank完整NPU暂停/恢复对照延长到16微批，实际覆盖8个辅助episode，所有权重、优化器、RNG、游标、账本逐位一致。早先5微批证明没有覆盖到辅助样本，不能作为这项新增课程的恢复证据；正式证据为 [含覆盖的恢复](../reports/pretrained-npu-indexed-digits-recovery-covered.json)。
 
 课程转换采用新run `ab-A-v5-indexed-01`，从 `ab-A-anchor1-lookup-01` 第500微批显式导入权重，保留位置池化和lookup门控。原完整状态保留，新run优化器/游标/RNG重启，来源链已用6,853,808学生token，剩余A预算23,146,192。首批上限1000微批，每100微批完整保存。继续该run只用 `--resume`，并显式指定v5数据身份。
+
+首批1000微批现已完整停止并固定评测。完整代码自由回忆4/96，反事实成对0/48，尚未通过M5；源slots和Reader开始携带可测的后缀信息。已据此完整resume到累计2000微批，保留原checkpoint和原验收口径。详见 [1000微批评测与接续](../reports/20261011-v5-1000-readout.md)；[冻结字段信息探针](frozen-field-probes.md)不替代模型自身的自由回忆。

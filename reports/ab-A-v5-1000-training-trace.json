@@ -1,0 +1,138 @@
+{
+  "status": "training_trace_diagnostic_only",
+  "checkpoint": "micro_000000001000_0226978092",
+  "manifest_sha256": "a1181e609df4bc562199c53e5ee604c2cb7f7303fb72424f3c5f577154b1d112",
+  "checkpoint_progress": {
+    "accumulation_index": 0,
+    "micro_step": 1000,
+    "optimizer_step": 250,
+    "stage": "A",
+    "student_tokens": 1410994,
+    "teacher_tokens": 78842
+  },
+  "summary": [
+    {
+      "task": "full_code",
+      "position": "None",
+      "micro_range": "first250",
+      "episodes": 312,
+      "mean_answer_loss": 1.0679687269223042,
+      "mean_counterfactual_loss": 0.7891318371731119
+    },
+    {
+      "task": "full_code",
+      "position": "None",
+      "micro_range": "last250",
+      "episodes": 322,
+      "mean_answer_loss": 0.8367386775449936,
+      "mean_counterfactual_loss": 0.2516401096863626
+    },
+    {
+      "task": "full_code",
+      "position": "None",
+      "micro_range": "middle500",
+      "episodes": 628,
+      "mean_answer_loss": 0.9697137468488543,
+      "mean_counterfactual_loss": 0.48337536344804355
+    },
+    {
+      "task": "indexed_character",
+      "position": "3",
+      "micro_range": "first250",
+      "episodes": 40,
+      "mean_answer_loss": 1.2472605407238007,
+      "mean_counterfactual_loss": 1.5040221796836704
+    },
+    {
+      "task": "indexed_character",
+      "position": "3",
+      "micro_range": "last250",
+      "episodes": 40,
+      "mean_answer_loss": 0.7807449952699244,
+      "mean_counterfactual_loss": 0.5516981928549285
+    },
+    {
+      "task": "indexed_character",
+      "position": "3",
+      "micro_range": "middle500",
+      "episodes": 82,
+      "mean_answer_loss": 1.1662395765505187,
+      "mean_counterfactual_loss": 0.7131521959626542
+    },
+    {
+      "task": "indexed_character",
+      "position": "4",
+      "micro_range": "first250",
+      "episodes": 50,
+      "mean_answer_loss": 1.506782585978508,
+      "mean_counterfactual_loss": 1.7957703794538975
+    },
+    {
+      "task": "indexed_character",
+      "position": "4",
+      "micro_range": "last250",
+      "episodes": 52,
+      "mean_answer_loss": 1.622257115570112,
+      "mean_counterfactual_loss": 0.7036147172363528
+    },
+    {
+      "task": "indexed_character",
+      "position": "4",
+      "micro_range": "middle500",
+      "episodes": 94,
+      "mean_answer_loss": 1.4586208285169397,
+      "mean_counterfactual_loss": 1.0057244283821962
+    },
+    {
+      "task": "indexed_character",
+      "position": "5",
+      "micro_range": "first250",
+      "episodes": 64,
+      "mean_answer_loss": 1.6580266207456589,
+      "mean_counterfactual_loss": 1.771322311484255
+    },
+    {
+      "task": "indexed_character",
+      "position": "5",
+      "micro_range": "last250",
+      "episodes": 42,
+      "mean_answer_loss": 1.5933061818636598,
+      "mean_counterfactual_loss": 0.6893214495808241
+    },
+    {
+      "task": "indexed_character",
+      "position": "5",
+      "micro_range": "middle500",
+      "episodes": 100,
+      "mean_answer_loss": 1.4086446456611157,
+      "mean_counterfactual_loss": 1.0860395329818129
+    },
+    {
+      "task": "keep",
+      "position": "None",
+      "micro_range": "first250",
+      "episodes": 284,
+      "mean_answer_loss": 0.24797715209621254,
+      "mean_counterfactual_loss": 0.0
+    },
+    {
+      "task": "keep",
+      "position": "None",
+      "micro_range": "last250",
+      "episodes": 294,
+      "mean_answer_loss": 0.26737260607587565,
+      "mean_counterfactual_loss": 0.0
+    },
+    {
+      "task": "keep",
+      "position": "None",
+      "micro_range": "middle500",
+      "episodes": 596,
+      "mean_answer_loss": 0.24650926231492573,
+      "mean_counterfactual_loss": 0.0
+    }
+  ],
+  "rank0_micro_compute_seconds": 1448.0255382074974,
+  "student_tokens_per_compute_second": 974.426184324526,
+  "capability_gate_passed": false
+}

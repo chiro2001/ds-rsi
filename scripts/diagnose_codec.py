@@ -20,6 +20,8 @@ def main():
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--worlds-per-position", type=int, default=2)
     parser.add_argument("--language", choices=["zh", "en", "cross_language"], default="en")
+    parser.add_argument("--probe-view", choices=["full", "indexed"], default="full",
+                        help="indexed v5 probes are auxiliary diagnostics, separate from full-code recall")
     parser.add_argument("--reader-gate-mode", choices=["token", "lookup"], help="explicit untrained architecture intervention")
     args = parser.parse_args()
     if args.worlds_per_position < 1:
@@ -47,8 +49,10 @@ def main():
     committed = store.load_committed()
     config = committed[1]["identity"]["train_config"]
     revision = config["data_revision"]
-    if revision != "ab-v4-fields-and-language" or data_identity(revision) != committed[1]["identity"]["data"]:
-        raise ValueError("this stratified diagnostic requires the pinned v4 fields distribution")
+    if revision not in {"ab-v4-fields-and-language", "ab-v5-indexed-digits"} or data_identity(revision) != committed[1]["identity"]["data"]:
+        raise ValueError("this stratified diagnostic requires the pinned v4/v5 fields distribution")
+    if args.probe_view == "indexed" and revision != "ab-v5-indexed-digits":
+        raise ValueError("indexed diagnostics require the pinned v5 data revision")
     architecture = copy.deepcopy(committed[1]["identity"].get("memory_architecture"))
     if args.reader_gate_mode is not None:
         if args.reader_gate_mode == "lookup":
@@ -61,7 +65,9 @@ def main():
     checkpoint, manifest = load_ab_weights(model, store, base_identity=base_identity, committed=committed,
                                            allow_reader_gate_change=args.reader_gate_mode is not None)
     compiler = EpisodeCompiler(AutoTokenizer.from_pretrained(root, local_files_only=True))
-    generator = make_generator(revision=revision, seed=config["seed"], split="dev", distractors=config["distractors"])
+    view = {"probe_view": args.probe_view} if revision == "ab-v5-indexed-digits" else {}
+    generator = make_generator(revision=revision, seed=config["seed"], split="dev",
+                               distractors=config["distractors"], **view)
     objective = EpisodeObjective(model, compiler, stage=config["stage"], memory_candidates=1)
     evaluator = MOnlyEvaluator(model, compiler, memory_candidates=1)
     counts, records = defaultdict(int), []
@@ -129,6 +135,7 @@ def main():
     report = {"status": "teacher_forced_codec_diagnostic", "checkpoint": checkpoint.name,
         "manifest_sha256": file_sha256(checkpoint / "manifest.json"), "checkpoint_progress": manifest["progress"],
         "base_identity": base_identity, "data_identity": data_identity(revision), "language": args.language,
+        "probe_view": args.probe_view, "auxiliary_probe_diagnostic": args.probe_view == "indexed",
         "memory_architecture": model.memory_architecture_identity(),
         "untrained_architecture_challenge": model.memory_architecture_identity() != manifest["identity"]["memory_architecture"],
         "worlds_per_position": args.worlds_per_position, "device": device, "memory_candidates": 1,

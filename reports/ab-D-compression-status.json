@@ -1,0 +1,136 @@
+{
+  "status": "compression_protocol_not_trained",
+  "capability_gate_passed": false,
+  "consolidator_parameters_tiny": 704,
+  "consolidator_parameters_production": 660480,
+  "source_scan": {
+    "consolidator_frozen_in_every_stage": true,
+    "consolidator_frozen_by_file": {
+      "src/dsrsi/training/episode_objective.py": true,
+      "src/dsrsi/training/context_runner.py": true,
+      "src/dsrsi/training/tool_runner.py": true,
+      "src/dsrsi/evaluation/checkpoint.py": true
+    },
+    "compression_data_module_present": false,
+    "compression_data_modules": [
+      "__init__.py",
+      "compiler.py",
+      "continuous.py",
+      "general_keep.py",
+      "generate.py",
+      "indexed_digits.py",
+      "language_probes.py",
+      "revisions.py",
+      "robust.py",
+      "robust_fields.py",
+      "robust_order.py",
+      "tool_generate.py",
+      "tools.py"
+    ],
+    "compression_objective_present": false,
+    "ab_objective_rejects_merge_events": true,
+    "m_only_evaluator_rejects_merge_events": true,
+    "compression_runner_present": false,
+    "compression_scripts": [],
+    "ab_runner_stages": true,
+    "evaluation_loader_blocks_non_ab": true,
+    "config_stage_d_declared": true
+  },
+  "production_sizes": {
+    "leaf_bytes_bf16": 4608,
+    "summary_bytes_bf16": 8704,
+    "four_leaf_reduction": 0.5278,
+    "two_leaf_reduction": 0.0556,
+    "summary_over_leaf": 1.8889,
+    "leaves_at_depth_8": 25,
+    "summary_bytes_at_depth_8": 8704
+  },
+  "curriculum_chain": [
+    {
+      "depth": 1,
+      "leaves_consumed": 4,
+      "summary_level": 1,
+      "summary_source": [
+        0,
+        15
+      ],
+      "summary_bytes": 160,
+      "leaf_total_bytes": 512,
+      "reduction": 0.6875,
+      "child_refs": 4
+    },
+    {
+      "depth": 2,
+      "leaves_consumed": 7,
+      "summary_level": 2,
+      "summary_source": [
+        0,
+        27
+      ],
+      "summary_bytes": 160,
+      "leaf_total_bytes": 896,
+      "reduction": 0.8214,
+      "child_refs": 4
+    },
+    {
+      "depth": 4,
+      "leaves_consumed": 13,
+      "summary_level": 4,
+      "summary_source": [
+        0,
+        51
+      ],
+      "summary_bytes": 160,
+      "leaf_total_bytes": 1664,
+      "reduction": 0.9038,
+      "child_refs": 4
+    },
+    {
+      "depth": 8,
+      "leaves_consumed": 25,
+      "summary_level": 8,
+      "summary_source": [
+        0,
+        99
+      ],
+      "summary_bytes": 160,
+      "leaf_total_bytes": 3200,
+      "reduction": 0.95,
+      "child_refs": 4
+    }
+  ],
+  "invariants": {
+    "future_commit_time_changes_content": false,
+    "source_metadata_changes_content": true,
+    "unknown_wall_time_reported_known": false,
+    "child_order_relative_delta": 1.3536163123717415e-07,
+    "child_order_material_delta": false,
+    "child_order_bitwise_difference_only_float_noise": true,
+    "rejections": {
+      "future_visibility": true,
+      "foreign_stream": true,
+      "single_child": true
+    },
+    "summary_answer_ce_reaches_consolidator": true,
+    "consolidator_grad_norm_sq": 0.040849,
+    "non_consolidator_parameter_grads": [],
+    "cached_keys_ignore_address_key_update": true,
+    "reencoded_selection_after_update": [
+      "leaf-0",
+      "leaf-1"
+    ],
+    "cached_selection_before_update": [
+      "leaf-1",
+      "leaf-3"
+    ]
+  },
+  "runtime_compaction_policy": "StreamExecutor._fit_record compacts the first four stored records in insertion order; if that cannot reduce, it merges incoming with them",
+  "open_requirements": [
+    "D 内容课程尚未实现：没有生成 3d+1 叶链、支撑限定在第一组四叶的数据模块",
+    "D 目标函数尚未实现：压缩后回答 CE 与经自由生成筛查的叶教师 top32+tail KL 都无执行路径",
+    "D 训练器尚未实现：train_ab.py 只接受 A/B；恢复/控制/账本与 stage D 未接入",
+    "摘要寻址尚未适配：地址模块没有叶/摘要混合池覆盖训练",
+    "压缩评测尚未实现：m_only 明确拒绝 merge_events，没有禁用/反事实 payload、递归深度分项和保留率评测",
+    "D token 预算未定：configs/training_protocol_v0.yaml 仍写 pending_C_results"
+  ]
+}

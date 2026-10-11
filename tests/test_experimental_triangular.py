@@ -36,3 +36,15 @@ def test_stable_alternatives_handle_highly_correlated_keys(method):
     torch.testing.assert_close(candidate, reference, rtol=1e-5, atol=2e-6)
     identity = torch.eye(width)
     torch.testing.assert_close((identity - lower) @ candidate, identity, rtol=1e-5, atol=2e-6)
+
+
+def test_scripted_row_arithmetic_and_gradients_are_exact_on_cpu():
+    torch.manual_seed(27)
+    values = (torch.randn(2, 64, 64) * 0.08).requires_grad_()
+    lower = values.tril(-1)
+    old, new = METHODS["reference"](lower), METHODS["scripted_rows"](lower)
+    torch.testing.assert_close(old, new, rtol=0, atol=0)
+    direction = torch.randn_like(old)
+    first = torch.autograd.grad((old * direction).sum(), values, retain_graph=True)[0]
+    second = torch.autograd.grad((new * direction).sum(), values)[0]
+    torch.testing.assert_close(first, second, rtol=0, atol=0)

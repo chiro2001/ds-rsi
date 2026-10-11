@@ -24,7 +24,7 @@ def main():
     parser.add_argument("--output", required=True)
     parser.add_argument("--device", default="npu:0")
     parser.add_argument("--repeats", type=int, default=7)
-    parser.add_argument("--method", choices=["doubling", "solve", "blocks"], default="doubling")
+    parser.add_argument("--method", choices=["doubling", "solve", "blocks", "scripted_rows"], default="doubling")
     parser.add_argument("--languages", nargs="+", choices=["zh", "en"], default=["zh", "en"])
     args = parser.parse_args()
     if args.repeats < 1:
@@ -69,7 +69,7 @@ def main():
               "manifest_sha256": file_sha256(checkpoint / "manifest.json"), "device": device,
               "repeats": args.repeats, "frozen_prefix_reuse": config.get("reuse_frozen_prefix", False),
               "inverse_method": args.method,
-              "summation_order_changed": True, "formal_training_modified": False,
+              "summation_order_changed": args.method != "scripted_rows", "formal_training_modified": False,
               "original_trajectory_equivalence_claimed": False, "cases": {}}
     for language in args.languages:
         selected = {}

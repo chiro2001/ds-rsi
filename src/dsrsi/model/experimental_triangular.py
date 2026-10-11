@@ -56,3 +56,17 @@ def inverse_blocks(lower):
 
 METHODS = {"reference": inverse_row_reference, "solve": inverse_solve,
            "doubling": inverse_doubling, "blocks": inverse_blocks}
+
+_SCRIPTED_ROWS = None
+
+
+def inverse_scripted_rows(lower):
+    """Keep the original row arithmetic and run it in the TorchScript interpreter."""
+    global _SCRIPTED_ROWS
+    if _SCRIPTED_ROWS is None:
+        _SCRIPTED_ROWS = torch.jit.script(inverse_row_reference)
+    with torch.jit.optimized_execution(False):
+        return _SCRIPTED_ROWS(lower)
+
+
+METHODS["scripted_rows"] = inverse_scripted_rows

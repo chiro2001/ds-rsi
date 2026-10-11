@@ -56,7 +56,7 @@ def experimental_gdn_inverse(model, method="doubling"):
             layer.chunk_gated_delta_rule = candidate
         yield {"method": method, "layers": len(layers),
                "reference_source_sha256": candidate._reference_source_sha256,
-               "summation_order_changed": True}
+               "summation_order_changed": method != "scripted_rows"}
     finally:
         for layer, original in zip(layers, originals):
             layer.chunk_gated_delta_rule = original

@@ -1,0 +1,13 @@
+{
+  "checkpoint": "micro_000000002000_6eabf825af",
+  "manifest_sha256": "43b7ee21d97c4907f3527d75e584d5780431daaa625242d1782b94a2cdf73e8f",
+  "paused_items": 3,
+  "total_items": 960,
+  "committed_prefix_sha256": "f1afca71ff49a0d34704db36d62bf204b47902d5036c1b6224af1ced4552f54d",
+  "status": "pretrained_npu_broad_nll_resume_completed",
+  "completed_items": 960,
+  "committed_prefix_preserved": true,
+  "identity_mismatch_rejected_in_cpu_tests": true,
+  "full_npu_uninterrupted_comparison_claimed": false,
+  "training_state_modified": false
+}

@@ -28,4 +28,8 @@
 
 隔离新课程代码快照全测266 passed、2 skipped；两项skip为Git不携带的tokenizer-only外部工件检查。真实v6/NPU恢复和首批能力仍待验证，不提前写成通过。
 
+后续工程验证：v6/两rank/HCCL/累积6完成32微批，包含14长续写、6 unknown壁钟、8辅助。原实现/前缀优化及累计中途恢复后的完整状态全部逐位一致，[原始报告](hccl2-v6-prefix-recovery.json)。正式v6已显式从3500权重接续并开启优化，首批500微批，预算18,919,728；已核验第200微批完整checkpoint `micro_000000000200_54a5dca198`，SHA `c399207030ae0bc80cd9545425c23a6f8a2a4e8ff48d4a2b540608b4288ff8a7`。其后仍在训练；新课程能力尚待首批独立评测，恢复工程通过不代替它。
+
+GitHub CI一次失败来自旧NaN padding检查：不同长度CPU GEMM相差3.58e-7，略超过3e-7的零相对容差。只调整该语义等价测试的FP32容差，未改模型数值运算；7项专项通过，源码提交713cf6d的完整CI随后通过。
+
 原始：[完整回忆](ab-A-v5-3500-dev.json)、[3500原生保持](ab-A-v5-3500-native-source-nll.json)、[2000原生保持](ab-A-v5-2000-native-source-nll.json)。

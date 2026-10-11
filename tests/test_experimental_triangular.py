@@ -24,3 +24,15 @@ def test_inverse_and_derivatives_match_double_precision_row_reference(method, wi
 def test_block_inverse_rejects_unsupported_width():
     with pytest.raises(ValueError, match="power-of-two"):
         METHODS["blocks"](torch.zeros(2, 5, 5))
+
+
+@pytest.mark.parametrize("method", ["solve", "blocks"])
+def test_stable_alternatives_handle_highly_correlated_keys(method):
+    width = 64
+    g = -torch.arange(width, dtype=torch.float32) * 0.001
+    lower = (-0.95 * (g[:, None] - g[None, :]).exp()).tril(-1)
+    reference = METHODS["reference"](lower.double()).float()
+    candidate = METHODS[method](lower)
+    torch.testing.assert_close(candidate, reference, rtol=1e-5, atol=2e-6)
+    identity = torch.eye(width)
+    torch.testing.assert_close((identity - lower) @ candidate, identity, rtol=1e-5, atol=2e-6)

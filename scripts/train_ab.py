@@ -21,7 +21,7 @@ def main():
     parser.add_argument("--lr", type=float, default=5e-4)
     parser.add_argument("--seed", type=int, default=20261010)
     parser.add_argument("--distractors", type=int, default=7)
-    parser.add_argument("--data-revision", choices=["ab-v1", "ab-v2-matched-entities", "ab-v3-random-entity-order", "ab-v4-fields-and-language", "ab-v5-indexed-digits"],
+    parser.add_argument("--data-revision", choices=["ab-v1", "ab-v2-matched-entities", "ab-v3-random-entity-order", "ab-v4-fields-and-language", "ab-v5-indexed-digits", "ab-v6-natural-keep"],
                         default="ab-v4-fields-and-language")
     parser.add_argument("--curriculum", choices=["mixed", "facts", "locations"], default="mixed")
     parser.add_argument("--save-every-micro", type=int, default=100)

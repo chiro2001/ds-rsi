@@ -8,12 +8,16 @@ from .robust import (AB_DATA_REVISION as AB_V2_REVISION, LEGACY_AB_REVISION,
 from .robust_order import AB_ORDER_REVISION, RandomOrderEpisodeGenerator
 from .robust_fields import AB_FIELDS_REVISION, AllFieldsEpisodeGenerator
 from .indexed_digits import AB_INDEXED_REVISION, IndexedDigitEpisodeGenerator
+from .natural_keep import AB_NATURAL_KEEP_REVISION, NaturalKeepEpisodeGenerator
 
 AB_DATA_REVISION = AB_FIELDS_REVISION
-AB_REVISIONS = (LEGACY_AB_REVISION, AB_V2_REVISION, AB_ORDER_REVISION, AB_FIELDS_REVISION, AB_INDEXED_REVISION)
+AB_REVISIONS = (LEGACY_AB_REVISION, AB_V2_REVISION, AB_ORDER_REVISION, AB_FIELDS_REVISION,
+                AB_INDEXED_REVISION, AB_NATURAL_KEEP_REVISION)
 
 
 def make_generator(*, revision=AB_DATA_REVISION, **kwargs):
+    if revision == AB_NATURAL_KEEP_REVISION:
+        return NaturalKeepEpisodeGenerator(**kwargs)
     if revision == AB_INDEXED_REVISION:
         return IndexedDigitEpisodeGenerator(**kwargs)
     if revision == AB_FIELDS_REVISION:
@@ -24,6 +28,15 @@ def make_generator(*, revision=AB_DATA_REVISION, **kwargs):
 
 
 def data_identity(revision):
+    if revision == AB_NATURAL_KEEP_REVISION:
+        identity = data_identity(AB_INDEXED_REVISION)
+        identity["revision"] = revision
+        identity["keep_objective"] = "half-continuation-base-top32-tail-kl-only-v1"
+        paths = (Path(__file__).resolve().with_name("natural_keep.py"),
+                 Path(__file__).resolve().parents[1] / "training/episode_objective.py")
+        for path in paths:
+            identity["files"][path.name] = hashlib.sha256(path.read_bytes()).hexdigest()
+        return identity
     if revision == AB_INDEXED_REVISION:
         identity = data_identity(AB_FIELDS_REVISION)
         identity["revision"] = revision

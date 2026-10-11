@@ -76,6 +76,11 @@ class EpisodeObjective:
         device = self.model.base.embed_tokens.weight.device
         records, total_tokens, padding = self._sources(episode)
         is_keep = episode.family == "language_preservation"
+        keep_objective = row.get("annotations", {}).get("keep_objective", "ce_and_kl")
+        if keep_objective not in {"ce_and_kl", "base_kl_only_v1"}:
+            raise ValueError("unknown language preservation objective")
+        if keep_objective == "base_kl_only_v1" and (not is_keep or any(r.support_groups for r in episode.responses)):
+            raise ValueError("base KL-only requires non-memory language preservation queries")
         if is_keep:
             records = [replace(record, slots=record.slots.detach(), keys=record.keys.detach()) for record in records]
         counter_episode = None
@@ -149,7 +154,7 @@ class EpisodeObjective:
                 teacher_logits = self.model.head(teacher[:, :-1][mask])
                 student_logits = self.model.head(output.hidden[:, :-1][mask])
                 kl = topk_tail_kl(student_logits, teacher_logits)
-                loss = self.keep_weight * (answer + kl)
+                loss = self.keep_weight * (kl if keep_objective == "base_kl_only_v1" else answer + kl)
                 teacher_tokens += len(response.input_ids)
             if route is not None:
                 loss = loss + self.route_weight * route

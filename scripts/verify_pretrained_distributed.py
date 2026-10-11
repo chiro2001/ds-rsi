@@ -97,17 +97,23 @@ def worker(rank, base, run_root, threads, identity, requested_device, world_size
                                           data_cursor=instance.cursor, life_state=instance.life,
                                           device=device, rank=rank, world_size=world_size)
         full = trainer("full", optimized=False if compare_prefix_reuse else None)
-        auxiliary = 0
+        auxiliary, natural_keep, unknown_time_keep = 0, 0, 0
         full_objective = full.objective
         def observe(row, **kwargs):
-            nonlocal auxiliary
+            nonlocal auxiliary, natural_keep, unknown_time_keep
             auxiliary += int(row.get("annotations", {}).get("codec_task") == "indexed_character")
+            is_natural = bool(row.get("annotations", {}).get("natural_keep"))
+            natural_keep += int(is_natural)
+            unknown_time_keep += int(is_natural and not row["annotations"]["keep_wall_time_known"])
             return full_objective(row, **kwargs)
         full.objective = observe
         assert full.run(max_micro_steps=micro_steps, install_signals=False) == "stopped"
         global_auxiliary = context.totals(auxiliary, 0, 0)[0]
-        if config.data_revision == "ab-v5-indexed-digits" and not global_auxiliary:
+        global_natural, global_unknown, _ = context.totals(natural_keep, unknown_time_keep, 0)
+        if config.data_revision in {"ab-v5-indexed-digits", "ab-v6-natural-keep"} and not global_auxiliary:
             raise AssertionError("recovery proof did not exercise any indexed-character episodes")
+        if config.data_revision == "ab-v6-natural-keep" and (not global_natural or not global_unknown):
+            raise AssertionError("recovery proof did not exercise natural continuation and unknown-time memory")
         reference = snapshot(full)
         del full
         reset()
@@ -138,6 +144,9 @@ def worker(rank, base, run_root, threads, identity, requested_device, world_size
                   "exact_state_match": True, "worker_pause_micro_step": 3,
                   "pending_gradient_microbatches": resumed.progress.accumulation_index,
                   "observed_auxiliary_episodes": auxiliary, "global_observed_auxiliary_episodes": global_auxiliary,
+                  "observed_natural_keep_episodes": natural_keep,
+                  "global_natural_keep_episodes": global_natural,
+                  "global_unknown_time_keep_episodes": global_unknown,
                   "source": source_metadata,
                   "original_vs_prefix_reuse_exact_state_match": True if compare_prefix_reuse else None,
                   "elapsed_seconds": time.monotonic() - started}

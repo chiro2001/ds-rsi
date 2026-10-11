@@ -82,11 +82,14 @@ def main():
     output.mkdir(parents=True, exist_ok=False)
     with torch_npu.profiler.profile(
         activities=[torch_npu.profiler.ProfilerActivity.CPU, torch_npu.profiler.ProfilerActivity.NPU],
+        schedule=torch_npu.profiler.schedule(wait=0, warmup=1, active=1, repeat=1),
         record_shapes=True,
         on_trace_ready=torch_npu.profiler.tensorboard_trace_handler(str(output / "trace")),
         experimental_config=torch_npu.profiler._ExperimentalConfig(
-            profiler_level=torch_npu.profiler.ProfilerLevel.Level1)):
-        result = execute()
+            profiler_level=torch_npu.profiler.ProfilerLevel.Level1)) as profiler:
+        for _ in range(2):
+            result = execute()
+            profiler.step()
     model.zero_grad(set_to_none=True)
     report = {"status": "isolated_operator_trace_only", "checkpoint": checkpoint.name,
               "manifest_sha256": file_sha256(checkpoint / "manifest.json"), "device": device,

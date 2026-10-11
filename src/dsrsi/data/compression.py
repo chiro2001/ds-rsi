@@ -4,7 +4,7 @@ The protocol (docs/semantic-compression.md) fixes the shape of a compression
 episode: the answer-bearing support must live in the *first* group of four
 leaves, and every later compression step merges the previous summary with
 exactly three fresh leaves, so a depth-d episode really experiences a chain of
-length d over 3d+1 leaves. Support is the oldest evidence; later leaves are
+length d over 3d+1 leaves. Support is in the oldest group; later leaves are
 independent facts about unasked entities, so retaining them is never required
 by the supervised target.
 """
@@ -128,20 +128,22 @@ class CompressionEpisodeGenerator:
             # summary group, the first negative is compressed at level 1. Both keep
             # their true program targets so the report shows what survived
             # instead of labelling compressed detail as unknowable.
-            latest = f"neg-{total - 2}"
-            latest_entity, latest_code = negatives[-1]
+            latest = events[-1]["event_id"]
+            latest_entity, latest_code = ((entity, value) if latest == support
+                                           else negatives[int(latest.removeprefix("neg-"))])
             probes.append({"probe_id": "p_latest", "mode": "m_only",
                            "query": (f"{latest_entity}的校验码是什么？请只回答校验码。" if query_lang == "zh"
                                      else f"What is the code for {latest_entity}? Give only the code."),
                            "target": latest_code, "query_time": BASE_TIME.replace(hour=18).isoformat(),
                            "support_groups": [[latest]], "allow_tools": [], "write_enabled": False,
                            "memory_transform": {}})
-            first_entity, first_code = negatives[0]
+            first_negative = next(source["event_id"] for source in events if source["event_id"] != support)
+            first_entity, first_code = negatives[int(first_negative.removeprefix("neg-"))]
             probes.append({"probe_id": "p_first_negative", "mode": "m_only",
                            "query": (f"{first_entity}的校验码是什么？请只回答校验码。" if query_lang == "zh"
                                      else f"What is the code for {first_entity}? Give only the code."),
                            "target": first_code, "query_time": BASE_TIME.replace(hour=18).isoformat(),
-                           "support_groups": [["neg-0"]], "allow_tools": [], "write_enabled": False,
+                           "support_groups": [[first_negative]], "allow_tools": [], "write_enabled": False,
                            "memory_transform": {}})
         return {"schema_version": "0.1", "status": "generated_training_episode",
                 "episode_id": f"{self.split}-d{depth}-e{ordinal:08d}-v{variant}",

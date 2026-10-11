@@ -86,7 +86,8 @@ def test_dev_and_test_add_retention_probes_with_true_targets():
         assert set(probes) == {"p1", "p_latest", "p_first_negative"}
         latest_id = f"neg-{row['annotations']['leaf_count'] - 2}"
         assert probes["p_latest"]["support_groups"] == [[latest_id]]
-        assert probes["p_first_negative"]["support_groups"] == [["neg-0"]]
+        first = next(e["event_id"] for e in row["source_events"] if e["event_id"] != "support")
+        assert probes["p_first_negative"]["support_groups"] == [[first]]
         for probe in probes.values():
             assert probe["write_enabled"] is False
             assert probe["target"]
@@ -120,3 +121,19 @@ def test_splits_have_distinct_entities_and_group_annotations_are_validated():
     train["annotations"]["compression_groups"] = [(0, 3)]
     with pytest.raises(ValueError, match="groups"):
         compression_plan(train)
+
+
+def test_retention_probes_follow_the_real_time_order_after_support_shuffling():
+    for split in ("dev", "test"):
+        g = generator(split=split)
+        for world in range(16):
+            row = g.episode(world, variant=world % 2)
+            sources = row["source_events"]
+            probes = {p["probe_id"]: p for p in row["probes"]}
+            latest = probes["p_latest"]
+            first = probes["p_first_negative"]
+            assert latest["support_groups"] == [[sources[-1]["event_id"]]]
+            earliest_negative = next(e for e in sources if e["event_id"] != "support")
+            assert first["support_groups"] == [[earliest_negative["event_id"]]]
+            assert latest["target"] in sources[-1]["content"]
+            assert first["target"] in earliest_negative["content"]

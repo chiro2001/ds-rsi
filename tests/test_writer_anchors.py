@@ -43,7 +43,9 @@ def test_anchor_pool_handles_short_sources_and_ignores_nan_padding(length):
     padded = torch.cat([source, torch.full((1, 3, 4), float("nan"))], dim=1)
     valid = torch.tensor([[True] * length + [False] * 3])
     got = writer(padded, valid)
-    torch.testing.assert_close(expected, got, rtol=0, atol=3e-7)
+    # Different sequence lengths can select GEMM kernels with a few FP32 ULPs
+    # of rounding difference. NaN padding must still have no semantic effect.
+    torch.testing.assert_close(expected, got, rtol=1e-6, atol=5e-7)
     assert torch.isfinite(got).all()
 
 

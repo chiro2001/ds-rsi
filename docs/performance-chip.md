@@ -44,4 +44,22 @@ python scripts/profile_ab_episode.py --base /models/Qwen3.5-0.8B \
   --compare-prefix-reuse --output artifacts/prefix-paired-performance.json
 ```
 
+## 训练器集成与执行迁移
+
+训练入口增加 `--reuse-frozen-prefix`，默认关闭。关闭时不增加旧 checkpoint 的配置字段；开启时记录配置及实现文件SHA256，错误开关或实现版本不能静默恢复。一次episode结束前清除缓存，checkpoint不含临时前缀。
+
+真实0.8B、2000微批权重副本、单chip12已经完成50微批对照：原实现与优化版的全部训练态逐位一致；优化版在微批3/累积3中断后恢复到50微批/累积2，全部训练态同样逐位一致。实际覆盖8条辅助题。此工程实验只读取正式权重，测试优化器和数据游标从零，不修改正式账本。见 [原始恢复报告](../reports/pretrained-npu-prefix-reuse-training-recovery.json)。
+
+已训练run不能直接加开关恢复，必须先停止于累计梯度为空的优化器边界，再创建新run：
+
+```bash
+python -m dsrsi.training.execution \
+  --source-run runs/ab-A-v5-indexed-2rank-01 \
+  --target-run runs/ab-A-v5-indexed-prefix-01 --dry-run
+# 核验来源已停止、完整checkpoint有效之后，去掉 --dry-run 执行。
+# 目标run用原全部训练参数加 --reuse-frozen-prefix --resume。
+```
+
+迁移保留每rank全部payload：权重、冻结增量、buffers、优化器、账本、游标和RNG均不重置，来源run与控制请求保留。目标身份追加来源checkpoint/SHA和执行变更，不复制来源控制请求。它不改变数据、并行拓扑、预算或累计数。CPU两rank真实训练已验证迁移后恢复与未优化续训逐位一致；正式启用前还需两rank完整0.8B/HCCL优化及累计中途恢复对照。当前正式run仍关闭优化，在3500微批自然停止后核验边界。
+
 所有性能候选须满足：损失与梯度等价或明确可接受的精度口径、真实NPU计时收益、完整中断恢复验证及配置/执行身份记录。吞吐改善不代替记忆能力验收；保持和完整自由回忆仍分别评测。先用已提交代码快照部署，保留未完成草稿，避免引用未部署模块导致启动失败。

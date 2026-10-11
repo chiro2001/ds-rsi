@@ -2,7 +2,7 @@
 """CPU/Gloo or authorized NPU/HCCL full-state recovery; no capability claim."""
 
 import argparse
-from dataclasses import asdict
+from dataclasses import asdict, replace
 import json
 import os
 from pathlib import Path
@@ -33,12 +33,14 @@ def assert_equal(left, right, path="state"):
 
 
 def worker(rank, base, run_root, threads, identity, requested_device, world_size, controls, writer_anchor_weight,
-           reader_gate_mode, micro_steps):
+           reader_gate_mode, micro_steps, source_run, compare_prefix_reuse):
     from transformers import AutoTokenizer
     from dsrsi.data.compiler import EpisodeCompiler
     from dsrsi.model.qwen35_memory import MemoryQwen
     from dsrsi.memory.modules import MemoryConfig
-    from dsrsi.training.checkpoint import capture_rng, restore_rng, capture_training_state
+    from dsrsi.training.checkpoint import (CheckpointStore, capture_rng, restore_rng,
+                                         capture_training_state, file_sha256)
+    from dsrsi.evaluation.checkpoint import load_ab_weights
     from dsrsi.training.distributed import CollectiveContext
     from dsrsi.training.runner import TrainConfig, Trainer
     from dsrsi.training.device import resolve_device
@@ -52,27 +54,49 @@ def worker(rank, base, run_root, threads, identity, requested_device, world_size
                                            timeout_seconds=180)
     started = time.monotonic()
     try:
+        source_metadata = {}
         def load():
             random.seed(20261010)
             np.random.seed(20261010)
             torch.manual_seed(20261010)
-            return MemoryQwen.from_local_checkpoint(base, device=device,
-                memory_config=MemoryConfig(writer_anchor_weight=writer_anchor_weight, reader_gate_mode=reader_gate_mode)), EpisodeCompiler(
-                AutoTokenizer.from_pretrained(base, local_files_only=True))
+            if source_run:
+                store = CheckpointStore(Path(source_run) / "checkpoints")
+                committed = store.load_committed()
+                model = MemoryQwen.from_local_checkpoint(base, device=device,
+                    memory_architecture=committed[1]["identity"]["memory_architecture"])
+                checkpoint, _ = load_ab_weights(model, store, base_identity=identity, committed=committed)
+                source_metadata.update(checkpoint=checkpoint.name,
+                    manifest_sha256=file_sha256(checkpoint / "manifest.json"),
+                    source_weights_used_but_test_optimizer_and_cursor_started_fresh=True)
+            else:
+                model = MemoryQwen.from_local_checkpoint(base, device=device,
+                    memory_config=MemoryConfig(writer_anchor_weight=writer_anchor_weight, reader_gate_mode=reader_gate_mode))
+            return model, EpisodeCompiler(AutoTokenizer.from_pretrained(base, local_files_only=True))
         model, compiler = context.run_local("load actual base", load)
         initial = {name: p.detach().clone() for name, p in model.named_parameters()
                    if not name.startswith(("base.", "head."))}
+        initial_buffers = {name: b.detach().clone() for name, b in model.named_buffers()}
         initial_rng = capture_rng(device)
         config = TrainConfig(student_token_budget=100000,
                              seed=20261010, save_every_micro=100, **controls)
-        def trainer(directory, resume=False):
-            return Trainer(model, compiler, Path(run_root) / directory, config,
+        def trainer(directory, resume=False, optimized=None):
+            active_config = config if optimized is None else replace(config, reuse_frozen_prefix=optimized)
+            return Trainer(model, compiler, Path(run_root) / directory, active_config,
                            base_identity=identity, collectives=context, resume=resume)
+        def reset():
+            with torch.no_grad():
+                for name, p in model.named_parameters():
+                    if name in initial:
+                        p.copy_(initial[name])
+                    p.grad = None
+                for name, buffer in model.named_buffers():
+                    buffer.copy_(initial_buffers[name])
+            restore_rng(initial_rng, device)
         def snapshot(instance):
             return capture_training_state(model, instance.optimizer, progress=instance.progress,
                                           data_cursor=instance.cursor, life_state=instance.life,
                                           device=device, rank=rank, world_size=world_size)
-        full = trainer("full")
+        full = trainer("full", optimized=False if compare_prefix_reuse else None)
         auxiliary = 0
         full_objective = full.objective
         def observe(row, **kwargs):
@@ -86,12 +110,14 @@ def worker(rank, base, run_root, threads, identity, requested_device, world_size
             raise AssertionError("recovery proof did not exercise any indexed-character episodes")
         reference = snapshot(full)
         del full
-        with torch.no_grad():
-            for name, p in model.named_parameters():
-                if name in initial:
-                    p.copy_(initial[name])
-                p.grad = None
-        restore_rng(initial_rng, device)
+        reset()
+        if compare_prefix_reuse:
+            optimized = trainer("optimized", optimized=True)
+            assert optimized.run(max_micro_steps=micro_steps, install_signals=False) == "stopped"
+            context.run_local("compare original and prefix reuse states",
+                              lambda: assert_equal(reference, snapshot(optimized)))
+            del optimized
+            reset()
         resumed = trainer("resumed")
         original = resumed.objective
         calls = 0
@@ -112,6 +138,8 @@ def worker(rank, base, run_root, threads, identity, requested_device, world_size
                   "exact_state_match": True, "worker_pause_micro_step": 3,
                   "pending_gradient_microbatches": resumed.progress.accumulation_index,
                   "observed_auxiliary_episodes": auxiliary, "global_observed_auxiliary_episodes": global_auxiliary,
+                  "source": source_metadata,
+                  "original_vs_prefix_reuse_exact_state_match": True if compare_prefix_reuse else None,
                   "elapsed_seconds": time.monotonic() - started}
         (Path(run_root) / f"result_rank_{rank}.json").write_text(json.dumps(report, indent=2) + "\n")
     finally:
@@ -137,6 +165,10 @@ def main():
     parser.add_argument("--data-revision", default="ab-v4-fields-and-language")
     parser.add_argument("--micro-steps", type=int, default=5)
     parser.add_argument("--grad-accum", type=int, default=4)
+    parser.add_argument("--reuse-frozen-prefix", action="store_true")
+    parser.add_argument("--compare-prefix-reuse", action="store_true",
+                        help="also compare unoptimized and optimized complete training states")
+    parser.add_argument("--source-run", help="load trained memory weights, without touching the source run")
     args = parser.parse_args()
     if args.threads_per_rank < 1 or args.world_size < 2 or args.micro_steps < 4 or args.grad_accum <= 3:
         raise ValueError("threads must be positive, world size at least two and accumulation greater than the pause step3")
@@ -153,14 +185,17 @@ def main():
                 "keep_fraction": args.keep_fraction, "keep_weight": args.keep_weight}
     controls["data_revision"] = args.data_revision
     controls["gradient_accumulation"] = args.grad_accum
+    controls["reuse_frozen_prefix"] = args.reuse_frozen_prefix or args.compare_prefix_reuse
     mp.spawn(worker, args=(str(base), str(root), args.threads_per_rank, identity, args.device, args.world_size, controls,
-                           args.writer_anchor_weight, args.reader_gate_mode, args.micro_steps),
+                           args.writer_anchor_weight, args.reader_gate_mode, args.micro_steps,
+                           args.source_run, args.compare_prefix_reuse),
              nprocs=args.world_size, join=True)
     report = {"status": f"pretrained_{args.device}_{'hccl' if args.device == 'npu' else 'gloo'}_recovery_only",
               "world_size": args.world_size,
               "controls": controls,
               "writer_anchor_weight": args.writer_anchor_weight,
               "reader_gate_mode": args.reader_gate_mode,
+              "source_run": args.source_run, "compare_prefix_reuse": args.compare_prefix_reuse,
               "threads_per_rank": args.threads_per_rank, "base_identity": identity,
               "ranks": [json.loads((root / f"result_rank_{rank}.json").read_text()) for rank in range(args.world_size)],
               "trained_recall_claimed": False, "hccl_verified": args.device == "npu"}

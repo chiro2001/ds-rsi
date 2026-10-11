@@ -35,11 +35,14 @@ class TrainConfig:
     counterfactual_margin: float = 2.0
     keep_fraction: float | None = None
     keep_weight: float = 0.2
+    reuse_frozen_prefix: bool = False
 
     def __post_init__(self):
         if self.stage not in {"A", "B"} or min(self.student_token_budget, self.gradient_accumulation) < 1:
             raise ValueError("invalid training stage/budget/accumulation")
         self._validate_common()
+        if type(self.reuse_frozen_prefix) is not bool:
+            raise ValueError("frozen prefix reuse must be a boolean")
         if self.data_revision not in AB_REVISIONS or self.curriculum not in ("mixed", "facts", "locations"):
             raise ValueError("unknown data revision/curriculum")
         if self.data_revision == LEGACY_AB_REVISION and self.curriculum != "mixed":
@@ -131,13 +134,15 @@ class Trainer:
             initialization = self.store.load_committed()[1]["identity"].get("initialization")
         self.objective = EpisodeObjective(model, compiler, stage=config.stage, memory_candidates=config.memory_candidates,
             counterfactual_weight=config.counterfactual_weight, counterfactual_margin=config.counterfactual_margin,
-            keep_weight=config.keep_weight)
+            keep_weight=config.keep_weight, reuse_frozen_prefix=config.reuse_frozen_prefix)
         self.optimizer = torch.optim.AdamW([p for p in model.parameters() if p.requires_grad],
                                            lr=config.learning_rate, weight_decay=config.weight_decay,
                                            foreach=False, fused=False)
         self.optimizer.zero_grad(set_to_none=True)
         self.generator = make_generator(revision=config.data_revision, seed=config.seed, distractors=config.distractors)
         config_identity = asdict(config)
+        if not config.reuse_frozen_prefix:
+            config_identity.pop("reuse_frozen_prefix")
         if config.keep_fraction is None:
             config_identity.pop("keep_fraction")
         if config.keep_weight == 0.2:
@@ -156,6 +161,9 @@ class Trainer:
                          "execution_semantics": "ab-episode-v2-explicit-optimizer-backend"}
         if config.data_revision != LEGACY_AB_REVISION:
             self.identity["data"] = data_identity(config.data_revision)
+        if config.reuse_frozen_prefix:
+            path = Path(__file__).resolve().parents[1] / "model/frozen_prefix_reuse.py"
+            self.identity["prefix_reuse"] = {"version": "native-frozen-prefix-reuse-v1", "sha256": file_sha256(path)}
         if self.world_size > 1:
             self.identity["execution_semantics"] = "ab-episode-v4-query-weighted-coordinated-gradients"
         if not resume or "memory_architecture" in self.store.load_committed()[1]["identity"]:
@@ -166,6 +174,9 @@ class Trainer:
             migrations = self.store.load_committed()[1]["identity"].get("topology_migrations")
             if migrations is not None:
                 self.identity["topology_migrations"] = migrations
+            migrations = self.store.load_committed()[1]["identity"].get("execution_migrations")
+            if migrations is not None:
+                self.identity["execution_migrations"] = migrations
         self.progress = Progress(config.stage)
         self.cursor = {"next_ordinal": self.rank, "schema_version": 1}
         self.life = {"mode": "m_only", "streams": {}, "harness_refs": {}}

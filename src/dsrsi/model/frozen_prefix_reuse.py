@@ -1,6 +1,6 @@
 """Scoped reuse of identical native inputs before memory injection.
 
-This is an experimental timing primitive, not enabled by any training runner.
+Training disables this optimization by default; enabling it changes execution identity.
 Only deterministic frozen prefix layers are reused. The scope ends before a
 microbatch checkpoint; no reusable state is persisted or shared across lives.
 """

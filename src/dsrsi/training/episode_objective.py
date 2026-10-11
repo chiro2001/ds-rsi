@@ -30,7 +30,8 @@ class ObjectiveOutput:
 
 class EpisodeObjective:
     def __init__(self, model, compiler, *, stage="A", route_weight=0.05, keep_weight=0.2,
-                 memory_candidates=8, counterfactual_weight=0.0, counterfactual_margin=2.0):
+                 memory_candidates=8, counterfactual_weight=0.0, counterfactual_margin=2.0,
+                 reuse_frozen_prefix=False):
         if stage not in {"A", "B"}:
             raise ValueError("this objective explicitly implements A/B; C/D have different state semantics")
         self.model, self.compiler, self.stage = model, compiler, stage
@@ -39,6 +40,7 @@ class EpisodeObjective:
             raise ValueError("invalid memory candidate limit or counterfactual loss")
         self.memory_candidates = memory_candidates
         self.counterfactual_weight, self.counterfactual_margin = counterfactual_weight, counterfactual_margin
+        self.reuse_frozen_prefix = reuse_frozen_prefix
         model.address.requires_grad_(stage == "B")
         model.consolidator.requires_grad_(False)
 
@@ -63,6 +65,13 @@ class EpisodeObjective:
         return records, sum(len(span.input_ids) for span in episode.source), source_ids.numel() - int(source_mask.sum())
 
     def __call__(self, row, *, oracle_include=True, counterfactual_row=None):
+        if self.reuse_frozen_prefix:
+            from dsrsi.model.frozen_prefix_reuse import frozen_prefix_reuse
+            with frozen_prefix_reuse(self.model):
+                return self._run_episode(row, oracle_include=oracle_include, counterfactual_row=counterfactual_row)
+        return self._run_episode(row, oracle_include=oracle_include, counterfactual_row=counterfactual_row)
+
+    def _run_episode(self, row, *, oracle_include=True, counterfactual_row=None):
         episode = self.compiler.compile(row)
         device = self.model.base.embed_tokens.weight.device
         records, total_tokens, padding = self._sources(episode)

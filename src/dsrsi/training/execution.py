@@ -18,7 +18,13 @@ def enable_scripted_gdn(source_run, target_run, *, dry_run=False):
     return _enable_execution(source_run, target_run, optimization="scripted_gdn", dry_run=dry_run)
 
 
+def restore_original_gdn(source_run, target_run, *, dry_run=False):
+    return _enable_execution(source_run, target_run, optimization="original_gdn", dry_run=dry_run)
+
+
 def _enable_execution(source_run, target_run, *, optimization, dry_run):
+    if optimization not in {"prefix_reuse", "scripted_gdn", "original_gdn"}:
+        raise ValueError("unknown execution optimization")
     source_run, target_run = Path(source_run).resolve(), Path(target_run).resolve()
     if target_run.exists() or source_run == target_run:
         raise CheckpointError("execution migration requires a new target run")
@@ -37,6 +43,8 @@ def _enable_execution(source_run, target_run, *, optimization, dry_run):
         raise CheckpointError("source already uses prefix reuse")
     if optimization == "scripted_gdn" and config.get("gdn_inverse") is not None:
         raise CheckpointError("source already uses a GDN execution override")
+    if optimization == "original_gdn" and config.get("gdn_inverse") != "scripted_rows":
+        raise CheckpointError("restoring original GDN requires an enabled scripted source")
     if config.get("gdn_inverse") is not None:
         from dsrsi.model.gdn_execution import gdn_execution_identity
         if config["gdn_inverse"] != "scripted_rows" or identity.get("gdn_execution") != gdn_execution_identity():
@@ -57,11 +65,15 @@ def _enable_execution(source_run, target_run, *, optimization, dry_run):
         config["reuse_frozen_prefix"] = True
         identity["prefix_reuse"] = {"version": "native-frozen-prefix-reuse-v1", "sha256": file_sha256(implementation)}
         kind, detail = "enable-frozen-prefix-reuse-at-optimizer-boundary-v1", {"prefix_reuse": identity["prefix_reuse"]}
-    else:
+    elif optimization == "scripted_gdn":
         from dsrsi.model.gdn_execution import gdn_execution_identity
         config["gdn_inverse"] = "scripted_rows"
         identity["gdn_execution"] = gdn_execution_identity()
         kind, detail = "enable-scripted-gdn-at-optimizer-boundary-v1", {"gdn_execution": identity["gdn_execution"]}
+    else:
+        previous = identity.pop("gdn_execution")
+        config.pop("gdn_inverse")
+        kind, detail = "restore-original-gdn-at-optimizer-boundary-v1", {"previous_gdn_execution": previous}
     report = {"kind": kind,
               "source_run": str(source_run), "source_checkpoint": directory.name,
               "source_manifest_sha256": file_sha256(directory / "manifest.json"),
@@ -93,7 +105,7 @@ def main():
     parser.add_argument("--source-run", required=True)
     parser.add_argument("--target-run", required=True)
     parser.add_argument("--dry-run", action="store_true")
-    parser.add_argument("--optimization", choices=["prefix_reuse", "scripted_gdn"], default="prefix_reuse")
+    parser.add_argument("--optimization", choices=["prefix_reuse", "scripted_gdn", "original_gdn"], default="prefix_reuse")
     args = parser.parse_args()
     print(json.dumps(_enable_execution(args.source_run, args.target_run,
                                       optimization=args.optimization, dry_run=args.dry_run), indent=2))

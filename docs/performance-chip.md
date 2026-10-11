@@ -78,6 +78,10 @@ python -m dsrsi.training.execution --optimization scripted_gdn \
   --target-run runs/ab-A-v6-natural-keep-w1-gdn-prefix-01 --dry-run
 ```
 
-去掉dry-run创建新run后，使用原参数加 `--gdn-inverse scripted_rows --resume`。优化器、RNG、游标和累计账本均复制，前缀复用保留，来源latest和完整状态不变。此前单chip12完整样本/50微批/恢复逐位一致，实际两rank/HCCL验证尚待完成；通过前不执行正式迁移。TorchScript已deprecated，本方案依赖当前固定PyTorch环境，执行版本改变必须重新验证。
+去掉dry-run创建新run后，使用原参数加 `--gdn-inverse scripted_rows --resume`。优化器、RNG、游标和累计账本均复制，前缀复用保留，来源latest和完整状态不变。此前单chip12完整样本/50微批/恢复逐位一致；实际w1两rank/HCCL 32微批及实际优化器84状态在独立进程中接续到512也逐位一致。TorchScript已deprecated，本方案依赖当前固定PyTorch环境，执行版本改变必须重新验证。
+
+正式接续后检测到后段吞吐下降，随后确认物理14/15有非本项目的cron负载；这段长运行数据无法单独归因于GDN。当前训练已安全保存停止。为恢复基准执行可用 `--optimization original_gdn` 在空累积边界复制完整态到新run；去掉gdn开关后使用原全部参数resume，前缀复用继续保留。不能直接改旧run的开关或丢弃累计梯度。
+
+新的GPU负载统一由宿主 `scripts/run_a322_checked.py` 发起：同一进程验证项目容器、原名设备映射、健康及空闲，再执行命令。检查失败即不会调用docker exec，防止异步调用方漏看失败后仍启动。单die刷新只读健康报告，不映射其兄弟die；独立单设备评测可显式选逻辑0或1，HCCL负载须检查全部设备。
 
 `scripts/profile_ab_operators.py` 在单chip权重副本上执行一次正确调度的Ascend算子跟踪（warmup1/active1/step）。不创建优化器或修改来源状态，大工件只放忽略目录。v6长续写的单样本诊断显示ViewCopy/Mul/Slice占约48.8%设备算子时间，大量小操作与拷贝值得进一步验证融合候选；插桩间隙包含profiling开销，不能当作可消除的真实吞吐损失。见 [算子摘要](../reports/v6-natural-operator-trace-summary.json)。

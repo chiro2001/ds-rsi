@@ -1,0 +1,83 @@
+{
+  "status": "independent_torchrun_processes_trained_state_resume_equivalence",
+  "runtime_code_commit": "b9639e9452460acc1181c88602ec0942abc5c4fa",
+  "world_size": 2,
+  "start_micro_step": 504,
+  "start_optimizer_step": 84,
+  "final_progress": {
+    "accumulation_index": 2,
+    "micro_step": 512,
+    "optimizer_step": 85,
+    "stage": "A",
+    "student_tokens": 501660,
+    "teacher_tokens": 40082
+  },
+  "rank_payloads_bitwise_equal": [
+    0,
+    1
+  ],
+  "formal_states_preserved": [
+    {
+      "run": "ab-A-v6-natural-keep-w1-prefix-01",
+      "checkpoint": "micro_000000000504_d7e0933804",
+      "manifest_sha256": "4ccdd3727556694e70e62c97675982934f0b63ea8e5aaafd2cfcfb478a9137e6"
+    },
+    {
+      "run": "ab-A-v6-natural-keep-w1-gdn-prefix-01",
+      "checkpoint": "micro_000000000504_e9e171c054",
+      "manifest_sha256": "7ce130f5700b91fd19cb770b5c5bac684acdaee37ffb1421d6f0b467ee0f0e12"
+    }
+  ],
+  "formal_training_ledger_modified": false,
+  "test_additional_student_tokens_per_variant": 7606,
+  "test_additional_teacher_tokens_per_variant": 502,
+  "variants": {
+    "baseline": {
+      "checkpoint": "micro_000000000512_07d6d3292f",
+      "manifest_sha256": "c0d289d33c6217d71e9ec708cd7fb46c1481e39372b61e0a96ab3f5dfd5b799a",
+      "config": {
+        "counterfactual_margin": 2.0,
+        "counterfactual_weight": 1.0,
+        "curriculum": "facts",
+        "data_revision": "ab-v6-natural-keep",
+        "distractors": 7,
+        "gradient_accumulation": 6,
+        "gradient_clip": 1.0,
+        "keep_fraction": 0.4,
+        "keep_weight": 1.0,
+        "learning_rate": 0.00025,
+        "memory_candidates": 1,
+        "reuse_frozen_prefix": true,
+        "save_every_micro": 100,
+        "seed": 20261010,
+        "stage": "A",
+        "student_token_budget": 16505710,
+        "weight_decay": 0.01
+      }
+    },
+    "optimized": {
+      "checkpoint": "micro_000000000512_73b8043ac4",
+      "manifest_sha256": "43736f3d93b2285ba8c527dbf241b347677955435ed053d00e1771426558de7c",
+      "config": {
+        "counterfactual_margin": 2.0,
+        "counterfactual_weight": 1.0,
+        "curriculum": "facts",
+        "data_revision": "ab-v6-natural-keep",
+        "distractors": 7,
+        "gdn_inverse": "scripted_rows",
+        "gradient_accumulation": 6,
+        "gradient_clip": 1.0,
+        "keep_fraction": 0.4,
+        "keep_weight": 1.0,
+        "learning_rate": 0.00025,
+        "memory_candidates": 1,
+        "reuse_frozen_prefix": true,
+        "save_every_micro": 100,
+        "seed": 20261010,
+        "stage": "A",
+        "student_token_budget": 16505710,
+        "weight_decay": 0.01
+      }
+    }
+  }
+}

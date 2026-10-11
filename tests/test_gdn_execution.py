@@ -129,6 +129,7 @@ def gdn_worker(rank, root, scripted, resume, micro_steps):
 
 
 def test_migrated_two_rank_run_retains_prefix_reuse_and_resumes_exactly(tmp_path):
+    from dsrsi.training.execution import restore_original_gdn
     source, target = tmp_path / "source", tmp_path / "target"
     source.mkdir()
     mp.spawn(gdn_worker, args=(str(source), False, False, 6), nprocs=2, join=True)
@@ -140,6 +141,41 @@ def test_migrated_two_rank_run_retains_prefix_reuse_and_resumes_exactly(tmp_path
     for rank in range(2):
         require_equal(torch.load(source / f"state-{rank}.pt", weights_only=True),
                       torch.load(target / f"state-{rank}.pt", weights_only=True), f"rank{rank}")
+    # Finish the current accumulation before rolling back the execution mode.
+    mp.spawn(gdn_worker, args=(str(source), False, True, 18), nprocs=2, join=True)
+    mp.spawn(gdn_worker, args=(str(target), True, True, 18), nprocs=2, join=True)
+    restored = tmp_path / "restored"
+    restore_original_gdn(target / "run", restored / "run")
+    manifest = CheckpointStore(restored / "run/checkpoints").load_committed()[1]
+    assert "gdn_inverse" not in manifest["identity"]["train_config"]
+    assert "gdn_execution" not in manifest["identity"]
+    assert manifest["identity"]["train_config"]["reuse_frozen_prefix"] is True
+    mp.spawn(gdn_worker, args=(str(source), False, True, 22), nprocs=2, join=True)
+    mp.spawn(gdn_worker, args=(str(restored), False, True, 22), nprocs=2, join=True)
+    for rank in range(2):
+        require_equal(torch.load(source / f"state-{rank}.pt", weights_only=True),
+                      torch.load(restored / f"state-{rank}.pt", weights_only=True), f"restored-rank{rank}")
+
+
+def test_rollback_requires_a_scripted_source_and_preserves_every_payload(tmp_path):
+    from test_topology import make_source
+    from dsrsi.training.execution import restore_original_gdn
+    make_source(tmp_path / "source")
+    with pytest.raises(CheckpointError, match="enabled scripted source"):
+        restore_original_gdn(tmp_path / "source", tmp_path / "no-op")
+    enable_scripted_gdn(tmp_path / "source", tmp_path / "scripted")
+    source = CheckpointStore(tmp_path / "scripted/checkpoints")
+    directory, manifest = source.load_committed()
+    pointer = (source.root / "latest.json").read_bytes()
+    report = restore_original_gdn(tmp_path / "scripted", tmp_path / "restored")
+    assert report["exact_payload_match"] and not report["optimizer_and_counters_reset"]
+    restored = CheckpointStore(tmp_path / "restored/checkpoints")
+    dest, new_manifest = restored.load_committed()
+    assert "gdn_execution" not in new_manifest["identity"]
+    for rank in range(manifest["world_size"]):
+        require_equal(source.load_rank(directory, manifest, rank=rank),
+                      restored.load_rank(dest, new_manifest, rank=rank), f"rollback-rank{rank}")
+    assert (source.root / "latest.json").read_bytes() == pointer
 
 
 @pytest.mark.parametrize("method", ["doubling", "blocks", "solve"])

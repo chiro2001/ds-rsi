@@ -32,6 +32,12 @@ w1字母98.96%、首数字100%，后三位95.83%/70.83%/73.96%。实际寻址k=1
 
 执行迁移入口为 `python -m dsrsi.training.execution --optimization scripted_gdn`。只能从stateless A/B、已stopped/paused、累积0且无梯度的完整状态创建新run；保留全部rank payload、优化器、RNG、游标、账本、前缀复用及来源链，来源latest/控制请求不改变。先dry-run预览，再执行；不复制旧控制请求。它与课程权重初始化的重置语义不同。
 
-CPU新增9项专项通过，涵盖完整状态/中途恢复、执行身份拒绝、异常scope恢复、迁移保留来源，以及已启用前缀复用的双rank迁移后续训逐位一致。旧前缀迁移及相关GDN/恢复32项通过。真实0.8B/w1/两rank/HCCL准入仍待完成，验证通过前不迁移正式runner。
+CPU新增9项专项通过，涵盖完整状态/中途恢复、执行身份拒绝、异常scope恢复、迁移保留来源，以及已启用前缀复用的双rank迁移后续训逐位一致。旧前缀迁移及相关GDN/恢复32项通过，全仓317通过，代码提交b9639e9的CI315通过/2本地tokenizer检查跳过。
 
-原始：[w1完整回忆](ab-A-v6-w1-500-dev.json)、[w1 native保持](ab-A-v6-w1-500-native-source-nll.json)、[首批完整态](ab-A-v6-w1-500-training-summary.json)、[单设备GDN恢复](gdn-scripted-v6-training.json)。
+真实0.8B/w1/两rank/HCCL准入已完成：原GDN与scripted_rows连续32微批后的全部状态相同，候选微批3暂停再恢复至32同样相同；覆盖14长续写/6 unknown/8辅助。随后从第504的实际优化器84/RNG/游标/账本创建两份副本，在独立torchrun进程中分别用原版和候选恢复到512/优化器85/累积2，全payload一致。每个副本另处理7,606学生/502教师token，正式源和目标仍停504；测试消费单列，不写正式账本。
+
+执行迁移已从源504创建 `ab-A-v6-natural-keep-w1-gdn-prefix-01` 的 `micro_000000000504_e9e171c054`，SHA `7ce130f5700b91fd19cb770b5c5bac684acdaee37ffb1421d6f0b467ee0f0e12`。全部payload复制一致，无优化器/RNG/游标/账本重置。正式接续中，后段微批出现6–13秒耗时；空闲复核发现chip14/15有用户1002的非本项目cron负载，因此不能将长运行吞吐下降归因于GDN本身。
+
+本项目已完整停止至714/优化器119/累积0，保留全部中途状态。随后选择先恢复基准GDN执行，并增加将空闲检查与启动绑定的宿主入口；外部负载退出或用户调整授权资源前，不再启动GPU训练。数值证明、短计时和实际资源争用分别记录，不能由短样本加速比承诺长训练吞吐。
+
+原始：[w1完整回忆](ab-A-v6-w1-500-dev.json)、[w1 native保持](ab-A-v6-w1-500-native-source-nll.json)、[首批完整态](ab-A-v6-w1-500-training-summary.json)、[单设备GDN恢复](gdn-scripted-v6-training.json)、[真实HCCL GDN恢复](hccl2-v6-w1-scripted-gdn-recovery.json)、[独立进程实际优化器恢复](hccl2-gdn-separate-process-trained-state.json)、[执行迁移](ab-A-v6-w1-gdn-execution-migration.json)。

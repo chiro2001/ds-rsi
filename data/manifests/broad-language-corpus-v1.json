@@ -1,0 +1,494 @@
+{
+  "converter": "html-to-text-v1",
+  "corpus_file": "data/broad-language/corpus-v1.jsonl",
+  "corpus_sha256": "ce2d18cdb196cc1b8b4356ae89818bb78a9aaa12dbae0e733fce03575b6c3eac",
+  "documents": [
+    {
+      "characters": 5775,
+      "document_id": "en-alan-turing",
+      "language": "en",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 1379625434,
+      "sha256": "4468de92705004bdeb5085e605aad865aaec6e38d39abc4522d59e4cf3ac211b",
+      "title": "Alan Turing",
+      "url": "https://en.wikipedia.org/w/index.php?oldid=1379625434"
+    },
+    {
+      "characters": 5333,
+      "document_id": "en-photosynthesis",
+      "language": "en",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 1379238357,
+      "sha256": "20cd2ed36b994bed804884b051b177e575a275a74feea747db47d3ca44c8269c",
+      "title": "Photosynthesis",
+      "url": "https://en.wikipedia.org/w/index.php?oldid=1379238357"
+    },
+    {
+      "characters": 5396,
+      "document_id": "en-silk-road",
+      "language": "en",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 1379074984,
+      "sha256": "a3059c8d90b00d02f615547b068b690ff2a7cb9c28daf1d52ee1ff7bf787a5af",
+      "title": "Silk Road",
+      "url": "https://en.wikipedia.org/w/index.php?oldid=1379074984"
+    },
+    {
+      "characters": 5976,
+      "document_id": "en-mount-fuji",
+      "language": "en",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 1378443182,
+      "sha256": "33a53f4e92d967cddd8b584f803bb2f629cb351bd5d8e93c4393732010fab2eb",
+      "title": "Mount Fuji",
+      "url": "https://en.wikipedia.org/w/index.php?oldid=1378443182"
+    },
+    {
+      "characters": 5769,
+      "document_id": "en-coffee",
+      "language": "en",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 1371799424,
+      "sha256": "5c34cac42b2660b9cefc7dc4f3f6d39dfb93448935bcd7dec3fc261dba61ba21",
+      "title": "Coffee",
+      "url": "https://en.wikipedia.org/w/index.php?oldid=1371799424"
+    },
+    {
+      "characters": 5010,
+      "document_id": "en-jazz",
+      "language": "en",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 1377513461,
+      "sha256": "0133d635ca6b27d6381687d276839efb9fd8f66da783aaeafe415fad5a6ed3ab",
+      "title": "Jazz",
+      "url": "https://en.wikipedia.org/w/index.php?oldid=1377513461"
+    },
+    {
+      "characters": 5645,
+      "document_id": "en-ancient-rome",
+      "language": "en",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 1379589331,
+      "sha256": "31114e252d1f7010d69a997d8c406d56b2804c4b8753e864657c7f75b5e1a8d7",
+      "title": "Ancient Rome",
+      "url": "https://en.wikipedia.org/w/index.php?oldid=1379589331"
+    },
+    {
+      "characters": 5995,
+      "document_id": "en-antarctica",
+      "language": "en",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 1379107957,
+      "sha256": "f1e823dd54076d7a7382d59b46f1ca3ffa54f2919673a08d1a7b928b009239ec",
+      "title": "Antarctica",
+      "url": "https://en.wikipedia.org/w/index.php?oldid=1379107957"
+    },
+    {
+      "characters": 5639,
+      "document_id": "en-vaccine",
+      "language": "en",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 1376748103,
+      "sha256": "888a253d0f08e4b743d22822be76b24a312d7a16a1efe2f53fe3ac1ca3831312",
+      "title": "Vaccine",
+      "url": "https://en.wikipedia.org/w/index.php?oldid=1376748103"
+    },
+    {
+      "characters": 5328,
+      "document_id": "en-solar-system",
+      "language": "en",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 1377020987,
+      "sha256": "c4381634b956477ed0f58f85370290235a9bb6ed06124f5387760788b259ba53",
+      "title": "Solar System",
+      "url": "https://en.wikipedia.org/w/index.php?oldid=1377020987"
+    },
+    {
+      "characters": 5655,
+      "document_id": "en-bicycle",
+      "language": "en",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 1375091239,
+      "sha256": "8c74372d9430bf5a87be8628eaa5fcec778b6f659a3edae465d2ea29c6b73976",
+      "title": "Bicycle",
+      "url": "https://en.wikipedia.org/w/index.php?oldid=1375091239"
+    },
+    {
+      "characters": 5070,
+      "document_id": "en-tea",
+      "language": "en",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 1379637987,
+      "sha256": "53360a75c7f8dbdb9e4f7fd3a463cb2d2d98452240daa65f9d6dcc2587ddc4fb",
+      "title": "Tea",
+      "url": "https://en.wikipedia.org/w/index.php?oldid=1379637987"
+    },
+    {
+      "characters": 4740,
+      "document_id": "en-william-shakespeare",
+      "language": "en",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 1378865917,
+      "sha256": "a7b1ca3eba61858d7d59e816f1207e002d133d58cc458955f7eb1202527e6ac4",
+      "title": "William Shakespeare",
+      "url": "https://en.wikipedia.org/w/index.php?oldid=1378865917"
+    },
+    {
+      "characters": 5788,
+      "document_id": "en-amazon-rainforest",
+      "language": "en",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 1378382105,
+      "sha256": "c21955682fa0c808295cf6dabe5cc043824fd690b12871b2df7059e16e1a1b10",
+      "title": "Amazon rainforest",
+      "url": "https://en.wikipedia.org/w/index.php?oldid=1378382105"
+    },
+    {
+      "characters": 5804,
+      "document_id": "en-printing-press",
+      "language": "en",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 1379445153,
+      "sha256": "a03051c5972d42645f29a50c3c827a904e31d977f0f02e6cf36e909d691014ec",
+      "title": "Printing press",
+      "url": "https://en.wikipedia.org/w/index.php?oldid=1379445153"
+    },
+    {
+      "characters": 5083,
+      "document_id": "en-chess",
+      "language": "en",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 1379113904,
+      "sha256": "7e940b4c52639e39f2a75f4b824e4eea30744ab1588e0ea0b7ff92a709891c48",
+      "title": "Chess",
+      "url": "https://en.wikipedia.org/w/index.php?oldid=1379113904"
+    },
+    {
+      "characters": 5749,
+      "document_id": "en-taj-mahal",
+      "language": "en",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 1378868244,
+      "sha256": "addaed0fd0fc338a109dd56353ce43653ce284ba620a338f128f18f5c8d839b3",
+      "title": "Taj Mahal",
+      "url": "https://en.wikipedia.org/w/index.php?oldid=1378868244"
+    },
+    {
+      "characters": 5695,
+      "document_id": "en-morse-code",
+      "language": "en",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 1379330624,
+      "sha256": "52a19193f7a265168317f3b3b971a8d8a6f9cba955b40e7b2dd61423334b1c0c",
+      "title": "Morse code",
+      "url": "https://en.wikipedia.org/w/index.php?oldid=1379330624"
+    },
+    {
+      "characters": 5245,
+      "document_id": "en-honey",
+      "language": "en",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 1378877316,
+      "sha256": "8314903e68fba600f8fa486917a49d333b7660fb52d97d9d80958cf63f277c27",
+      "title": "Honey",
+      "url": "https://en.wikipedia.org/w/index.php?oldid=1378877316"
+    },
+    {
+      "characters": 5575,
+      "document_id": "en-basketball",
+      "language": "en",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 1379108314,
+      "sha256": "ef7193094af8f070ad5e4fd8fc517d10a4c3e7407ccf4eeb09f0669cc2cb3c8f",
+      "title": "Basketball",
+      "url": "https://en.wikipedia.org/w/index.php?oldid=1379108314"
+    },
+    {
+      "characters": 5288,
+      "document_id": "en-piano",
+      "language": "en",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 1378630582,
+      "sha256": "e394e190c593eeecbf521efe859ba725925ee48a45b3afcda0aec05e7d150f69",
+      "title": "Piano",
+      "url": "https://en.wikipedia.org/w/index.php?oldid=1378630582"
+    },
+    {
+      "characters": 5743,
+      "document_id": "en-atlantic-ocean",
+      "language": "en",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 1376232547,
+      "sha256": "d4ddadda7e3514e88976aeb251e85cce22b697d0a57fe558bc6205bf01185f2e",
+      "title": "Atlantic Ocean",
+      "url": "https://en.wikipedia.org/w/index.php?oldid=1376232547"
+    },
+    {
+      "characters": 5492,
+      "document_id": "en-paper",
+      "language": "en",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 1379113755,
+      "sha256": "e9c13d994a2e59e910374d09db2ff3a1bbe2075475875aa4bae8827162a640ea",
+      "title": "Paper",
+      "url": "https://en.wikipedia.org/w/index.php?oldid=1379113755"
+    },
+    {
+      "characters": 5992,
+      "document_id": "en-sonnet",
+      "language": "en",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 1378261990,
+      "sha256": "d08d9425858ef9566dccc7bacb25aae44fe758334cf7e3a159e77356b09f5e36",
+      "title": "Sonnet",
+      "url": "https://en.wikipedia.org/w/index.php?oldid=1378261990"
+    },
+    {
+      "characters": 5872,
+      "document_id": "zh-丝绸之路",
+      "language": "zh",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 94668395,
+      "sha256": "399487bd88f7f9923dda763fbe039de26781614156ac9139219deaf20c506148",
+      "title": "丝绸之路",
+      "url": "https://zh.wikipedia.org/w/index.php?oldid=94668395"
+    },
+    {
+      "characters": 5991,
+      "document_id": "zh-光合作用",
+      "language": "zh",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 94770718,
+      "sha256": "594b0c65ec5684b40ff29807002ac2fe1b20f485a6412125e32282d7adb15c06",
+      "title": "光合作用",
+      "url": "https://zh.wikipedia.org/w/index.php?oldid=94770718"
+    },
+    {
+      "characters": 5850,
+      "document_id": "zh-故宫",
+      "language": "zh",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 93875209,
+      "sha256": "96b4149f652a1df9d30791d836f1467d0bb9e17c252f9d9ea801ac59ab939a62",
+      "title": "故宫",
+      "url": "https://zh.wikipedia.org/w/index.php?oldid=93875209"
+    },
+    {
+      "characters": 5969,
+      "document_id": "zh-长江",
+      "language": "zh",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 94386981,
+      "sha256": "e31615735a8a50cafe54143c8e4b58a03e726d7142fc74600cf706ed0df33ede",
+      "title": "长江",
+      "url": "https://zh.wikipedia.org/w/index.php?oldid=94386981"
+    },
+    {
+      "characters": 5914,
+      "document_id": "zh-茶",
+      "language": "zh",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 94321343,
+      "sha256": "08e4e12a72e5a56008e374f730576c629cef1016ae7a8ca6a23926d5798ca111",
+      "title": "茶",
+      "url": "https://zh.wikipedia.org/w/index.php?oldid=94321343"
+    },
+    {
+      "characters": 5995,
+      "document_id": "zh-京剧",
+      "language": "zh",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 94152948,
+      "sha256": "90fda2b3710c7c1982887e2c6d06c5eed1609413338cf9bcbdf78d14c804b0ce",
+      "title": "京剧",
+      "url": "https://zh.wikipedia.org/w/index.php?oldid=94152948"
+    },
+    {
+      "characters": 5959,
+      "document_id": "zh-唐朝",
+      "language": "zh",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 94564338,
+      "sha256": "f9330934433d7cf7e0d5c2054589dcd649a6831956b4daa155ca8273b33071e1",
+      "title": "唐朝",
+      "url": "https://zh.wikipedia.org/w/index.php?oldid=94564338"
+    },
+    {
+      "characters": 5980,
+      "document_id": "zh-月球",
+      "language": "zh",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 94717610,
+      "sha256": "2d62f3db95ae7ea246efe3a63e9e0fd011d90eb8aa1a2b9b8b2a4bc0ad00c6eb",
+      "title": "月球",
+      "url": "https://zh.wikipedia.org/w/index.php?oldid=94717610"
+    },
+    {
+      "characters": 5865,
+      "document_id": "zh-疫苗",
+      "language": "zh",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 93513589,
+      "sha256": "fa8640ff0878a3e1d3127b9b5003c60686ceaa63bc2005e203db1399aa042e9e",
+      "title": "疫苗",
+      "url": "https://zh.wikipedia.org/w/index.php?oldid=93513589"
+    },
+    {
+      "characters": 5794,
+      "document_id": "zh-太阳系",
+      "language": "zh",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 94926890,
+      "sha256": "8323d754c7b003805eac969c69c27e81a994b6a80c15bc4d4f58ab9e596dbc71",
+      "title": "太阳系",
+      "url": "https://zh.wikipedia.org/w/index.php?oldid=94926890"
+    },
+    {
+      "characters": 5938,
+      "document_id": "zh-自行車",
+      "language": "zh",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 94041919,
+      "sha256": "90d6b51c3bc6b4e6ee7c0c6dbe125aef544ebb5a612d4f1d02ada3ea9b7e595e",
+      "title": "自行車",
+      "url": "https://zh.wikipedia.org/w/index.php?oldid=94041919"
+    },
+    {
+      "characters": 5940,
+      "document_id": "zh-咖啡",
+      "language": "zh",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 94531274,
+      "sha256": "268f35f6a79badd4c6c4042833d425ad33fc41aeab0f40e8558c8e9c1d4fe32f",
+      "title": "咖啡",
+      "url": "https://zh.wikipedia.org/w/index.php?oldid=94531274"
+    },
+    {
+      "characters": 5710,
+      "document_id": "zh-李白",
+      "language": "zh",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 94207726,
+      "sha256": "e34fe910c646aa18d314b1a705da692bbbe05434dff2abde5c20009b2204fe46",
+      "title": "李白",
+      "url": "https://zh.wikipedia.org/w/index.php?oldid=94207726"
+    },
+    {
+      "characters": 5916,
+      "document_id": "zh-论语",
+      "language": "zh",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 94741577,
+      "sha256": "5471c880345ca9a95ba6bd0beb362474f3ef339330b9f99cb095caaa7febba71",
+      "title": "论语",
+      "url": "https://zh.wikipedia.org/w/index.php?oldid=94741577"
+    },
+    {
+      "characters": 5769,
+      "document_id": "zh-珠穆朗瑪峰",
+      "language": "zh",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 94664139,
+      "sha256": "2e5f39451ce213ae83dd2351b4b7816039861d29c2c47b61bebbd25401ba99c0",
+      "title": "珠穆朗瑪峰",
+      "url": "https://zh.wikipedia.org/w/index.php?oldid=94664139"
+    },
+    {
+      "characters": 5991,
+      "document_id": "zh-围棋",
+      "language": "zh",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 94110560,
+      "sha256": "bafe561419e1bb2d7bdbdd0c5e2e85626eb3914fd0c007bfb200eef8b2de54bb",
+      "title": "围棋",
+      "url": "https://zh.wikipedia.org/w/index.php?oldid=94110560"
+    },
+    {
+      "characters": 5986,
+      "document_id": "zh-长城",
+      "language": "zh",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 94640681,
+      "sha256": "5b0773b41372c53716b942b2f636749a2cee054b2142d77b8d2ad71dc5faacb5",
+      "title": "长城",
+      "url": "https://zh.wikipedia.org/w/index.php?oldid=94640681"
+    },
+    {
+      "characters": 5992,
+      "document_id": "zh-书法",
+      "language": "zh",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 94272033,
+      "sha256": "a36741216c0a1c2800016d49e7bcb86ef63b7b9a77431fa999024ec2e6af59a9",
+      "title": "书法",
+      "url": "https://zh.wikipedia.org/w/index.php?oldid=94272033"
+    },
+    {
+      "characters": 5943,
+      "document_id": "zh-太极拳",
+      "language": "zh",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 93402420,
+      "sha256": "a0ff3a19ef41b3d33e046b75ebf21fd1a3a895ac883e78db6abeadfef67d748d",
+      "title": "太极拳",
+      "url": "https://zh.wikipedia.org/w/index.php?oldid=93402420"
+    },
+    {
+      "characters": 5714,
+      "document_id": "zh-大熊猫",
+      "language": "zh",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 94858448,
+      "sha256": "6b58cd19679462da847c10062dd0fcd22bf479bb4388c612b7af82f4977edf00",
+      "title": "大熊猫",
+      "url": "https://zh.wikipedia.org/w/index.php?oldid=94858448"
+    },
+    {
+      "characters": 5847,
+      "document_id": "zh-黄河",
+      "language": "zh",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 94788068,
+      "sha256": "0e3fa4071f9e34832b398353b2c3f91997479b2e6f73ff4fdc8c718691424293",
+      "title": "黄河",
+      "url": "https://zh.wikipedia.org/w/index.php?oldid=94788068"
+    },
+    {
+      "characters": 5937,
+      "document_id": "zh-红楼梦",
+      "language": "zh",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 93979315,
+      "sha256": "f9efc5be107e4805ecd14995a37139ea9922e0584693b11c1aacec18632f0220",
+      "title": "红楼梦",
+      "url": "https://zh.wikipedia.org/w/index.php?oldid=93979315"
+    },
+    {
+      "characters": 5835,
+      "document_id": "zh-中秋节",
+      "language": "zh",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 94733763,
+      "sha256": "218567f6611c4e8e3655670d62d68c7cdb42ede041a71f5478554da5de327826",
+      "title": "中秋节",
+      "url": "https://zh.wikipedia.org/w/index.php?oldid=94733763"
+    },
+    {
+      "characters": 5987,
+      "document_id": "zh-中药",
+      "language": "zh",
+      "license": "CC BY-SA 4.0",
+      "revision_id": 93302699,
+      "sha256": "d349d3eb642ce2688663fe72d48c1dd826997ede22ae9efb9d6833e5d00c47d3",
+      "title": "中药",
+      "url": "https://zh.wikipedia.org/w/index.php?oldid=93302699"
+    }
+  ],
+  "license": "CC BY-SA 4.0",
+  "max_characters": 6000,
+  "retrieved_utc": "2026-10-11T04:16:14.068834+00:00",
+  "schema": "broad-language-corpus-v1",
+  "source": "Wikipedia rendered revisions (MediaWiki parse API)",
+  "title_list": "configs/broad-language-titles-v1.json",
+  "title_list_sha256": "aeec079af47cf9c4c7712c3c6fc152b18570efb80f9de73a8c697c79d8c23b5c"
+}

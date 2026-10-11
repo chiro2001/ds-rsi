@@ -65,7 +65,8 @@ class TrainConfig:
 
 class Trainer:
     def __init__(self, model, compiler, run_dir, config, *, base_identity, resume=False, collectives=None,
-                 initialize_from=None, allow_writer_anchor_change=False, allow_reader_gate_change=False):
+                 initialize_from=None, initialize_checkpoint=None,
+                 allow_writer_anchor_change=False, allow_reader_gate_change=False):
         self.model, self.compiler, self.config = model, compiler, config
         self.run_dir = Path(run_dir)
         self.device = model.base.embed_tokens.weight.device
@@ -73,6 +74,12 @@ class Trainer:
         self.rank, self.world_size = self.collectives.rank, self.collectives.world_size
         self.allow_writer_anchor_change = allow_writer_anchor_change
         self.allow_reader_gate_change = allow_reader_gate_change
+        self._initialize_checkpoint = initialize_checkpoint
+        if initialize_checkpoint is not None:
+            if resume or initialize_from is None:
+                raise ValueError("a pinned initialization checkpoint requires explicit weights initialization")
+            if config.stage not in {"A", "B"}:
+                raise ValueError("pinned weights initialization currently supports explicit A/B transitions only")
         self.collectives.run_local("initialize trainer", lambda: self._initialize(base_identity, resume, initialize_from))
         descriptor = {"identity": self.identity, "resume": resume, "progress": asdict(self.progress),
                       "parameters": [[name, list(p.shape), str(p.dtype)] for name, p in model.named_parameters()
@@ -98,8 +105,9 @@ class Trainer:
         initialization = None
         if initialize_from is not None:
             from dsrsi.evaluation.checkpoint import load_ab_weights
+            from dsrsi.evaluation.pinned import load_pinned
             source_store = CheckpointStore(Path(initialize_from) / "checkpoints")
-            committed = source_store.load_committed()
+            committed = load_pinned(source_store, self._initialize_checkpoint)
             if config.stage not in ("A", "B") or committed[1]["progress"]["stage"] != "A":
                 raise ValueError("explicit initialization supports A-to-B or a versioned A-to-A curriculum change")
             source_config = committed[1]["identity"]["train_config"]

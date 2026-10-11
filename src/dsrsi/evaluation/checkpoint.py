@@ -8,11 +8,12 @@ import torch
 from dsrsi.training.checkpoint import CheckpointError, frozen_auxiliary_parameters
 
 
-def memory_architecture_for_run(run_dir):
+def memory_architecture_for_run(run_dir, *, checkpoint=None):
     if run_dir is None:
         return None
     from dsrsi.training.checkpoint import CheckpointStore
-    return CheckpointStore(Path(run_dir) / "checkpoints").load_committed()[1]["identity"].get("memory_architecture")
+    from dsrsi.evaluation.pinned import load_pinned
+    return load_pinned(CheckpointStore(Path(run_dir) / "checkpoints"), checkpoint)[1]["identity"].get("memory_architecture")
 
 
 def compatible_writer_anchor_change(source, target):

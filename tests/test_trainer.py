@@ -109,3 +109,44 @@ def test_explicit_legacy_resume_keeps_original_config_identity_and_ordinals(tmp_
     trainer.run(max_micro_steps=1, install_signals=False)
     resumed = Trainer(tiny(), compiler, tmp_path, cfg, base_identity="legacy", resume=True)
     assert resumed.cursor == trainer.cursor and resumed.identity == trainer.identity
+
+
+def test_pinned_curriculum_initialization_uses_older_weights_and_preserves_all_source_states(tmp_path):
+    from dataclasses import replace
+    from dsrsi.training.checkpoint import file_sha256
+    source = build(tmp_path / "source")
+    source.run(max_micro_steps=2, install_signals=False)
+    old_directory, old_manifest = source.store.load_committed()
+    expected = {name: p.detach().clone() for name, p in source.model.named_parameters()}
+    old_payload_hash = file_sha256(old_directory / "rank_00000.pt")
+    source.run(max_micro_steps=5, install_signals=False)
+    latest = (source.store.root / "latest.json").read_bytes()
+    latest_directory = source.store.load_committed()[0]
+    latest_payload_hash = file_sha256(latest_directory / "rank_00000.pt")
+    assert any(not torch.equal(expected[name], p) for name, p in source.model.named_parameters())
+    torch.manual_seed(87)
+    config = replace(source.config, keep_weight=1.0, learning_rate=2.5e-4)
+    target = Trainer(tiny(), source.compiler, tmp_path / "target", config, base_identity="fixed-native-tiny",
+                     initialize_from=source.run_dir, initialize_checkpoint=old_directory.name)
+    for name, p in target.model.named_parameters():
+        assert torch.equal(expected[name], p), name
+    assert target.progress.micro_step == 0 and target.cursor["next_ordinal"] == 0
+    assert not target.optimizer.state and all(p.grad is None for p in target.model.parameters())
+    initialization = target.identity["initialization"]
+    assert initialization["checkpoint"] == old_directory.name
+    assert initialization["manifest_sha256"] == file_sha256(old_directory / "manifest.json")
+    assert initialization["progress"] == old_manifest["progress"]
+    target.run(max_micro_steps=1, install_signals=False)
+    resumed = Trainer(tiny(), source.compiler, tmp_path / "target", config,
+                      base_identity="fixed-native-tiny", resume=True)
+    assert resumed.identity == target.identity
+    assert (source.store.root / "latest.json").read_bytes() == latest
+    assert file_sha256(old_directory / "rank_00000.pt") == old_payload_hash
+    assert file_sha256(latest_directory / "rank_00000.pt") == latest_payload_hash
+
+
+@pytest.mark.parametrize("resume", [False, True])
+def test_pinned_weights_initialization_is_never_an_implicit_resume(tmp_path, resume):
+    with pytest.raises(ValueError, match="pinned initialization checkpoint"):
+        Trainer(tiny(), None, tmp_path, TrainConfig(), base_identity="base", resume=resume,
+                initialize_checkpoint="old-checkpoint")

@@ -34,6 +34,7 @@ def main():
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--init-from", help="explicit A-to-B or versioned A-to-A weights initialization; resets training state")
+    parser.add_argument("--init-checkpoint", help="pin an older committed source generation without changing its latest pointer")
     parser.add_argument("--writer-anchor-weight", type=float, help="explicit new-run position pooling change in [0,1]")
     parser.add_argument("--reader-gate-mode", choices=["token", "lookup"], help="explicit new-run reader decision scope")
     parser.add_argument("--max-micro-steps", type=int)
@@ -41,6 +42,8 @@ def main():
     args = parser.parse_args()
     if args.resume and args.init_from:
         parser.error("--resume and --init-from cannot be combined")
+    if args.init_checkpoint and (args.resume or not args.init_from):
+        parser.error("--init-checkpoint requires --init-from and cannot be used with --resume")
     from dsrsi.training.device import resolve_device
     device, world_size = resolve_device(args.device)
     random.seed(args.seed)
@@ -68,7 +71,8 @@ def main():
             tokenizer = AutoTokenizer.from_pretrained(root, local_files_only=True)
             from dsrsi.evaluation.checkpoint import memory_architecture_for_run
             from dsrsi.memory.modules import MemoryConfig
-            architecture = memory_architecture_for_run(args.run_dir if args.resume else args.init_from)
+            architecture = memory_architecture_for_run(args.run_dir if args.resume else args.init_from,
+                                                       checkpoint=args.init_checkpoint)
             anchor_change, gate_change = False, False
             if architecture is None:
                 model = MemoryQwen.from_local_checkpoint(root, device=device,
@@ -112,7 +116,8 @@ def main():
             return identity, model, compiler, config, anchor_change, gate_change
         identity, model, compiler, config, anchor_change, gate_change = context.run_local("load training artifacts", load)
         trainer = Trainer(model, compiler, args.run_dir, config, base_identity=identity, resume=args.resume,
-            collectives=context, initialize_from=args.init_from, allow_writer_anchor_change=anchor_change,
+            collectives=context, initialize_from=args.init_from, initialize_checkpoint=args.init_checkpoint,
+            allow_writer_anchor_change=anchor_change,
             allow_reader_gate_change=gate_change)
         status = trainer.run(max_micro_steps=args.max_micro_steps)
         print(json.dumps({"rank": context.rank, "world_size": context.world_size,

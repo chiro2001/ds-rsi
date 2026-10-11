@@ -33,7 +33,7 @@ def assert_equal(left, right, path="state"):
 
 
 def worker(rank, base, run_root, threads, identity, requested_device, world_size, controls, writer_anchor_weight,
-           reader_gate_mode, micro_steps, source_run, compare_prefix_reuse):
+           reader_gate_mode, micro_steps, source_run, source_checkpoint, compare_prefix_reuse):
     from transformers import AutoTokenizer
     from dsrsi.data.compiler import EpisodeCompiler
     from dsrsi.model.qwen35_memory import MemoryQwen
@@ -41,6 +41,7 @@ def worker(rank, base, run_root, threads, identity, requested_device, world_size
     from dsrsi.training.checkpoint import (CheckpointStore, capture_rng, restore_rng,
                                          capture_training_state, file_sha256)
     from dsrsi.evaluation.checkpoint import load_ab_weights
+    from dsrsi.evaluation.pinned import load_pinned
     from dsrsi.training.distributed import CollectiveContext
     from dsrsi.training.runner import TrainConfig, Trainer
     from dsrsi.training.device import resolve_device
@@ -61,7 +62,7 @@ def worker(rank, base, run_root, threads, identity, requested_device, world_size
             torch.manual_seed(20261010)
             if source_run:
                 store = CheckpointStore(Path(source_run) / "checkpoints")
-                committed = store.load_committed()
+                committed = load_pinned(store, source_checkpoint)
                 model = MemoryQwen.from_local_checkpoint(base, device=device,
                     memory_architecture=committed[1]["identity"]["memory_architecture"])
                 checkpoint, _ = load_ab_weights(model, store, base_identity=identity, committed=committed)
@@ -169,6 +170,7 @@ def main():
     parser.add_argument("--distractors", type=int, default=1)
     parser.add_argument("--keep-fraction", type=float)
     parser.add_argument("--keep-weight", type=float, default=0.2)
+    parser.add_argument("--lr", type=float, default=5e-4)
     parser.add_argument("--writer-anchor-weight", type=float, default=0)
     parser.add_argument("--reader-gate-mode", choices=["token", "lookup"], default="token")
     parser.add_argument("--data-revision", default="ab-v4-fields-and-language")
@@ -178,7 +180,10 @@ def main():
     parser.add_argument("--compare-prefix-reuse", action="store_true",
                         help="also compare unoptimized and optimized complete training states")
     parser.add_argument("--source-run", help="load trained memory weights, without touching the source run")
+    parser.add_argument("--source-checkpoint", help="explicit committed source generation for the read-only proof")
     args = parser.parse_args()
+    if args.source_checkpoint and not args.source_run:
+        parser.error("--source-checkpoint requires --source-run")
     if args.threads_per_rank < 1 or args.world_size < 2 or args.micro_steps < 4 or args.grad_accum <= 3:
         raise ValueError("threads must be positive, world size at least two and accumulation greater than the pause step3")
     root = Path(args.run_root).resolve()
@@ -191,20 +196,22 @@ def main():
                 "weights": {name: file_sha256(base / name) for name in sorted(set(index.values()))}}
     controls = {"memory_candidates": args.memory_candidates, "counterfactual_weight": args.counterfactual_weight,
                 "curriculum": args.curriculum, "distractors": args.distractors,
-                "keep_fraction": args.keep_fraction, "keep_weight": args.keep_weight}
+                "keep_fraction": args.keep_fraction, "keep_weight": args.keep_weight,
+                "learning_rate": args.lr}
     controls["data_revision"] = args.data_revision
     controls["gradient_accumulation"] = args.grad_accum
     controls["reuse_frozen_prefix"] = args.reuse_frozen_prefix or args.compare_prefix_reuse
     mp.spawn(worker, args=(str(base), str(root), args.threads_per_rank, identity, args.device, args.world_size, controls,
                            args.writer_anchor_weight, args.reader_gate_mode, args.micro_steps,
-                           args.source_run, args.compare_prefix_reuse),
+                           args.source_run, args.source_checkpoint, args.compare_prefix_reuse),
              nprocs=args.world_size, join=True)
     report = {"status": f"pretrained_{args.device}_{'hccl' if args.device == 'npu' else 'gloo'}_recovery_only",
               "world_size": args.world_size,
               "controls": controls,
               "writer_anchor_weight": args.writer_anchor_weight,
               "reader_gate_mode": args.reader_gate_mode,
-              "source_run": args.source_run, "compare_prefix_reuse": args.compare_prefix_reuse,
+              "source_run": args.source_run, "source_checkpoint": args.source_checkpoint,
+              "compare_prefix_reuse": args.compare_prefix_reuse,
               "threads_per_rank": args.threads_per_rank, "base_identity": identity,
               "ranks": [json.loads((root / f"result_rank_{rank}.json").read_text()) for rank in range(args.world_size)],
               "trained_recall_claimed": False, "hccl_verified": args.device == "npu"}

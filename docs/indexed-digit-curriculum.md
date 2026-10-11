@@ -8,6 +8,8 @@
 
 dev/test默认仍全部输出完整代码，原M5的完整EM、payload消融与语言保持门槛保留。`evaluate_m_only.py --probe-view indexed` 是显式辅助诊断，按回答字符位置分项，不能把字母/单数字的EM当作完整记忆验收。它需要v5数据版本；正式评测不加该开关。
 
+辅助诊断可同时指定 `--worlds-per-character-position 4`，按源反事实改动字符位置选出每位置4个独立世界；两个变体、三种语言时每位置24题，共120题。固定记录实际world索引，生成内容不变。此开关仅支持v4/v5单事实诊断；默认正式完整代码评测不改变连续世界抽样。第一次144题辅助评测的第1后缀位只有一个世界，因此该位4/6的结果不具有稳定估计力。
+
 实际Qwen tokenizer对960个配对样本审计通过：训练354条完整/126条辅助，开发480条全部完整；三个后缀位置均覆盖，最大源26token、回答输入82token。辅助监督恰为两个token、分歧在第一token、检索索引不见答案、答案不能写入M。见 [tokenizer审计](../reports/indexed-digits-real-tokenizer-audit.json)。
 
 完整217项CPU测试通过。三rank完整NPU暂停/恢复对照延长到16微批，实际覆盖8个辅助episode，所有权重、优化器、RNG、游标、账本逐位一致。早先5微批证明没有覆盖到辅助样本，不能作为这项新增课程的恢复证据；正式证据为 [含覆盖的恢复](../reports/pretrained-npu-indexed-digits-recovery-covered.json)。

@@ -15,6 +15,8 @@ def main():
     parser.add_argument("--run-dir", required=True)
     parser.add_argument("--output", required=True)
     parser.add_argument("--worlds", type=int, default=2)
+    parser.add_argument("--worlds-per-character-position", type=int,
+                        help="optional diagnostic strata; requires only single_fact and pinned v4/v5 code data")
     parser.add_argument("--max-new-tokens", type=int, default=16)
     parser.add_argument("--split", choices=["dev", "test"], default="dev")
     parser.add_argument("--retrieval-only", action="store_true")
@@ -77,9 +79,21 @@ def main():
     view = {"probe_view": args.probe_view} if eval_revision == "ab-v5-indexed-digits" else {}
     generator = make_generator(revision=eval_revision, seed=config["seed"], split=args.split,
                                distractors=args.distractors, **view)
+    if args.worlds_per_character_position is not None:
+        if (args.worlds_per_character_position < 1 or args.families != ["single_fact"]
+                or eval_revision not in {"ab-v4-fields-and-language", "ab-v5-indexed-digits"}):
+            raise ValueError("character-stratified diagnostics require positive counts and only v4/v5 single_fact")
+        from dsrsi.evaluation.sampling import stratified_code_worlds
+        worlds = stratified_code_worlds(generator, worlds_per_position=args.worlds_per_character_position,
+                                       language=args.languages[0])
+        sampling = {"kind": "counterfactual_character_strata", "world_indices": worlds,
+                    "worlds_per_character_position": args.worlds_per_character_position}
+    else:
+        worlds = list(range(args.worlds))
+        sampling = {"kind": "consecutive_worlds", "world_indices": worlds}
     records = []
     model.eval()
-    for world in range(args.worlds):
+    for world in worlds:
         for family in args.families:
             for language in args.languages:
                 for variant in (0, 1):
@@ -133,7 +147,7 @@ def main():
               "modes": modes if not args.retrieval_only else [],
               "foreign_payload_ablation": (args.include_foreign or any(m in args.modes for m in ("foreign", "oracle_foreign"))) and not args.retrieval_only,
               "checkpoint_progress": manifest["progress"], "max_new_tokens": args.max_new_tokens,
-              "worlds": args.worlds, "summary": summary, "records": records,
+              "worlds": len(worlds), "sampling": sampling, "summary": summary, "records": records,
               "by_codec_task": {key: summarize_records(rows, retrieval_only=args.retrieval_only) for key, rows in by_task.items()},
               "by_answer_character_position": {key: summarize_records(rows, retrieval_only=args.retrieval_only)
                                                for key, rows in by_position.items()},

@@ -1,0 +1,155 @@
+{
+  "status": "isolated_episode_timing_diagnostic",
+  "checkpoint": "micro_000000002000_6eabf825af",
+  "manifest_sha256": "43b7ee21d97c4907f3527d75e584d5780431daaa625242d1782b94a2cdf73e8f",
+  "checkpoint_progress": {
+    "accumulation_index": 0,
+    "micro_step": 2000,
+    "optimizer_step": 500,
+    "stage": "A",
+    "student_tokens": 2805482,
+    "teacher_tokens": 159810
+  },
+  "base_identity": {
+    "tokenizer": {
+      "tokenizer.json": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+      "tokenizer_config.json": "49e2b6e395f959f077f1e992b338919c0d4a9732fc6e613995e06557f843500c",
+      "chat_template.jinja": "273d8e0e683b885071fb17e08d71e5f2a5ddfb5309756181681de4f5a1822d80",
+      "config.json": "b90b86f35c8e6925ef74ee04d0e758f0a845c83a42089ad82bbaa948de9b4204"
+    },
+    "weights": {
+      "model.safetensors-00001-of-00001.safetensors": "04b1c301231dd422b8860db31311ab2721511346a32cb1e079c4c4e5f1fe4696"
+    }
+  },
+  "data_identity": {
+    "revision": "ab-v5-indexed-digits",
+    "files": {
+      "generate.py": "2eba0d2a0ef139e180ce4b6308543ef1f470b728c5d1af65b52ec55ee1867534",
+      "compiler.py": "8d9d43e2113f7b95209756dc6fa12277081d0f9b4a651972022007ae0c1ecdb3",
+      "tools.py": "e524e10e7079c1b6891a5faa511c32e6147096835795f3bdd4d3bd75aad37a81",
+      "robust.py": "6cb9e1707d75c8501b360f389427469d99ce1c96f3919efa6eec527634a42508",
+      "robust_order.py": "2931199fa47beadbee5c8a096f50acb37a61da2f3c388c806b318dfae7fc4f21",
+      "robust_fields.py": "4bf3133dd741390f4ba4b140ebbf9756f29599ee80becf378b67c2adb5ea8f05",
+      "general_keep.py": "13d13e6bf1b605e0524edba06cd749ca606ea1570c27bfe6d24d6baf8ebce8e8",
+      "indexed_digits.py": "a60c8099a1abb02b2f47e24ea8e805eb418af9facbf40b621d28c5c0074d446a"
+    }
+  },
+  "device": "npu:0",
+  "language": "en",
+  "repeats": 3,
+  "results": {
+    "full_code": {
+      "tokens": {
+        "student": 614,
+        "teacher": 0,
+        "supervised": 7,
+        "padding": 10
+      },
+      "unmodified_forward_backward_seconds": [
+        1.5509018199518323,
+        1.5430763901676983,
+        1.6181416399776936
+      ],
+      "median_seconds": 1.5509018199518323,
+      "instrumented_component_seconds": {
+        "source_features_writer_keys": {
+          "calls": 2,
+          "total": 0.21128091984428465
+        },
+        "answer_forward_including_ce": {
+          "calls": 1,
+          "total": 0.23455997998826206
+        },
+        "contrast_prefix_forward": {
+          "calls": 2,
+          "total": 0.5415541601832956
+        },
+        "explicit_head_projection": {
+          "calls": 2,
+          "total": 0.0010594201739877462
+        },
+        "backward": {
+          "calls": 1,
+          "total": 0.6548269500490278
+        }
+      }
+    },
+    "indexed_character": {
+      "tokens": {
+        "student": 645,
+        "teacher": 0,
+        "supervised": 2,
+        "padding": 10
+      },
+      "unmodified_forward_backward_seconds": [
+        1.5610339099075645,
+        1.4869713902007788,
+        1.5231049600988626
+      ],
+      "median_seconds": 1.5231049600988626,
+      "instrumented_component_seconds": {
+        "source_features_writer_keys": {
+          "calls": 2,
+          "total": 0.2116675900761038
+        },
+        "answer_forward_including_ce": {
+          "calls": 1,
+          "total": 0.23713229014538229
+        },
+        "contrast_prefix_forward": {
+          "calls": 2,
+          "total": 0.4468502798117697
+        },
+        "explicit_head_projection": {
+          "calls": 2,
+          "total": 0.0010578799992799759
+        },
+        "backward": {
+          "calls": 1,
+          "total": 0.6229612799361348
+        }
+      }
+    },
+    "keep": {
+      "tokens": {
+        "student": 239,
+        "teacher": 61,
+        "supervised": 3,
+        "padding": 4
+      },
+      "unmodified_forward_backward_seconds": [
+        0.7409715298563242,
+        0.7294469599146396,
+        0.7380508098285645
+      ],
+      "median_seconds": 0.7380508098285645,
+      "instrumented_component_seconds": {
+        "source_features_writer_keys": {
+          "calls": 1,
+          "total": 0.10572027997113764
+        },
+        "answer_forward_including_ce": {
+          "calls": 1,
+          "total": 0.2204415500164032
+        },
+        "keep_teacher_forward": {
+          "calls": 1,
+          "total": 0.19033952010795474
+        },
+        "explicit_head_projection": {
+          "calls": 2,
+          "total": 0.0008730296976864338
+        },
+        "backward": {
+          "calls": 1,
+          "total": 0.22020339989103377
+        }
+      }
+    }
+  },
+  "optimizer_steps_applied": 0,
+  "formal_training_ledger_modified": false,
+  "includes_distributed_sync_or_optimizer": false,
+  "timing_scope": "Isolated forward/backward; synchronized component timings alter overlap. Explicit head calls cover contrast/keep logits; answer CE's functional projection is inside answer forward.",
+  "capability_gate_passed": false
+}

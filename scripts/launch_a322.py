@@ -19,7 +19,7 @@ def main():
     parser.add_argument("--base", default="/home/l00886679/models/Qwen3.5-0.8B")
     parser.add_argument("--name", default="ds-rsi-a322-npu")
     parser.add_argument("--image", default="local/dsv41-lab-env:v1")
-    parser.add_argument("--chips", default="8,9,10,11", help="ordered physical chips; verify current resource authorization")
+    parser.add_argument("--chips", default="12,14,15", help="ordered physical chips; verify current resource authorization")
     parser.add_argument("--released-reservation", action="append", default=[],
                         help="container whose idle device reservation the user explicitly released; does not modify it")
     parser.add_argument("--refresh-health-only", action="store_true",

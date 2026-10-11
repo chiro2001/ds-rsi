@@ -12,7 +12,7 @@ from dsrsi.utils.atomic import atomic_json
 
 
 AUTHORIZED_HOST = "host22"  # SSH alias: a3-22; use --uts=host in Docker.
-AUTHORIZED_CHIPS = tuple(range(8, 16))
+AUTHORIZED_CHIPS = (12, 14, 15)
 
 
 def reserved_physical_chips(container):
@@ -51,8 +51,8 @@ def authorized_mapping():
         raise RuntimeError("DSRSI_PHYSICAL_CHIPS must explicitly list physical chips")
     chips = tuple(int(value) for value in physical.split(","))
     if (chips != tuple(sorted(set(chips))) or not set(chips) <= set(AUTHORIZED_CHIPS)
-            or len(chips) > 4):
-        raise RuntimeError("only ordered, distinct a3-22 physical chip8-15 mappings of at most four chips are authorized")
+            or len(chips) > len(AUTHORIZED_CHIPS)):
+        raise RuntimeError("only ordered, distinct subsets of a3-22 physical chip12,14,15 are currently authorized")
     if os.environ.get("ASCEND_RT_VISIBLE_DEVICES", "") != ",".join(str(i) for i in range(len(chips))):
         raise RuntimeError("isolated container visibility must use compact logical indices matching physical chips")
     return chips
@@ -78,6 +78,13 @@ def verify_health(chips, *, require_idle=False):
     health checks must allow peers from the same job already using the devices.
     """
     for physical in chips:
+        # A3 inventory may fail entirely (-9005), rather than merely hide one
+        # card, when a container has only one die. Validate its fresh read-only
+        # host attestation directly; never map the unallocated sibling die.
+        if (not require_idle and os.environ.get("DSRSI_HOST_HEALTH_FILE")
+                and not Path(f"/dev/davinci{physical ^ 1}").exists()):
+            _recent_host_health(chips, physical)
+            continue
         card, chip = divmod(physical, 2)
         try:
             result = subprocess.run(["npu-smi", "info", "-t", "health", "-i", str(card), "-c", str(chip)],

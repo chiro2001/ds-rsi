@@ -1,0 +1,255 @@
+{
+  "status": "isolated_episode_timing_diagnostic",
+  "checkpoint": "micro_000000002000_6eabf825af",
+  "manifest_sha256": "43b7ee21d97c4907f3527d75e584d5780431daaa625242d1782b94a2cdf73e8f",
+  "checkpoint_progress": {
+    "accumulation_index": 0,
+    "micro_step": 2000,
+    "optimizer_step": 500,
+    "stage": "A",
+    "student_tokens": 2805482,
+    "teacher_tokens": 159810
+  },
+  "base_identity": {
+    "tokenizer": {
+      "tokenizer.json": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+      "tokenizer_config.json": "49e2b6e395f959f077f1e992b338919c0d4a9732fc6e613995e06557f843500c",
+      "chat_template.jinja": "273d8e0e683b885071fb17e08d71e5f2a5ddfb5309756181681de4f5a1822d80",
+      "config.json": "b90b86f35c8e6925ef74ee04d0e758f0a845c83a42089ad82bbaa948de9b4204"
+    },
+    "weights": {
+      "model.safetensors-00001-of-00001.safetensors": "04b1c301231dd422b8860db31311ab2721511346a32cb1e079c4c4e5f1fe4696"
+    }
+  },
+  "data_identity": {
+    "revision": "ab-v5-indexed-digits",
+    "files": {
+      "generate.py": "2eba0d2a0ef139e180ce4b6308543ef1f470b728c5d1af65b52ec55ee1867534",
+      "compiler.py": "8d9d43e2113f7b95209756dc6fa12277081d0f9b4a651972022007ae0c1ecdb3",
+      "tools.py": "e524e10e7079c1b6891a5faa511c32e6147096835795f3bdd4d3bd75aad37a81",
+      "robust.py": "6cb9e1707d75c8501b360f389427469d99ce1c96f3919efa6eec527634a42508",
+      "robust_order.py": "2931199fa47beadbee5c8a096f50acb37a61da2f3c388c806b318dfae7fc4f21",
+      "robust_fields.py": "4bf3133dd741390f4ba4b140ebbf9756f29599ee80becf378b67c2adb5ea8f05",
+      "general_keep.py": "13d13e6bf1b605e0524edba06cd749ca606ea1570c27bfe6d24d6baf8ebce8e8",
+      "indexed_digits.py": "a60c8099a1abb02b2f47e24ea8e805eb418af9facbf40b621d28c5c0074d446a"
+    }
+  },
+  "device": "npu:0",
+  "language": "en",
+  "repeats": 7,
+  "results": {
+    "full_code": {
+      "tokens": {
+        "student": 614,
+        "teacher": 0,
+        "supervised": 7,
+        "padding": 10
+      },
+      "uninstrumented_forward_backward_seconds": [
+        1.3862670599482954,
+        1.3945844699628651,
+        1.3835994801484048,
+        1.3797794999554753,
+        1.3975545901339501,
+        1.6256206301040947,
+        1.411469059996307
+      ],
+      "equivalence": {
+        "exact_loss_and_all_gradients": true,
+        "gradient_tensors_checked": 34,
+        "hits": 1,
+        "skipped_layers": 12
+      },
+      "median_seconds": 1.3945844699628651,
+      "instrumented_component_seconds": {
+        "source_features_writer_keys": {
+          "calls": 2,
+          "total": 0.2005317099392414
+        },
+        "answer_forward_including_ce": {
+          "calls": 1,
+          "total": 0.22140797995962203
+        },
+        "contrast_prefix_forward": {
+          "calls": 2,
+          "total": 0.342111750273034
+        },
+        "explicit_head_projection": {
+          "calls": 2,
+          "total": 0.0010563398245722055
+        },
+        "backward": {
+          "calls": 1,
+          "total": 0.6184250800870359
+        }
+      },
+      "paired_comparison": {
+        "baseline_seconds": [
+          1.471192369936034,
+          1.4588777900207788,
+          1.4639721000567079,
+          1.4643752998672426,
+          1.5282545799855143,
+          1.5153935998678207,
+          1.47838509012945
+        ],
+        "baseline_median_seconds": 1.471192369936034,
+        "trial_speedups": [
+          1.06126186825135,
+          1.046102133963693,
+          1.0580895129417671,
+          1.0613111007334846,
+          1.0935204898429314,
+          0.9321938783286629,
+          1.0474087828275302
+        ],
+        "median_speedup": 1.0580895129417671,
+        "alternating_execution_order": true
+      }
+    },
+    "indexed_character": {
+      "tokens": {
+        "student": 645,
+        "teacher": 0,
+        "supervised": 2,
+        "padding": 10
+      },
+      "uninstrumented_forward_backward_seconds": [
+        1.3962399300653487,
+        1.3714119200594723,
+        1.3724976798985153,
+        1.3721557098906487,
+        1.365229669958353,
+        1.3670071300584823,
+        1.3638252299278975
+      ],
+      "equivalence": {
+        "exact_loss_and_all_gradients": true,
+        "gradient_tensors_checked": 34,
+        "hits": 1,
+        "skipped_layers": 12
+      },
+      "median_seconds": 1.3714119200594723,
+      "instrumented_component_seconds": {
+        "source_features_writer_keys": {
+          "calls": 2,
+          "total": 0.1946752700023353
+        },
+        "answer_forward_including_ce": {
+          "calls": 1,
+          "total": 0.21419595018960536
+        },
+        "contrast_prefix_forward": {
+          "calls": 2,
+          "total": 0.33144518989138305
+        },
+        "explicit_head_projection": {
+          "calls": 2,
+          "total": 0.0010326202027499676
+        },
+        "backward": {
+          "calls": 1,
+          "total": 0.6227617198601365
+        }
+      },
+      "paired_comparison": {
+        "baseline_seconds": [
+          1.4614443599712104,
+          1.472272580023855,
+          1.4591108500026166,
+          1.4614757299423218,
+          1.4458952399436384,
+          1.4731631898321211,
+          1.4749780599959195
+        ],
+        "baseline_median_seconds": 1.4614757299423218,
+        "trial_speedups": [
+          1.046700018028284,
+          1.0735451241812224,
+          1.0631062415424306,
+          1.065094667760987,
+          1.0590857141185235,
+          1.0776558201046817,
+          1.0815007873654738
+        ],
+        "median_speedup": 1.065094667760987,
+        "alternating_execution_order": true
+      }
+    },
+    "keep": {
+      "tokens": {
+        "student": 239,
+        "teacher": 61,
+        "supervised": 3,
+        "padding": 4
+      },
+      "uninstrumented_forward_backward_seconds": [
+        0.6379033101256937,
+        0.6389623200520873,
+        0.6517298601102084,
+        0.6216465500183403,
+        0.6209183598402888,
+        0.6220200101379305,
+        0.621442659990862
+      ],
+      "equivalence": {
+        "exact_loss_and_all_gradients": true,
+        "gradient_tensors_checked": 34,
+        "hits": 1,
+        "skipped_layers": 12
+      },
+      "median_seconds": 0.6220200101379305,
+      "instrumented_component_seconds": {
+        "source_features_writer_keys": {
+          "calls": 1,
+          "total": 0.10190966003574431
+        },
+        "answer_forward_including_ce": {
+          "calls": 1,
+          "total": 0.21790833002887666
+        },
+        "keep_teacher_forward": {
+          "calls": 1,
+          "total": 0.09421510994434357
+        },
+        "explicit_head_projection": {
+          "calls": 2,
+          "total": 0.0008702899795025587
+        },
+        "backward": {
+          "calls": 1,
+          "total": 0.2030656198039651
+        }
+      },
+      "paired_comparison": {
+        "baseline_seconds": [
+          0.7279939099680632,
+          0.7268545599654317,
+          0.723044749815017,
+          0.7293172900099307,
+          0.7086098801810294,
+          0.709045710042119,
+          0.7094722900073975
+        ],
+        "baseline_median_seconds": 0.723044749815017,
+        "trial_speedups": [
+          1.1412292402505608,
+          1.1375546525281484,
+          1.1094240022894595,
+          1.1732025054887119,
+          1.1412287444090017,
+          1.1399081998742948,
+          1.1416536644230861
+        ],
+        "median_speedup": 1.1412287444090017,
+        "alternating_execution_order": true
+      }
+    }
+  },
+  "experimental_frozen_prefix_reuse": true,
+  "optimizer_steps_applied": 0,
+  "formal_training_ledger_modified": false,
+  "includes_distributed_sync_or_optimizer": false,
+  "timing_scope": "Isolated forward/backward; synchronized component timings alter overlap. Explicit head calls cover contrast/keep logits; answer CE's functional projection is inside answer forward.",
+  "capability_gate_passed": false
+}

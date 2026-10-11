@@ -63,7 +63,7 @@ def worker(rank, base, run_root, threads, identity, requested_device, world_size
         initial = {name: p.detach().clone() for name, p in model.named_parameters()
                    if not name.startswith(("base.", "head."))}
         initial_rng = capture_rng(device)
-        config = TrainConfig(student_token_budget=100000, gradient_accumulation=4,
+        config = TrainConfig(student_token_budget=100000,
                              seed=20261010, save_every_micro=100, **controls)
         def trainer(directory, resume=False):
             return Trainer(model, compiler, Path(run_root) / directory, config,
@@ -136,9 +136,10 @@ def main():
     parser.add_argument("--reader-gate-mode", choices=["token", "lookup"], default="token")
     parser.add_argument("--data-revision", default="ab-v4-fields-and-language")
     parser.add_argument("--micro-steps", type=int, default=5)
+    parser.add_argument("--grad-accum", type=int, default=4)
     args = parser.parse_args()
-    if args.threads_per_rank < 1 or args.world_size < 2 or args.micro_steps < 4:
-        raise ValueError("threads must be positive and world size at least two")
+    if args.threads_per_rank < 1 or args.world_size < 2 or args.micro_steps < 4 or args.grad_accum <= 3:
+        raise ValueError("threads must be positive, world size at least two and accumulation greater than the pause step3")
     root = Path(args.run_root).resolve()
     root.mkdir(parents=True, exist_ok=False)
     from dsrsi.data.compiler import tokenizer_fingerprint
@@ -151,6 +152,7 @@ def main():
                 "curriculum": args.curriculum, "distractors": args.distractors,
                 "keep_fraction": args.keep_fraction, "keep_weight": args.keep_weight}
     controls["data_revision"] = args.data_revision
+    controls["gradient_accumulation"] = args.grad_accum
     mp.spawn(worker, args=(str(base), str(root), args.threads_per_rank, identity, args.device, args.world_size, controls,
                            args.writer_anchor_weight, args.reader_gate_mode, args.micro_steps),
              nprocs=args.world_size, join=True)

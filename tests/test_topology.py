@@ -68,6 +68,33 @@ def test_repeated_reduction_keeps_frontier_that_is_not_divisible_by_current_worl
     assert [store.load_rank(directory, manifest, rank=r)["data_cursor"]["next_ordinal"] for r in range(2)] == [16, 17]
 
 
+def test_explicit_accumulation_change_keeps_global_batch_and_all_optimizer_state(tmp_path):
+    make_source(tmp_path / "source")
+    reduce_ab_replicas(tmp_path / "source", tmp_path / "three", world_size=3)
+    source = CheckpointStore(tmp_path / "three/checkpoints")
+    old_dir, old_manifest = source.load_committed()
+    old_pointer = (source.root / "latest.json").read_bytes()
+    report = reduce_ab_replicas(tmp_path / "three", tmp_path / "two", world_size=2, gradient_accumulation=6)
+    target = CheckpointStore(tmp_path / "two/checkpoints")
+    directory, manifest = target.load_committed()
+    assert report["global_episode_batch_preserved"] is True
+    assert report["future_global_episodes_per_optimizer_step"] == report["source_global_episodes_per_optimizer_step"] == 12
+    assert manifest["identity"]["train_config"]["gradient_accumulation"] == 6
+    assert old_manifest["identity"]["train_config"]["gradient_accumulation"] == 4
+    for rank in range(2):
+        wanted = source.load_rank(old_dir, old_manifest, rank=rank)
+        wanted["world_size"] = 2
+        require_equal(wanted, target.load_rank(directory, manifest, rank=rank), "state")
+    assert (source.root / "latest.json").read_bytes() == old_pointer
+
+
+@pytest.mark.parametrize("accumulation", [0, -1, 1.5, True])
+def test_bad_accumulation_change_is_rejected(tmp_path, accumulation):
+    make_source(tmp_path / "source")
+    with pytest.raises(CheckpointError, match="positive integer"):
+        reduce_ab_replicas(tmp_path / "source", tmp_path / "target", world_size=2, gradient_accumulation=accumulation)
+
+
 @pytest.mark.parametrize("mutation,error", [
     (lambda p: p["data_cursor"].update(next_ordinal=33), "cursors"),
     (lambda p: p["life_state"]["streams"].update(life="persisted"), "persistent"),

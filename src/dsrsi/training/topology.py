@@ -37,7 +37,7 @@ def require_equal(left, right, path):
         raise CheckpointError(f"rank state differs: {path}")
 
 
-def reduce_ab_replicas(source_run, target_run, *, world_size, dry_run=False):
+def reduce_ab_replicas(source_run, target_run, *, world_size, dry_run=False, gradient_accumulation=None):
     source_run, target_run = Path(source_run).resolve(), Path(target_run).resolve()
     if target_run.exists() or source_run == target_run:
         raise CheckpointError("topology conversion requires a new target run directory")
@@ -46,6 +46,8 @@ def reduce_ab_replicas(source_run, target_run, *, world_size, dry_run=False):
     old_size = manifest["world_size"]
     if not 2 <= world_size < old_size:
         raise CheckpointError("only replica reduction to at least two ranks is supported")
+    if gradient_accumulation is not None and (type(gradient_accumulation) is not int or gradient_accumulation < 1):
+        raise CheckpointError("target gradient accumulation must be a positive integer")
     progress = Progress(**manifest["progress"])
     identity = copy.deepcopy(manifest["identity"])
     if (progress.stage not in {"A", "B"}
@@ -71,6 +73,9 @@ def reduce_ab_replicas(source_run, target_run, *, world_size, dry_run=False):
             raise CheckpointError("conversion cannot discard accumulated gradients")
         for key in shared:
             require_equal(reference[key], payload[key], key)
+    old_accumulation = identity["train_config"]["gradient_accumulation"]
+    if gradient_accumulation is not None:
+        identity["train_config"]["gradient_accumulation"] = gradient_accumulation
     migration = {
         "kind": "ab-replica-reduction-at-optimizer-boundary-v1",
         "source_run": str(source_run), "source_checkpoint": directory.name,
@@ -85,6 +90,11 @@ def reduce_ab_replicas(source_run, target_run, *, world_size, dry_run=False):
         "future_global_episodes_per_optimizer_step": world_size * identity["train_config"]["gradient_accumulation"],
         "source_control_requests_copied": False,
     }
+    if gradient_accumulation is not None:
+        migration["gradient_accumulation_change"] = {"source": old_accumulation, "target": gradient_accumulation}
+        migration["source_global_episodes_per_optimizer_step"] = old_size * old_accumulation
+        migration["global_episode_batch_preserved"] = (
+            old_size * old_accumulation == migration["future_global_episodes_per_optimizer_step"])
     identity.setdefault("topology_migrations", []).append(migration)
     if dry_run:
         return {**migration, "dry_run": True}
@@ -118,9 +128,11 @@ def main():
     parser.add_argument("--target-run", required=True)
     parser.add_argument("--world-size", type=int, required=True)
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--grad-accum", type=int,
+                        help="explicit new accumulation count at a clean boundary; e.g. 3x4 to 2x6 keeps 12 episodes")
     args = parser.parse_args()
     print(json.dumps(reduce_ab_replicas(args.source_run, args.target_run,
-                                     world_size=args.world_size, dry_run=args.dry_run),
+                                     world_size=args.world_size, dry_run=args.dry_run, gradient_accumulation=args.grad_accum),
                      ensure_ascii=False, indent=2))
 
 

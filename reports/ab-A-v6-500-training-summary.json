@@ -1,0 +1,35 @@
+{
+  "run": "ab-A-v6-natural-keep-prefix-01",
+  "checkpoint": "micro_000000000500_e091ccb929",
+  "manifest_sha256": "be4088cef6faee53521aaa0f8d6acd077c1e81ce39601e5db9c4e779b3627b73",
+  "student_tokens": 489872,
+  "teacher_tokens": 39446,
+  "optimizer_step": 83,
+  "accumulation_index": 2,
+  "source_chain_a_student_tokens": 11570144,
+  "remaining_chain_a_student_tokens": 18429856,
+  "counts": {
+    "full_code": 404,
+    "legacy_keep": 184,
+    "natural_keep": 194,
+    "unknown_time_natural_keep": 100,
+    "indexed_character": 218
+  },
+  "counts_method": "reconstruct immutable generator from actual consumed episode ids/families; first500 per rank",
+  "data_identity": {
+    "revision": "ab-v6-natural-keep",
+    "files": {
+      "generate.py": "2eba0d2a0ef139e180ce4b6308543ef1f470b728c5d1af65b52ec55ee1867534",
+      "compiler.py": "8d9d43e2113f7b95209756dc6fa12277081d0f9b4a651972022007ae0c1ecdb3",
+      "tools.py": "e524e10e7079c1b6891a5faa511c32e6147096835795f3bdd4d3bd75aad37a81",
+      "robust.py": "6cb9e1707d75c8501b360f389427469d99ce1c96f3919efa6eec527634a42508",
+      "robust_order.py": "2931199fa47beadbee5c8a096f50acb37a61da2f3c388c806b318dfae7fc4f21",
+      "robust_fields.py": "4bf3133dd741390f4ba4b140ebbf9756f29599ee80becf378b67c2adb5ea8f05",
+      "general_keep.py": "13d13e6bf1b605e0524edba06cd749ca606ea1570c27bfe6d24d6baf8ebce8e8",
+      "indexed_digits.py": "a60c8099a1abb02b2f47e24ea8e805eb418af9facbf40b621d28c5c0074d446a",
+      "natural_keep.py": "08440d82e75cecd0494b0d08b5f390cb54eeeedaf60ac6cca453ca9826ff8896",
+      "episode_objective.py": "163b5cf761acfcd4ed4677baaa7b9de573ebb6e0f5cfb5b42af6d026a3c70492"
+    },
+    "keep_objective": "half-continuation-base-top32-tail-kl-only-v1"
+  }
+}

@@ -1,0 +1,260 @@
+{
+  "status": "instrumented_single_episode_operator_diagnostic",
+  "source_trace": "artifacts/operator-trace-v6-natural-02/",
+  "checkpoint": "micro_000000000500_e091ccb929",
+  "manifest_sha256": "be4088cef6faee53521aaa0f8d6acd077c1e81ce39601e5db9c4e779b3627b73",
+  "kind": "natural_keep",
+  "language": "en",
+  "result": {
+    "answer_ce_diagnostic": 3.06634783744812,
+    "keep_kl": 0.006559409201145172,
+    "loss": 0.003279704600572586,
+    "student_tokens": 344,
+    "teacher_tokens": 166
+  },
+  "reuse_frozen_prefix": true,
+  "scheduled_capture_completed": true,
+  "formal_training_state_modified": false,
+  "unprofiled_throughput_improvement_claimed": false,
+  "step_trace_us": [
+    {
+      "Device_id": "0",
+      "Step": "1",
+      "Computing": "350166.9199999992",
+      "Communication(Not Overlapped)": "0",
+      "Overlapped": "0",
+      "Communication": "0",
+      "Free": "695139.9200001014",
+      "Stage": "1045306.75",
+      "Bubble": "0",
+      "Communication(Not Overlapped and Exclude Receive)": "0",
+      "Preparing": "5805.25"
+    }
+  ],
+  "top_device_operator_types": [
+    {
+      "Device_id": "0",
+      "OP Type": "ViewCopy",
+      "Core Type": "AI_VECTOR_CORE",
+      "Count": "5496",
+      "Total Time(us)": "62020.86",
+      "Min Time(us)": "5.82",
+      "Avg Time(us)": "11.284",
+      "Max Time(us)": "50.56",
+      "Ratio(%)": "17.712"
+    },
+    {
+      "Device_id": "0",
+      "OP Type": "Mul",
+      "Core Type": "AI_VECTOR_CORE",
+      "Count": "5451",
+      "Total Time(us)": "56909.5",
+      "Min Time(us)": "1.08",
+      "Avg Time(us)": "10.44",
+      "Max Time(us)": "44",
+      "Ratio(%)": "16.252"
+    },
+    {
+      "Device_id": "0",
+      "OP Type": "Slice",
+      "Core Type": "AI_VECTOR_CORE",
+      "Count": "6307",
+      "Total Time(us)": "52002.74",
+      "Min Time(us)": "1.74",
+      "Avg Time(us)": "8.245",
+      "Max Time(us)": "19.92",
+      "Ratio(%)": "14.851"
+    },
+    {
+      "Device_id": "0",
+      "OP Type": "ReduceSum",
+      "Core Type": "MIX_AIV",
+      "Count": "3115",
+      "Total Time(us)": "34169.28",
+      "Min Time(us)": "1.2",
+      "Avg Time(us)": "10.969",
+      "Max Time(us)": "30.36",
+      "Ratio(%)": "9.758"
+    },
+    {
+      "Device_id": "0",
+      "OP Type": "Cumsum",
+      "Core Type": "AI_VECTOR_CORE",
+      "Count": "45",
+      "Total Time(us)": "19216.86",
+      "Min Time(us)": "343.52",
+      "Avg Time(us)": "427.041",
+      "Max Time(us)": "627.74",
+      "Ratio(%)": "5.488"
+    },
+    {
+      "Device_id": "0",
+      "OP Type": "Add",
+      "Core Type": "AI_VECTOR_CORE",
+      "Count": "5246",
+      "Total Time(us)": "18517.14",
+      "Min Time(us)": "1.12",
+      "Avg Time(us)": "3.529",
+      "Max Time(us)": "81.98",
+      "Ratio(%)": "5.288"
+    },
+    {
+      "Device_id": "0",
+      "OP Type": "Transpose",
+      "Core Type": "AI_VECTOR_CORE",
+      "Count": "973",
+      "Total Time(us)": "16762.82",
+      "Min Time(us)": "10.36",
+      "Avg Time(us)": "17.227",
+      "Max Time(us)": "32.94",
+      "Ratio(%)": "4.787"
+    },
+    {
+      "Device_id": "0",
+      "OP Type": "ZerosLike",
+      "Core Type": "AI_VECTOR_CORE",
+      "Count": "3231",
+      "Total Time(us)": "11385.48",
+      "Min Time(us)": "0.98",
+      "Avg Time(us)": "3.523",
+      "Max Time(us)": "20.62",
+      "Ratio(%)": "3.251"
+    },
+    {
+      "Device_id": "0",
+      "OP Type": "BroadcastTo",
+      "Core Type": "AI_VECTOR_CORE",
+      "Count": "1245",
+      "Total Time(us)": "10512.32",
+      "Min Time(us)": "1.26",
+      "Avg Time(us)": "8.443",
+      "Max Time(us)": "16.2",
+      "Ratio(%)": "3.002"
+    },
+    {
+      "Device_id": "0",
+      "OP Type": "MatMulV2",
+      "Core Type": "AI_CORE",
+      "Count": "511",
+      "Total Time(us)": "8800.26",
+      "Min Time(us)": "2.18",
+      "Avg Time(us)": "17.221",
+      "Max Time(us)": "543.68",
+      "Ratio(%)": "2.513"
+    },
+    {
+      "Device_id": "0",
+      "OP Type": "TransData",
+      "Core Type": "AI_VECTOR_CORE",
+      "Count": "189",
+      "Total Time(us)": "8454.64",
+      "Min Time(us)": "8.76",
+      "Avg Time(us)": "44.733",
+      "Max Time(us)": "131.26",
+      "Ratio(%)": "2.414"
+    },
+    {
+      "Device_id": "0",
+      "OP Type": "Cast",
+      "Core Type": "AI_VECTOR_CORE",
+      "Count": "1110",
+      "Total Time(us)": "6650.84",
+      "Min Time(us)": "1.04",
+      "Avg Time(us)": "5.991",
+      "Max Time(us)": "30.02",
+      "Ratio(%)": "1.899"
+    }
+  ],
+  "top_host_self_operator_names": [
+    {
+      "name": "aten::copy_",
+      "count": 12668,
+      "host_self_us": 84177.7800000001,
+      "device_self_us": 0.0
+    },
+    {
+      "name": "empty_tensor",
+      "count": 26106,
+      "host_self_us": 78822.90999999986,
+      "device_self_us": 0.0
+    },
+    {
+      "name": "aten::as_strided",
+      "count": 25374,
+      "host_self_us": 68686.02999999984,
+      "device_self_us": 0.0
+    },
+    {
+      "name": "aclnnInplaceCopy",
+      "count": 12652,
+      "host_self_us": 52110.57999999976,
+      "device_self_us": 129439.25999999953
+    },
+    {
+      "name": "aten::slice",
+      "count": 11063,
+      "host_self_us": 50678.87000000009,
+      "device_self_us": 0.0
+    },
+    {
+      "name": "aten::mul",
+      "count": 5482,
+      "host_self_us": 46850.320000000145,
+      "device_self_us": 0.0
+    },
+    {
+      "name": "aten::sum",
+      "count": 3117,
+      "host_self_us": 36728.999999999956,
+      "device_self_us": 0.0
+    },
+    {
+      "name": "aten::empty_strided",
+      "count": 6239,
+      "host_self_us": 31649.65,
+      "device_self_us": 0.0
+    },
+    {
+      "name": "aten::select",
+      "count": 6496,
+      "host_self_us": 25608.140000000003,
+      "device_self_us": 0.0
+    },
+    {
+      "name": "aten::add",
+      "count": 3051,
+      "host_self_us": 25339.73,
+      "device_self_us": 0.0
+    },
+    {
+      "name": "aten::clone",
+      "count": 5479,
+      "host_self_us": 24211.22999999994,
+      "device_self_us": 0.0
+    },
+    {
+      "name": "aclnnMul",
+      "count": 5307,
+      "host_self_us": 17675.189999999973,
+      "device_self_us": 73571.17999999995
+    },
+    {
+      "name": "aten::unsqueeze",
+      "count": 3603,
+      "host_self_us": 15551.089999999998,
+      "device_self_us": 0.0
+    },
+    {
+      "name": "aclnnInplaceZero",
+      "count": 3231,
+      "host_self_us": 14953.359999999988,
+      "device_self_us": 11385.479999999983
+    },
+    {
+      "name": "aten::add_",
+      "count": 2191,
+      "host_self_us": 14059.62000000001,
+      "device_self_us": 0.0
+    }
+  ]
+}

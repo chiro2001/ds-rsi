@@ -65,3 +65,5 @@ python -m dsrsi.training.execution \
 两rank完整0.8B/HCCL的v5与v6优化及中途恢复已经通过：分别覆盖8条辅助，以及14条长续写/6条unknown壁钟/8条辅助，所有训练态逐位一致。v5正式run已在3500微批空累计边界自然停止。因保持评测仍失败，下一版同时改为v6课程，使用项目已有显式A→A权重接续/新优化器语义；它不是上面的纯执行迁移。正式 `ab-A-v6-natural-keep-prefix-01` 已开启优化，首批500微批，新run预算18,919,728，旧完整状态保留。详见 [3500评测及课程](../reports/20261011-v5-3500-and-natural-keep.md) 和 [v6真实恢复](../reports/hccl2-v6-prefix-recovery.json)。
 
 所有性能候选须满足：损失与梯度等价或明确可接受的精度口径、真实NPU计时收益、完整中断恢复验证及配置/执行身份记录。吞吐改善不代替记忆能力验收；保持和完整自由回忆仍分别评测。先用已提交代码快照部署，保留未完成草稿，避免引用未部署模块导致启动失败。
+
+`scripts/profile_ab_operators.py` 在单chip权重副本上执行一次正确调度的Ascend算子跟踪（warmup1/active1/step）。不创建优化器或修改来源状态，大工件只放忽略目录。v6长续写的单样本诊断显示ViewCopy/Mul/Slice占约48.8%设备算子时间，大量小操作与拷贝值得进一步验证融合候选；插桩间隙包含profiling开销，不能当作可消除的真实吞吐损失。见 [算子摘要](../reports/v6-natural-operator-trace-summary.json)。

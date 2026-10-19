@@ -1,0 +1,35 @@
+{
+  "status": "candidate2_course_initial_state_verified",
+  "run": "ab-A-v6-natural-keep-w1-cuda-k2-lr125-01",
+  "checkpoint": "micro_000000000000_84075f4752",
+  "manifest_sha256": "a9c055371ea5c743bf12897d1da69feac1fb1fbaf51a7cd3156b63f2d069a9da",
+  "source_checkpoint": "micro_000000004554_fceac90b62",
+  "source_manifest_sha256": "d89910a3b02d2f1c2d36a9e0e70699e7d8c24029ad8e5bde5e26478561d05c4c",
+  "progress": {
+    "stage": "A",
+    "optimizer_step": 0,
+    "micro_step": 0,
+    "accumulation_index": 0,
+    "student_tokens": 0,
+    "teacher_tokens": 0
+  },
+  "data_cursor": {
+    "next_ordinal": 0,
+    "schema_version": 1
+  },
+  "weights_frozen_auxiliary_buffers_life_exactly_match_source": true,
+  "optimizer_state_new_empty_as_documented": true,
+  "rng_components": [
+    "python",
+    "numpy",
+    "torch_cpu",
+    "accelerator"
+  ],
+  "fresh_rng_seed": 20261010,
+  "reset_training_state_is_not_resume": true,
+  "source_chain_prefix": 16037174,
+  "new_run_budget": 13962826,
+  "formal_student_tokens_consumed": 0,
+  "formal_training_started": false,
+  "real_cuda_prefix_and_recovery_validation_pending": true
+}

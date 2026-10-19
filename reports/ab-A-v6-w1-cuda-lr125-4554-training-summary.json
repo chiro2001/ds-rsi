@@ -262,10 +262,14 @@
     "native_original_gates_passed": true,
     "M5_passed": false,
     "actual_retrieval_pool64_coverage_at8": "17/96",
-    "actual_retrieval_pool64_gate_passed": false
+    "actual_retrieval_pool64_gate_passed": false,
+    "oracle2_exact_match": "2/96",
+    "oracle2_counterfactual_pairs": "0/48",
+    "oracle2_subgate_passed": false,
+    "oracle2_all_support_included": true
   },
   "additional_evaluation_pending": {
     "retrieval64": false,
-    "oracle2_challenge": true
+    "oracle2_challenge": false
   }
 }

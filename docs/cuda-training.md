@@ -12,6 +12,12 @@
 
 Writer12个Adam437、其它22个439的历史差异须原样恢复；是保持题组按既有协议detach Writer所致，不能按全局步数归一。当前全态及全部旧来源保留，细节见`reports/20261019-cuda-lr125-4554.md`。
 
+## 双候选新课程的验证状态
+
+原4554 oracle2已完成2/96、成对0；逐条核验支撑均包含，须继续多候选A课程。新run `/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-k2-lr125-01`已明确A→A新优化器/RNG/游标初始化为0，权重/冻结辅助/buffers/life与4554逐项相同；原完整态保留。新预算13962826、链前缀16037174。初态`micro_000000000000_84075f4752`、SHA `a9c055371ea5c743bf12897d1da69feac1fb1fbaf51a7cd3156b63f2d069a9da`。
+
+未复用前缀参考副本初态与优化初态全部payload逐位相同，正在其上跑188参考（PID13931），之后须验证真实独立进程暂停/恢复与前缀优化/参考完整轨迹等价；正式新run仍0token，验证全通过后才能原参数加resume首批240，不得再次init-from。当前两项验证尚未完成，M5–M7未过，详见`reports/20261019-cuda-k2-course-readiness.md`。
+
 ## 首次硬件迁移与来源run
 
 - run：`/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-01`。

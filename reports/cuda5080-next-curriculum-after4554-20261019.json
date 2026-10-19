@@ -1,5 +1,5 @@
 {
-  "status": "64-pool actual retrieval completed17/96; read-only oracle2 full96 challenge running",
+  "status": "oracle2 failed2/96 with support verified; candidate2 new A initial0 verified; reference188 running",
   "source_run": "ab-A-v6-natural-keep-w1-cuda-lr125-01",
   "source_checkpoint": "micro_000000004554_fceac90b62",
   "source_manifest_sha256": "d89910a3b02d2f1c2d36a9e0e70699e7d8c24029ad8e5bde5e26478561d05c4c",
@@ -54,5 +54,23 @@
     "threshold": 0.9,
     "passed": false,
     "formal_training_modified": false
-  }
+  },
+  "oracle2_result": {
+    "queries": 96,
+    "exact_match": 0.020833333333333332,
+    "pairs": 0,
+    "all_support_included": true,
+    "passed": false
+  },
+  "new_A_course": {
+    "run": "ab-A-v6-natural-keep-w1-cuda-k2-lr125-01",
+    "checkpoint": "micro_000000000000_84075f4752",
+    "manifest_sha256": "a9c055371ea5c743bf12897d1da69feac1fb1fbaf51a7cd3156b63f2d069a9da",
+    "formal_student_tokens": 0,
+    "source_weights_exact_match": true,
+    "explicit_new_optimizer_rng_cursor": true
+  },
+  "reference_optimized_initial_payload_equal": true,
+  "reference_trajectory_pid": 13931,
+  "real_prefix_and_recovery_validation_complete": false
 }

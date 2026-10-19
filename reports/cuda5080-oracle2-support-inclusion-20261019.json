@@ -1,0 +1,1456 @@
+{
+  "status": "oracle2_support_inclusion_verified",
+  "checkpoint": "micro_000000004554_fceac90b62",
+  "manifest_sha256": "d89910a3b02d2f1c2d36a9e0e70699e7d8c24029ad8e5bde5e26478561d05c4c",
+  "oracle_queries": 96,
+  "candidate_count": 2,
+  "pool_records": 9,
+  "all_required_support_included": true,
+  "all_first_candidate_ids_are_true_support": true,
+  "complete_code_exact_match": "2/96",
+  "counterfactual_pairs": "0/48",
+  "source_training_state_modified": false,
+  "interpretation": "Observed multi-record reading failure despite support inclusion; this does not diagnose its internal cause.",
+  "records": [
+    {
+      "episode_id": "v6-dev-e00000000-v0",
+      "language": "zh",
+      "selected_records": [
+        "r36ca9a1b",
+        "r3fe3521d"
+      ],
+      "support_groups": [
+        [
+          "r36ca9a1b"
+        ]
+      ],
+      "answer": "W3-337",
+      "expected": "W3-334"
+    },
+    {
+      "episode_id": "v6-dev-e00000000-v1",
+      "language": "zh",
+      "selected_records": [
+        "r36ca9a1b",
+        "r3fe3521d"
+      ],
+      "support_groups": [
+        [
+          "r36ca9a1b"
+        ]
+      ],
+      "answer": "W3-337",
+      "expected": "W3-354"
+    },
+    {
+      "episode_id": "v6-dev-e00000000-v0",
+      "language": "en",
+      "selected_records": [
+        "r36ca9a1b",
+        "r3fe3521d"
+      ],
+      "support_groups": [
+        [
+          "r36ca9a1b"
+        ]
+      ],
+      "answer": "W3-339",
+      "expected": "W3-334"
+    },
+    {
+      "episode_id": "v6-dev-e00000000-v1",
+      "language": "en",
+      "selected_records": [
+        "r36ca9a1b",
+        "r3fe3521d"
+      ],
+      "support_groups": [
+        [
+          "r36ca9a1b"
+        ]
+      ],
+      "answer": "W3-354",
+      "expected": "W3-354"
+    },
+    {
+      "episode_id": "v6-dev-e00000000-v0",
+      "language": "cross_language",
+      "selected_records": [
+        "r36ca9a1b",
+        "r3fe3521d"
+      ],
+      "support_groups": [
+        [
+          "r36ca9a1b"
+        ]
+      ],
+      "answer": "X9-235",
+      "expected": "X6-205"
+    },
+    {
+      "episode_id": "v6-dev-e00000000-v1",
+      "language": "cross_language",
+      "selected_records": [
+        "r36ca9a1b",
+        "r3fe3521d"
+      ],
+      "support_groups": [
+        [
+          "r36ca9a1b"
+        ]
+      ],
+      "answer": "X9-339",
+      "expected": "X6-225"
+    },
+    {
+      "episode_id": "v6-dev-e00000001-v0",
+      "language": "zh",
+      "selected_records": [
+        "r3679f193",
+        "r231bdfaf"
+      ],
+      "support_groups": [
+        [
+          "r3679f193"
+        ]
+      ],
+      "answer": "W3-839",
+      "expected": "W4-839"
+    },
+    {
+      "episode_id": "v6-dev-e00000001-v1",
+      "language": "zh",
+      "selected_records": [
+        "r3679f193",
+        "r231bdfaf"
+      ],
+      "support_groups": [
+        [
+          "r3679f193"
+        ]
+      ],
+      "answer": "W3-589",
+      "expected": "W4-859"
+    },
+    {
+      "episode_id": "v6-dev-e00000001-v0",
+      "language": "en",
+      "selected_records": [
+        "r3679f193",
+        "r231bdfaf"
+      ],
+      "support_groups": [
+        [
+          "r3679f193"
+        ]
+      ],
+      "answer": "W4-839",
+      "expected": "W4-839"
+    },
+    {
+      "episode_id": "v6-dev-e00000001-v1",
+      "language": "en",
+      "selected_records": [
+        "r3679f193",
+        "r231bdfaf"
+      ],
+      "support_groups": [
+        [
+          "r3679f193"
+        ]
+      ],
+      "answer": "W4-589",
+      "expected": "W4-859"
+    },
+    {
+      "episode_id": "v6-dev-e00000001-v0",
+      "language": "cross_language",
+      "selected_records": [
+        "r3679f193",
+        "r231bdfaf"
+      ],
+      "support_groups": [
+        [
+          "r3679f193"
+        ]
+      ],
+      "answer": "I3-555",
+      "expected": "I4-273"
+    },
+    {
+      "episode_id": "v6-dev-e00000001-v1",
+      "language": "cross_language",
+      "selected_records": [
+        "r3679f193",
+        "r231bdfaf"
+      ],
+      "support_groups": [
+        [
+          "r3679f193"
+        ]
+      ],
+      "answer": "I3-259",
+      "expected": "I4-293"
+    },
+    {
+      "episode_id": "v6-dev-e00000002-v0",
+      "language": "zh",
+      "selected_records": [
+        "r0189d95d",
+        "r18dde3af"
+      ],
+      "support_groups": [
+        [
+          "r0189d95d"
+        ]
+      ],
+      "answer": "K0-290",
+      "expected": "K6-290"
+    },
+    {
+      "episode_id": "v6-dev-e00000002-v1",
+      "language": "zh",
+      "selected_records": [
+        "r0189d95d",
+        "r18dde3af"
+      ],
+      "support_groups": [
+        [
+          "r0189d95d"
+        ]
+      ],
+      "answer": "K0-521",
+      "expected": "K6-240"
+    },
+    {
+      "episode_id": "v6-dev-e00000002-v0",
+      "language": "en",
+      "selected_records": [
+        "r0189d95d",
+        "r33a6ae9c"
+      ],
+      "support_groups": [
+        [
+          "r0189d95d"
+        ]
+      ],
+      "answer": "N7-352",
+      "expected": "K6-290"
+    },
+    {
+      "episode_id": "v6-dev-e00000002-v1",
+      "language": "en",
+      "selected_records": [
+        "r0189d95d",
+        "r33a6ae9c"
+      ],
+      "support_groups": [
+        [
+          "r0189d95d"
+        ]
+      ],
+      "answer": "N7-536",
+      "expected": "K6-240"
+    },
+    {
+      "episode_id": "v6-dev-e00000002-v0",
+      "language": "cross_language",
+      "selected_records": [
+        "r0189d95d",
+        "r33a6ae9c"
+      ],
+      "support_groups": [
+        [
+          "r0189d95d"
+        ]
+      ],
+      "answer": "N2-536",
+      "expected": "J2-491"
+    },
+    {
+      "episode_id": "v6-dev-e00000002-v1",
+      "language": "cross_language",
+      "selected_records": [
+        "r0189d95d",
+        "r33a6ae9c"
+      ],
+      "support_groups": [
+        [
+          "r0189d95d"
+        ]
+      ],
+      "answer": "N2-536",
+      "expected": "J2-441"
+    },
+    {
+      "episode_id": "v6-dev-e00000003-v0",
+      "language": "zh",
+      "selected_records": [
+        "r1f796863",
+        "r1abb38c8"
+      ],
+      "support_groups": [
+        [
+          "r1f796863"
+        ]
+      ],
+      "answer": "K7-593",
+      "expected": "K7-694"
+    },
+    {
+      "episode_id": "v6-dev-e00000003-v1",
+      "language": "zh",
+      "selected_records": [
+        "r1f796863",
+        "r1abb38c8"
+      ],
+      "support_groups": [
+        [
+          "r1f796863"
+        ]
+      ],
+      "answer": "K7-536",
+      "expected": "K7-674"
+    },
+    {
+      "episode_id": "v6-dev-e00000003-v0",
+      "language": "en",
+      "selected_records": [
+        "r1f796863",
+        "r1abb38c8"
+      ],
+      "support_groups": [
+        [
+          "r1f796863"
+        ]
+      ],
+      "answer": "L3-569",
+      "expected": "K7-694"
+    },
+    {
+      "episode_id": "v6-dev-e00000003-v1",
+      "language": "en",
+      "selected_records": [
+        "r1f796863",
+        "r1abb38c8"
+      ],
+      "support_groups": [
+        [
+          "r1f796863"
+        ]
+      ],
+      "answer": "L3-553",
+      "expected": "K7-674"
+    },
+    {
+      "episode_id": "v6-dev-e00000003-v0",
+      "language": "cross_language",
+      "selected_records": [
+        "r1f796863",
+        "r1abb38c8"
+      ],
+      "support_groups": [
+        [
+          "r1f796863"
+        ]
+      ],
+      "answer": "P3-563",
+      "expected": "P8-462"
+    },
+    {
+      "episode_id": "v6-dev-e00000003-v1",
+      "language": "cross_language",
+      "selected_records": [
+        "r1f796863",
+        "r1abb38c8"
+      ],
+      "support_groups": [
+        [
+          "r1f796863"
+        ]
+      ],
+      "answer": "P3-563",
+      "expected": "P8-442"
+    },
+    {
+      "episode_id": "v6-dev-e00000004-v0",
+      "language": "zh",
+      "selected_records": [
+        "r1df7f527",
+        "r39928c26"
+      ],
+      "support_groups": [
+        [
+          "r1df7f527"
+        ]
+      ],
+      "answer": "P3-094",
+      "expected": "P5-235"
+    },
+    {
+      "episode_id": "v6-dev-e00000004-v1",
+      "language": "zh",
+      "selected_records": [
+        "r1df7f527",
+        "r39928c26"
+      ],
+      "support_groups": [
+        [
+          "r1df7f527"
+        ]
+      ],
+      "answer": "P3-052",
+      "expected": "P5-265"
+    },
+    {
+      "episode_id": "v6-dev-e00000004-v0",
+      "language": "en",
+      "selected_records": [
+        "r1df7f527",
+        "r39928c26"
+      ],
+      "support_groups": [
+        [
+          "r1df7f527"
+        ]
+      ],
+      "answer": "P3-253",
+      "expected": "P5-235"
+    },
+    {
+      "episode_id": "v6-dev-e00000004-v1",
+      "language": "en",
+      "selected_records": [
+        "r1df7f527",
+        "r39928c26"
+      ],
+      "support_groups": [
+        [
+          "r1df7f527"
+        ]
+      ],
+      "answer": "P3-265",
+      "expected": "P5-265"
+    },
+    {
+      "episode_id": "v6-dev-e00000004-v0",
+      "language": "cross_language",
+      "selected_records": [
+        "r1df7f527",
+        "r39928c26"
+      ],
+      "support_groups": [
+        [
+          "r1df7f527"
+        ]
+      ],
+      "answer": "K3-049",
+      "expected": "K3-197"
+    },
+    {
+      "episode_id": "v6-dev-e00000004-v1",
+      "language": "cross_language",
+      "selected_records": [
+        "r1df7f527",
+        "r39928c26"
+      ],
+      "support_groups": [
+        [
+          "r1df7f527"
+        ]
+      ],
+      "answer": "K3-049",
+      "expected": "K3-127"
+    },
+    {
+      "episode_id": "v6-dev-e00000005-v0",
+      "language": "zh",
+      "selected_records": [
+        "r0870197a",
+        "r12d78df7"
+      ],
+      "support_groups": [
+        [
+          "r0870197a"
+        ]
+      ],
+      "answer": "B3-530",
+      "expected": "M3-012"
+    },
+    {
+      "episode_id": "v6-dev-e00000005-v1",
+      "language": "zh",
+      "selected_records": [
+        "r0870197a",
+        "r12d78df7"
+      ],
+      "support_groups": [
+        [
+          "r0870197a"
+        ]
+      ],
+      "answer": "B3-530",
+      "expected": "M3-019"
+    },
+    {
+      "episode_id": "v6-dev-e00000005-v0",
+      "language": "en",
+      "selected_records": [
+        "r0870197a",
+        "r12d78df7"
+      ],
+      "support_groups": [
+        [
+          "r0870197a"
+        ]
+      ],
+      "answer": "M3-550",
+      "expected": "M3-012"
+    },
+    {
+      "episode_id": "v6-dev-e00000005-v1",
+      "language": "en",
+      "selected_records": [
+        "r0870197a",
+        "r12d78df7"
+      ],
+      "support_groups": [
+        [
+          "r0870197a"
+        ]
+      ],
+      "answer": "M3-550",
+      "expected": "M3-019"
+    },
+    {
+      "episode_id": "v6-dev-e00000005-v0",
+      "language": "cross_language",
+      "selected_records": [
+        "r0870197a",
+        "r12d78df7"
+      ],
+      "support_groups": [
+        [
+          "r0870197a"
+        ]
+      ],
+      "answer": "A3-530",
+      "expected": "A3-567"
+    },
+    {
+      "episode_id": "v6-dev-e00000005-v1",
+      "language": "cross_language",
+      "selected_records": [
+        "r0870197a",
+        "r12d78df7"
+      ],
+      "support_groups": [
+        [
+          "r0870197a"
+        ]
+      ],
+      "answer": "A3-530",
+      "expected": "A3-564"
+    },
+    {
+      "episode_id": "v6-dev-e00000006-v0",
+      "language": "zh",
+      "selected_records": [
+        "r06c7829e",
+        "r19d7abe2"
+      ],
+      "support_groups": [
+        [
+          "r06c7829e"
+        ]
+      ],
+      "answer": "U7-061",
+      "expected": "U7-201"
+    },
+    {
+      "episode_id": "v6-dev-e00000006-v1",
+      "language": "zh",
+      "selected_records": [
+        "r06c7829e",
+        "r19d7abe2"
+      ],
+      "support_groups": [
+        [
+          "r06c7829e"
+        ]
+      ],
+      "answer": "U6-061",
+      "expected": "U5-201"
+    },
+    {
+      "episode_id": "v6-dev-e00000006-v0",
+      "language": "en",
+      "selected_records": [
+        "r06c7829e",
+        "r19d7abe2"
+      ],
+      "support_groups": [
+        [
+          "r06c7829e"
+        ]
+      ],
+      "answer": "U7-015",
+      "expected": "U7-201"
+    },
+    {
+      "episode_id": "v6-dev-e00000006-v1",
+      "language": "en",
+      "selected_records": [
+        "r06c7829e",
+        "r19d7abe2"
+      ],
+      "support_groups": [
+        [
+          "r06c7829e"
+        ]
+      ],
+      "answer": "B5-011",
+      "expected": "U5-201"
+    },
+    {
+      "episode_id": "v6-dev-e00000006-v0",
+      "language": "cross_language",
+      "selected_records": [
+        "r06c7829e",
+        "r19d7abe2"
+      ],
+      "support_groups": [
+        [
+          "r06c7829e"
+        ]
+      ],
+      "answer": "B7-053",
+      "expected": "H7-035"
+    },
+    {
+      "episode_id": "v6-dev-e00000006-v1",
+      "language": "cross_language",
+      "selected_records": [
+        "r06c7829e",
+        "r19d7abe2"
+      ],
+      "support_groups": [
+        [
+          "r06c7829e"
+        ]
+      ],
+      "answer": "B6-503",
+      "expected": "H5-035"
+    },
+    {
+      "episode_id": "v6-dev-e00000007-v0",
+      "language": "zh",
+      "selected_records": [
+        "r01293ed3",
+        "r2dd00fca"
+      ],
+      "support_groups": [
+        [
+          "r01293ed3"
+        ]
+      ],
+      "answer": "Q2-182",
+      "expected": "Q0-132"
+    },
+    {
+      "episode_id": "v6-dev-e00000007-v1",
+      "language": "zh",
+      "selected_records": [
+        "r01293ed3",
+        "r2dd00fca"
+      ],
+      "support_groups": [
+        [
+          "r01293ed3"
+        ]
+      ],
+      "answer": "M2-187",
+      "expected": "M0-132"
+    },
+    {
+      "episode_id": "v6-dev-e00000007-v0",
+      "language": "en",
+      "selected_records": [
+        "r01293ed3",
+        "r1bf73ce4"
+      ],
+      "support_groups": [
+        [
+          "r01293ed3"
+        ]
+      ],
+      "answer": "G3-007",
+      "expected": "Q0-132"
+    },
+    {
+      "episode_id": "v6-dev-e00000007-v1",
+      "language": "en",
+      "selected_records": [
+        "r01293ed3",
+        "r1bf73ce4"
+      ],
+      "support_groups": [
+        [
+          "r01293ed3"
+        ]
+      ],
+      "answer": "M3-107",
+      "expected": "M0-132"
+    },
+    {
+      "episode_id": "v6-dev-e00000007-v0",
+      "language": "cross_language",
+      "selected_records": [
+        "r01293ed3",
+        "r2dd00fca"
+      ],
+      "support_groups": [
+        [
+          "r01293ed3"
+        ]
+      ],
+      "answer": "B2-681",
+      "expected": "B2-665"
+    },
+    {
+      "episode_id": "v6-dev-e00000007-v1",
+      "language": "cross_language",
+      "selected_records": [
+        "r01293ed3",
+        "r2dd00fca"
+      ],
+      "support_groups": [
+        [
+          "r01293ed3"
+        ]
+      ],
+      "answer": "X2-186",
+      "expected": "X2-665"
+    },
+    {
+      "episode_id": "v6-dev-e00000008-v0",
+      "language": "zh",
+      "selected_records": [
+        "r3444528b",
+        "r14d63fd6"
+      ],
+      "support_groups": [
+        [
+          "r3444528b"
+        ]
+      ],
+      "answer": "X3-930",
+      "expected": "X3-094"
+    },
+    {
+      "episode_id": "v6-dev-e00000008-v1",
+      "language": "zh",
+      "selected_records": [
+        "r3444528b",
+        "r14d63fd6"
+      ],
+      "support_groups": [
+        [
+          "r3444528b"
+        ]
+      ],
+      "answer": "X3-930",
+      "expected": "X3-494"
+    },
+    {
+      "episode_id": "v6-dev-e00000008-v0",
+      "language": "en",
+      "selected_records": [
+        "r3444528b",
+        "r3ae332d0"
+      ],
+      "support_groups": [
+        [
+          "r3444528b"
+        ]
+      ],
+      "answer": "Based399.934",
+      "expected": "X3-094"
+    },
+    {
+      "episode_id": "v6-dev-e00000008-v1",
+      "language": "en",
+      "selected_records": [
+        "r3444528b",
+        "r3ae332d0"
+      ],
+      "support_groups": [
+        [
+          "r3444528b"
+        ]
+      ],
+      "answer": "Based399.993",
+      "expected": "X3-494"
+    },
+    {
+      "episode_id": "v6-dev-e00000008-v0",
+      "language": "cross_language",
+      "selected_records": [
+        "r3444528b",
+        "r3ae332d0"
+      ],
+      "support_groups": [
+        [
+          "r3444528b"
+        ]
+      ],
+      "answer": "S1-963",
+      "expected": "C9-671"
+    },
+    {
+      "episode_id": "v6-dev-e00000008-v1",
+      "language": "cross_language",
+      "selected_records": [
+        "r3444528b",
+        "r3ae332d0"
+      ],
+      "support_groups": [
+        [
+          "r3444528b"
+        ]
+      ],
+      "answer": "S1-903",
+      "expected": "C9-071"
+    },
+    {
+      "episode_id": "v6-dev-e00000009-v0",
+      "language": "zh",
+      "selected_records": [
+        "r2b2e708c",
+        "r1386eb4e"
+      ],
+      "support_groups": [
+        [
+          "r2b2e708c"
+        ]
+      ],
+      "answer": "B1-618",
+      "expected": "M6-169"
+    },
+    {
+      "episode_id": "v6-dev-e00000009-v1",
+      "language": "zh",
+      "selected_records": [
+        "r2b2e708c",
+        "r1386eb4e"
+      ],
+      "support_groups": [
+        [
+          "r2b2e708c"
+        ]
+      ],
+      "answer": "B1-653",
+      "expected": "M6-161"
+    },
+    {
+      "episode_id": "v6-dev-e00000009-v0",
+      "language": "en",
+      "selected_records": [
+        "r2b2e708c",
+        "r1386eb4e"
+      ],
+      "support_groups": [
+        [
+          "r2b2e708c"
+        ]
+      ],
+      "answer": "B1-619",
+      "expected": "M6-169"
+    },
+    {
+      "episode_id": "v6-dev-e00000009-v1",
+      "language": "en",
+      "selected_records": [
+        "r2b2e708c",
+        "r1386eb4e"
+      ],
+      "support_groups": [
+        [
+          "r2b2e708c"
+        ]
+      ],
+      "answer": "B1-653",
+      "expected": "M6-161"
+    },
+    {
+      "episode_id": "v6-dev-e00000009-v0",
+      "language": "cross_language",
+      "selected_records": [
+        "r2b2e708c",
+        "r1386eb4e"
+      ],
+      "support_groups": [
+        [
+          "r2b2e708c"
+        ]
+      ],
+      "answer": "N1-656",
+      "expected": "N2-114"
+    },
+    {
+      "episode_id": "v6-dev-e00000009-v1",
+      "language": "cross_language",
+      "selected_records": [
+        "r2b2e708c",
+        "r1386eb4e"
+      ],
+      "support_groups": [
+        [
+          "r2b2e708c"
+        ]
+      ],
+      "answer": "N1-656",
+      "expected": "N2-116"
+    },
+    {
+      "episode_id": "v6-dev-e00000010-v0",
+      "language": "zh",
+      "selected_records": [
+        "r3164c895",
+        "r18ca8088"
+      ],
+      "support_groups": [
+        [
+          "r3164c895"
+        ]
+      ],
+      "answer": "K1-561",
+      "expected": "K4-155"
+    },
+    {
+      "episode_id": "v6-dev-e00000010-v1",
+      "language": "zh",
+      "selected_records": [
+        "r3164c895",
+        "r18ca8088"
+      ],
+      "support_groups": [
+        [
+          "r3164c895"
+        ]
+      ],
+      "answer": "K1-561",
+      "expected": "K4-105"
+    },
+    {
+      "episode_id": "v6-dev-e00000010-v0",
+      "language": "en",
+      "selected_records": [
+        "r3164c895",
+        "r18ca8088"
+      ],
+      "support_groups": [
+        [
+          "r3164c895"
+        ]
+      ],
+      "answer": "N1-561",
+      "expected": "K4-155"
+    },
+    {
+      "episode_id": "v6-dev-e00000010-v1",
+      "language": "en",
+      "selected_records": [
+        "r3164c895",
+        "r18ca8088"
+      ],
+      "support_groups": [
+        [
+          "r3164c895"
+        ]
+      ],
+      "answer": "N1-561",
+      "expected": "K4-105"
+    },
+    {
+      "episode_id": "v6-dev-e00000010-v0",
+      "language": "cross_language",
+      "selected_records": [
+        "r3164c895",
+        "r18ca8088"
+      ],
+      "support_groups": [
+        [
+          "r3164c895"
+        ]
+      ],
+      "answer": "I2-651",
+      "expected": "I2-613"
+    },
+    {
+      "episode_id": "v6-dev-e00000010-v1",
+      "language": "cross_language",
+      "selected_records": [
+        "r3164c895",
+        "r18ca8088"
+      ],
+      "support_groups": [
+        [
+          "r3164c895"
+        ]
+      ],
+      "answer": "I2-651",
+      "expected": "I2-663"
+    },
+    {
+      "episode_id": "v6-dev-e00000011-v0",
+      "language": "zh",
+      "selected_records": [
+        "r1f3b9489",
+        "r37f6f726"
+      ],
+      "support_groups": [
+        [
+          "r1f3b9489"
+        ]
+      ],
+      "answer": "Q2-863",
+      "expected": "Q4-204"
+    },
+    {
+      "episode_id": "v6-dev-e00000011-v1",
+      "language": "zh",
+      "selected_records": [
+        "r1f3b9489",
+        "r37f6f726"
+      ],
+      "support_groups": [
+        [
+          "r1f3b9489"
+        ]
+      ],
+      "answer": "Q2-836",
+      "expected": "Q6-204"
+    },
+    {
+      "episode_id": "v6-dev-e00000011-v0",
+      "language": "en",
+      "selected_records": [
+        "r1f3b9489",
+        "r37f6f726"
+      ],
+      "support_groups": [
+        [
+          "r1f3b9489"
+        ]
+      ],
+      "answer": "U2-836",
+      "expected": "Q4-204"
+    },
+    {
+      "episode_id": "v6-dev-e00000011-v1",
+      "language": "en",
+      "selected_records": [
+        "r1f3b9489",
+        "r37f6f726"
+      ],
+      "support_groups": [
+        [
+          "r1f3b9489"
+        ]
+      ],
+      "answer": "Q2-386",
+      "expected": "Q6-204"
+    },
+    {
+      "episode_id": "v6-dev-e00000011-v0",
+      "language": "cross_language",
+      "selected_records": [
+        "r1f3b9489",
+        "r37f6f726"
+      ],
+      "support_groups": [
+        [
+          "r1f3b9489"
+        ]
+      ],
+      "answer": "V2-836",
+      "expected": "V4-204"
+    },
+    {
+      "episode_id": "v6-dev-e00000011-v1",
+      "language": "cross_language",
+      "selected_records": [
+        "r1f3b9489",
+        "r37f6f726"
+      ],
+      "support_groups": [
+        [
+          "r1f3b9489"
+        ]
+      ],
+      "answer": "V2-836",
+      "expected": "V6-204"
+    },
+    {
+      "episode_id": "v6-dev-e00000012-v0",
+      "language": "zh",
+      "selected_records": [
+        "r3181fabf",
+        "r0a581c17"
+      ],
+      "support_groups": [
+        [
+          "r3181fabf"
+        ]
+      ],
+      "answer": "F1-744",
+      "expected": "F1-137"
+    },
+    {
+      "episode_id": "v6-dev-e00000012-v1",
+      "language": "zh",
+      "selected_records": [
+        "r3181fabf",
+        "r0a581c17"
+      ],
+      "support_groups": [
+        [
+          "r3181fabf"
+        ]
+      ],
+      "answer": "F1-744",
+      "expected": "F1-131"
+    },
+    {
+      "episode_id": "v6-dev-e00000012-v0",
+      "language": "en",
+      "selected_records": [
+        "r3181fabf",
+        "r0a581c17"
+      ],
+      "support_groups": [
+        [
+          "r3181fabf"
+        ]
+      ],
+      "answer": "F1-478",
+      "expected": "F1-137"
+    },
+    {
+      "episode_id": "v6-dev-e00000012-v1",
+      "language": "en",
+      "selected_records": [
+        "r3181fabf",
+        "r0a581c17"
+      ],
+      "support_groups": [
+        [
+          "r3181fabf"
+        ]
+      ],
+      "answer": "F1-748",
+      "expected": "F1-131"
+    },
+    {
+      "episode_id": "v6-dev-e00000012-v0",
+      "language": "cross_language",
+      "selected_records": [
+        "r3181fabf",
+        "r0a581c17"
+      ],
+      "support_groups": [
+        [
+          "r3181fabf"
+        ]
+      ],
+      "answer": "H1-477",
+      "expected": "W1-137"
+    },
+    {
+      "episode_id": "v6-dev-e00000012-v1",
+      "language": "cross_language",
+      "selected_records": [
+        "r3181fabf",
+        "r0a581c17"
+      ],
+      "support_groups": [
+        [
+          "r3181fabf"
+        ]
+      ],
+      "answer": "H1-744",
+      "expected": "W1-131"
+    },
+    {
+      "episode_id": "v6-dev-e00000013-v0",
+      "language": "zh",
+      "selected_records": [
+        "r357c10b7",
+        "r31a73bff"
+      ],
+      "support_groups": [
+        [
+          "r357c10b7"
+        ]
+      ],
+      "answer": "X0-533",
+      "expected": "X6-200"
+    },
+    {
+      "episode_id": "v6-dev-e00000013-v1",
+      "language": "zh",
+      "selected_records": [
+        "r357c10b7",
+        "r31a73bff"
+      ],
+      "support_groups": [
+        [
+          "r357c10b7"
+        ]
+      ],
+      "answer": "Z0-533",
+      "expected": "X9-200"
+    },
+    {
+      "episode_id": "v6-dev-e00000013-v0",
+      "language": "en",
+      "selected_records": [
+        "r357c10b7",
+        "r31a73bff"
+      ],
+      "support_groups": [
+        [
+          "r357c10b7"
+        ]
+      ],
+      "answer": "X0-533",
+      "expected": "X6-200"
+    },
+    {
+      "episode_id": "v6-dev-e00000013-v1",
+      "language": "en",
+      "selected_records": [
+        "r357c10b7",
+        "r31a73bff"
+      ],
+      "support_groups": [
+        [
+          "r357c10b7"
+        ]
+      ],
+      "answer": "X0-531",
+      "expected": "X9-200"
+    },
+    {
+      "episode_id": "v6-dev-e00000013-v0",
+      "language": "cross_language",
+      "selected_records": [
+        "r357c10b7",
+        "r31a73bff"
+      ],
+      "support_groups": [
+        [
+          "r357c10b7"
+        ]
+      ],
+      "answer": "G1-073",
+      "expected": "G1-037"
+    },
+    {
+      "episode_id": "v6-dev-e00000013-v1",
+      "language": "cross_language",
+      "selected_records": [
+        "r357c10b7",
+        "r31a73bff"
+      ],
+      "support_groups": [
+        [
+          "r357c10b7"
+        ]
+      ],
+      "answer": "G0-703",
+      "expected": "G4-037"
+    },
+    {
+      "episode_id": "v6-dev-e00000014-v0",
+      "language": "zh",
+      "selected_records": [
+        "r3fdd29a9",
+        "r1f71d961"
+      ],
+      "support_groups": [
+        [
+          "r3fdd29a9"
+        ]
+      ],
+      "answer": "这个平衡平衡047",
+      "expected": "F4-074"
+    },
+    {
+      "episode_id": "v6-dev-e00000014-v1",
+      "language": "zh",
+      "selected_records": [
+        "r3fdd29a9",
+        "r1f71d961"
+      ],
+      "support_groups": [
+        [
+          "r3fdd29a9"
+        ]
+      ],
+      "answer": "这个码没有存在力平衡074",
+      "expected": "F0-074"
+    },
+    {
+      "episode_id": "v6-dev-e00000014-v0",
+      "language": "en",
+      "selected_records": [
+        "r3fdd29a9",
+        "r214d3678"
+      ],
+      "support_groups": [
+        [
+          "r3fdd29a9"
+        ]
+      ],
+      "answer": "I2-784",
+      "expected": "F4-074"
+    },
+    {
+      "episode_id": "v6-dev-e00000014-v1",
+      "language": "en",
+      "selected_records": [
+        "r3fdd29a9",
+        "r214d3678"
+      ],
+      "support_groups": [
+        [
+          "r3fdd29a9"
+        ]
+      ],
+      "answer": "5-781",
+      "expected": "F0-074"
+    },
+    {
+      "episode_id": "v6-dev-e00000014-v0",
+      "language": "cross_language",
+      "selected_records": [
+        "r3fdd29a9",
+        "r214d3678"
+      ],
+      "support_groups": [
+        [
+          "r3fdd29a9"
+        ]
+      ],
+      "answer": "J2-872",
+      "expected": "J1-462"
+    },
+    {
+      "episode_id": "v6-dev-e00000014-v1",
+      "language": "cross_language",
+      "selected_records": [
+        "r3fdd29a9",
+        "r214d3678"
+      ],
+      "support_groups": [
+        [
+          "r3fdd29a9"
+        ]
+      ],
+      "answer": "L2-748",
+      "expected": "J7-462"
+    },
+    {
+      "episode_id": "v6-dev-e00000015-v0",
+      "language": "zh",
+      "selected_records": [
+        "r10f76240",
+        "r02f7a1f8"
+      ],
+      "support_groups": [
+        [
+          "r10f76240"
+        ]
+      ],
+      "answer": "Z9-957",
+      "expected": "Z9-958"
+    },
+    {
+      "episode_id": "v6-dev-e00000015-v1",
+      "language": "zh",
+      "selected_records": [
+        "r10f76240",
+        "r02f7a1f8"
+      ],
+      "support_groups": [
+        [
+          "r10f76240"
+        ]
+      ],
+      "answer": "N2-954",
+      "expected": "N9-958"
+    },
+    {
+      "episode_id": "v6-dev-e00000015-v0",
+      "language": "en",
+      "selected_records": [
+        "r10f76240",
+        "r30d3a4cb"
+      ],
+      "support_groups": [
+        [
+          "r10f76240"
+        ]
+      ],
+      "answer": "L1-958",
+      "expected": "Z9-958"
+    },
+    {
+      "episode_id": "v6-dev-e00000015-v1",
+      "language": "en",
+      "selected_records": [
+        "r10f76240",
+        "r30d3a4cb"
+      ],
+      "support_groups": [
+        [
+          "r10f76240"
+        ]
+      ],
+      "answer": "N1-958",
+      "expected": "N9-958"
+    },
+    {
+      "episode_id": "v6-dev-e00000015-v0",
+      "language": "cross_language",
+      "selected_records": [
+        "r10f76240",
+        "r02f7a1f8"
+      ],
+      "support_groups": [
+        [
+          "r10f76240"
+        ]
+      ],
+      "answer": "B2-185",
+      "expected": "B0-815"
+    },
+    {
+      "episode_id": "v6-dev-e00000015-v1",
+      "language": "cross_language",
+      "selected_records": [
+        "r10f76240",
+        "r02f7a1f8"
+      ],
+      "support_groups": [
+        [
+          "r10f76240"
+        ]
+      ],
+      "answer": "P2-581",
+      "expected": "P0-815"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "status": "candidate2_reference_optimized_initial_payload_exact_match",
+  "reference_checkpoint": "micro_000000000000_bc2473c51b",
+  "reference_manifest_sha256": "0858707ce61cf7727b064b789ddc86527efe18333ab020d935f6aaf7f902679f",
+  "optimized_checkpoint": "micro_000000000000_84075f4752",
+  "optimized_manifest_sha256": "a9c055371ea5c743bf12897d1da69feac1fb1fbaf51a7cd3156b63f2d069a9da",
+  "all_payload_fields_exact_match": true,
+  "optimization_config_differs": true,
+  "formal_new_course_student_tokens": 0,
+  "trajectory_and_recovery_proof_pending": true
+}

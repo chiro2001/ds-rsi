@@ -57,3 +57,47 @@ def test_counterfactual_swap_preserves_address_and_time_metadata():
     assert torch.equal(swapped.slots, foreign.slots)
     assert torch.equal(swapped.keys, actual.keys)
     assert (swapped.stream_id, swapped.source_begin, swapped.source_end, swapped.visible_after) == ("life", 1, 3, 4)
+
+
+def test_reader_trace_matches_actual_fp32_attention_inside_bfloat16_autocast(monkeypatch):
+    import math
+    import dsrsi.memory.modules as modules
+
+    torch.manual_seed(31)
+    model = tiny().eval()
+    compiler = EpisodeCompiler(SmallVocabularyTokenizer(), max_query_tokens=1000)
+    row = make_generator(distractors=2).episode(0, family="single_fact", language="en")
+    episode = compiler.compile(row)
+    with torch.no_grad():
+        records = EpisodeObjective(model, compiler)._sources(episode)[0][:2]
+    response = episode.responses[0]
+    expected = []
+    original = modules._attention
+
+    def capture(q, k, v, valid, heads):
+        batch, queries, width = q.shape
+        if valid.ndim == 2:
+            valid = valid[:, None].expand(-1, queries, -1)
+        dim = width // heads
+        qh = q.reshape(batch, queries, heads, dim).transpose(1, 2)
+        kh = k.reshape(batch, k.shape[1], heads, dim).transpose(1, 2)
+        with torch.autocast(device_type=q.device.type, enabled=False):
+            scores = qh.float() @ kh.float().transpose(-1, -2) / math.sqrt(dim)
+            mask = valid[:, None]
+            scores = scores.masked_fill(~mask, -torch.inf)
+            scores = torch.where(mask.any(-1, keepdim=True), scores, torch.zeros_like(scores))
+            expected.append(scores.softmax(-1).masked_fill(~mask, 0)[0].mean(0))
+        return original(q, k, v, valid, heads)
+
+    monkeypatch.setattr(modules, "_attention", capture)
+    with torch.autocast("cpu", dtype=torch.bfloat16):
+        plain = native_logits(model, response, records, life_id=episode.episode_id)
+        expected.clear()
+        trace = {}
+        traced = native_logits(model, response, records, life_id=episode.episode_id, reader_trace=trace)
+    assert torch.equal(plain, traced)
+    positions = list(range(response.prompt_length - 1, len(response.input_ids) - 1))
+    assert len(expected) == len(model.readers)
+    for item, actual in zip(trace.values(), expected):
+        observed = torch.tensor(item["attention_mass_per_slot"])
+        assert torch.allclose(observed, actual[positions], atol=1e-7, rtol=0)

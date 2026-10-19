@@ -44,17 +44,22 @@ def native_logits(model, response, records, *, life_id, reader_trace=None):
                             / hidden.float().square().mean(-1).sqrt().clamp_min(1e-12))
                 slots, valid = args[1], args[2]
                 features = kwargs.get("slot_features")
-                z = module.z_norm(slots if features is None else slots + features)
+                any_valid = valid if valid.ndim == 2 else valid.any(1)
+                z = slots if features is None else slots + features
+                z = module.z_norm(z.masked_fill(~any_valid[..., None], 0))
                 q = module.q(module.h_norm(hidden))[:, positions]
                 k = module.k(z)
                 width = q.shape[-1] // module.heads
                 q = q.reshape(1, len(positions), module.heads, width).transpose(1, 2).float()
                 k = k.reshape(1, slots.shape[1], module.heads, width).transpose(1, 2).float()
                 mask = valid[:, None, None] if valid.ndim == 2 else valid[:, None, positions]
-                scores = (q @ k.transpose(-1, -2) / math.sqrt(width)).masked_fill(~mask, -torch.inf)
-                scores = torch.where(mask.any(-1, keepdim=True), scores, torch.zeros_like(scores))
-                probabilities = scores.softmax(-1).masked_fill(~mask, 0)
-                entropy = -(probabilities * probabilities.clamp_min(1e-38).log()).sum(-1)
+                # Match MemoryReader._attention: FP32 operands alone do not
+                # prevent an enclosing autocast context from downcasting matmul.
+                with torch.autocast(device_type=hidden.device.type, enabled=False):
+                    scores = (q @ k.transpose(-1, -2) / math.sqrt(width)).masked_fill(~mask, -torch.inf)
+                    scores = torch.where(mask.any(-1, keepdim=True), scores, torch.zeros_like(scores))
+                    probabilities = scores.softmax(-1).masked_fill(~mask, 0)
+                    entropy = -(probabilities * probabilities.clamp_min(1e-38).log()).sum(-1)
                 reader_trace[name] = {"alpha": float(module.alpha),
                     "gate": gate[0, positions, 0].tolist(),
                     "relative_residual_rms": relative[0, positions].tolist(),

@@ -42,6 +42,13 @@
   "ability_gate_passed": false,
   "formal240_oracle2_exact_match": "3/96",
   "formal240_native_original_gates_passed": true,
-  "additional_diagnostic_pending": "same240 weights with oracle1",
-  "formal_extension_submitted": false
+  "additional_diagnostic_pending": "matched-candidate Reader gates/attention and native versus canonical teacher-forced paths",
+  "formal_extension_submitted": false,
+  "same_weights_oracle1_diagnostic": {
+    "exact_match": "28/96",
+    "pairs": "10/48",
+    "format": "62/96",
+    "end": "78/96",
+    "training_modified": false
+  }
 }

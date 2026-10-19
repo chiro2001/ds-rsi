@@ -1,0 +1,143 @@
+{
+  "scope": "Descriptive fixed96 development query analysis; pair success requires both complete codes, no capability or causality claim",
+  "stages": {
+    "1434": {
+      "pair_outcomes": {
+        "both_correct": 20,
+        "one_correct": 14,
+        "both_wrong": 14
+      },
+      "by_changed_character_position": {
+        "0": {
+          "pairs": 6,
+          "both_correct": 4,
+          "one_correct": 1,
+          "both_wrong": 1
+        },
+        "1": {
+          "pairs": 12,
+          "both_correct": 3,
+          "one_correct": 5,
+          "both_wrong": 4
+        },
+        "3": {
+          "pairs": 3,
+          "both_correct": 1,
+          "one_correct": 1,
+          "both_wrong": 1
+        },
+        "4": {
+          "pairs": 18,
+          "both_correct": 6,
+          "one_correct": 6,
+          "both_wrong": 6
+        },
+        "5": {
+          "pairs": 9,
+          "both_correct": 6,
+          "one_correct": 1,
+          "both_wrong": 2
+        }
+      },
+      "by_language": {
+        "zh": 23,
+        "en": 12,
+        "cross_language": 19
+      }
+    },
+    "lr125-1674": {
+      "pair_outcomes": {
+        "both_correct": 26,
+        "one_correct": 5,
+        "both_wrong": 17
+      },
+      "by_changed_character_position": {
+        "0": {
+          "pairs": 6,
+          "both_correct": 5,
+          "one_correct": 0,
+          "both_wrong": 1
+        },
+        "1": {
+          "pairs": 12,
+          "both_correct": 5,
+          "one_correct": 0,
+          "both_wrong": 7
+        },
+        "3": {
+          "pairs": 3,
+          "both_correct": 1,
+          "one_correct": 0,
+          "both_wrong": 2
+        },
+        "4": {
+          "pairs": 18,
+          "both_correct": 8,
+          "one_correct": 4,
+          "both_wrong": 6
+        },
+        "5": {
+          "pairs": 9,
+          "both_correct": 7,
+          "one_correct": 1,
+          "both_wrong": 1
+        }
+      },
+      "by_language": {
+        "zh": 19,
+        "en": 19,
+        "cross_language": 19
+      }
+    },
+    "lr125-2154": {
+      "pair_outcomes": {
+        "both_correct": 22,
+        "one_correct": 19,
+        "both_wrong": 7
+      },
+      "by_changed_character_position": {
+        "0": {
+          "pairs": 6,
+          "both_correct": 4,
+          "one_correct": 1,
+          "both_wrong": 1
+        },
+        "1": {
+          "pairs": 12,
+          "both_correct": 2,
+          "one_correct": 6,
+          "both_wrong": 4
+        },
+        "3": {
+          "pairs": 3,
+          "both_correct": 0,
+          "one_correct": 2,
+          "both_wrong": 1
+        },
+        "4": {
+          "pairs": 18,
+          "both_correct": 8,
+          "one_correct": 9,
+          "both_wrong": 1
+        },
+        "5": {
+          "pairs": 9,
+          "both_correct": 8,
+          "one_correct": 1,
+          "both_wrong": 0
+        }
+      },
+      "by_language": {
+        "zh": 25,
+        "en": 18,
+        "cross_language": 20
+      }
+    }
+  },
+  "1674_to2154_queries": {
+    "retained_correct": 44,
+    "still_incorrect": 20,
+    "gained_correct": 19,
+    "lost_correct": 13
+  }
+}

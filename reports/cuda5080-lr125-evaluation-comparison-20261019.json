@@ -276,6 +276,75 @@
           }
         }
       }
+    },
+    "lr125-2154": {
+      "exact_match_count": 63,
+      "paired_exact_match_count": 22,
+      "oracle_fields": {
+        "digit_accuracy": 0.9791666666666666,
+        "letter_accuracy": 0.9791666666666666,
+        "queries": 96,
+        "suffix_accuracy": 0.65625,
+        "suffix_digit_accuracy": [
+          0.84375,
+          0.71875,
+          0.8333333333333334
+        ],
+        "valid_format": 0.9791666666666666
+      },
+      "off_exact_match": 0,
+      "foreign_original_answer_exact_match": 0,
+      "follows_foreign_payload": 0.65625,
+      "native": {
+        "en/native": {
+          "paired": {
+            "ci95_high": 0.020905646599001352,
+            "ci95_low": 0.012474408580197228,
+            "documents": 24,
+            "max_document_delta": 0.054164489110310875,
+            "mean_delta": 0.016249618182579677
+          },
+          "gate": {
+            "base_mean_nll": 2.8153368070721627,
+            "checks": {
+              "ci95_high": true,
+              "max_document_delta": true,
+              "mean_delta": true
+            },
+            "passed": true,
+            "thresholds": {
+              "max_ci95_high": 0.1,
+              "max_document_delta": 0.25,
+              "max_mean_delta": 0.05
+            },
+            "variant_mean_nll": 2.831794838607311
+          }
+        },
+        "zh/native": {
+          "paired": {
+            "ci95_high": 0.013121968342198266,
+            "ci95_low": 0.007400734557045831,
+            "documents": 24,
+            "max_document_delta": 0.024344682693481445,
+            "mean_delta": 0.010329717149337133
+          },
+          "gate": {
+            "base_mean_nll": 3.4366705819964407,
+            "checks": {
+              "ci95_high": true,
+              "max_document_delta": true,
+              "mean_delta": true
+            },
+            "passed": true,
+            "thresholds": {
+              "max_ci95_high": 0.1,
+              "max_document_delta": 0.25,
+              "max_mean_delta": 0.05
+            },
+            "variant_mean_nll": 3.4471133187413217
+          }
+        }
+      }
     }
   },
   "source_to_lr125_1674_transitions": {
@@ -307,8 +376,8 @@
   "M5_passed": false,
   "next_batch": {
     "run": "ab-A-v6-natural-keep-w1-cuda-lr125-01",
-    "resume_source_micro": 1674,
-    "maximum_micro_steps": 2154,
+    "resume_source_micro": 2154,
+    "maximum_micro_steps": 2634,
     "new_episodes": 480,
     "parameters_changed": false,
     "submitted": true

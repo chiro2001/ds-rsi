@@ -1,0 +1,29 @@
+{
+  "host": "wsl5080/GamePC",
+  "probe": "five10second sleeps, CLOCK_REALTIME versus CLOCK_MONOTONIC",
+  "rows": [
+    {
+      "realtime_elapsed": 8.923368453979492,
+      "monotonic_elapsed": 10.031069119000676
+    },
+    {
+      "realtime_elapsed": 18.94355034828186,
+      "monotonic_elapsed": 20.05125065900029
+    },
+    {
+      "realtime_elapsed": 28.97039294242859,
+      "monotonic_elapsed": 30.078093530000842
+    },
+    {
+      "realtime_elapsed": 39.04085326194763,
+      "monotonic_elapsed": 40.148553234001156
+    },
+    {
+      "realtime_elapsed": 47.99603319168091,
+      "monotonic_elapsed": 50.188304951001555
+    }
+  ],
+  "realtime_minus_monotonic_seconds": -2.192271759320647,
+  "formal_training_changed": false,
+  "conclusion": "Realtime subtraction is not a reliable elapsed duration on this host. Existing micro_seconds use time.monotonic and remain separate."
+}

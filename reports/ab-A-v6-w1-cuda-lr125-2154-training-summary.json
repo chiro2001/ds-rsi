@@ -188,13 +188,14 @@
   "checkpoint_payload_deserialized_and_verified": true,
   "submitted_unix": 1792399781.0510533,
   "final_manifest_created_unix": 1792400356.9641185,
-  "submit_to_final_manifest_seconds": 575.9130651950836,
-  "submit_to_final_manifest_student_tokens_per_second": 401.42864257071136,
-  "timing_note": "Submission to final committed-manifest creation includes startup and periodic saves; process-exit and observation delay excluded. Micro compute timer reported separately.",
+  "timing_note": "Historical CLOCK_REALTIME timestamp subtraction only; detected realtime corrections mean this is not a verified elapsed duration or throughput. Micro compute_seconds use time.monotonic. See cuda5080-clock-probe-20261019.json.",
   "evaluations": {
     "oracle_exact_match": "63/96",
     "counterfactual_pairs": "22/48",
     "native_original_gates_passed": true,
     "M5_passed": false
-  }
+  },
+  "utc_timestamp_delta_to_final_manifest_seconds": 575.9130651950836,
+  "utc_timestamp_delta_student_tokens_per_second": 401.42864257071136,
+  "timestamp_delta_valid_as_elapsed_duration": false
 }

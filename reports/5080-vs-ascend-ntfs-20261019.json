@@ -1,0 +1,6209 @@
+{
+  "date": "2026-10-19",
+  "status": "comparative_profiling_and_external_NTFS_storage_verified",
+  "formal_run": {
+    "status": "stopped",
+    "micro": 714,
+    "optimizer": 119,
+    "accumulation": 0,
+    "source_chain_student_tokens": 14191050,
+    "remaining_student_tokens": 15808950,
+    "manifest_sha256": "d7a6d252be6105173e0d4f7df9b2cbf69c942f337c797de0fa2e2f2f4c3f8f4b"
+  },
+  "snapshots": {
+    "comparison": "ac700283adba",
+    "in_process_warmup": "c6257fec7ba1"
+  },
+  "matched_workload": {
+    "ordinals": [
+      0,
+      63
+    ],
+    "total_episodes": 64,
+    "total_student_tokens": 28560,
+    "total_teacher_tokens": 3206,
+    "excluded_initial_episodes": 2,
+    "measured_episodes": 62,
+    "measured_student_tokens": 27332,
+    "natural_keep_episodes": 14,
+    "unknown_wall_natural_keep_episodes": 6,
+    "auxiliary_episodes": 8,
+    "all_64_per_pair_student_and_teacher_counts_match": true,
+    "queries_per_episode": 1,
+    "npu_world_size": 2,
+    "npu_gradient_accumulation": 6,
+    "cuda_world_size": 1,
+    "cuda_gradient_accumulation": 12,
+    "global_episodes_per_optimizer_update": 12,
+    "npu_source_weight_micro": 504,
+    "cuda_source_weight_micro": 714,
+    "npu_optimizer_started_fresh_for_proof": true,
+    "cuda_source_optimizer_loaded": true,
+    "software_weights_and_topology_differ_not_a_hardware_only_or_numerical_equivalence_claim": true,
+    "data_compiler_and_objective_identity_matches_source714": true
+  },
+  "ascend": {
+    "production_original_1_500": {
+      "rank_count": 2,
+      "first_micro": 1,
+      "last_micro": 500,
+      "global_micro_steps": 500,
+      "episodes": 1000,
+      "student_tokens": 489872,
+      "teacher_tokens": 39446,
+      "compute_seconds": 593.9217360799666,
+      "checkpoint_save_seconds_in_window": 1.0428734000306576,
+      "student_tokens_per_second": 824.809011425106,
+      "student_tokens_per_second_including_recorded_saves": 823.3632592502454,
+      "global_micro_mean_seconds": 1.1878434721599334,
+      "global_micro_median_seconds": 1.4547199750086293,
+      "episode_mean_seconds": 0.5939217360799667,
+      "seconds_per_12_episodes": 7.1270608329596,
+      "micro_steps_over_5_seconds": 0,
+      "micro_max_seconds": 2.3383704700972885,
+      "timing_scope": "sum of per-micro slowest rank; excludes startup, log writes and unrecorded gaps",
+      "rank_token_counts_summed_once": true,
+      "rank_elapsed_times_not_added": true,
+      "input_logs": [
+        {
+          "path": "ascend-events/ab-A-v6-natural-keep-w1-prefix-01/events_rank_00000.jsonl",
+          "sha256": "864bc32e6e96bac4fe1bb9f20c37138764a0da8c7161bb8766b7a514b189b3a3"
+        },
+        {
+          "path": "ascend-events/ab-A-v6-natural-keep-w1-prefix-01/events_rank_00001.jsonl",
+          "sha256": "379425be80cbf0cd1a6de8c70678e5c34929b56fa43ffd4b42d886ec2afcbcad"
+        }
+      ]
+    },
+    "production_original_7_498": {
+      "rank_count": 2,
+      "first_micro": 7,
+      "last_micro": 498,
+      "global_micro_steps": 492,
+      "episodes": 984,
+      "student_tokens": 482848,
+      "teacher_tokens": 38686,
+      "compute_seconds": 584.1012629901525,
+      "checkpoint_save_seconds_in_window": 0.750348350033164,
+      "student_tokens_per_second": 826.6511829270612,
+      "student_tokens_per_second_including_recorded_saves": 825.5906124522002,
+      "global_micro_mean_seconds": 1.187197689004375,
+      "global_micro_median_seconds": 1.4551728300284594,
+      "episode_mean_seconds": 0.5935988445021875,
+      "seconds_per_12_episodes": 7.12318613402625,
+      "micro_steps_over_5_seconds": 0,
+      "micro_max_seconds": 1.6875663998071104,
+      "timing_scope": "sum of per-micro slowest rank; excludes startup, log writes and unrecorded gaps",
+      "rank_token_counts_summed_once": true,
+      "rank_elapsed_times_not_added": true,
+      "input_logs": [
+        {
+          "path": "ascend-events/ab-A-v6-natural-keep-w1-prefix-01/events_rank_00000.jsonl",
+          "sha256": "864bc32e6e96bac4fe1bb9f20c37138764a0da8c7161bb8766b7a514b189b3a3"
+        },
+        {
+          "path": "ascend-events/ab-A-v6-natural-keep-w1-prefix-01/events_rank_00001.jsonl",
+          "sha256": "379425be80cbf0cd1a6de8c70678e5c34929b56fa43ffd4b42d886ec2afcbcad"
+        }
+      ]
+    },
+    "production_scripted_505_714_contended": {
+      "rank_count": 2,
+      "first_micro": 505,
+      "last_micro": 714,
+      "global_micro_steps": 210,
+      "episodes": 420,
+      "student_tokens": 202706,
+      "teacher_tokens": 17928,
+      "compute_seconds": 1111.360590228811,
+      "checkpoint_save_seconds_in_window": 0.6329876002855599,
+      "student_tokens_per_second": 182.3944467549152,
+      "student_tokens_per_second_including_recorded_saves": 182.29062113446315,
+      "global_micro_mean_seconds": 5.292193286803862,
+      "global_micro_median_seconds": 1.3809854448772967,
+      "episode_mean_seconds": 2.646096643401931,
+      "seconds_per_12_episodes": 31.75315972082317,
+      "micro_steps_over_5_seconds": 94,
+      "micro_max_seconds": 14.465364479925483,
+      "timing_scope": "sum of per-micro slowest rank; excludes startup, log writes and unrecorded gaps",
+      "rank_token_counts_summed_once": true,
+      "rank_elapsed_times_not_added": true,
+      "input_logs": [
+        {
+          "path": "ascend-events/ab-A-v6-natural-keep-w1-gdn-prefix-01/events_rank_00000.jsonl",
+          "sha256": "18ff6ff1aab359b6e5f15b5a58b15cf9da1b6bc934864a00c3c82257623cc86c"
+        },
+        {
+          "path": "ascend-events/ab-A-v6-natural-keep-w1-gdn-prefix-01/events_rank_00001.jsonl",
+          "sha256": "4c62c4054885be31d4b216d1b273684130c995dbca612d8feaee87394033516f"
+        }
+      ]
+    },
+    "proof_full_1_32": {
+      "rank_count": 2,
+      "first_micro": 1,
+      "last_micro": 32,
+      "global_micro_steps": 32,
+      "episodes": 64,
+      "student_tokens": 28560,
+      "teacher_tokens": 3206,
+      "compute_seconds": 35.85758335958235,
+      "checkpoint_save_seconds_in_window": 0.151758800027892,
+      "student_tokens_per_second": 796.4842391523803,
+      "student_tokens_per_second_including_recorded_saves": 793.1275132272266,
+      "global_micro_mean_seconds": 1.1205494799869484,
+      "global_micro_median_seconds": 1.1455483949976042,
+      "episode_mean_seconds": 0.5602747399934742,
+      "seconds_per_12_episodes": 6.723296879921691,
+      "micro_steps_over_5_seconds": 0,
+      "micro_max_seconds": 2.186132950009778,
+      "timing_scope": "sum of per-micro slowest rank; excludes startup, log writes and unrecorded gaps",
+      "rank_token_counts_summed_once": true,
+      "rank_elapsed_times_not_added": true,
+      "input_logs": [
+        {
+          "path": "ascend-proofs/hccl2-v6-w1-gdn-b9639e9/full/events_rank_00000.jsonl",
+          "sha256": "3eb9761225245b2be5f9ad8e531757e6bba5fdae0a79fd5d8a667716f858b45b"
+        },
+        {
+          "path": "ascend-proofs/hccl2-v6-w1-gdn-b9639e9/full/events_rank_00001.jsonl",
+          "sha256": "da56ecf2bad91758b15815ad9870fc5f4e9abeabc87583d0356ba38d1acbc34b"
+        }
+      ],
+      "samples": [
+        {
+          "micro": 1,
+          "seconds": 2.186132950009778,
+          "student_tokens": 1228,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000000-v0",
+            "v6-train-e00000000-v1"
+          ]
+        },
+        {
+          "micro": 2,
+          "seconds": 1.4591368499677628,
+          "student_tokens": 1216,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000001-v0",
+            "v6-train-e00000001-v1"
+          ]
+        },
+        {
+          "micro": 3,
+          "seconds": 0.7052680500783026,
+          "student_tokens": 514,
+          "teacher_tokens": 158,
+          "episode_ids": [
+            "v6-train-e00000002-v0",
+            "v6-train-e00000002-v1"
+          ]
+        },
+        {
+          "micro": 4,
+          "seconds": 0.676383740035817,
+          "student_tokens": 474,
+          "teacher_tokens": 132,
+          "episode_ids": [
+            "v6-train-e00000003-v0",
+            "v6-train-e00000003-v1"
+          ]
+        },
+        {
+          "micro": 5,
+          "seconds": 1.4516082999762148,
+          "student_tokens": 1220,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000004-v0",
+            "v6-train-e00000004-v1"
+          ]
+        },
+        {
+          "micro": 6,
+          "seconds": 0.7323640699032694,
+          "student_tokens": 590,
+          "teacher_tokens": 234,
+          "episode_ids": [
+            "v6-train-e00000005-v0",
+            "v6-train-e00000005-v1"
+          ]
+        },
+        {
+          "micro": 7,
+          "seconds": 0.7227393598295748,
+          "student_tokens": 652,
+          "teacher_tokens": 296,
+          "episode_ids": [
+            "v6-train-e00000006-v0",
+            "v6-train-e00000006-v1"
+          ]
+        },
+        {
+          "micro": 8,
+          "seconds": 1.4493041399400681,
+          "student_tokens": 1236,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000007-v0",
+            "v6-train-e00000007-v1"
+          ]
+        },
+        {
+          "micro": 9,
+          "seconds": 0.7973104799166322,
+          "student_tokens": 612,
+          "teacher_tokens": 270,
+          "episode_ids": [
+            "v6-train-e00000008-v0",
+            "v6-train-e00000008-v1"
+          ]
+        },
+        {
+          "micro": 10,
+          "seconds": 1.4843699098564684,
+          "student_tokens": 1182,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000009-v0",
+            "v6-train-e00000009-v1"
+          ]
+        },
+        {
+          "micro": 11,
+          "seconds": 1.4607426000293344,
+          "student_tokens": 1190,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000010-v0",
+            "v6-train-e00000010-v1"
+          ]
+        },
+        {
+          "micro": 12,
+          "seconds": 0.7209922098554671,
+          "student_tokens": 678,
+          "teacher_tokens": 336,
+          "episode_ids": [
+            "v6-train-e00000011-v0",
+            "v6-train-e00000011-v1"
+          ]
+        },
+        {
+          "micro": 13,
+          "seconds": 0.6964168399572372,
+          "student_tokens": 476,
+          "teacher_tokens": 120,
+          "episode_ids": [
+            "v6-train-e00000012-v0",
+            "v6-train-e00000012-v1"
+          ]
+        },
+        {
+          "micro": 14,
+          "seconds": 1.4620712799951434,
+          "student_tokens": 1216,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000013-v0",
+            "v6-train-e00000013-v1"
+          ]
+        },
+        {
+          "micro": 15,
+          "seconds": 0.6751167601905763,
+          "student_tokens": 472,
+          "teacher_tokens": 116,
+          "episode_ids": [
+            "v6-train-e00000014-v0",
+            "v6-train-e00000014-v1"
+          ]
+        },
+        {
+          "micro": 16,
+          "seconds": 0.6616373599972576,
+          "student_tokens": 466,
+          "teacher_tokens": 124,
+          "episode_ids": [
+            "v6-train-e00000015-v0",
+            "v6-train-e00000015-v1"
+          ]
+        },
+        {
+          "micro": 17,
+          "seconds": 1.4602367300540209,
+          "student_tokens": 1278,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000016-v0",
+            "v6-train-e00000016-v1"
+          ]
+        },
+        {
+          "micro": 18,
+          "seconds": 1.477334660012275,
+          "student_tokens": 1216,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000017-v0",
+            "v6-train-e00000017-v1"
+          ]
+        },
+        {
+          "micro": 19,
+          "seconds": 0.6867237300612032,
+          "student_tokens": 474,
+          "teacher_tokens": 118,
+          "episode_ids": [
+            "v6-train-e00000018-v0",
+            "v6-train-e00000018-v1"
+          ]
+        },
+        {
+          "micro": 20,
+          "seconds": 1.4816606901586056,
+          "student_tokens": 1296,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000019-v0",
+            "v6-train-e00000019-v1"
+          ]
+        },
+        {
+          "micro": 21,
+          "seconds": 1.4513469198718667,
+          "student_tokens": 1228,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000020-v0",
+            "v6-train-e00000020-v1"
+          ]
+        },
+        {
+          "micro": 22,
+          "seconds": 1.4717823299579322,
+          "student_tokens": 1226,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000021-v0",
+            "v6-train-e00000021-v1"
+          ]
+        },
+        {
+          "micro": 23,
+          "seconds": 1.4587407598737627,
+          "student_tokens": 1278,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000022-v0",
+            "v6-train-e00000022-v1"
+          ]
+        },
+        {
+          "micro": 24,
+          "seconds": 1.56896148994565,
+          "student_tokens": 1290,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000023-v0",
+            "v6-train-e00000023-v1"
+          ]
+        },
+        {
+          "micro": 25,
+          "seconds": 0.698489970061928,
+          "student_tokens": 658,
+          "teacher_tokens": 302,
+          "episode_ids": [
+            "v6-train-e00000024-v0",
+            "v6-train-e00000024-v1"
+          ]
+        },
+        {
+          "micro": 26,
+          "seconds": 1.4490176199469715,
+          "student_tokens": 1236,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000025-v0",
+            "v6-train-e00000025-v1"
+          ]
+        },
+        {
+          "micro": 27,
+          "seconds": 0.8420791700482368,
+          "student_tokens": 516,
+          "teacher_tokens": 160,
+          "episode_ids": [
+            "v6-train-e00000026-v0",
+            "v6-train-e00000026-v1"
+          ]
+        },
+        {
+          "micro": 28,
+          "seconds": 1.728221660014242,
+          "student_tokens": 1220,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000027-v0",
+            "v6-train-e00000027-v1"
+          ]
+        },
+        {
+          "micro": 29,
+          "seconds": 0.6659854499157518,
+          "student_tokens": 472,
+          "teacher_tokens": 116,
+          "episode_ids": [
+            "v6-train-e00000028-v0",
+            "v6-train-e00000028-v1"
+          ]
+        },
+        {
+          "micro": 30,
+          "seconds": 0.7043292201124132,
+          "student_tokens": 612,
+          "teacher_tokens": 270,
+          "episode_ids": [
+            "v6-train-e00000029-v0",
+            "v6-train-e00000029-v1"
+          ]
+        },
+        {
+          "micro": 31,
+          "seconds": 0.6985943000763655,
+          "student_tokens": 674,
+          "teacher_tokens": 332,
+          "episode_ids": [
+            "v6-train-e00000030-v0",
+            "v6-train-e00000030-v1"
+          ]
+        },
+        {
+          "micro": 32,
+          "seconds": 0.67248375993222,
+          "student_tokens": 464,
+          "teacher_tokens": 122,
+          "episode_ids": [
+            "v6-train-e00000031-v0",
+            "v6-train-e00000031-v1"
+          ]
+        }
+      ]
+    },
+    "proof_full_2_32": {
+      "rank_count": 2,
+      "first_micro": 2,
+      "last_micro": 32,
+      "global_micro_steps": 31,
+      "episodes": 62,
+      "student_tokens": 27332,
+      "teacher_tokens": 3206,
+      "compute_seconds": 33.67145040957257,
+      "checkpoint_save_seconds_in_window": 0.151758800027892,
+      "student_tokens_per_second": 811.726244861424,
+      "student_tokens_per_second_including_recorded_saves": 808.0841717480203,
+      "global_micro_mean_seconds": 1.0861758196636313,
+      "global_micro_median_seconds": 0.8420791700482368,
+      "episode_mean_seconds": 0.5430879098318157,
+      "seconds_per_12_episodes": 6.517054917981788,
+      "micro_steps_over_5_seconds": 0,
+      "micro_max_seconds": 1.728221660014242,
+      "timing_scope": "sum of per-micro slowest rank; excludes startup, log writes and unrecorded gaps",
+      "rank_token_counts_summed_once": true,
+      "rank_elapsed_times_not_added": true,
+      "input_logs": [
+        {
+          "path": "ascend-proofs/hccl2-v6-w1-gdn-b9639e9/full/events_rank_00000.jsonl",
+          "sha256": "3eb9761225245b2be5f9ad8e531757e6bba5fdae0a79fd5d8a667716f858b45b"
+        },
+        {
+          "path": "ascend-proofs/hccl2-v6-w1-gdn-b9639e9/full/events_rank_00001.jsonl",
+          "sha256": "da56ecf2bad91758b15815ad9870fc5f4e9abeabc87583d0356ba38d1acbc34b"
+        }
+      ],
+      "samples": [
+        {
+          "micro": 2,
+          "seconds": 1.4591368499677628,
+          "student_tokens": 1216,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000001-v0",
+            "v6-train-e00000001-v1"
+          ]
+        },
+        {
+          "micro": 3,
+          "seconds": 0.7052680500783026,
+          "student_tokens": 514,
+          "teacher_tokens": 158,
+          "episode_ids": [
+            "v6-train-e00000002-v0",
+            "v6-train-e00000002-v1"
+          ]
+        },
+        {
+          "micro": 4,
+          "seconds": 0.676383740035817,
+          "student_tokens": 474,
+          "teacher_tokens": 132,
+          "episode_ids": [
+            "v6-train-e00000003-v0",
+            "v6-train-e00000003-v1"
+          ]
+        },
+        {
+          "micro": 5,
+          "seconds": 1.4516082999762148,
+          "student_tokens": 1220,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000004-v0",
+            "v6-train-e00000004-v1"
+          ]
+        },
+        {
+          "micro": 6,
+          "seconds": 0.7323640699032694,
+          "student_tokens": 590,
+          "teacher_tokens": 234,
+          "episode_ids": [
+            "v6-train-e00000005-v0",
+            "v6-train-e00000005-v1"
+          ]
+        },
+        {
+          "micro": 7,
+          "seconds": 0.7227393598295748,
+          "student_tokens": 652,
+          "teacher_tokens": 296,
+          "episode_ids": [
+            "v6-train-e00000006-v0",
+            "v6-train-e00000006-v1"
+          ]
+        },
+        {
+          "micro": 8,
+          "seconds": 1.4493041399400681,
+          "student_tokens": 1236,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000007-v0",
+            "v6-train-e00000007-v1"
+          ]
+        },
+        {
+          "micro": 9,
+          "seconds": 0.7973104799166322,
+          "student_tokens": 612,
+          "teacher_tokens": 270,
+          "episode_ids": [
+            "v6-train-e00000008-v0",
+            "v6-train-e00000008-v1"
+          ]
+        },
+        {
+          "micro": 10,
+          "seconds": 1.4843699098564684,
+          "student_tokens": 1182,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000009-v0",
+            "v6-train-e00000009-v1"
+          ]
+        },
+        {
+          "micro": 11,
+          "seconds": 1.4607426000293344,
+          "student_tokens": 1190,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000010-v0",
+            "v6-train-e00000010-v1"
+          ]
+        },
+        {
+          "micro": 12,
+          "seconds": 0.7209922098554671,
+          "student_tokens": 678,
+          "teacher_tokens": 336,
+          "episode_ids": [
+            "v6-train-e00000011-v0",
+            "v6-train-e00000011-v1"
+          ]
+        },
+        {
+          "micro": 13,
+          "seconds": 0.6964168399572372,
+          "student_tokens": 476,
+          "teacher_tokens": 120,
+          "episode_ids": [
+            "v6-train-e00000012-v0",
+            "v6-train-e00000012-v1"
+          ]
+        },
+        {
+          "micro": 14,
+          "seconds": 1.4620712799951434,
+          "student_tokens": 1216,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000013-v0",
+            "v6-train-e00000013-v1"
+          ]
+        },
+        {
+          "micro": 15,
+          "seconds": 0.6751167601905763,
+          "student_tokens": 472,
+          "teacher_tokens": 116,
+          "episode_ids": [
+            "v6-train-e00000014-v0",
+            "v6-train-e00000014-v1"
+          ]
+        },
+        {
+          "micro": 16,
+          "seconds": 0.6616373599972576,
+          "student_tokens": 466,
+          "teacher_tokens": 124,
+          "episode_ids": [
+            "v6-train-e00000015-v0",
+            "v6-train-e00000015-v1"
+          ]
+        },
+        {
+          "micro": 17,
+          "seconds": 1.4602367300540209,
+          "student_tokens": 1278,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000016-v0",
+            "v6-train-e00000016-v1"
+          ]
+        },
+        {
+          "micro": 18,
+          "seconds": 1.477334660012275,
+          "student_tokens": 1216,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000017-v0",
+            "v6-train-e00000017-v1"
+          ]
+        },
+        {
+          "micro": 19,
+          "seconds": 0.6867237300612032,
+          "student_tokens": 474,
+          "teacher_tokens": 118,
+          "episode_ids": [
+            "v6-train-e00000018-v0",
+            "v6-train-e00000018-v1"
+          ]
+        },
+        {
+          "micro": 20,
+          "seconds": 1.4816606901586056,
+          "student_tokens": 1296,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000019-v0",
+            "v6-train-e00000019-v1"
+          ]
+        },
+        {
+          "micro": 21,
+          "seconds": 1.4513469198718667,
+          "student_tokens": 1228,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000020-v0",
+            "v6-train-e00000020-v1"
+          ]
+        },
+        {
+          "micro": 22,
+          "seconds": 1.4717823299579322,
+          "student_tokens": 1226,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000021-v0",
+            "v6-train-e00000021-v1"
+          ]
+        },
+        {
+          "micro": 23,
+          "seconds": 1.4587407598737627,
+          "student_tokens": 1278,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000022-v0",
+            "v6-train-e00000022-v1"
+          ]
+        },
+        {
+          "micro": 24,
+          "seconds": 1.56896148994565,
+          "student_tokens": 1290,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000023-v0",
+            "v6-train-e00000023-v1"
+          ]
+        },
+        {
+          "micro": 25,
+          "seconds": 0.698489970061928,
+          "student_tokens": 658,
+          "teacher_tokens": 302,
+          "episode_ids": [
+            "v6-train-e00000024-v0",
+            "v6-train-e00000024-v1"
+          ]
+        },
+        {
+          "micro": 26,
+          "seconds": 1.4490176199469715,
+          "student_tokens": 1236,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000025-v0",
+            "v6-train-e00000025-v1"
+          ]
+        },
+        {
+          "micro": 27,
+          "seconds": 0.8420791700482368,
+          "student_tokens": 516,
+          "teacher_tokens": 160,
+          "episode_ids": [
+            "v6-train-e00000026-v0",
+            "v6-train-e00000026-v1"
+          ]
+        },
+        {
+          "micro": 28,
+          "seconds": 1.728221660014242,
+          "student_tokens": 1220,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000027-v0",
+            "v6-train-e00000027-v1"
+          ]
+        },
+        {
+          "micro": 29,
+          "seconds": 0.6659854499157518,
+          "student_tokens": 472,
+          "teacher_tokens": 116,
+          "episode_ids": [
+            "v6-train-e00000028-v0",
+            "v6-train-e00000028-v1"
+          ]
+        },
+        {
+          "micro": 30,
+          "seconds": 0.7043292201124132,
+          "student_tokens": 612,
+          "teacher_tokens": 270,
+          "episode_ids": [
+            "v6-train-e00000029-v0",
+            "v6-train-e00000029-v1"
+          ]
+        },
+        {
+          "micro": 31,
+          "seconds": 0.6985943000763655,
+          "student_tokens": 674,
+          "teacher_tokens": 332,
+          "episode_ids": [
+            "v6-train-e00000030-v0",
+            "v6-train-e00000030-v1"
+          ]
+        },
+        {
+          "micro": 32,
+          "seconds": 0.67248375993222,
+          "student_tokens": 464,
+          "teacher_tokens": 122,
+          "episode_ids": [
+            "v6-train-e00000031-v0",
+            "v6-train-e00000031-v1"
+          ]
+        }
+      ]
+    },
+    "proof_full_7_30": {
+      "rank_count": 2,
+      "first_micro": 7,
+      "last_micro": 30,
+      "global_micro_steps": 24,
+      "episodes": 48,
+      "student_tokens": 22180,
+      "teacher_tokens": 2228,
+      "compute_seconds": 27.27561133960262,
+      "checkpoint_save_seconds_in_window": 0,
+      "student_tokens_per_second": 813.1806735270463,
+      "student_tokens_per_second_including_recorded_saves": 813.1806735270463,
+      "global_micro_mean_seconds": 1.1364838058167759,
+      "global_micro_median_seconds": 1.4491608799435198,
+      "episode_mean_seconds": 0.5682419029083879,
+      "seconds_per_12_episodes": 6.818902834900655,
+      "micro_steps_over_5_seconds": 0,
+      "micro_max_seconds": 1.728221660014242,
+      "timing_scope": "sum of per-micro slowest rank; excludes startup, log writes and unrecorded gaps",
+      "rank_token_counts_summed_once": true,
+      "rank_elapsed_times_not_added": true,
+      "input_logs": [
+        {
+          "path": "ascend-proofs/hccl2-v6-w1-gdn-b9639e9/full/events_rank_00000.jsonl",
+          "sha256": "3eb9761225245b2be5f9ad8e531757e6bba5fdae0a79fd5d8a667716f858b45b"
+        },
+        {
+          "path": "ascend-proofs/hccl2-v6-w1-gdn-b9639e9/full/events_rank_00001.jsonl",
+          "sha256": "da56ecf2bad91758b15815ad9870fc5f4e9abeabc87583d0356ba38d1acbc34b"
+        }
+      ],
+      "samples": [
+        {
+          "micro": 7,
+          "seconds": 0.7227393598295748,
+          "student_tokens": 652,
+          "teacher_tokens": 296,
+          "episode_ids": [
+            "v6-train-e00000006-v0",
+            "v6-train-e00000006-v1"
+          ]
+        },
+        {
+          "micro": 8,
+          "seconds": 1.4493041399400681,
+          "student_tokens": 1236,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000007-v0",
+            "v6-train-e00000007-v1"
+          ]
+        },
+        {
+          "micro": 9,
+          "seconds": 0.7973104799166322,
+          "student_tokens": 612,
+          "teacher_tokens": 270,
+          "episode_ids": [
+            "v6-train-e00000008-v0",
+            "v6-train-e00000008-v1"
+          ]
+        },
+        {
+          "micro": 10,
+          "seconds": 1.4843699098564684,
+          "student_tokens": 1182,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000009-v0",
+            "v6-train-e00000009-v1"
+          ]
+        },
+        {
+          "micro": 11,
+          "seconds": 1.4607426000293344,
+          "student_tokens": 1190,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000010-v0",
+            "v6-train-e00000010-v1"
+          ]
+        },
+        {
+          "micro": 12,
+          "seconds": 0.7209922098554671,
+          "student_tokens": 678,
+          "teacher_tokens": 336,
+          "episode_ids": [
+            "v6-train-e00000011-v0",
+            "v6-train-e00000011-v1"
+          ]
+        },
+        {
+          "micro": 13,
+          "seconds": 0.6964168399572372,
+          "student_tokens": 476,
+          "teacher_tokens": 120,
+          "episode_ids": [
+            "v6-train-e00000012-v0",
+            "v6-train-e00000012-v1"
+          ]
+        },
+        {
+          "micro": 14,
+          "seconds": 1.4620712799951434,
+          "student_tokens": 1216,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000013-v0",
+            "v6-train-e00000013-v1"
+          ]
+        },
+        {
+          "micro": 15,
+          "seconds": 0.6751167601905763,
+          "student_tokens": 472,
+          "teacher_tokens": 116,
+          "episode_ids": [
+            "v6-train-e00000014-v0",
+            "v6-train-e00000014-v1"
+          ]
+        },
+        {
+          "micro": 16,
+          "seconds": 0.6616373599972576,
+          "student_tokens": 466,
+          "teacher_tokens": 124,
+          "episode_ids": [
+            "v6-train-e00000015-v0",
+            "v6-train-e00000015-v1"
+          ]
+        },
+        {
+          "micro": 17,
+          "seconds": 1.4602367300540209,
+          "student_tokens": 1278,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000016-v0",
+            "v6-train-e00000016-v1"
+          ]
+        },
+        {
+          "micro": 18,
+          "seconds": 1.477334660012275,
+          "student_tokens": 1216,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000017-v0",
+            "v6-train-e00000017-v1"
+          ]
+        },
+        {
+          "micro": 19,
+          "seconds": 0.6867237300612032,
+          "student_tokens": 474,
+          "teacher_tokens": 118,
+          "episode_ids": [
+            "v6-train-e00000018-v0",
+            "v6-train-e00000018-v1"
+          ]
+        },
+        {
+          "micro": 20,
+          "seconds": 1.4816606901586056,
+          "student_tokens": 1296,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000019-v0",
+            "v6-train-e00000019-v1"
+          ]
+        },
+        {
+          "micro": 21,
+          "seconds": 1.4513469198718667,
+          "student_tokens": 1228,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000020-v0",
+            "v6-train-e00000020-v1"
+          ]
+        },
+        {
+          "micro": 22,
+          "seconds": 1.4717823299579322,
+          "student_tokens": 1226,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000021-v0",
+            "v6-train-e00000021-v1"
+          ]
+        },
+        {
+          "micro": 23,
+          "seconds": 1.4587407598737627,
+          "student_tokens": 1278,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000022-v0",
+            "v6-train-e00000022-v1"
+          ]
+        },
+        {
+          "micro": 24,
+          "seconds": 1.56896148994565,
+          "student_tokens": 1290,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000023-v0",
+            "v6-train-e00000023-v1"
+          ]
+        },
+        {
+          "micro": 25,
+          "seconds": 0.698489970061928,
+          "student_tokens": 658,
+          "teacher_tokens": 302,
+          "episode_ids": [
+            "v6-train-e00000024-v0",
+            "v6-train-e00000024-v1"
+          ]
+        },
+        {
+          "micro": 26,
+          "seconds": 1.4490176199469715,
+          "student_tokens": 1236,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000025-v0",
+            "v6-train-e00000025-v1"
+          ]
+        },
+        {
+          "micro": 27,
+          "seconds": 0.8420791700482368,
+          "student_tokens": 516,
+          "teacher_tokens": 160,
+          "episode_ids": [
+            "v6-train-e00000026-v0",
+            "v6-train-e00000026-v1"
+          ]
+        },
+        {
+          "micro": 28,
+          "seconds": 1.728221660014242,
+          "student_tokens": 1220,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000027-v0",
+            "v6-train-e00000027-v1"
+          ]
+        },
+        {
+          "micro": 29,
+          "seconds": 0.6659854499157518,
+          "student_tokens": 472,
+          "teacher_tokens": 116,
+          "episode_ids": [
+            "v6-train-e00000028-v0",
+            "v6-train-e00000028-v1"
+          ]
+        },
+        {
+          "micro": 30,
+          "seconds": 0.7043292201124132,
+          "student_tokens": 612,
+          "teacher_tokens": 270,
+          "episode_ids": [
+            "v6-train-e00000029-v0",
+            "v6-train-e00000029-v1"
+          ]
+        }
+      ]
+    },
+    "proof_optimized_1_32": {
+      "rank_count": 2,
+      "first_micro": 1,
+      "last_micro": 32,
+      "global_micro_steps": 32,
+      "episodes": 64,
+      "student_tokens": 28560,
+      "teacher_tokens": 3206,
+      "compute_seconds": 30.878695879830047,
+      "checkpoint_save_seconds_in_window": 0.1359397298656404,
+      "student_tokens_per_second": 924.9095269808781,
+      "student_tokens_per_second_including_recorded_saves": 920.8555715248085,
+      "global_micro_mean_seconds": 0.964959246244689,
+      "global_micro_median_seconds": 0.9603962650289759,
+      "episode_mean_seconds": 0.4824796231223445,
+      "seconds_per_12_episodes": 5.789755477468134,
+      "micro_steps_over_5_seconds": 0,
+      "micro_max_seconds": 1.4127822499722242,
+      "timing_scope": "sum of per-micro slowest rank; excludes startup, log writes and unrecorded gaps",
+      "rank_token_counts_summed_once": true,
+      "rank_elapsed_times_not_added": true,
+      "input_logs": [
+        {
+          "path": "ascend-proofs/hccl2-v6-w1-gdn-b9639e9/optimized/events_rank_00000.jsonl",
+          "sha256": "92deab0b7832670e5f15bb01a9a1941791a2faa5ebd769ea985e78337700a03d"
+        },
+        {
+          "path": "ascend-proofs/hccl2-v6-w1-gdn-b9639e9/optimized/events_rank_00001.jsonl",
+          "sha256": "0d24bf94a55eaf5deb09deb26a23002c502f638c71fc81a16c36a5ac00acf096"
+        }
+      ],
+      "samples": [
+        {
+          "micro": 1,
+          "seconds": 1.292449879925698,
+          "student_tokens": 1228,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000000-v0",
+            "v6-train-e00000000-v1"
+          ]
+        },
+        {
+          "micro": 2,
+          "seconds": 1.299947579856962,
+          "student_tokens": 1216,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000001-v0",
+            "v6-train-e00000001-v1"
+          ]
+        },
+        {
+          "micro": 3,
+          "seconds": 0.578863879898563,
+          "student_tokens": 514,
+          "teacher_tokens": 158,
+          "episode_ids": [
+            "v6-train-e00000002-v0",
+            "v6-train-e00000002-v1"
+          ]
+        },
+        {
+          "micro": 4,
+          "seconds": 0.5716910702176392,
+          "student_tokens": 474,
+          "teacher_tokens": 132,
+          "episode_ids": [
+            "v6-train-e00000003-v0",
+            "v6-train-e00000003-v1"
+          ]
+        },
+        {
+          "micro": 5,
+          "seconds": 1.336614390136674,
+          "student_tokens": 1220,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000004-v0",
+            "v6-train-e00000004-v1"
+          ]
+        },
+        {
+          "micro": 6,
+          "seconds": 0.6221776800230145,
+          "student_tokens": 590,
+          "teacher_tokens": 234,
+          "episode_ids": [
+            "v6-train-e00000005-v0",
+            "v6-train-e00000005-v1"
+          ]
+        },
+        {
+          "micro": 7,
+          "seconds": 0.6014146900270134,
+          "student_tokens": 652,
+          "teacher_tokens": 296,
+          "episode_ids": [
+            "v6-train-e00000006-v0",
+            "v6-train-e00000006-v1"
+          ]
+        },
+        {
+          "micro": 8,
+          "seconds": 1.3207070401404053,
+          "student_tokens": 1236,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000007-v0",
+            "v6-train-e00000007-v1"
+          ]
+        },
+        {
+          "micro": 9,
+          "seconds": 0.6074052299372852,
+          "student_tokens": 612,
+          "teacher_tokens": 270,
+          "episode_ids": [
+            "v6-train-e00000008-v0",
+            "v6-train-e00000008-v1"
+          ]
+        },
+        {
+          "micro": 10,
+          "seconds": 1.2928956898394972,
+          "student_tokens": 1182,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000009-v0",
+            "v6-train-e00000009-v1"
+          ]
+        },
+        {
+          "micro": 11,
+          "seconds": 1.4127822499722242,
+          "student_tokens": 1190,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000010-v0",
+            "v6-train-e00000010-v1"
+          ]
+        },
+        {
+          "micro": 12,
+          "seconds": 0.6248377698939294,
+          "student_tokens": 678,
+          "teacher_tokens": 336,
+          "episode_ids": [
+            "v6-train-e00000011-v0",
+            "v6-train-e00000011-v1"
+          ]
+        },
+        {
+          "micro": 13,
+          "seconds": 0.5833695698529482,
+          "student_tokens": 476,
+          "teacher_tokens": 120,
+          "episode_ids": [
+            "v6-train-e00000012-v0",
+            "v6-train-e00000012-v1"
+          ]
+        },
+        {
+          "micro": 14,
+          "seconds": 1.31012839009054,
+          "student_tokens": 1216,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000013-v0",
+            "v6-train-e00000013-v1"
+          ]
+        },
+        {
+          "micro": 15,
+          "seconds": 0.5817918898537755,
+          "student_tokens": 472,
+          "teacher_tokens": 116,
+          "episode_ids": [
+            "v6-train-e00000014-v0",
+            "v6-train-e00000014-v1"
+          ]
+        },
+        {
+          "micro": 16,
+          "seconds": 0.5841658599674702,
+          "student_tokens": 466,
+          "teacher_tokens": 124,
+          "episode_ids": [
+            "v6-train-e00000015-v0",
+            "v6-train-e00000015-v1"
+          ]
+        },
+        {
+          "micro": 17,
+          "seconds": 1.3429905599914491,
+          "student_tokens": 1278,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000016-v0",
+            "v6-train-e00000016-v1"
+          ]
+        },
+        {
+          "micro": 18,
+          "seconds": 1.3274443198461086,
+          "student_tokens": 1216,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000017-v0",
+            "v6-train-e00000017-v1"
+          ]
+        },
+        {
+          "micro": 19,
+          "seconds": 0.5964845099952072,
+          "student_tokens": 474,
+          "teacher_tokens": 118,
+          "episode_ids": [
+            "v6-train-e00000018-v0",
+            "v6-train-e00000018-v1"
+          ]
+        },
+        {
+          "micro": 20,
+          "seconds": 1.302128559909761,
+          "student_tokens": 1296,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000019-v0",
+            "v6-train-e00000019-v1"
+          ]
+        },
+        {
+          "micro": 21,
+          "seconds": 1.3449110698420554,
+          "student_tokens": 1228,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000020-v0",
+            "v6-train-e00000020-v1"
+          ]
+        },
+        {
+          "micro": 22,
+          "seconds": 1.3156609300058335,
+          "student_tokens": 1226,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000021-v0",
+            "v6-train-e00000021-v1"
+          ]
+        },
+        {
+          "micro": 23,
+          "seconds": 1.3417946700938046,
+          "student_tokens": 1278,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000022-v0",
+            "v6-train-e00000022-v1"
+          ]
+        },
+        {
+          "micro": 24,
+          "seconds": 1.369242100045085,
+          "student_tokens": 1290,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000023-v0",
+            "v6-train-e00000023-v1"
+          ]
+        },
+        {
+          "micro": 25,
+          "seconds": 0.6250537501182407,
+          "student_tokens": 658,
+          "teacher_tokens": 302,
+          "episode_ids": [
+            "v6-train-e00000024-v0",
+            "v6-train-e00000024-v1"
+          ]
+        },
+        {
+          "micro": 26,
+          "seconds": 1.3489907199982554,
+          "student_tokens": 1236,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000025-v0",
+            "v6-train-e00000025-v1"
+          ]
+        },
+        {
+          "micro": 27,
+          "seconds": 0.5984114601742476,
+          "student_tokens": 516,
+          "teacher_tokens": 160,
+          "episode_ids": [
+            "v6-train-e00000026-v0",
+            "v6-train-e00000026-v1"
+          ]
+        },
+        {
+          "micro": 28,
+          "seconds": 1.3266001399606466,
+          "student_tokens": 1220,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000027-v0",
+            "v6-train-e00000027-v1"
+          ]
+        },
+        {
+          "micro": 29,
+          "seconds": 0.6042866401840001,
+          "student_tokens": 472,
+          "teacher_tokens": 116,
+          "episode_ids": [
+            "v6-train-e00000028-v0",
+            "v6-train-e00000028-v1"
+          ]
+        },
+        {
+          "micro": 30,
+          "seconds": 0.6283426501322538,
+          "student_tokens": 612,
+          "teacher_tokens": 270,
+          "episode_ids": [
+            "v6-train-e00000029-v0",
+            "v6-train-e00000029-v1"
+          ]
+        },
+        {
+          "micro": 31,
+          "seconds": 0.6044804698321968,
+          "student_tokens": 674,
+          "teacher_tokens": 332,
+          "episode_ids": [
+            "v6-train-e00000030-v0",
+            "v6-train-e00000030-v1"
+          ]
+        },
+        {
+          "micro": 32,
+          "seconds": 0.5806304700672626,
+          "student_tokens": 464,
+          "teacher_tokens": 122,
+          "episode_ids": [
+            "v6-train-e00000031-v0",
+            "v6-train-e00000031-v1"
+          ]
+        }
+      ]
+    },
+    "proof_optimized_2_32": {
+      "rank_count": 2,
+      "first_micro": 2,
+      "last_micro": 32,
+      "global_micro_steps": 31,
+      "episodes": 62,
+      "student_tokens": 27332,
+      "teacher_tokens": 3206,
+      "compute_seconds": 29.58624599990435,
+      "checkpoint_save_seconds_in_window": 0.1359397298656404,
+      "student_tokens_per_second": 923.8076368353175,
+      "student_tokens_per_second_including_recorded_saves": 919.582437459303,
+      "global_micro_mean_seconds": 0.954395032254979,
+      "global_micro_median_seconds": 0.6283426501322538,
+      "episode_mean_seconds": 0.4771975161274895,
+      "seconds_per_12_episodes": 5.726370193529874,
+      "micro_steps_over_5_seconds": 0,
+      "micro_max_seconds": 1.4127822499722242,
+      "timing_scope": "sum of per-micro slowest rank; excludes startup, log writes and unrecorded gaps",
+      "rank_token_counts_summed_once": true,
+      "rank_elapsed_times_not_added": true,
+      "input_logs": [
+        {
+          "path": "ascend-proofs/hccl2-v6-w1-gdn-b9639e9/optimized/events_rank_00000.jsonl",
+          "sha256": "92deab0b7832670e5f15bb01a9a1941791a2faa5ebd769ea985e78337700a03d"
+        },
+        {
+          "path": "ascend-proofs/hccl2-v6-w1-gdn-b9639e9/optimized/events_rank_00001.jsonl",
+          "sha256": "0d24bf94a55eaf5deb09deb26a23002c502f638c71fc81a16c36a5ac00acf096"
+        }
+      ],
+      "samples": [
+        {
+          "micro": 2,
+          "seconds": 1.299947579856962,
+          "student_tokens": 1216,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000001-v0",
+            "v6-train-e00000001-v1"
+          ]
+        },
+        {
+          "micro": 3,
+          "seconds": 0.578863879898563,
+          "student_tokens": 514,
+          "teacher_tokens": 158,
+          "episode_ids": [
+            "v6-train-e00000002-v0",
+            "v6-train-e00000002-v1"
+          ]
+        },
+        {
+          "micro": 4,
+          "seconds": 0.5716910702176392,
+          "student_tokens": 474,
+          "teacher_tokens": 132,
+          "episode_ids": [
+            "v6-train-e00000003-v0",
+            "v6-train-e00000003-v1"
+          ]
+        },
+        {
+          "micro": 5,
+          "seconds": 1.336614390136674,
+          "student_tokens": 1220,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000004-v0",
+            "v6-train-e00000004-v1"
+          ]
+        },
+        {
+          "micro": 6,
+          "seconds": 0.6221776800230145,
+          "student_tokens": 590,
+          "teacher_tokens": 234,
+          "episode_ids": [
+            "v6-train-e00000005-v0",
+            "v6-train-e00000005-v1"
+          ]
+        },
+        {
+          "micro": 7,
+          "seconds": 0.6014146900270134,
+          "student_tokens": 652,
+          "teacher_tokens": 296,
+          "episode_ids": [
+            "v6-train-e00000006-v0",
+            "v6-train-e00000006-v1"
+          ]
+        },
+        {
+          "micro": 8,
+          "seconds": 1.3207070401404053,
+          "student_tokens": 1236,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000007-v0",
+            "v6-train-e00000007-v1"
+          ]
+        },
+        {
+          "micro": 9,
+          "seconds": 0.6074052299372852,
+          "student_tokens": 612,
+          "teacher_tokens": 270,
+          "episode_ids": [
+            "v6-train-e00000008-v0",
+            "v6-train-e00000008-v1"
+          ]
+        },
+        {
+          "micro": 10,
+          "seconds": 1.2928956898394972,
+          "student_tokens": 1182,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000009-v0",
+            "v6-train-e00000009-v1"
+          ]
+        },
+        {
+          "micro": 11,
+          "seconds": 1.4127822499722242,
+          "student_tokens": 1190,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000010-v0",
+            "v6-train-e00000010-v1"
+          ]
+        },
+        {
+          "micro": 12,
+          "seconds": 0.6248377698939294,
+          "student_tokens": 678,
+          "teacher_tokens": 336,
+          "episode_ids": [
+            "v6-train-e00000011-v0",
+            "v6-train-e00000011-v1"
+          ]
+        },
+        {
+          "micro": 13,
+          "seconds": 0.5833695698529482,
+          "student_tokens": 476,
+          "teacher_tokens": 120,
+          "episode_ids": [
+            "v6-train-e00000012-v0",
+            "v6-train-e00000012-v1"
+          ]
+        },
+        {
+          "micro": 14,
+          "seconds": 1.31012839009054,
+          "student_tokens": 1216,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000013-v0",
+            "v6-train-e00000013-v1"
+          ]
+        },
+        {
+          "micro": 15,
+          "seconds": 0.5817918898537755,
+          "student_tokens": 472,
+          "teacher_tokens": 116,
+          "episode_ids": [
+            "v6-train-e00000014-v0",
+            "v6-train-e00000014-v1"
+          ]
+        },
+        {
+          "micro": 16,
+          "seconds": 0.5841658599674702,
+          "student_tokens": 466,
+          "teacher_tokens": 124,
+          "episode_ids": [
+            "v6-train-e00000015-v0",
+            "v6-train-e00000015-v1"
+          ]
+        },
+        {
+          "micro": 17,
+          "seconds": 1.3429905599914491,
+          "student_tokens": 1278,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000016-v0",
+            "v6-train-e00000016-v1"
+          ]
+        },
+        {
+          "micro": 18,
+          "seconds": 1.3274443198461086,
+          "student_tokens": 1216,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000017-v0",
+            "v6-train-e00000017-v1"
+          ]
+        },
+        {
+          "micro": 19,
+          "seconds": 0.5964845099952072,
+          "student_tokens": 474,
+          "teacher_tokens": 118,
+          "episode_ids": [
+            "v6-train-e00000018-v0",
+            "v6-train-e00000018-v1"
+          ]
+        },
+        {
+          "micro": 20,
+          "seconds": 1.302128559909761,
+          "student_tokens": 1296,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000019-v0",
+            "v6-train-e00000019-v1"
+          ]
+        },
+        {
+          "micro": 21,
+          "seconds": 1.3449110698420554,
+          "student_tokens": 1228,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000020-v0",
+            "v6-train-e00000020-v1"
+          ]
+        },
+        {
+          "micro": 22,
+          "seconds": 1.3156609300058335,
+          "student_tokens": 1226,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000021-v0",
+            "v6-train-e00000021-v1"
+          ]
+        },
+        {
+          "micro": 23,
+          "seconds": 1.3417946700938046,
+          "student_tokens": 1278,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000022-v0",
+            "v6-train-e00000022-v1"
+          ]
+        },
+        {
+          "micro": 24,
+          "seconds": 1.369242100045085,
+          "student_tokens": 1290,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000023-v0",
+            "v6-train-e00000023-v1"
+          ]
+        },
+        {
+          "micro": 25,
+          "seconds": 0.6250537501182407,
+          "student_tokens": 658,
+          "teacher_tokens": 302,
+          "episode_ids": [
+            "v6-train-e00000024-v0",
+            "v6-train-e00000024-v1"
+          ]
+        },
+        {
+          "micro": 26,
+          "seconds": 1.3489907199982554,
+          "student_tokens": 1236,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000025-v0",
+            "v6-train-e00000025-v1"
+          ]
+        },
+        {
+          "micro": 27,
+          "seconds": 0.5984114601742476,
+          "student_tokens": 516,
+          "teacher_tokens": 160,
+          "episode_ids": [
+            "v6-train-e00000026-v0",
+            "v6-train-e00000026-v1"
+          ]
+        },
+        {
+          "micro": 28,
+          "seconds": 1.3266001399606466,
+          "student_tokens": 1220,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000027-v0",
+            "v6-train-e00000027-v1"
+          ]
+        },
+        {
+          "micro": 29,
+          "seconds": 0.6042866401840001,
+          "student_tokens": 472,
+          "teacher_tokens": 116,
+          "episode_ids": [
+            "v6-train-e00000028-v0",
+            "v6-train-e00000028-v1"
+          ]
+        },
+        {
+          "micro": 30,
+          "seconds": 0.6283426501322538,
+          "student_tokens": 612,
+          "teacher_tokens": 270,
+          "episode_ids": [
+            "v6-train-e00000029-v0",
+            "v6-train-e00000029-v1"
+          ]
+        },
+        {
+          "micro": 31,
+          "seconds": 0.6044804698321968,
+          "student_tokens": 674,
+          "teacher_tokens": 332,
+          "episode_ids": [
+            "v6-train-e00000030-v0",
+            "v6-train-e00000030-v1"
+          ]
+        },
+        {
+          "micro": 32,
+          "seconds": 0.5806304700672626,
+          "student_tokens": 464,
+          "teacher_tokens": 122,
+          "episode_ids": [
+            "v6-train-e00000031-v0",
+            "v6-train-e00000031-v1"
+          ]
+        }
+      ]
+    },
+    "proof_optimized_7_30": {
+      "rank_count": 2,
+      "first_micro": 7,
+      "last_micro": 30,
+      "global_micro_steps": 24,
+      "episodes": 48,
+      "student_tokens": 22180,
+      "teacher_tokens": 2228,
+      "compute_seconds": 23.991840459872037,
+      "checkpoint_save_seconds_in_window": 0,
+      "student_tokens_per_second": 924.4809724830213,
+      "student_tokens_per_second_including_recorded_saves": 924.4809724830213,
+      "global_micro_mean_seconds": 0.9996600191613348,
+      "global_micro_median_seconds": 1.297512124874629,
+      "episode_mean_seconds": 0.4998300095806674,
+      "seconds_per_12_episodes": 5.997960114968009,
+      "micro_steps_over_5_seconds": 0,
+      "micro_max_seconds": 1.4127822499722242,
+      "timing_scope": "sum of per-micro slowest rank; excludes startup, log writes and unrecorded gaps",
+      "rank_token_counts_summed_once": true,
+      "rank_elapsed_times_not_added": true,
+      "input_logs": [
+        {
+          "path": "ascend-proofs/hccl2-v6-w1-gdn-b9639e9/optimized/events_rank_00000.jsonl",
+          "sha256": "92deab0b7832670e5f15bb01a9a1941791a2faa5ebd769ea985e78337700a03d"
+        },
+        {
+          "path": "ascend-proofs/hccl2-v6-w1-gdn-b9639e9/optimized/events_rank_00001.jsonl",
+          "sha256": "0d24bf94a55eaf5deb09deb26a23002c502f638c71fc81a16c36a5ac00acf096"
+        }
+      ],
+      "samples": [
+        {
+          "micro": 7,
+          "seconds": 0.6014146900270134,
+          "student_tokens": 652,
+          "teacher_tokens": 296,
+          "episode_ids": [
+            "v6-train-e00000006-v0",
+            "v6-train-e00000006-v1"
+          ]
+        },
+        {
+          "micro": 8,
+          "seconds": 1.3207070401404053,
+          "student_tokens": 1236,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000007-v0",
+            "v6-train-e00000007-v1"
+          ]
+        },
+        {
+          "micro": 9,
+          "seconds": 0.6074052299372852,
+          "student_tokens": 612,
+          "teacher_tokens": 270,
+          "episode_ids": [
+            "v6-train-e00000008-v0",
+            "v6-train-e00000008-v1"
+          ]
+        },
+        {
+          "micro": 10,
+          "seconds": 1.2928956898394972,
+          "student_tokens": 1182,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000009-v0",
+            "v6-train-e00000009-v1"
+          ]
+        },
+        {
+          "micro": 11,
+          "seconds": 1.4127822499722242,
+          "student_tokens": 1190,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000010-v0",
+            "v6-train-e00000010-v1"
+          ]
+        },
+        {
+          "micro": 12,
+          "seconds": 0.6248377698939294,
+          "student_tokens": 678,
+          "teacher_tokens": 336,
+          "episode_ids": [
+            "v6-train-e00000011-v0",
+            "v6-train-e00000011-v1"
+          ]
+        },
+        {
+          "micro": 13,
+          "seconds": 0.5833695698529482,
+          "student_tokens": 476,
+          "teacher_tokens": 120,
+          "episode_ids": [
+            "v6-train-e00000012-v0",
+            "v6-train-e00000012-v1"
+          ]
+        },
+        {
+          "micro": 14,
+          "seconds": 1.31012839009054,
+          "student_tokens": 1216,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000013-v0",
+            "v6-train-e00000013-v1"
+          ]
+        },
+        {
+          "micro": 15,
+          "seconds": 0.5817918898537755,
+          "student_tokens": 472,
+          "teacher_tokens": 116,
+          "episode_ids": [
+            "v6-train-e00000014-v0",
+            "v6-train-e00000014-v1"
+          ]
+        },
+        {
+          "micro": 16,
+          "seconds": 0.5841658599674702,
+          "student_tokens": 466,
+          "teacher_tokens": 124,
+          "episode_ids": [
+            "v6-train-e00000015-v0",
+            "v6-train-e00000015-v1"
+          ]
+        },
+        {
+          "micro": 17,
+          "seconds": 1.3429905599914491,
+          "student_tokens": 1278,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000016-v0",
+            "v6-train-e00000016-v1"
+          ]
+        },
+        {
+          "micro": 18,
+          "seconds": 1.3274443198461086,
+          "student_tokens": 1216,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000017-v0",
+            "v6-train-e00000017-v1"
+          ]
+        },
+        {
+          "micro": 19,
+          "seconds": 0.5964845099952072,
+          "student_tokens": 474,
+          "teacher_tokens": 118,
+          "episode_ids": [
+            "v6-train-e00000018-v0",
+            "v6-train-e00000018-v1"
+          ]
+        },
+        {
+          "micro": 20,
+          "seconds": 1.302128559909761,
+          "student_tokens": 1296,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000019-v0",
+            "v6-train-e00000019-v1"
+          ]
+        },
+        {
+          "micro": 21,
+          "seconds": 1.3449110698420554,
+          "student_tokens": 1228,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000020-v0",
+            "v6-train-e00000020-v1"
+          ]
+        },
+        {
+          "micro": 22,
+          "seconds": 1.3156609300058335,
+          "student_tokens": 1226,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000021-v0",
+            "v6-train-e00000021-v1"
+          ]
+        },
+        {
+          "micro": 23,
+          "seconds": 1.3417946700938046,
+          "student_tokens": 1278,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000022-v0",
+            "v6-train-e00000022-v1"
+          ]
+        },
+        {
+          "micro": 24,
+          "seconds": 1.369242100045085,
+          "student_tokens": 1290,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000023-v0",
+            "v6-train-e00000023-v1"
+          ]
+        },
+        {
+          "micro": 25,
+          "seconds": 0.6250537501182407,
+          "student_tokens": 658,
+          "teacher_tokens": 302,
+          "episode_ids": [
+            "v6-train-e00000024-v0",
+            "v6-train-e00000024-v1"
+          ]
+        },
+        {
+          "micro": 26,
+          "seconds": 1.3489907199982554,
+          "student_tokens": 1236,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000025-v0",
+            "v6-train-e00000025-v1"
+          ]
+        },
+        {
+          "micro": 27,
+          "seconds": 0.5984114601742476,
+          "student_tokens": 516,
+          "teacher_tokens": 160,
+          "episode_ids": [
+            "v6-train-e00000026-v0",
+            "v6-train-e00000026-v1"
+          ]
+        },
+        {
+          "micro": 28,
+          "seconds": 1.3266001399606466,
+          "student_tokens": 1220,
+          "teacher_tokens": 0,
+          "episode_ids": [
+            "v6-train-e00000027-v0",
+            "v6-train-e00000027-v1"
+          ]
+        },
+        {
+          "micro": 29,
+          "seconds": 0.6042866401840001,
+          "student_tokens": 472,
+          "teacher_tokens": 116,
+          "episode_ids": [
+            "v6-train-e00000028-v0",
+            "v6-train-e00000028-v1"
+          ]
+        },
+        {
+          "micro": 30,
+          "seconds": 0.6283426501322538,
+          "student_tokens": 612,
+          "teacher_tokens": 270,
+          "episode_ids": [
+            "v6-train-e00000029-v0",
+            "v6-train-e00000029-v1"
+          ]
+        }
+      ]
+    }
+  },
+  "cuda": {
+    "fallback": {
+      "status": "cuda_training_copy_diagnostic_only",
+      "mode": "fallback",
+      "torch": "2.14.0+cu130",
+      "cuda": "13.0",
+      "transformers": "5.14.1",
+      "device": "NVIDIA GeForce RTX 5080",
+      "source_checkpoint": "micro_000000000714_5559865da6",
+      "source_manifest_sha256": "d7a6d252be6105173e0d4f7df9b2cbf69c942f337c797de0fa2e2f2f4c3f8f4b",
+      "source_progress": {
+        "accumulation_index": 0,
+        "micro_step": 714,
+        "optimizer_step": 119,
+        "stage": "A",
+        "student_tokens": 696760,
+        "teacher_tokens": 57508
+      },
+      "source_world_size": 2,
+      "probe_start_ordinal": 0,
+      "source_cursor_overridden_for_workload_comparison": true,
+      "base_path": "/mnt/e/ds-rsi/artifacts/model/Qwen3.5-0.8B",
+      "output_path": "/mnt/e/ds-rsi/artifacts/5080-comparison/cuda-fallback-ordinal0-64",
+      "base_hash_seconds": 6.95590444100003,
+      "base_load_seconds": 7.356232258000091,
+      "source_state_and_trainer_load_seconds": 1.1506818300001669,
+      "initialization_seconds": 43.58932330499988,
+      "probe_config": {
+        "stage": "A",
+        "student_token_budget": 16505710,
+        "gradient_accumulation": 12,
+        "learning_rate": 0.00025,
+        "weight_decay": 0.01,
+        "gradient_clip": 1.0,
+        "seed": 20261010,
+        "distractors": 7,
+        "save_every_micro": 100,
+        "data_revision": "ab-v6-natural-keep",
+        "curriculum": "facts",
+        "memory_candidates": 1,
+        "counterfactual_weight": 1.0,
+        "counterfactual_margin": 2.0,
+        "keep_fraction": 0.4,
+        "keep_weight": 1.0,
+        "reuse_frozen_prefix": true,
+        "gdn_inverse": null
+      },
+      "timing_excludes_first_episodes": 2,
+      "measured_student_tokens": 27332,
+      "measured_seconds": 56.557508645999405,
+      "student_tokens_per_second": 483.26032483280767,
+      "episode_mean_seconds": 0.9122178813870871,
+      "episode_median_seconds": 0.7460292309999659,
+      "peak_allocated_bytes": 2645960704,
+      "peak_reserved_bytes": 3676307456,
+      "final_progress": {
+        "stage": "A",
+        "optimizer_step": 124,
+        "micro_step": 778,
+        "accumulation_index": 4,
+        "student_tokens": 725320,
+        "teacher_tokens": 60714
+      },
+      "recovery": {
+        "complete_payload_exact_match": true,
+        "pending_gradient_episodes": 3,
+        "save_seconds": 0.6736655629999859,
+        "load_seconds": 0.4252949219999209
+      },
+      "source_run_modified": false,
+      "formal_training_ledger_modified": false,
+      "source_optimizer_state_loaded": true,
+      "accelerator_rng_explicitly_reinitialized": true,
+      "source_distributed_trajectory_equivalence_claimed": false,
+      "probe_query_normalization_is_single_rank": true,
+      "production_migration_verified": false,
+      "episodes": [
+        {
+          "ordinal": 0,
+          "seconds": 19.326530433000016,
+          "student_tokens": 614,
+          "teacher_tokens": 0,
+          "loss": 0.9124608039855957,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 1,
+          "seconds": 1.2798936189999495,
+          "student_tokens": 614,
+          "teacher_tokens": 0,
+          "loss": 0.7465859055519104,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 2,
+          "seconds": 1.3148404309999933,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.01957857795059681,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 3,
+          "seconds": 1.2008224799999425,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.026887495070695877,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 4,
+          "seconds": 0.7401149879999593,
+          "student_tokens": 257,
+          "teacher_tokens": 79,
+          "loss": 0.007636320311576128,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 5,
+          "seconds": 0.5225939169999947,
+          "student_tokens": 257,
+          "teacher_tokens": 79,
+          "loss": 0.007636320311576128,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 6,
+          "seconds": 0.5989175510001132,
+          "student_tokens": 237,
+          "teacher_tokens": 66,
+          "loss": 0.3205154240131378,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 7,
+          "seconds": 0.6116339239999888,
+          "student_tokens": 237,
+          "teacher_tokens": 66,
+          "loss": 0.3205154240131378,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 8,
+          "seconds": 1.3696616590000303,
+          "student_tokens": 610,
+          "teacher_tokens": 0,
+          "loss": 0.6571136116981506,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 9,
+          "seconds": 1.1545621370000845,
+          "student_tokens": 610,
+          "teacher_tokens": 0,
+          "loss": 0.17557170987129211,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 10,
+          "seconds": 0.5191269290000946,
+          "student_tokens": 295,
+          "teacher_tokens": 117,
+          "loss": 0.0008538420079275966,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 11,
+          "seconds": 0.7256715389999044,
+          "student_tokens": 295,
+          "teacher_tokens": 117,
+          "loss": 0.0008538420079275966,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 12,
+          "seconds": 0.5632411779999984,
+          "student_tokens": 326,
+          "teacher_tokens": 148,
+          "loss": 0.001292371773160994,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 13,
+          "seconds": 0.6426327070000752,
+          "student_tokens": 326,
+          "teacher_tokens": 148,
+          "loss": 0.001292371773160994,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 14,
+          "seconds": 1.1488432780001858,
+          "student_tokens": 618,
+          "teacher_tokens": 0,
+          "loss": 0.017231371253728867,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 15,
+          "seconds": 1.2637028880001253,
+          "student_tokens": 618,
+          "teacher_tokens": 0,
+          "loss": 0.05616011843085289,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 16,
+          "seconds": 0.6453639589999511,
+          "student_tokens": 306,
+          "teacher_tokens": 135,
+          "loss": 0.0009887785417959094,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 17,
+          "seconds": 0.5566176639999867,
+          "student_tokens": 306,
+          "teacher_tokens": 135,
+          "loss": 0.0009887785417959094,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 18,
+          "seconds": 1.1756267169998864,
+          "student_tokens": 591,
+          "teacher_tokens": 0,
+          "loss": 0.11808793246746063,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 19,
+          "seconds": 1.289121618000081,
+          "student_tokens": 591,
+          "teacher_tokens": 0,
+          "loss": 0.20198272168636322,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 20,
+          "seconds": 1.2095758289999594,
+          "student_tokens": 595,
+          "teacher_tokens": 0,
+          "loss": 0.4225841760635376,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 21,
+          "seconds": 1.2298958290000428,
+          "student_tokens": 595,
+          "teacher_tokens": 0,
+          "loss": 0.5647211074829102,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 22,
+          "seconds": 0.5551016809999965,
+          "student_tokens": 339,
+          "teacher_tokens": 168,
+          "loss": 0.0013018730096518993,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 23,
+          "seconds": 0.6142880350000723,
+          "student_tokens": 339,
+          "teacher_tokens": 168,
+          "loss": 0.0013018730096518993,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 24,
+          "seconds": 0.7519434739999724,
+          "student_tokens": 238,
+          "teacher_tokens": 60,
+          "loss": 0.20128318667411804,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 25,
+          "seconds": 0.5343059429999357,
+          "student_tokens": 238,
+          "teacher_tokens": 60,
+          "loss": 0.20128318667411804,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 26,
+          "seconds": 1.2580993290000606,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.006395353935658932,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 27,
+          "seconds": 1.3800982569998723,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.026376744732260704,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 28,
+          "seconds": 0.43731890999993084,
+          "student_tokens": 236,
+          "teacher_tokens": 58,
+          "loss": 0.18605200946331024,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 29,
+          "seconds": 0.44619193799985624,
+          "student_tokens": 236,
+          "teacher_tokens": 58,
+          "loss": 0.18605200946331024,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 30,
+          "seconds": 0.5225334879999082,
+          "student_tokens": 233,
+          "teacher_tokens": 62,
+          "loss": 0.8532742857933044,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 31,
+          "seconds": 0.5456267409999782,
+          "student_tokens": 233,
+          "teacher_tokens": 62,
+          "loss": 0.8532742857933044,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 32,
+          "seconds": 1.2998214730000655,
+          "student_tokens": 639,
+          "teacher_tokens": 0,
+          "loss": 1.4076943397521973,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 33,
+          "seconds": 1.6062491899999713,
+          "student_tokens": 639,
+          "teacher_tokens": 0,
+          "loss": 0.656960666179657,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 34,
+          "seconds": 1.1766545779998978,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.4188897907733917,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 35,
+          "seconds": 1.2971054170000116,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.4652118384838104,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 36,
+          "seconds": 0.5841986570001154,
+          "student_tokens": 237,
+          "teacher_tokens": 59,
+          "loss": 0.4294421672821045,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 37,
+          "seconds": 0.5849033660001624,
+          "student_tokens": 237,
+          "teacher_tokens": 59,
+          "loss": 0.4294421672821045,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 38,
+          "seconds": 1.4333193219999885,
+          "student_tokens": 648,
+          "teacher_tokens": 0,
+          "loss": 1.7283087968826294,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 39,
+          "seconds": 1.2758437490001597,
+          "student_tokens": 648,
+          "teacher_tokens": 0,
+          "loss": 1.5908093452453613,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 40,
+          "seconds": 1.2505488460001288,
+          "student_tokens": 614,
+          "teacher_tokens": 0,
+          "loss": 0.294737309217453,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 41,
+          "seconds": 1.2455492239998875,
+          "student_tokens": 614,
+          "teacher_tokens": 0,
+          "loss": 0.1844807118177414,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 42,
+          "seconds": 1.2577246129999367,
+          "student_tokens": 613,
+          "teacher_tokens": 0,
+          "loss": 0.01289856992661953,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 43,
+          "seconds": 1.2360451980000562,
+          "student_tokens": 613,
+          "teacher_tokens": 0,
+          "loss": 0.019643008708953857,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 44,
+          "seconds": 1.0987864050000553,
+          "student_tokens": 639,
+          "teacher_tokens": 0,
+          "loss": 0.02304675057530403,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 45,
+          "seconds": 1.2774435389999326,
+          "student_tokens": 639,
+          "teacher_tokens": 0,
+          "loss": 0.7826850414276123,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 46,
+          "seconds": 1.3232719999998608,
+          "student_tokens": 645,
+          "teacher_tokens": 0,
+          "loss": 1.0401999950408936,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 47,
+          "seconds": 1.3734188369999174,
+          "student_tokens": 645,
+          "teacher_tokens": 0,
+          "loss": 1.798034906387329,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 48,
+          "seconds": 0.6340000940001573,
+          "student_tokens": 329,
+          "teacher_tokens": 151,
+          "loss": 0.0008367570117115974,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 49,
+          "seconds": 0.5401642849999462,
+          "student_tokens": 329,
+          "teacher_tokens": 151,
+          "loss": 0.0008367570117115974,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 50,
+          "seconds": 1.2808618259998639,
+          "student_tokens": 618,
+          "teacher_tokens": 0,
+          "loss": 0.5204887390136719,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 51,
+          "seconds": 1.3369417880001038,
+          "student_tokens": 618,
+          "teacher_tokens": 0,
+          "loss": 0.5723465085029602,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 52,
+          "seconds": 0.521887796999863,
+          "student_tokens": 258,
+          "teacher_tokens": 80,
+          "loss": 0.017474466934800148,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 53,
+          "seconds": 0.5483003409999583,
+          "student_tokens": 258,
+          "teacher_tokens": 80,
+          "loss": 0.017474466934800148,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 54,
+          "seconds": 1.194516958999884,
+          "student_tokens": 610,
+          "teacher_tokens": 0,
+          "loss": 0.2931841015815735,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 55,
+          "seconds": 1.1866960600000311,
+          "student_tokens": 610,
+          "teacher_tokens": 0,
+          "loss": 0.09056591242551804,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 56,
+          "seconds": 0.5024534079998375,
+          "student_tokens": 236,
+          "teacher_tokens": 58,
+          "loss": 0.1855383813381195,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 57,
+          "seconds": 0.5468409569998585,
+          "student_tokens": 236,
+          "teacher_tokens": 58,
+          "loss": 0.1855383813381195,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 58,
+          "seconds": 0.6000849429999562,
+          "student_tokens": 306,
+          "teacher_tokens": 135,
+          "loss": 0.0011181916343048215,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 59,
+          "seconds": 0.5529322749998755,
+          "student_tokens": 306,
+          "teacher_tokens": 135,
+          "loss": 0.0011181916343048215,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 60,
+          "seconds": 0.4846152820000498,
+          "student_tokens": 337,
+          "teacher_tokens": 166,
+          "loss": 0.0013002369087189436,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 61,
+          "seconds": 0.6147153909998906,
+          "student_tokens": 337,
+          "teacher_tokens": 166,
+          "loss": 0.0013002369087189436,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 62,
+          "seconds": 0.6003519560001678,
+          "student_tokens": 232,
+          "teacher_tokens": 61,
+          "loss": 0.12819133698940277,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 63,
+          "seconds": 0.5631858519998332,
+          "student_tokens": 232,
+          "teacher_tokens": 61,
+          "loss": 0.12819133698940277,
+          "family": "language_preservation",
+          "queries": 1
+        }
+      ],
+      "four_full_optimizer_updates_window": {
+        "ordinal_start": 12,
+        "ordinal_end": 59,
+        "episodes": 48,
+        "student_tokens": 22180,
+        "seconds": 45.53669460999936,
+        "student_tokens_per_second": 487.0797098902632,
+        "seconds_per_12_episodes": 11.38417365249984
+      },
+      "seconds_per_12_episodes": 10.946614576645047,
+      "remaining_A_compute_hours": 9.086976054819466
+    },
+    "scripted": {
+      "status": "cuda_training_copy_diagnostic_only",
+      "mode": "scripted",
+      "torch": "2.14.0+cu130",
+      "cuda": "13.0",
+      "transformers": "5.14.1",
+      "device": "NVIDIA GeForce RTX 5080",
+      "source_checkpoint": "micro_000000000714_5559865da6",
+      "source_manifest_sha256": "d7a6d252be6105173e0d4f7df9b2cbf69c942f337c797de0fa2e2f2f4c3f8f4b",
+      "source_progress": {
+        "accumulation_index": 0,
+        "micro_step": 714,
+        "optimizer_step": 119,
+        "stage": "A",
+        "student_tokens": 696760,
+        "teacher_tokens": 57508
+      },
+      "source_world_size": 2,
+      "probe_start_ordinal": 0,
+      "source_cursor_overridden_for_workload_comparison": true,
+      "base_path": "/mnt/e/ds-rsi/artifacts/model/Qwen3.5-0.8B",
+      "output_path": "/mnt/e/ds-rsi/artifacts/5080-comparison/cuda-scripted-ordinal0-64",
+      "base_hash_seconds": 6.821176543999854,
+      "base_load_seconds": 6.998387972999808,
+      "source_state_and_trainer_load_seconds": 1.1099451049999516,
+      "initialization_seconds": 41.24589639599981,
+      "probe_config": {
+        "stage": "A",
+        "student_token_budget": 16505710,
+        "gradient_accumulation": 12,
+        "learning_rate": 0.00025,
+        "weight_decay": 0.01,
+        "gradient_clip": 1.0,
+        "seed": 20261010,
+        "distractors": 7,
+        "save_every_micro": 100,
+        "data_revision": "ab-v6-natural-keep",
+        "curriculum": "facts",
+        "memory_candidates": 1,
+        "counterfactual_weight": 1.0,
+        "counterfactual_margin": 2.0,
+        "keep_fraction": 0.4,
+        "keep_weight": 1.0,
+        "reuse_frozen_prefix": true,
+        "gdn_inverse": null
+      },
+      "timing_excludes_first_episodes": 2,
+      "measured_student_tokens": 27332,
+      "measured_seconds": 55.452191340999434,
+      "student_tokens_per_second": 492.89305506294147,
+      "episode_mean_seconds": 0.8943901829193457,
+      "episode_median_seconds": 0.827874412000142,
+      "peak_allocated_bytes": 2645960704,
+      "peak_reserved_bytes": 3676307456,
+      "final_progress": {
+        "stage": "A",
+        "optimizer_step": 124,
+        "micro_step": 778,
+        "accumulation_index": 4,
+        "student_tokens": 725320,
+        "teacher_tokens": 60714
+      },
+      "recovery": null,
+      "source_run_modified": false,
+      "formal_training_ledger_modified": false,
+      "source_optimizer_state_loaded": true,
+      "accelerator_rng_explicitly_reinitialized": true,
+      "source_distributed_trajectory_equivalence_claimed": false,
+      "probe_query_normalization_is_single_rank": true,
+      "production_migration_verified": false,
+      "episodes": [
+        {
+          "ordinal": 0,
+          "seconds": 19.347827782999957,
+          "student_tokens": 614,
+          "teacher_tokens": 0,
+          "loss": 0.9124608039855957,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 1,
+          "seconds": 1.3085710129998915,
+          "student_tokens": 614,
+          "teacher_tokens": 0,
+          "loss": 0.7465859055519104,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 2,
+          "seconds": 1.3588865949998308,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.01957857795059681,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 3,
+          "seconds": 1.1389940290000595,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.026887495070695877,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 4,
+          "seconds": 0.7312711070001114,
+          "student_tokens": 257,
+          "teacher_tokens": 79,
+          "loss": 0.007636320311576128,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 5,
+          "seconds": 0.5839934059999905,
+          "student_tokens": 257,
+          "teacher_tokens": 79,
+          "loss": 0.007636320311576128,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 6,
+          "seconds": 0.5297777270000097,
+          "student_tokens": 237,
+          "teacher_tokens": 66,
+          "loss": 0.3205154240131378,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 7,
+          "seconds": 0.5672929049999311,
+          "student_tokens": 237,
+          "teacher_tokens": 66,
+          "loss": 0.3205154240131378,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 8,
+          "seconds": 1.3240328039998985,
+          "student_tokens": 610,
+          "teacher_tokens": 0,
+          "loss": 0.6571136116981506,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 9,
+          "seconds": 1.3067282750000686,
+          "student_tokens": 610,
+          "teacher_tokens": 0,
+          "loss": 0.17557170987129211,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 10,
+          "seconds": 0.5781204540000999,
+          "student_tokens": 295,
+          "teacher_tokens": 117,
+          "loss": 0.0008538420079275966,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 11,
+          "seconds": 0.9244777170001726,
+          "student_tokens": 295,
+          "teacher_tokens": 117,
+          "loss": 0.0008538420079275966,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 12,
+          "seconds": 0.627204939999956,
+          "student_tokens": 326,
+          "teacher_tokens": 148,
+          "loss": 0.001292371773160994,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 13,
+          "seconds": 0.5417596520001098,
+          "student_tokens": 326,
+          "teacher_tokens": 148,
+          "loss": 0.001292371773160994,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 14,
+          "seconds": 1.3099260799999684,
+          "student_tokens": 618,
+          "teacher_tokens": 0,
+          "loss": 0.017231371253728867,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 15,
+          "seconds": 1.1897642960000212,
+          "student_tokens": 618,
+          "teacher_tokens": 0,
+          "loss": 0.05616011843085289,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 16,
+          "seconds": 0.5264390419999927,
+          "student_tokens": 306,
+          "teacher_tokens": 135,
+          "loss": 0.0009887785417959094,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 17,
+          "seconds": 0.49200864299996283,
+          "student_tokens": 306,
+          "teacher_tokens": 135,
+          "loss": 0.0009887785417959094,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 18,
+          "seconds": 1.2315744979998726,
+          "student_tokens": 591,
+          "teacher_tokens": 0,
+          "loss": 0.11808793246746063,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 19,
+          "seconds": 1.2355547480001405,
+          "student_tokens": 591,
+          "teacher_tokens": 0,
+          "loss": 0.20198272168636322,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 20,
+          "seconds": 1.2435122460001367,
+          "student_tokens": 595,
+          "teacher_tokens": 0,
+          "loss": 0.4225841760635376,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 21,
+          "seconds": 1.0689325580001423,
+          "student_tokens": 595,
+          "teacher_tokens": 0,
+          "loss": 0.5647211074829102,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 22,
+          "seconds": 0.521400273999916,
+          "student_tokens": 339,
+          "teacher_tokens": 168,
+          "loss": 0.0013018730096518993,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 23,
+          "seconds": 0.5717946089998804,
+          "student_tokens": 339,
+          "teacher_tokens": 168,
+          "loss": 0.0013018730096518993,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 24,
+          "seconds": 0.47819257300011486,
+          "student_tokens": 238,
+          "teacher_tokens": 60,
+          "loss": 0.20128318667411804,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 25,
+          "seconds": 0.47656974299979993,
+          "student_tokens": 238,
+          "teacher_tokens": 60,
+          "loss": 0.20128318667411804,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 26,
+          "seconds": 1.2312550320000355,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.006395353935658932,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 27,
+          "seconds": 1.2709008369999992,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.026376744732260704,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 28,
+          "seconds": 0.49050601299995833,
+          "student_tokens": 236,
+          "teacher_tokens": 58,
+          "loss": 0.18605200946331024,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 29,
+          "seconds": 0.5809702779999952,
+          "student_tokens": 236,
+          "teacher_tokens": 58,
+          "loss": 0.18605200946331024,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 30,
+          "seconds": 0.5836809369998264,
+          "student_tokens": 233,
+          "teacher_tokens": 62,
+          "loss": 0.8532742857933044,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 31,
+          "seconds": 0.5028007680000428,
+          "student_tokens": 233,
+          "teacher_tokens": 62,
+          "loss": 0.8532742857933044,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 32,
+          "seconds": 1.1055793489999814,
+          "student_tokens": 639,
+          "teacher_tokens": 0,
+          "loss": 1.4076943397521973,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 33,
+          "seconds": 1.1750602660001732,
+          "student_tokens": 639,
+          "teacher_tokens": 0,
+          "loss": 0.656960666179657,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 34,
+          "seconds": 1.2924631099999715,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.4188897907733917,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 35,
+          "seconds": 1.2180670259999715,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.4652118384838104,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 36,
+          "seconds": 0.49335950099998627,
+          "student_tokens": 237,
+          "teacher_tokens": 59,
+          "loss": 0.4294421672821045,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 37,
+          "seconds": 0.49586663599984604,
+          "student_tokens": 237,
+          "teacher_tokens": 59,
+          "loss": 0.4294421672821045,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 38,
+          "seconds": 1.2027614059998086,
+          "student_tokens": 648,
+          "teacher_tokens": 0,
+          "loss": 1.7283087968826294,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 39,
+          "seconds": 1.1291025390000868,
+          "student_tokens": 648,
+          "teacher_tokens": 0,
+          "loss": 1.5908093452453613,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 40,
+          "seconds": 1.2694156589998329,
+          "student_tokens": 614,
+          "teacher_tokens": 0,
+          "loss": 0.294737309217453,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 41,
+          "seconds": 1.1684716060001392,
+          "student_tokens": 614,
+          "teacher_tokens": 0,
+          "loss": 0.1844807118177414,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 42,
+          "seconds": 1.3127098320001096,
+          "student_tokens": 613,
+          "teacher_tokens": 0,
+          "loss": 0.01289856992661953,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 43,
+          "seconds": 1.1585451609998927,
+          "student_tokens": 613,
+          "teacher_tokens": 0,
+          "loss": 0.019643008708953857,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 44,
+          "seconds": 1.1745219360000192,
+          "student_tokens": 639,
+          "teacher_tokens": 0,
+          "loss": 0.02304675057530403,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 45,
+          "seconds": 1.2303451570001016,
+          "student_tokens": 639,
+          "teacher_tokens": 0,
+          "loss": 0.7826850414276123,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 46,
+          "seconds": 1.1687371539999276,
+          "student_tokens": 645,
+          "teacher_tokens": 0,
+          "loss": 1.0401999950408936,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 47,
+          "seconds": 1.333081072999903,
+          "student_tokens": 645,
+          "teacher_tokens": 0,
+          "loss": 1.798034906387329,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 48,
+          "seconds": 0.6265526330000739,
+          "student_tokens": 329,
+          "teacher_tokens": 151,
+          "loss": 0.0008367570117115974,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 49,
+          "seconds": 0.6588942599998973,
+          "student_tokens": 329,
+          "teacher_tokens": 151,
+          "loss": 0.0008367570117115974,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 50,
+          "seconds": 1.1977584419998948,
+          "student_tokens": 618,
+          "teacher_tokens": 0,
+          "loss": 0.5204887390136719,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 51,
+          "seconds": 1.3045302850000553,
+          "student_tokens": 618,
+          "teacher_tokens": 0,
+          "loss": 0.5723465085029602,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 52,
+          "seconds": 0.5563455099998009,
+          "student_tokens": 258,
+          "teacher_tokens": 80,
+          "loss": 0.017474466934800148,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 53,
+          "seconds": 0.6271317020000424,
+          "student_tokens": 258,
+          "teacher_tokens": 80,
+          "loss": 0.017474466934800148,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 54,
+          "seconds": 1.3220065270002124,
+          "student_tokens": 610,
+          "teacher_tokens": 0,
+          "loss": 0.2931841015815735,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 55,
+          "seconds": 1.3397257099998114,
+          "student_tokens": 610,
+          "teacher_tokens": 0,
+          "loss": 0.09056591242551804,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 56,
+          "seconds": 0.6063639039998634,
+          "student_tokens": 236,
+          "teacher_tokens": 58,
+          "loss": 0.1855383813381195,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 57,
+          "seconds": 0.5180531630001042,
+          "student_tokens": 236,
+          "teacher_tokens": 58,
+          "loss": 0.1855383813381195,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 58,
+          "seconds": 0.6766349969998373,
+          "student_tokens": 306,
+          "teacher_tokens": 135,
+          "loss": 0.0011181916343048215,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 59,
+          "seconds": 0.5738421490000292,
+          "student_tokens": 306,
+          "teacher_tokens": 135,
+          "loss": 0.0011181916343048215,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 60,
+          "seconds": 0.5801639240000895,
+          "student_tokens": 337,
+          "teacher_tokens": 166,
+          "loss": 0.0013002369087189436,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 61,
+          "seconds": 0.6166557740000371,
+          "student_tokens": 337,
+          "teacher_tokens": 166,
+          "loss": 0.0013002369087189436,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 62,
+          "seconds": 0.592509826999958,
+          "student_tokens": 232,
+          "teacher_tokens": 61,
+          "loss": 0.12819133698940277,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 63,
+          "seconds": 0.5086123369999314,
+          "student_tokens": 232,
+          "teacher_tokens": 61,
+          "loss": 0.12819133698940277,
+          "family": "language_preservation",
+          "queries": 1
+        }
+      ],
+      "four_full_optimizer_updates_window": {
+        "ordinal_start": 12,
+        "ordinal_end": 59,
+        "episodes": 48,
+        "student_tokens": 22180,
+        "seconds": 44.110674459999245,
+        "student_tokens_per_second": 502.826136111644,
+        "seconds_per_12_episodes": 11.027668614999811
+      },
+      "seconds_per_12_episodes": 10.732682195032147,
+      "remaining_A_compute_hours": 8.90938704632231
+    },
+    "fla-cold": {
+      "status": "cuda_training_copy_diagnostic_only",
+      "mode": "fla",
+      "torch": "2.14.0+cu130",
+      "cuda": "13.0",
+      "transformers": "5.14.1",
+      "device": "NVIDIA GeForce RTX 5080",
+      "source_checkpoint": "micro_000000000714_5559865da6",
+      "source_manifest_sha256": "d7a6d252be6105173e0d4f7df9b2cbf69c942f337c797de0fa2e2f2f4c3f8f4b",
+      "source_progress": {
+        "accumulation_index": 0,
+        "micro_step": 714,
+        "optimizer_step": 119,
+        "stage": "A",
+        "student_tokens": 696760,
+        "teacher_tokens": 57508
+      },
+      "source_world_size": 2,
+      "probe_start_ordinal": 0,
+      "source_cursor_overridden_for_workload_comparison": true,
+      "base_path": "/mnt/e/ds-rsi/artifacts/model/Qwen3.5-0.8B",
+      "output_path": "/mnt/e/ds-rsi/artifacts/5080-comparison/cuda-fla-cold-ordinal0-64",
+      "base_hash_seconds": 6.861519204999922,
+      "base_load_seconds": 7.121795964000057,
+      "source_state_and_trainer_load_seconds": 1.1308327340000233,
+      "initialization_seconds": 41.38577215300006,
+      "probe_config": {
+        "stage": "A",
+        "student_token_budget": 16505710,
+        "gradient_accumulation": 12,
+        "learning_rate": 0.00025,
+        "weight_decay": 0.01,
+        "gradient_clip": 1.0,
+        "seed": 20261010,
+        "distractors": 7,
+        "save_every_micro": 100,
+        "data_revision": "ab-v6-natural-keep",
+        "curriculum": "facts",
+        "memory_candidates": 1,
+        "counterfactual_weight": 1.0,
+        "counterfactual_margin": 2.0,
+        "keep_fraction": 0.4,
+        "keep_weight": 1.0,
+        "reuse_frozen_prefix": true,
+        "gdn_inverse": null
+      },
+      "timing_excludes_first_episodes": 2,
+      "measured_student_tokens": 27332,
+      "measured_seconds": 17.92891727999904,
+      "student_tokens_per_second": 1524.4646161924543,
+      "episode_mean_seconds": 0.28917608516127485,
+      "episode_median_seconds": 0.24953590749987598,
+      "peak_allocated_bytes": 2229255680,
+      "peak_reserved_bytes": 2443182080,
+      "final_progress": {
+        "stage": "A",
+        "optimizer_step": 124,
+        "micro_step": 778,
+        "accumulation_index": 4,
+        "student_tokens": 725320,
+        "teacher_tokens": 60714
+      },
+      "recovery": null,
+      "source_run_modified": false,
+      "formal_training_ledger_modified": false,
+      "source_optimizer_state_loaded": true,
+      "accelerator_rng_explicitly_reinitialized": true,
+      "source_distributed_trajectory_equivalence_claimed": false,
+      "probe_query_normalization_is_single_rank": true,
+      "production_migration_verified": false,
+      "episodes": [
+        {
+          "ordinal": 0,
+          "seconds": 82.14457019600013,
+          "student_tokens": 614,
+          "teacher_tokens": 0,
+          "loss": 0.8834967613220215,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 1,
+          "seconds": 0.3210950100001355,
+          "student_tokens": 614,
+          "teacher_tokens": 0,
+          "loss": 0.7107006907463074,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 2,
+          "seconds": 0.3076743480000914,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.02088114619255066,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 3,
+          "seconds": 0.2724889820001408,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.025671202689409256,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 4,
+          "seconds": 3.0024958990002233,
+          "student_tokens": 257,
+          "teacher_tokens": 79,
+          "loss": 0.007597625255584717,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 5,
+          "seconds": 0.12649212499991336,
+          "student_tokens": 257,
+          "teacher_tokens": 79,
+          "loss": 0.007597625255584717,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 6,
+          "seconds": 0.1442187269999522,
+          "student_tokens": 237,
+          "teacher_tokens": 66,
+          "loss": 0.3229670822620392,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 7,
+          "seconds": 0.1982602120001502,
+          "student_tokens": 237,
+          "teacher_tokens": 66,
+          "loss": 0.3229670822620392,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 8,
+          "seconds": 0.28638365899996643,
+          "student_tokens": 610,
+          "teacher_tokens": 0,
+          "loss": 0.7574536204338074,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 9,
+          "seconds": 0.3299869149996084,
+          "student_tokens": 610,
+          "teacher_tokens": 0,
+          "loss": 0.22516028583049774,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 10,
+          "seconds": 0.12016886700030227,
+          "student_tokens": 295,
+          "teacher_tokens": 117,
+          "loss": 0.0007795229903422296,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 11,
+          "seconds": 0.7193633470001259,
+          "student_tokens": 295,
+          "teacher_tokens": 117,
+          "loss": 0.0007795229903422296,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 12,
+          "seconds": 0.1283919069996955,
+          "student_tokens": 326,
+          "teacher_tokens": 148,
+          "loss": 0.0014107775641605258,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 13,
+          "seconds": 0.11576139699991472,
+          "student_tokens": 326,
+          "teacher_tokens": 148,
+          "loss": 0.0014107775641605258,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 14,
+          "seconds": 0.37904350999997405,
+          "student_tokens": 618,
+          "teacher_tokens": 0,
+          "loss": 0.01593138836324215,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 15,
+          "seconds": 0.2987978699998166,
+          "student_tokens": 618,
+          "teacher_tokens": 0,
+          "loss": 0.06124567613005638,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 16,
+          "seconds": 0.1886832149998554,
+          "student_tokens": 306,
+          "teacher_tokens": 135,
+          "loss": 0.0009456712868995965,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 17,
+          "seconds": 0.18092803600029583,
+          "student_tokens": 306,
+          "teacher_tokens": 135,
+          "loss": 0.0009456712868995965,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 18,
+          "seconds": 0.2543062859999736,
+          "student_tokens": 591,
+          "teacher_tokens": 0,
+          "loss": 0.09499438107013702,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 19,
+          "seconds": 0.3221708750002108,
+          "student_tokens": 591,
+          "teacher_tokens": 0,
+          "loss": 0.1946536898612976,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 20,
+          "seconds": 0.29228493399978106,
+          "student_tokens": 595,
+          "teacher_tokens": 0,
+          "loss": 0.444172739982605,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 21,
+          "seconds": 0.30209571200020946,
+          "student_tokens": 595,
+          "teacher_tokens": 0,
+          "loss": 0.5686613321304321,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 22,
+          "seconds": 0.17403769100019417,
+          "student_tokens": 339,
+          "teacher_tokens": 168,
+          "loss": 0.0013451137347146869,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 23,
+          "seconds": 0.19116575599991847,
+          "student_tokens": 339,
+          "teacher_tokens": 168,
+          "loss": 0.0013451137347146869,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 24,
+          "seconds": 0.2537999410001248,
+          "student_tokens": 238,
+          "teacher_tokens": 60,
+          "loss": 0.25018876791000366,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 25,
+          "seconds": 0.11616780299982565,
+          "student_tokens": 238,
+          "teacher_tokens": 60,
+          "loss": 0.25018876791000366,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 26,
+          "seconds": 0.2844460100000106,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.005196798127144575,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 27,
+          "seconds": 0.3367603759998019,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.02610725909471512,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 28,
+          "seconds": 0.16775749299995368,
+          "student_tokens": 236,
+          "teacher_tokens": 58,
+          "loss": 0.1805487722158432,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 29,
+          "seconds": 0.17081492899978912,
+          "student_tokens": 236,
+          "teacher_tokens": 58,
+          "loss": 0.1805487722158432,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 30,
+          "seconds": 0.13433598599976904,
+          "student_tokens": 233,
+          "teacher_tokens": 62,
+          "loss": 0.9095379114151001,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 31,
+          "seconds": 0.2460335529999611,
+          "student_tokens": 233,
+          "teacher_tokens": 62,
+          "loss": 0.9095379114151001,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 32,
+          "seconds": 0.2250960540000051,
+          "student_tokens": 639,
+          "teacher_tokens": 0,
+          "loss": 1.389966368675232,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 33,
+          "seconds": 0.3546072889998868,
+          "student_tokens": 639,
+          "teacher_tokens": 0,
+          "loss": 0.643665611743927,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 34,
+          "seconds": 0.30354048900017006,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.41885146498680115,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 35,
+          "seconds": 0.35198240399995484,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.4637744128704071,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 36,
+          "seconds": 0.12999432400010846,
+          "student_tokens": 237,
+          "teacher_tokens": 59,
+          "loss": 0.45170480012893677,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 37,
+          "seconds": 0.17342393299986725,
+          "student_tokens": 237,
+          "teacher_tokens": 59,
+          "loss": 0.45170480012893677,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 38,
+          "seconds": 0.317491699999664,
+          "student_tokens": 648,
+          "teacher_tokens": 0,
+          "loss": 1.7283598184585571,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 39,
+          "seconds": 0.26019429899997704,
+          "student_tokens": 648,
+          "teacher_tokens": 0,
+          "loss": 1.5461463928222656,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 40,
+          "seconds": 0.33377068199979476,
+          "student_tokens": 614,
+          "teacher_tokens": 0,
+          "loss": 0.28744134306907654,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 41,
+          "seconds": 0.23872498299988365,
+          "student_tokens": 614,
+          "teacher_tokens": 0,
+          "loss": 0.17383262515068054,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 42,
+          "seconds": 0.33288579899999604,
+          "student_tokens": 613,
+          "teacher_tokens": 0,
+          "loss": 0.013531864620745182,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 43,
+          "seconds": 0.3780250220002017,
+          "student_tokens": 613,
+          "teacher_tokens": 0,
+          "loss": 0.019376974552869797,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 44,
+          "seconds": 0.3878106470001512,
+          "student_tokens": 639,
+          "teacher_tokens": 0,
+          "loss": 0.02320285327732563,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 45,
+          "seconds": 0.3446895379997841,
+          "student_tokens": 639,
+          "teacher_tokens": 0,
+          "loss": 0.7558360695838928,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 46,
+          "seconds": 0.2880039469996518,
+          "student_tokens": 645,
+          "teacher_tokens": 0,
+          "loss": 1.1055917739868164,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 47,
+          "seconds": 0.3534982900000614,
+          "student_tokens": 645,
+          "teacher_tokens": 0,
+          "loss": 1.7970232963562012,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 48,
+          "seconds": 0.17563765100021556,
+          "student_tokens": 329,
+          "teacher_tokens": 151,
+          "loss": 0.0009665714460425079,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 49,
+          "seconds": 0.16808432600009837,
+          "student_tokens": 329,
+          "teacher_tokens": 151,
+          "loss": 0.0009665714460425079,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 50,
+          "seconds": 0.3527782709998064,
+          "student_tokens": 618,
+          "teacher_tokens": 0,
+          "loss": 0.5534669756889343,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 51,
+          "seconds": 0.25303826199979085,
+          "student_tokens": 618,
+          "teacher_tokens": 0,
+          "loss": 0.5773282051086426,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 52,
+          "seconds": 0.12259928200001013,
+          "student_tokens": 258,
+          "teacher_tokens": 80,
+          "loss": 0.017192654311656952,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 53,
+          "seconds": 0.15121225699977003,
+          "student_tokens": 258,
+          "teacher_tokens": 80,
+          "loss": 0.017192654311656952,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 54,
+          "seconds": 0.31428294899978937,
+          "student_tokens": 610,
+          "teacher_tokens": 0,
+          "loss": 0.2949788272380829,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 55,
+          "seconds": 0.3072970010002791,
+          "student_tokens": 610,
+          "teacher_tokens": 0,
+          "loss": 0.0927353948354721,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 56,
+          "seconds": 0.13120003999983965,
+          "student_tokens": 236,
+          "teacher_tokens": 58,
+          "loss": 0.1964997500181198,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 57,
+          "seconds": 0.13208323600019867,
+          "student_tokens": 236,
+          "teacher_tokens": 58,
+          "loss": 0.1964997500181198,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 58,
+          "seconds": 0.16183912199994666,
+          "student_tokens": 306,
+          "teacher_tokens": 135,
+          "loss": 0.0011030108435079455,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 59,
+          "seconds": 0.18169830700026068,
+          "student_tokens": 306,
+          "teacher_tokens": 135,
+          "loss": 0.0011030108435079455,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 60,
+          "seconds": 0.1556177350003054,
+          "student_tokens": 337,
+          "teacher_tokens": 166,
+          "loss": 0.0010391275864094496,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 61,
+          "seconds": 0.19230899700005466,
+          "student_tokens": 337,
+          "teacher_tokens": 166,
+          "loss": 0.0010391275864094496,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 62,
+          "seconds": 0.16223033100004614,
+          "student_tokens": 232,
+          "teacher_tokens": 61,
+          "loss": 0.13040706515312195,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 63,
+          "seconds": 0.14795375199992122,
+          "student_tokens": 232,
+          "teacher_tokens": 61,
+          "loss": 0.13040706515312195,
+          "family": "language_preservation",
+          "queries": 1
+        }
+      ],
+      "four_full_optimizer_updates_window": {
+        "ordinal_start": 12,
+        "ordinal_end": 59,
+        "episodes": 48,
+        "student_tokens": 22180,
+        "seconds": 11.76327338399824,
+        "student_tokens_per_second": 1885.5295865325882,
+        "seconds_per_12_episodes": 2.94081834599956
+      },
+      "seconds_per_12_episodes": 3.4701130219352985,
+      "remaining_A_compute_hours": 2.8806014605757277
+    },
+    "fla-warm": {
+      "status": "cuda_training_copy_diagnostic_only",
+      "mode": "fla",
+      "torch": "2.14.0+cu130",
+      "cuda": "13.0",
+      "transformers": "5.14.1",
+      "device": "NVIDIA GeForce RTX 5080",
+      "source_checkpoint": "micro_000000000714_5559865da6",
+      "source_manifest_sha256": "d7a6d252be6105173e0d4f7df9b2cbf69c942f337c797de0fa2e2f2f4c3f8f4b",
+      "source_progress": {
+        "accumulation_index": 0,
+        "micro_step": 714,
+        "optimizer_step": 119,
+        "stage": "A",
+        "student_tokens": 696760,
+        "teacher_tokens": 57508
+      },
+      "source_world_size": 2,
+      "probe_start_ordinal": 0,
+      "source_cursor_overridden_for_workload_comparison": true,
+      "base_path": "/mnt/e/ds-rsi/artifacts/model/Qwen3.5-0.8B",
+      "output_path": "/mnt/e/ds-rsi/artifacts/5080-comparison/cuda-fla-warm-ordinal0-64",
+      "base_hash_seconds": 7.093576534000022,
+      "base_load_seconds": 7.304662220999944,
+      "source_state_and_trainer_load_seconds": 1.119731154999954,
+      "initialization_seconds": 42.15226842400034,
+      "probe_config": {
+        "stage": "A",
+        "student_token_budget": 16505710,
+        "gradient_accumulation": 12,
+        "learning_rate": 0.00025,
+        "weight_decay": 0.01,
+        "gradient_clip": 1.0,
+        "seed": 20261010,
+        "distractors": 7,
+        "save_every_micro": 100,
+        "data_revision": "ab-v6-natural-keep",
+        "curriculum": "facts",
+        "memory_candidates": 1,
+        "counterfactual_weight": 1.0,
+        "counterfactual_margin": 2.0,
+        "keep_fraction": 0.4,
+        "keep_weight": 1.0,
+        "reuse_frozen_prefix": true,
+        "gdn_inverse": null
+      },
+      "timing_excludes_first_episodes": 2,
+      "measured_student_tokens": 27332,
+      "measured_seconds": 21.519604563001394,
+      "student_tokens_per_second": 1270.097687900448,
+      "episode_mean_seconds": 0.34709039617744186,
+      "episode_median_seconds": 0.22697820400003366,
+      "peak_allocated_bytes": 2229184000,
+      "peak_reserved_bytes": 2734686208,
+      "final_progress": {
+        "stage": "A",
+        "optimizer_step": 124,
+        "micro_step": 778,
+        "accumulation_index": 4,
+        "student_tokens": 725320,
+        "teacher_tokens": 60714
+      },
+      "recovery": null,
+      "source_run_modified": false,
+      "formal_training_ledger_modified": false,
+      "source_optimizer_state_loaded": true,
+      "accelerator_rng_explicitly_reinitialized": true,
+      "source_distributed_trajectory_equivalence_claimed": false,
+      "probe_query_normalization_is_single_rank": true,
+      "production_migration_verified": false,
+      "episodes": [
+        {
+          "ordinal": 0,
+          "seconds": 6.1571015220001755,
+          "student_tokens": 614,
+          "teacher_tokens": 0,
+          "loss": 0.8834967613220215,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 1,
+          "seconds": 0.3210276630002227,
+          "student_tokens": 614,
+          "teacher_tokens": 0,
+          "loss": 0.7107006907463074,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 2,
+          "seconds": 0.3131471840001723,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.02088114619255066,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 3,
+          "seconds": 0.3002676200003407,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.025671202689409256,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 4,
+          "seconds": 3.916492989999824,
+          "student_tokens": 257,
+          "teacher_tokens": 79,
+          "loss": 0.007597625255584717,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 5,
+          "seconds": 0.17982506699991063,
+          "student_tokens": 257,
+          "teacher_tokens": 79,
+          "loss": 0.007597625255584717,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 6,
+          "seconds": 0.17096383799980686,
+          "student_tokens": 237,
+          "teacher_tokens": 66,
+          "loss": 0.3229670822620392,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 7,
+          "seconds": 0.14200726299986854,
+          "student_tokens": 237,
+          "teacher_tokens": 66,
+          "loss": 0.3229670822620392,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 8,
+          "seconds": 0.30377408899994407,
+          "student_tokens": 610,
+          "teacher_tokens": 0,
+          "loss": 0.7574536204338074,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 9,
+          "seconds": 0.23387820200014175,
+          "student_tokens": 610,
+          "teacher_tokens": 0,
+          "loss": 0.22516028583049774,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 10,
+          "seconds": 0.13591852599984122,
+          "student_tokens": 295,
+          "teacher_tokens": 117,
+          "loss": 0.0007795229903422296,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 11,
+          "seconds": 4.030830330999834,
+          "student_tokens": 295,
+          "teacher_tokens": 117,
+          "loss": 0.0007795229903422296,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 12,
+          "seconds": 0.16627161800033718,
+          "student_tokens": 326,
+          "teacher_tokens": 148,
+          "loss": 0.0014107775641605258,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 13,
+          "seconds": 0.13775614300038797,
+          "student_tokens": 326,
+          "teacher_tokens": 148,
+          "loss": 0.0014107775641605258,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 14,
+          "seconds": 0.2792265619996215,
+          "student_tokens": 618,
+          "teacher_tokens": 0,
+          "loss": 0.01593138836324215,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 15,
+          "seconds": 0.2714179719996537,
+          "student_tokens": 618,
+          "teacher_tokens": 0,
+          "loss": 0.06124567613005638,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 16,
+          "seconds": 0.12869752899996456,
+          "student_tokens": 306,
+          "teacher_tokens": 135,
+          "loss": 0.0009456712868995965,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 17,
+          "seconds": 0.19859728799974619,
+          "student_tokens": 306,
+          "teacher_tokens": 135,
+          "loss": 0.0009456712868995965,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 18,
+          "seconds": 0.22007820599992556,
+          "student_tokens": 591,
+          "teacher_tokens": 0,
+          "loss": 0.09499438107013702,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 19,
+          "seconds": 0.25533880000011777,
+          "student_tokens": 591,
+          "teacher_tokens": 0,
+          "loss": 0.1946536898612976,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 20,
+          "seconds": 0.28651885800036325,
+          "student_tokens": 595,
+          "teacher_tokens": 0,
+          "loss": 0.444172739982605,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 21,
+          "seconds": 0.2637754090001181,
+          "student_tokens": 595,
+          "teacher_tokens": 0,
+          "loss": 0.5686613321304321,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 22,
+          "seconds": 0.17306411800018395,
+          "student_tokens": 339,
+          "teacher_tokens": 168,
+          "loss": 0.0013451137347146869,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 23,
+          "seconds": 0.21303116800027055,
+          "student_tokens": 339,
+          "teacher_tokens": 168,
+          "loss": 0.0013451137347146869,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 24,
+          "seconds": 0.17228388699959396,
+          "student_tokens": 238,
+          "teacher_tokens": 60,
+          "loss": 0.25018876791000366,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 25,
+          "seconds": 0.10229500400009783,
+          "student_tokens": 238,
+          "teacher_tokens": 60,
+          "loss": 0.25018876791000366,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 26,
+          "seconds": 0.2742148960001032,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.005196798127144575,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 27,
+          "seconds": 0.2814728980001746,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.02610725909471512,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 28,
+          "seconds": 0.14680078899982618,
+          "student_tokens": 236,
+          "teacher_tokens": 58,
+          "loss": 0.1805487722158432,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 29,
+          "seconds": 0.15681398300012006,
+          "student_tokens": 236,
+          "teacher_tokens": 58,
+          "loss": 0.1805487722158432,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 30,
+          "seconds": 0.16723376100026144,
+          "student_tokens": 233,
+          "teacher_tokens": 62,
+          "loss": 0.9095379114151001,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 31,
+          "seconds": 0.11794181000004755,
+          "student_tokens": 233,
+          "teacher_tokens": 62,
+          "loss": 0.9095379114151001,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 32,
+          "seconds": 0.3146236819998194,
+          "student_tokens": 639,
+          "teacher_tokens": 0,
+          "loss": 1.389966368675232,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 33,
+          "seconds": 0.30193239600021116,
+          "student_tokens": 639,
+          "teacher_tokens": 0,
+          "loss": 0.643665611743927,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 34,
+          "seconds": 0.24097650500016243,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.41885146498680115,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 35,
+          "seconds": 0.25301907199991547,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.4637744128704071,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 36,
+          "seconds": 0.11332107700036431,
+          "student_tokens": 237,
+          "teacher_tokens": 59,
+          "loss": 0.45170480012893677,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 37,
+          "seconds": 0.11429268700021566,
+          "student_tokens": 237,
+          "teacher_tokens": 59,
+          "loss": 0.45170480012893677,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 38,
+          "seconds": 0.3596101819998694,
+          "student_tokens": 648,
+          "teacher_tokens": 0,
+          "loss": 1.7283598184585571,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 39,
+          "seconds": 0.2632371519998742,
+          "student_tokens": 648,
+          "teacher_tokens": 0,
+          "loss": 1.5461463928222656,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 40,
+          "seconds": 0.3884209370003191,
+          "student_tokens": 614,
+          "teacher_tokens": 0,
+          "loss": 0.28744134306907654,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 41,
+          "seconds": 0.32715792399994825,
+          "student_tokens": 614,
+          "teacher_tokens": 0,
+          "loss": 0.17383262515068054,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 42,
+          "seconds": 0.2563969990001169,
+          "student_tokens": 613,
+          "teacher_tokens": 0,
+          "loss": 0.013531864620745182,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 43,
+          "seconds": 0.33989824499985843,
+          "student_tokens": 613,
+          "teacher_tokens": 0,
+          "loss": 0.019376974552869797,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 44,
+          "seconds": 0.29955508100010775,
+          "student_tokens": 639,
+          "teacher_tokens": 0,
+          "loss": 0.02320285327732563,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 45,
+          "seconds": 0.3142969339996853,
+          "student_tokens": 639,
+          "teacher_tokens": 0,
+          "loss": 0.7558360695838928,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 46,
+          "seconds": 0.38100849500006007,
+          "student_tokens": 645,
+          "teacher_tokens": 0,
+          "loss": 1.1055917739868164,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 47,
+          "seconds": 0.3233940189998066,
+          "student_tokens": 645,
+          "teacher_tokens": 0,
+          "loss": 1.7970232963562012,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 48,
+          "seconds": 0.1286174970000502,
+          "student_tokens": 329,
+          "teacher_tokens": 151,
+          "loss": 0.0009665714460425079,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 49,
+          "seconds": 0.13853299699985655,
+          "student_tokens": 329,
+          "teacher_tokens": 151,
+          "loss": 0.0009665714460425079,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 50,
+          "seconds": 0.29842534499994144,
+          "student_tokens": 618,
+          "teacher_tokens": 0,
+          "loss": 0.5534669756889343,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 51,
+          "seconds": 0.26641697500008377,
+          "student_tokens": 618,
+          "teacher_tokens": 0,
+          "loss": 0.5773282051086426,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 52,
+          "seconds": 0.15683881599989036,
+          "student_tokens": 258,
+          "teacher_tokens": 80,
+          "loss": 0.017192654311656952,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 53,
+          "seconds": 0.209859848999713,
+          "student_tokens": 258,
+          "teacher_tokens": 80,
+          "loss": 0.017192654311656952,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 54,
+          "seconds": 0.2658652620002613,
+          "student_tokens": 610,
+          "teacher_tokens": 0,
+          "loss": 0.2949788272380829,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 55,
+          "seconds": 0.3675556390003294,
+          "student_tokens": 610,
+          "teacher_tokens": 0,
+          "loss": 0.0927353948354721,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 56,
+          "seconds": 0.1679168360001313,
+          "student_tokens": 236,
+          "teacher_tokens": 58,
+          "loss": 0.1964997500181198,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 57,
+          "seconds": 0.17204995199972473,
+          "student_tokens": 236,
+          "teacher_tokens": 58,
+          "loss": 0.1964997500181198,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 58,
+          "seconds": 0.13456749200031481,
+          "student_tokens": 306,
+          "teacher_tokens": 135,
+          "loss": 0.0011030108435079455,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 59,
+          "seconds": 0.2106168020000041,
+          "student_tokens": 306,
+          "teacher_tokens": 135,
+          "loss": 0.0011030108435079455,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 60,
+          "seconds": 0.138993518999996,
+          "student_tokens": 337,
+          "teacher_tokens": 166,
+          "loss": 0.0010391275864094496,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 61,
+          "seconds": 0.18893145900028685,
+          "student_tokens": 337,
+          "teacher_tokens": 166,
+          "loss": 0.0010391275864094496,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 62,
+          "seconds": 0.16853141100000357,
+          "student_tokens": 232,
+          "teacher_tokens": 61,
+          "loss": 0.13040706515312195,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 63,
+          "seconds": 0.17480751599987343,
+          "student_tokens": 232,
+          "teacher_tokens": 61,
+          "loss": 0.13040706515312195,
+          "family": "language_preservation",
+          "queries": 1
+        }
+      ],
+      "four_full_optimizer_updates_window": {
+        "ordinal_start": 12,
+        "ordinal_end": 59,
+        "episodes": 48,
+        "student_tokens": 22180,
+        "seconds": 11.12123554800155,
+        "student_tokens_per_second": 1994.3827198216006,
+        "seconds_per_12_episodes": 2.7803088870003876
+      },
+      "seconds_per_12_episodes": 4.165084754129302,
+      "remaining_A_compute_hours": 3.4575096402696563
+    },
+    "fla-repeat3": {
+      "status": "cuda_training_copy_diagnostic_only",
+      "mode": "fla",
+      "torch": "2.14.0+cu130",
+      "cuda": "13.0",
+      "transformers": "5.14.1",
+      "device": "NVIDIA GeForce RTX 5080",
+      "source_checkpoint": "micro_000000000714_5559865da6",
+      "source_manifest_sha256": "d7a6d252be6105173e0d4f7df9b2cbf69c942f337c797de0fa2e2f2f4c3f8f4b",
+      "source_progress": {
+        "accumulation_index": 0,
+        "micro_step": 714,
+        "optimizer_step": 119,
+        "stage": "A",
+        "student_tokens": 696760,
+        "teacher_tokens": 57508
+      },
+      "source_world_size": 2,
+      "probe_start_ordinal": 0,
+      "source_cursor_overridden_for_workload_comparison": true,
+      "base_path": "/mnt/e/ds-rsi/artifacts/model/Qwen3.5-0.8B",
+      "output_path": "/mnt/e/ds-rsi/artifacts/5080-comparison/cuda-fla-repeat3-ordinal0-64",
+      "base_hash_seconds": 6.882530763999966,
+      "base_load_seconds": 7.225210323999818,
+      "source_state_and_trainer_load_seconds": 1.15502787000014,
+      "initialization_seconds": 41.903398713000115,
+      "probe_config": {
+        "stage": "A",
+        "student_token_budget": 16505710,
+        "gradient_accumulation": 12,
+        "learning_rate": 0.00025,
+        "weight_decay": 0.01,
+        "gradient_clip": 1.0,
+        "seed": 20261010,
+        "distractors": 7,
+        "save_every_micro": 100,
+        "data_revision": "ab-v6-natural-keep",
+        "curriculum": "facts",
+        "memory_candidates": 1,
+        "counterfactual_weight": 1.0,
+        "counterfactual_margin": 2.0,
+        "keep_fraction": 0.4,
+        "keep_weight": 1.0,
+        "reuse_frozen_prefix": true,
+        "gdn_inverse": null
+      },
+      "timing_excludes_first_episodes": 2,
+      "measured_student_tokens": 27332,
+      "measured_seconds": 15.3524596379998,
+      "student_tokens_per_second": 1780.3010491132584,
+      "episode_mean_seconds": 0.24762031674193227,
+      "episode_median_seconds": 0.24168039250002948,
+      "peak_allocated_bytes": 2229184000,
+      "peak_reserved_bytes": 2734686208,
+      "final_progress": {
+        "stage": "A",
+        "optimizer_step": 124,
+        "micro_step": 778,
+        "accumulation_index": 4,
+        "student_tokens": 725320,
+        "teacher_tokens": 60714
+      },
+      "recovery": null,
+      "source_run_modified": false,
+      "formal_training_ledger_modified": false,
+      "source_optimizer_state_loaded": true,
+      "accelerator_rng_explicitly_reinitialized": true,
+      "source_distributed_trajectory_equivalence_claimed": false,
+      "probe_query_normalization_is_single_rank": true,
+      "production_migration_verified": false,
+      "episodes": [
+        {
+          "ordinal": 0,
+          "seconds": 6.509466716000134,
+          "student_tokens": 614,
+          "teacher_tokens": 0,
+          "loss": 0.8834967613220215,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 1,
+          "seconds": 0.27958836900006645,
+          "student_tokens": 614,
+          "teacher_tokens": 0,
+          "loss": 0.7107006907463074,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 2,
+          "seconds": 0.2859490199998618,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.02088114619255066,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 3,
+          "seconds": 0.35760739400029706,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.025671202689409256,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 4,
+          "seconds": 0.8433904939997774,
+          "student_tokens": 257,
+          "teacher_tokens": 79,
+          "loss": 0.007597625255584717,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 5,
+          "seconds": 0.18124644699992132,
+          "student_tokens": 257,
+          "teacher_tokens": 79,
+          "loss": 0.007597625255584717,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 6,
+          "seconds": 0.13256665599965345,
+          "student_tokens": 237,
+          "teacher_tokens": 66,
+          "loss": 0.3229670822620392,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 7,
+          "seconds": 0.11780540599966116,
+          "student_tokens": 237,
+          "teacher_tokens": 66,
+          "loss": 0.3229670822620392,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 8,
+          "seconds": 0.2510254549997626,
+          "student_tokens": 610,
+          "teacher_tokens": 0,
+          "loss": 0.7574536204338074,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 9,
+          "seconds": 0.28827931500018167,
+          "student_tokens": 610,
+          "teacher_tokens": 0,
+          "loss": 0.22516028583049774,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 10,
+          "seconds": 0.16188188700016326,
+          "student_tokens": 295,
+          "teacher_tokens": 117,
+          "loss": 0.0007795229903422296,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 11,
+          "seconds": 0.6746304850003071,
+          "student_tokens": 295,
+          "teacher_tokens": 117,
+          "loss": 0.0007795229903422296,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 12,
+          "seconds": 0.1934403650002423,
+          "student_tokens": 326,
+          "teacher_tokens": 148,
+          "loss": 0.0014107775641605258,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 13,
+          "seconds": 0.16305216699993252,
+          "student_tokens": 326,
+          "teacher_tokens": 148,
+          "loss": 0.0014107775641605258,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 14,
+          "seconds": 0.30426110600001266,
+          "student_tokens": 618,
+          "teacher_tokens": 0,
+          "loss": 0.01593138836324215,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 15,
+          "seconds": 0.3480431990001307,
+          "student_tokens": 618,
+          "teacher_tokens": 0,
+          "loss": 0.06124567613005638,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 16,
+          "seconds": 0.19359581199978493,
+          "student_tokens": 306,
+          "teacher_tokens": 135,
+          "loss": 0.0009456712868995965,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 17,
+          "seconds": 0.1352497900002163,
+          "student_tokens": 306,
+          "teacher_tokens": 135,
+          "loss": 0.0009456712868995965,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 18,
+          "seconds": 0.2366920360000222,
+          "student_tokens": 591,
+          "teacher_tokens": 0,
+          "loss": 0.09499438107013702,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 19,
+          "seconds": 0.42805364300011206,
+          "student_tokens": 591,
+          "teacher_tokens": 0,
+          "loss": 0.1946536898612976,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 20,
+          "seconds": 0.2954089820000263,
+          "student_tokens": 595,
+          "teacher_tokens": 0,
+          "loss": 0.444172739982605,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 21,
+          "seconds": 0.42660810799998217,
+          "student_tokens": 595,
+          "teacher_tokens": 0,
+          "loss": 0.5686613321304321,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 22,
+          "seconds": 0.1487957849999475,
+          "student_tokens": 339,
+          "teacher_tokens": 168,
+          "loss": 0.0013451137347146869,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 23,
+          "seconds": 0.1250299889998132,
+          "student_tokens": 339,
+          "teacher_tokens": 168,
+          "loss": 0.0013451137347146869,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 24,
+          "seconds": 0.16249074300003485,
+          "student_tokens": 238,
+          "teacher_tokens": 60,
+          "loss": 0.25018876791000366,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 25,
+          "seconds": 0.19164866099981737,
+          "student_tokens": 238,
+          "teacher_tokens": 60,
+          "loss": 0.25018876791000366,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 26,
+          "seconds": 0.24666874900003677,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.005196798127144575,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 27,
+          "seconds": 0.2469022360000963,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.02610725909471512,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 28,
+          "seconds": 0.21289223700023285,
+          "student_tokens": 236,
+          "teacher_tokens": 58,
+          "loss": 0.1805487722158432,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 29,
+          "seconds": 0.15560927900014576,
+          "student_tokens": 236,
+          "teacher_tokens": 58,
+          "loss": 0.1805487722158432,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 30,
+          "seconds": 0.12832630100001552,
+          "student_tokens": 233,
+          "teacher_tokens": 62,
+          "loss": 0.9095379114151001,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 31,
+          "seconds": 0.13230126999997083,
+          "student_tokens": 233,
+          "teacher_tokens": 62,
+          "loss": 0.9095379114151001,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 32,
+          "seconds": 0.3049898129997928,
+          "student_tokens": 639,
+          "teacher_tokens": 0,
+          "loss": 1.389966368675232,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 33,
+          "seconds": 0.29556072199966366,
+          "student_tokens": 639,
+          "teacher_tokens": 0,
+          "loss": 0.643665611743927,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 34,
+          "seconds": 0.255681604000074,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.41885146498680115,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 35,
+          "seconds": 0.23509678500022346,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.4637744128704071,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 36,
+          "seconds": 0.13949115100012932,
+          "student_tokens": 237,
+          "teacher_tokens": 59,
+          "loss": 0.45170480012893677,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 37,
+          "seconds": 0.14716754699975354,
+          "student_tokens": 237,
+          "teacher_tokens": 59,
+          "loss": 0.45170480012893677,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 38,
+          "seconds": 0.30811872800040874,
+          "student_tokens": 648,
+          "teacher_tokens": 0,
+          "loss": 1.7283598184585571,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 39,
+          "seconds": 0.26417881100041996,
+          "student_tokens": 648,
+          "teacher_tokens": 0,
+          "loss": 1.5461463928222656,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 40,
+          "seconds": 0.2748907589998453,
+          "student_tokens": 614,
+          "teacher_tokens": 0,
+          "loss": 0.28744134306907654,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 41,
+          "seconds": 0.33874771199998577,
+          "student_tokens": 614,
+          "teacher_tokens": 0,
+          "loss": 0.17383262515068054,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 42,
+          "seconds": 0.3315038490000006,
+          "student_tokens": 613,
+          "teacher_tokens": 0,
+          "loss": 0.013531864620745182,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 43,
+          "seconds": 0.28973667599984765,
+          "student_tokens": 613,
+          "teacher_tokens": 0,
+          "loss": 0.019376974552869797,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 44,
+          "seconds": 0.2653508809999039,
+          "student_tokens": 639,
+          "teacher_tokens": 0,
+          "loss": 0.02320285327732563,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 45,
+          "seconds": 0.259239258999969,
+          "student_tokens": 639,
+          "teacher_tokens": 0,
+          "loss": 0.7558360695838928,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 46,
+          "seconds": 0.2934964740002215,
+          "student_tokens": 645,
+          "teacher_tokens": 0,
+          "loss": 1.1055917739868164,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 47,
+          "seconds": 0.28003698799966514,
+          "student_tokens": 645,
+          "teacher_tokens": 0,
+          "loss": 1.7970232963562012,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 48,
+          "seconds": 0.15334871799996108,
+          "student_tokens": 329,
+          "teacher_tokens": 151,
+          "loss": 0.0009665714460425079,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 49,
+          "seconds": 0.1789830540001276,
+          "student_tokens": 329,
+          "teacher_tokens": 151,
+          "loss": 0.0009665714460425079,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 50,
+          "seconds": 0.25390943499996865,
+          "student_tokens": 618,
+          "teacher_tokens": 0,
+          "loss": 0.5534669756889343,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 51,
+          "seconds": 0.26742668999986563,
+          "student_tokens": 618,
+          "teacher_tokens": 0,
+          "loss": 0.5773282051086426,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 52,
+          "seconds": 0.12676258100009363,
+          "student_tokens": 258,
+          "teacher_tokens": 80,
+          "loss": 0.017192654311656952,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 53,
+          "seconds": 0.14232883400018181,
+          "student_tokens": 258,
+          "teacher_tokens": 80,
+          "loss": 0.017192654311656952,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 54,
+          "seconds": 0.4387525019997156,
+          "student_tokens": 610,
+          "teacher_tokens": 0,
+          "loss": 0.2949788272380829,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 55,
+          "seconds": 0.34491236300027595,
+          "student_tokens": 610,
+          "teacher_tokens": 0,
+          "loss": 0.0927353948354721,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 56,
+          "seconds": 0.13365738800030158,
+          "student_tokens": 236,
+          "teacher_tokens": 58,
+          "loss": 0.1964997500181198,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 57,
+          "seconds": 0.2827436210000087,
+          "student_tokens": 236,
+          "teacher_tokens": 58,
+          "loss": 0.1964997500181198,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 58,
+          "seconds": 0.13865031899968017,
+          "student_tokens": 306,
+          "teacher_tokens": 135,
+          "loss": 0.0011030108435079455,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 59,
+          "seconds": 0.16793672099993273,
+          "student_tokens": 306,
+          "teacher_tokens": 135,
+          "loss": 0.0011030108435079455,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 60,
+          "seconds": 0.16582475699988208,
+          "student_tokens": 337,
+          "teacher_tokens": 166,
+          "loss": 0.0010391275864094496,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 61,
+          "seconds": 0.146832029000052,
+          "student_tokens": 337,
+          "teacher_tokens": 166,
+          "loss": 0.0010391275864094496,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 62,
+          "seconds": 0.17602517399973294,
+          "student_tokens": 232,
+          "teacher_tokens": 61,
+          "loss": 0.13040706515312195,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 63,
+          "seconds": 0.1816246759999558,
+          "student_tokens": 232,
+          "teacher_tokens": 61,
+          "loss": 0.13040706515312195,
+          "family": "language_preservation",
+          "queries": 1
+        }
+      ],
+      "four_full_optimizer_updates_window": {
+        "ordinal_start": 12,
+        "ordinal_end": 59,
+        "episodes": 48,
+        "student_tokens": 22180,
+        "seconds": 11.38777044300059,
+        "student_tokens_per_second": 1947.7034693505589,
+        "seconds_per_12_episodes": 2.8469426107501477
+      },
+      "seconds_per_12_episodes": 2.971443800903187,
+      "remaining_A_compute_hours": 2.4666474258313107
+    },
+    "fla-fullwarm": {
+      "status": "cuda_training_copy_diagnostic_only",
+      "mode": "fla",
+      "torch": "2.14.0+cu130",
+      "cuda": "13.0",
+      "transformers": "5.14.1",
+      "device": "NVIDIA GeForce RTX 5080",
+      "source_checkpoint": "micro_000000000714_5559865da6",
+      "source_manifest_sha256": "d7a6d252be6105173e0d4f7df9b2cbf69c942f337c797de0fa2e2f2f4c3f8f4b",
+      "source_progress": {
+        "accumulation_index": 0,
+        "micro_step": 714,
+        "optimizer_step": 119,
+        "stage": "A",
+        "student_tokens": 696760,
+        "teacher_tokens": 57508
+      },
+      "source_world_size": 2,
+      "probe_start_ordinal": 0,
+      "source_cursor_overridden_for_workload_comparison": true,
+      "base_path": "/mnt/e/ds-rsi/artifacts/model/Qwen3.5-0.8B",
+      "output_path": "/mnt/e/ds-rsi/artifacts/5080-comparison/cuda-fla-fullwarm-ordinal0-64",
+      "base_hash_seconds": 7.055648869000379,
+      "base_load_seconds": 6.976063780000004,
+      "source_state_and_trainer_load_seconds": 1.137296681999942,
+      "initialization_seconds": 41.6738686409999,
+      "warmup": {
+        "episodes": 64,
+        "student_tokens": 28560,
+        "teacher_tokens": 3206,
+        "seconds": 21.545616566000263
+      },
+      "probe_config": {
+        "stage": "A",
+        "student_token_budget": 16505710,
+        "gradient_accumulation": 12,
+        "learning_rate": 0.00025,
+        "weight_decay": 0.01,
+        "gradient_clip": 1.0,
+        "seed": 20261010,
+        "distractors": 7,
+        "save_every_micro": 100,
+        "data_revision": "ab-v6-natural-keep",
+        "curriculum": "facts",
+        "memory_candidates": 1,
+        "counterfactual_weight": 1.0,
+        "counterfactual_margin": 2.0,
+        "keep_fraction": 0.4,
+        "keep_weight": 1.0,
+        "reuse_frozen_prefix": true,
+        "gdn_inverse": null
+      },
+      "timing_excludes_first_episodes": 2,
+      "measured_student_tokens": 27332,
+      "measured_seconds": 14.147652283000298,
+      "student_tokens_per_second": 1931.91064165762,
+      "episode_mean_seconds": 0.2281879400483919,
+      "episode_median_seconds": 0.22179062099985458,
+      "peak_allocated_bytes": 2229184000,
+      "peak_reserved_bytes": 2734686208,
+      "final_progress": {
+        "stage": "A",
+        "optimizer_step": 124,
+        "micro_step": 778,
+        "accumulation_index": 4,
+        "student_tokens": 725320,
+        "teacher_tokens": 60714
+      },
+      "recovery": null,
+      "source_run_modified": false,
+      "formal_training_ledger_modified": false,
+      "source_optimizer_state_loaded": true,
+      "accelerator_rng_explicitly_reinitialized": true,
+      "source_distributed_trajectory_equivalence_claimed": false,
+      "probe_query_normalization_is_single_rank": true,
+      "production_migration_verified": false,
+      "episodes": [
+        {
+          "ordinal": 0,
+          "seconds": 0.3670508029999837,
+          "student_tokens": 614,
+          "teacher_tokens": 0,
+          "loss": 0.8834967613220215,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 1,
+          "seconds": 0.4225859389998732,
+          "student_tokens": 614,
+          "teacher_tokens": 0,
+          "loss": 0.7107006907463074,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 2,
+          "seconds": 0.2682598749997851,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.02088114619255066,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 3,
+          "seconds": 0.26929754799994043,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.025671202689409256,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 4,
+          "seconds": 0.16357528100024865,
+          "student_tokens": 257,
+          "teacher_tokens": 79,
+          "loss": 0.007597625255584717,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 5,
+          "seconds": 0.17150046400001884,
+          "student_tokens": 257,
+          "teacher_tokens": 79,
+          "loss": 0.007597625255584717,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 6,
+          "seconds": 0.17722080099974846,
+          "student_tokens": 237,
+          "teacher_tokens": 66,
+          "loss": 0.3229670822620392,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 7,
+          "seconds": 0.14621459799991499,
+          "student_tokens": 237,
+          "teacher_tokens": 66,
+          "loss": 0.3229670822620392,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 8,
+          "seconds": 0.2505854769997313,
+          "student_tokens": 610,
+          "teacher_tokens": 0,
+          "loss": 0.7574536204338074,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 9,
+          "seconds": 0.25753319200020997,
+          "student_tokens": 610,
+          "teacher_tokens": 0,
+          "loss": 0.22516028583049774,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 10,
+          "seconds": 0.10855677800009289,
+          "student_tokens": 295,
+          "teacher_tokens": 117,
+          "loss": 0.0007795229903422296,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 11,
+          "seconds": 0.11140735899971332,
+          "student_tokens": 295,
+          "teacher_tokens": 117,
+          "loss": 0.0007795229903422296,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 12,
+          "seconds": 0.2212538199996743,
+          "student_tokens": 326,
+          "teacher_tokens": 148,
+          "loss": 0.0014107775641605258,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 13,
+          "seconds": 0.16418630799989842,
+          "student_tokens": 326,
+          "teacher_tokens": 148,
+          "loss": 0.0014107775641605258,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 14,
+          "seconds": 0.2674435369999628,
+          "student_tokens": 618,
+          "teacher_tokens": 0,
+          "loss": 0.01593138836324215,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 15,
+          "seconds": 0.3188413990001209,
+          "student_tokens": 618,
+          "teacher_tokens": 0,
+          "loss": 0.06124567613005638,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 16,
+          "seconds": 0.17434526499982894,
+          "student_tokens": 306,
+          "teacher_tokens": 135,
+          "loss": 0.0009456712868995965,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 17,
+          "seconds": 0.1679706729996724,
+          "student_tokens": 306,
+          "teacher_tokens": 135,
+          "loss": 0.0009456712868995965,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 18,
+          "seconds": 0.3492338999999447,
+          "student_tokens": 591,
+          "teacher_tokens": 0,
+          "loss": 0.09499438107013702,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 19,
+          "seconds": 0.3186412099998961,
+          "student_tokens": 591,
+          "teacher_tokens": 0,
+          "loss": 0.1946536898612976,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 20,
+          "seconds": 0.3126138229999924,
+          "student_tokens": 595,
+          "teacher_tokens": 0,
+          "loss": 0.444172739982605,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 21,
+          "seconds": 0.3462771919998886,
+          "student_tokens": 595,
+          "teacher_tokens": 0,
+          "loss": 0.5686613321304321,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 22,
+          "seconds": 0.14455142600036197,
+          "student_tokens": 339,
+          "teacher_tokens": 168,
+          "loss": 0.0013451137347146869,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 23,
+          "seconds": 0.14972443200031194,
+          "student_tokens": 339,
+          "teacher_tokens": 168,
+          "loss": 0.0013451137347146869,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 24,
+          "seconds": 0.16310980100024608,
+          "student_tokens": 238,
+          "teacher_tokens": 60,
+          "loss": 0.25018876791000366,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 25,
+          "seconds": 0.11704137500009892,
+          "student_tokens": 238,
+          "teacher_tokens": 60,
+          "loss": 0.25018876791000366,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 26,
+          "seconds": 0.3168240079999123,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.005196798127144575,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 27,
+          "seconds": 0.26533744700009265,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.02610725909471512,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 28,
+          "seconds": 0.11349073800010956,
+          "student_tokens": 236,
+          "teacher_tokens": 58,
+          "loss": 0.1805487722158432,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 29,
+          "seconds": 0.19335826300039116,
+          "student_tokens": 236,
+          "teacher_tokens": 58,
+          "loss": 0.1805487722158432,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 30,
+          "seconds": 0.22232742200003486,
+          "student_tokens": 233,
+          "teacher_tokens": 62,
+          "loss": 0.9095379114151001,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 31,
+          "seconds": 0.21058072300002095,
+          "student_tokens": 233,
+          "teacher_tokens": 62,
+          "loss": 0.9095379114151001,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 32,
+          "seconds": 0.2522502480001094,
+          "student_tokens": 639,
+          "teacher_tokens": 0,
+          "loss": 1.389966368675232,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 33,
+          "seconds": 0.31600496400005795,
+          "student_tokens": 639,
+          "teacher_tokens": 0,
+          "loss": 0.643665611743927,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 34,
+          "seconds": 0.2874067590000777,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.41885146498680115,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 35,
+          "seconds": 0.36642861300015284,
+          "student_tokens": 608,
+          "teacher_tokens": 0,
+          "loss": 0.4637744128704071,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 36,
+          "seconds": 0.18746155999997427,
+          "student_tokens": 237,
+          "teacher_tokens": 59,
+          "loss": 0.45170480012893677,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 37,
+          "seconds": 0.19766100500009998,
+          "student_tokens": 237,
+          "teacher_tokens": 59,
+          "loss": 0.45170480012893677,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 38,
+          "seconds": 0.25556087699987984,
+          "student_tokens": 648,
+          "teacher_tokens": 0,
+          "loss": 1.7283598184585571,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 39,
+          "seconds": 0.31701300799977616,
+          "student_tokens": 648,
+          "teacher_tokens": 0,
+          "loss": 1.5461463928222656,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 40,
+          "seconds": 0.30492071299977397,
+          "student_tokens": 614,
+          "teacher_tokens": 0,
+          "loss": 0.28744134306907654,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 41,
+          "seconds": 0.30906045000028826,
+          "student_tokens": 614,
+          "teacher_tokens": 0,
+          "loss": 0.17383262515068054,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 42,
+          "seconds": 0.30428036600005726,
+          "student_tokens": 613,
+          "teacher_tokens": 0,
+          "loss": 0.013531864620745182,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 43,
+          "seconds": 0.3056378930000392,
+          "student_tokens": 613,
+          "teacher_tokens": 0,
+          "loss": 0.019376974552869797,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 44,
+          "seconds": 0.33201887099994565,
+          "student_tokens": 639,
+          "teacher_tokens": 0,
+          "loss": 0.02320285327732563,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 45,
+          "seconds": 0.31506640799989327,
+          "student_tokens": 639,
+          "teacher_tokens": 0,
+          "loss": 0.7558360695838928,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 46,
+          "seconds": 0.28607315699991887,
+          "student_tokens": 645,
+          "teacher_tokens": 0,
+          "loss": 1.1055917739868164,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 47,
+          "seconds": 0.36101896400032274,
+          "student_tokens": 645,
+          "teacher_tokens": 0,
+          "loss": 1.7970232963562012,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 48,
+          "seconds": 0.13477751200025523,
+          "student_tokens": 329,
+          "teacher_tokens": 151,
+          "loss": 0.0009665714460425079,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 49,
+          "seconds": 0.15777496500004418,
+          "student_tokens": 329,
+          "teacher_tokens": 151,
+          "loss": 0.0009665714460425079,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 50,
+          "seconds": 0.2810639839999567,
+          "student_tokens": 618,
+          "teacher_tokens": 0,
+          "loss": 0.5534669756889343,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 51,
+          "seconds": 0.30312689300035345,
+          "student_tokens": 618,
+          "teacher_tokens": 0,
+          "loss": 0.5773282051086426,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 52,
+          "seconds": 0.1334974900000816,
+          "student_tokens": 258,
+          "teacher_tokens": 80,
+          "loss": 0.017192654311656952,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 53,
+          "seconds": 0.15894720200003576,
+          "student_tokens": 258,
+          "teacher_tokens": 80,
+          "loss": 0.017192654311656952,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 54,
+          "seconds": 0.279960103999656,
+          "student_tokens": 610,
+          "teacher_tokens": 0,
+          "loss": 0.2949788272380829,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 55,
+          "seconds": 0.27580424200004927,
+          "student_tokens": 610,
+          "teacher_tokens": 0,
+          "loss": 0.0927353948354721,
+          "family": "single_fact",
+          "queries": 1
+        },
+        {
+          "ordinal": 56,
+          "seconds": 0.12728344300012395,
+          "student_tokens": 236,
+          "teacher_tokens": 58,
+          "loss": 0.1964997500181198,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 57,
+          "seconds": 0.11305141599996205,
+          "student_tokens": 236,
+          "teacher_tokens": 58,
+          "loss": 0.1964997500181198,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 58,
+          "seconds": 0.14451827199991385,
+          "student_tokens": 306,
+          "teacher_tokens": 135,
+          "loss": 0.0011030108435079455,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 59,
+          "seconds": 0.1811476089997086,
+          "student_tokens": 306,
+          "teacher_tokens": 135,
+          "loss": 0.0011030108435079455,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 60,
+          "seconds": 0.15765691399974457,
+          "student_tokens": 337,
+          "teacher_tokens": 166,
+          "loss": 0.0010391275864094496,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 61,
+          "seconds": 0.18114091600000393,
+          "student_tokens": 337,
+          "teacher_tokens": 166,
+          "loss": 0.0010391275864094496,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 62,
+          "seconds": 0.1869286099999954,
+          "student_tokens": 232,
+          "teacher_tokens": 61,
+          "loss": 0.13040706515312195,
+          "family": "language_preservation",
+          "queries": 1
+        },
+        {
+          "ordinal": 63,
+          "seconds": 0.171804720000182,
+          "student_tokens": 232,
+          "teacher_tokens": 61,
+          "loss": 0.13040706515312195,
+          "family": "language_preservation",
+          "queries": 1
+        }
+      ],
+      "four_full_optimizer_updates_window": {
+        "ordinal_start": 12,
+        "ordinal_end": 59,
+        "episodes": 48,
+        "student_tokens": 22180,
+        "seconds": 11.525969750000968,
+        "student_tokens_per_second": 1924.3500096812363,
+        "seconds_per_12_episodes": 2.881492437500242
+      },
+      "seconds_per_12_episodes": 2.7382552805807028,
+      "remaining_A_compute_hours": 2.27307356008563
+    }
+  },
+  "ascend_actual_production_wall_clock": {
+    "start": {
+      "checkpoint": "micro_000000000100_4f9bbe5960",
+      "status": "checkpoint",
+      "created_unix": 1791714009.4461496,
+      "progress": {
+        "accumulation_index": 4,
+        "micro_step": 100,
+        "optimizer_step": 16,
+        "stage": "A",
+        "student_tokens": 96838,
+        "teacher_tokens": 8826
+      },
+      "manifest_sha256": "73581064a7552c053892262aba7e6240443a8e3f19ad501eea37b183733726ad"
+    },
+    "end": {
+      "checkpoint": "micro_000000000500_7705c5499a",
+      "status": "stopped",
+      "created_unix": 1791714490.9936616,
+      "progress": {
+        "accumulation_index": 2,
+        "micro_step": 500,
+        "optimizer_step": 83,
+        "stage": "A",
+        "student_tokens": 489872,
+        "teacher_tokens": 39446
+      },
+      "manifest_sha256": "2eb441f2b4c0cd1bb96a81f2bb3aa82e3370a85388dec03d15d934722aa004e4"
+    },
+    "global_micro_steps": 400,
+    "episodes": 800,
+    "student_tokens": 393034,
+    "wall_seconds": 481.54751205444336,
+    "student_tokens_per_second": 816.1894520505049,
+    "seconds_per_12_episodes": 7.2232126808166495,
+    "includes_training_log_and_checkpoint_overhead": true,
+    "interval_is_historical_not_fresh_npu_benchmark": true
+  },
+  "windows_storage": {
+    "Date": "2026-10-19T12:47:47.6054665+08:00",
+    "Volumes": [
+      {
+        "DriveLetter": "C",
+        "Size": 273878609920,
+        "SizeRemaining": 16644112384
+      },
+      {
+        "DriveLetter": "E",
+        "Size": 788258615296,
+        "SizeRemaining": 75719548928
+      },
+      {
+        "DriveLetter": "D",
+        "Size": 725050454016,
+        "SizeRemaining": 41255399424
+      }
+    ],
+    "VHDX": {
+      "Path": "E:\\WSL\\Ubuntu\\ext4.vhdx",
+      "AllocatedBytes": 135447707648,
+      "Attributes": "Archive",
+      "Length": 135447707648
+    }
+  },
+  "relocation": {
+    "copied_and_verified_files": 5211,
+    "copied_bytes": 2236301514,
+    "source_deleted": true,
+    "old_paths_are_symlinks_to_verified_ntfs_copies": true,
+    "verification_manifest_sha256": "c903b6755fbbd2dad76a0b537dbd56767d7aff0f1d0181f5673b316474d1aee7",
+    "wsl_project_usage": "29M\t/home/chiro/projects/ds-rsi",
+    "cache_usage": "1.1G\t/mnt/e/ds-rsi/cache"
+  },
+  "ntfs_checkpoint_io": {
+    "filesystem": "WSL drvfs/9p to E: NTFS",
+    "source_pending_gradient_episodes": 3,
+    "directory_fsync_and_atomic_manifest_succeeded": true,
+    "samples": [
+      {
+        "save_seconds": 0.6967370870002014,
+        "read_seconds": 0.4130446630001643,
+        "rank_file_bytes": 41803265,
+        "exact_payload_equal": true
+      },
+      {
+        "save_seconds": 0.7073467299999265,
+        "read_seconds": 0.4160882370001673,
+        "rank_file_bytes": 41803265,
+        "exact_payload_equal": true
+      },
+      {
+        "save_seconds": 0.7232550170001559,
+        "read_seconds": 0.39261849799981974,
+        "rank_file_bytes": 41803265,
+        "exact_payload_equal": true
+      }
+    ]
+  },
+  "comparisons": {
+    "fallback_scripted_64": {
+      "episodes": 64,
+      "exact_complete_state_match": true,
+      "initial_source_optimizer_step": 119,
+      "final_optimizer_step": 124,
+      "final_accumulation_episodes": 4
+    },
+    "fallback_fla_64": {
+      "episodes": 64,
+      "exact_complete_state_match": false,
+      "first_difference": "rank state differs: cuda-baseline-fla-64.weights.writer.queries",
+      "trainable_relative_l2": 0.0006595840190092403,
+      "trainable_max_abs_delta": 0.000732051208615303,
+      "trainable_tensors_different": 34,
+      "trainable_tensors_total": 34
+    },
+    "fla_warmup_state_restoration": {
+      "exact_complete_state_match": true,
+      "warmup_episodes": 64,
+      "timed_episodes": 64,
+      "warmup_state_discarded_by_full_restore": true
+    }
+  },
+  "cache_paths": {
+    "HF_HOME": "/mnt/e/ds-rsi/cache/huggingface",
+    "PIP_CACHE_DIR": "/mnt/e/ds-rsi/cache/pip",
+    "TRITON_CACHE_DIR": "/mnt/e/ds-rsi/cache/triton",
+    "TORCHINDUCTOR_CACHE_DIR": "/mnt/e/ds-rsi/cache/torchinductor",
+    "TORCH_HOME": "/mnt/e/ds-rsi/cache/torch",
+    "CUDA_CACHE_PATH": "/mnt/e/ds-rsi/cache/cuda",
+    "XDG_CACHE_HOME": "/mnt/e/ds-rsi/cache/xdg",
+    "TMPDIR": "/mnt/e/ds-rsi/tmp"
+  },
+  "ratios": {
+    "cuda_original_to_ascend_original": 0.5953488973555472,
+    "cuda_scripted_to_ascend_scripted": 0.5335451184961432,
+    "cuda_fullwarm_FLA_to_ascend_original": 2.3800026842638693,
+    "cuda_fullwarm_FLA_to_ascend_scripted": 2.0912477496676205,
+    "cuda_fla_independent_process_rates": [
+      1524.4646161924543,
+      1270.097687900448,
+      1780.3010491132584
+    ],
+    "cuda_fla_independent_process_median_rate": 1524.4646161924543
+  },
+  "diagnostic_cost_separate_from_formal_ledger": {
+    "episodes": 512,
+    "student_tokens": 228480,
+    "teacher_tokens": 25648
+  }
+}

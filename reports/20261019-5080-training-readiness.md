@@ -48,7 +48,9 @@ WSL虚拟盘位于 `E:\WSL\Ubuntu\ext4.vhdx`。Linux `df`显示虚拟可用约83
 
 每组3次128MiB写入并fsync：WSL原生ext4为1,055–2,248MiB/s，直接`/mnt/e`为174–186MiB/s。这是小文件突发/缓存条件下的结果，不是持续全盘带宽；读取测试命中页缓存，不作为SSD冷读速度。真实单rank含累计梯度完整checkpoint为41,803,265字节，本次保存约0.14–0.16秒、加载恢复约0.06–0.09秒。
 
-建议模型、训练环境、热checkpoint均放WSL原生ext4，归档另行安排。现有底座约1.65GiB、714双rank完整payload约61.4MiB，旧机所有runs约20GiB，无需先把整个runs搬入热目录。按当前样本token密度和每100单卡episode保存，跑完剩余A可按10–15GiB checkpoint量级规划；还需独立环境、评测产物及原子写入临时空间。建议给项目约30–40GiB工作预算，并保留宿主20GiB以上余量；这些是容量规划值，不是自动清理或删除历史状态的策略。
+**存储建议更正：**用户指出长期写入会导致VHDX膨胀，故模型、checkpoint、日志和增长型缓存改放Windows原生`E:\ds-rsi`，WSL负责运行。本轮新增约2.24GB文件已逐文件校验迁出，旧路径改为链接，WSL项目目录降至约29MB；已有VHDX仍实际分配126.15GiB，删除内部文件没有自动缩容。NTFS上真实约42MB含累计梯度checkpoint保存0.70–0.72秒、读取0.39–0.42秒，完整状态一致，适合优先控制虚拟盘增长。
+
+现有底座约1.65GiB、714双rank完整payload约61.4MiB，旧机所有runs约20GiB，无需先把整个runs搬入热目录。按当前样本token密度和每100单卡episode保存，跑完剩余A可按10–15GiB checkpoint量级规划；还需独立环境、评测产物及原子写入临时空间。建议给项目约30–40GiB工作预算，并保留宿主20GiB以上余量；这些是容量规划值，不是自动清理或删除历史状态的策略。
 
 ## 建议执行顺序
 
@@ -62,3 +64,5 @@ WSL虚拟盘位于 `E:\WSL\Ubuntu\ext4.vhdx`。Linux `df`显示虚拟可用约83
 验证：本地原全量325项通过；新增CUDA入口及资源/恢复专项46项通过；5080真实CUDA入口前反向通过；三种执行各自的完整训练态保存恢复通过。正式训练仍stopped714，所有CUDA试验进程均已退出后再收尾。
 
 原始测量与逐episode计时：[JSON](cuda5080-training-readiness-20261019.json)。既有能力证据：[w1第500评测](20261011-w1-500-and-scripted-gdn.md)；旧来源状态：[714完整训练态摘要](ab-A-v6-w1-714-stopped-training-summary.json)。
+
+按用户补充要求完成的同样本昇腾比较、Windows原生目录迁出与VHDX实际占用核验，见[后续报告](20261019-5080-vs-ascend-and-ntfs.md)。

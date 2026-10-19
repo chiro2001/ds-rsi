@@ -1,0 +1,30 @@
+{
+  "status": "WSL_real_process_tests_passed",
+  "cases": 4,
+  "snapshot": "/mnt/e/ds-rsi/code/b3858061a323",
+  "script_sha256": "9b2650d806a25954a6596ba17283788ff97d10fecf0230f9b91564553206a2b7",
+  "backward_UTC_did_not_corrupt_duration": true,
+  "sample_result": {
+    "pid": 11765,
+    "method": "proc-starttime-pidfd-CLOCK_BOOTTIME-v1",
+    "start_clock_ticks": 1516163,
+    "clock_ticks_per_second": 100,
+    "process_start_boottime_seconds": 15161.63,
+    "observer_start_boottime_seconds": 15161.635044498,
+    "observer_start_monotonic_seconds": 15161.635045038,
+    "observer_start_realtime_seconds": 1000.0,
+    "start_quantization_seconds": 0.01,
+    "signals_sent": false,
+    "training_state_modified": false,
+    "process_exit_boottime_seconds": 15161.647940043,
+    "process_duration_seconds": 0.017940043000635342,
+    "observer_duration_monotonic_seconds": 0.012896043999717222,
+    "observer_duration_realtime_seconds": -3.0,
+    "observer_realtime_minus_monotonic_seconds": -3.012896043999717,
+    "exit_observed": true,
+    "returncode_observed": false,
+    "includes_machine_suspend_time": true
+  },
+  "six_training_core_files_unchanged": true,
+  "training_environment_modified": false
+}

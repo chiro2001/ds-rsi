@@ -1,0 +1,258 @@
+{
+  "run_id": "ab-A-v6-natural-keep-w1-cuda-lr125-01",
+  "status": "stopped",
+  "checkpoint": "micro_000000004554_fceac90b62",
+  "manifest_sha256": "d89910a3b02d2f1c2d36a9e0e70699e7d8c24029ad8e5bde5e26478561d05c4c",
+  "progress": {
+    "accumulation_index": 0,
+    "micro_step": 4554,
+    "optimizer_step": 439,
+    "stage": "A",
+    "student_tokens": 2542884,
+    "teacher_tokens": 212524
+  },
+  "new_episodes": 960,
+  "new_student_tokens": 464136,
+  "new_teacher_tokens": 38240,
+  "source_chain_student_tokens": 16037174,
+  "remaining_chain_budget": 13962826,
+  "compute_seconds": 1030.9984397730077,
+  "student_tokens_per_second": 450.18108863694073,
+  "expected_data_cursor_next_ordinal": 5268,
+  "identity_unchanged_from3594": true,
+  "checkpoints": [
+    {
+      "event": "checkpoint",
+      "status": "checkpoint",
+      "path": "/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-lr125-01/checkpoints/micro_000000003600_2806dcb4d1",
+      "save_seconds": 0.8304020010000386,
+      "progress": {
+        "stage": "A",
+        "optimizer_step": 359,
+        "micro_step": 3600,
+        "accumulation_index": 6,
+        "student_tokens": 2082394,
+        "teacher_tokens": 174284
+      }
+    },
+    {
+      "event": "checkpoint",
+      "status": "checkpoint",
+      "path": "/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-lr125-01/checkpoints/micro_000000003700_53cdab2c51",
+      "save_seconds": 0.8506109939989983,
+      "progress": {
+        "stage": "A",
+        "optimizer_step": 367,
+        "micro_step": 3700,
+        "accumulation_index": 10,
+        "student_tokens": 2130036,
+        "teacher_tokens": 178132
+      }
+    },
+    {
+      "event": "checkpoint",
+      "status": "checkpoint",
+      "path": "/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-lr125-01/checkpoints/micro_000000003800_6c560bff16",
+      "save_seconds": 0.762158964000264,
+      "progress": {
+        "stage": "A",
+        "optimizer_step": 376,
+        "micro_step": 3800,
+        "accumulation_index": 2,
+        "student_tokens": 2178322,
+        "teacher_tokens": 181590
+      }
+    },
+    {
+      "event": "checkpoint",
+      "status": "checkpoint",
+      "path": "/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-lr125-01/checkpoints/micro_000000003900_e75db40d37",
+      "save_seconds": 0.8000972539994109,
+      "progress": {
+        "stage": "A",
+        "optimizer_step": 384,
+        "micro_step": 3900,
+        "accumulation_index": 6,
+        "student_tokens": 2225458,
+        "teacher_tokens": 185782
+      }
+    },
+    {
+      "event": "checkpoint",
+      "status": "checkpoint",
+      "path": "/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-lr125-01/checkpoints/micro_000000004000_a4eeb33450",
+      "save_seconds": 0.7969079750000674,
+      "progress": {
+        "stage": "A",
+        "optimizer_step": 392,
+        "micro_step": 4000,
+        "accumulation_index": 10,
+        "student_tokens": 2268634,
+        "teacher_tokens": 191242
+      }
+    },
+    {
+      "event": "checkpoint",
+      "status": "checkpoint",
+      "path": "/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-lr125-01/checkpoints/micro_000000004100_5a7000ab3d",
+      "save_seconds": 0.8171062150013313,
+      "progress": {
+        "stage": "A",
+        "optimizer_step": 401,
+        "micro_step": 4100,
+        "accumulation_index": 2,
+        "student_tokens": 2320166,
+        "teacher_tokens": 194816
+      }
+    },
+    {
+      "event": "checkpoint",
+      "status": "checkpoint",
+      "path": "/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-lr125-01/checkpoints/micro_000000004200_eda136671c",
+      "save_seconds": 0.8080157550011791,
+      "progress": {
+        "stage": "A",
+        "optimizer_step": 409,
+        "micro_step": 4200,
+        "accumulation_index": 6,
+        "student_tokens": 2371766,
+        "teacher_tokens": 197950
+      }
+    },
+    {
+      "event": "checkpoint",
+      "status": "checkpoint",
+      "path": "/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-lr125-01/checkpoints/micro_000000004300_e92f641faf",
+      "save_seconds": 0.7688765200000489,
+      "progress": {
+        "stage": "A",
+        "optimizer_step": 417,
+        "micro_step": 4300,
+        "accumulation_index": 10,
+        "student_tokens": 2420528,
+        "teacher_tokens": 201552
+      }
+    },
+    {
+      "event": "checkpoint",
+      "status": "checkpoint",
+      "path": "/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-lr125-01/checkpoints/micro_000000004400_0737fd26a7",
+      "save_seconds": 0.7361485469991749,
+      "progress": {
+        "stage": "A",
+        "optimizer_step": 426,
+        "micro_step": 4400,
+        "accumulation_index": 2,
+        "student_tokens": 2467414,
+        "teacher_tokens": 206224
+      }
+    },
+    {
+      "event": "checkpoint",
+      "status": "checkpoint",
+      "path": "/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-lr125-01/checkpoints/micro_000000004500_1fec4e6591",
+      "save_seconds": 0.7802252109995607,
+      "progress": {
+        "stage": "A",
+        "optimizer_step": 434,
+        "micro_step": 4500,
+        "accumulation_index": 6,
+        "student_tokens": 2513672,
+        "teacher_tokens": 211194
+      }
+    },
+    {
+      "event": "checkpoint",
+      "status": "stopped",
+      "path": "/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-lr125-01/checkpoints/micro_000000004554_fceac90b62",
+      "save_seconds": 0.6698228170007496,
+      "progress": {
+        "stage": "A",
+        "optimizer_step": 439,
+        "micro_step": 4554,
+        "accumulation_index": 0,
+        "student_tokens": 2542884,
+        "teacher_tokens": 212524
+      }
+    }
+  ],
+  "evaluation_pending": true,
+  "objective_diagnostics": {
+    "full_code": {
+      "episodes": 400,
+      "mean_loss": 0.1132277051550409
+    },
+    "indexed_character": {
+      "episodes": 184,
+      "mean_loss": 0.9153485451217579
+    },
+    "natural_keep": {
+      "episodes": 178,
+      "mean_loss": 0.0011269782448783934
+    },
+    "other_preservation": {
+      "episodes": 198,
+      "mean_loss": 0.2984909865055045
+    }
+  },
+  "actual_data_cursor": {
+    "next_ordinal": 5268,
+    "schema_version": 1
+  },
+  "all_pending_gradients_none": true,
+  "optimizer_entries": 34,
+  "optimizer_step_values": [
+    437,
+    439
+  ],
+  "optimizer_steps_by_parameter": {
+    "writer.queries": 437,
+    "writer.input_norm.weight": 437,
+    "writer.query_norm.weight": 437,
+    "writer.q.weight": 437,
+    "writer.k.weight": 437,
+    "writer.v.weight": 437,
+    "writer.o.weight": 437,
+    "writer.ffn_norm.weight": 437,
+    "writer.ffn.gate.weight": 437,
+    "writer.ffn.up.weight": 437,
+    "writer.ffn.down.weight": 437,
+    "writer.final_norm.weight": 437,
+    "readers.12.alpha": 439,
+    "readers.12.h_norm.weight": 439,
+    "readers.12.z_norm.weight": 439,
+    "readers.12.q.weight": 439,
+    "readers.12.k.weight": 439,
+    "readers.12.v.weight": 439,
+    "readers.12.o.weight": 439,
+    "readers.12.gate.weight": 439,
+    "readers.12.gate.bias": 439,
+    "readers.20.alpha": 439,
+    "readers.20.h_norm.weight": 439,
+    "readers.20.z_norm.weight": 439,
+    "readers.20.q.weight": 439,
+    "readers.20.k.weight": 439,
+    "readers.20.v.weight": 439,
+    "readers.20.o.weight": 439,
+    "readers.20.gate.weight": 439,
+    "readers.20.gate.bias": 439,
+    "time_source.down.weight": 439,
+    "time_source.down.bias": 439,
+    "time_source.up.weight": 439,
+    "time_source.up.bias": 439
+  },
+  "all_preservation_groups_without_writer_gradient": [],
+  "rng_components": [
+    "python",
+    "numpy",
+    "torch_cpu",
+    "accelerator"
+  ],
+  "checkpoint_payload_deserialized_and_verified": true,
+  "all_weights_and_optimizer_moments_finite": true,
+  "verified_process_duration_seconds": 1125.4061145169999,
+  "verified_process_student_tokens_per_second": 412.4164548361257,
+  "process_duration_method": "proc-starttime-clock-ticks-and-pidfd-exit-CLOCK_BOOTTIME-v1",
+  "process_duration_reference": "cuda5080-4554-process-duration-20261019.json",
+  "timing_note": "Verified process duration includes startup, saves and exit using kernel process start clock ticks and pidfd exit on CLOCK_BOOTTIME; never subtracts UTC timestamps."
+}

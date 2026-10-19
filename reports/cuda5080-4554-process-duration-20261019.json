@@ -1,0 +1,20 @@
+{
+  "pid": 11120,
+  "method": "proc-starttime-clock-ticks-and-pidfd-exit-CLOCK_BOOTTIME-v1",
+  "start_clock_ticks": 1406649,
+  "clock_ticks_per_second": 100,
+  "process_start_boottime_seconds": 14066.49,
+  "observer_start_boottime_seconds": 14810.151939672,
+  "observer_start_monotonic_seconds": 14810.151940263,
+  "observer_start_realtime_seconds": 1792405240.4794703,
+  "start_quantization_seconds": 0.01,
+  "signals_sent": false,
+  "training_state_modified": false,
+  "process_exit_boottime_seconds": 15191.896114517,
+  "process_duration_seconds": 1125.4061145169999,
+  "observer_duration_monotonic_seconds": 381.74417627799994,
+  "observer_duration_realtime_seconds": 368.23899006843567,
+  "observer_realtime_minus_monotonic_seconds": -13.505186209564272,
+  "exit_observed": true,
+  "returncode_observed": false
+}

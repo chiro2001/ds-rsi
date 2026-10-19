@@ -1,0 +1,133 @@
+{
+  "scope": "Handpicked18 cases; teacher forcing with gold prefix. No capability score, no causal attribution to a component yet.",
+  "records": 72,
+  "conditions": {
+    "initial/k1": {
+      "queries": 18,
+      "all_instrumented_native_logits_equal_plain": true,
+      "native": {
+        "token_correct": 124,
+        "tokens": 126,
+        "first_token_correct": 18,
+        "mean_target_nll": 0.0667105569779385
+      },
+      "canonical": {
+        "token_correct": 124,
+        "tokens": 126,
+        "first_token_correct": 18,
+        "mean_target_nll": 0.06641150171090823
+      },
+      "native_canonical_argmax_disagreements": 0,
+      "native_canonical_correctness_disagreements": 0,
+      "max_target_nll_path_gap": 0.052656471729278564,
+      "reader12": {
+        "alpha": 0.019485732540488243,
+        "mean_lookup_gate": 0.7717013888888888,
+        "mean_lookup_relative_residual": 1.5687769187821283,
+        "mean_lookup_positive_attention_mass": 1.0
+      },
+      "reader20": {
+        "alpha": 0.09029853343963623,
+        "mean_lookup_gate": 0.9266493055555556,
+        "mean_lookup_relative_residual": 1.133564101325141,
+        "mean_lookup_positive_attention_mass": 1.0
+      }
+    },
+    "initial/k2": {
+      "queries": 18,
+      "all_instrumented_native_logits_equal_plain": true,
+      "native": {
+        "token_correct": 68,
+        "tokens": 126,
+        "first_token_correct": 13,
+        "mean_target_nll": 5.530208071536756
+      },
+      "canonical": {
+        "token_correct": 68,
+        "tokens": 126,
+        "first_token_correct": 13,
+        "mean_target_nll": 5.513340348338814
+      },
+      "native_canonical_argmax_disagreements": 1,
+      "native_canonical_correctness_disagreements": 0,
+      "max_target_nll_path_gap": 0.49999427795410156,
+      "reader12": {
+        "alpha": 0.019485732540488243,
+        "mean_lookup_gate": 0.7717013888888888,
+        "mean_lookup_relative_residual": 1.5652915570471022,
+        "mean_lookup_positive_attention_mass": 0.8004273133928477
+      },
+      "reader20": {
+        "alpha": 0.09029853343963623,
+        "mean_lookup_gate": 0.9264322916666666,
+        "mean_lookup_relative_residual": 1.082651333676444,
+        "mean_lookup_positive_attention_mass": 0.7028722924173391
+      }
+    },
+    "trained/k1": {
+      "queries": 18,
+      "all_instrumented_native_logits_equal_plain": true,
+      "native": {
+        "token_correct": 115,
+        "tokens": 126,
+        "first_token_correct": 14,
+        "mean_target_nll": 0.3992754373296968
+      },
+      "canonical": {
+        "token_correct": 115,
+        "tokens": 126,
+        "first_token_correct": 14,
+        "mean_target_nll": 0.40296435998413743
+      },
+      "native_canonical_argmax_disagreements": 0,
+      "native_canonical_correctness_disagreements": 0,
+      "max_target_nll_path_gap": 0.1620476245880127,
+      "reader12": {
+        "alpha": 0.018135705962777138,
+        "mean_lookup_gate": 0.7191840277777778,
+        "mean_lookup_relative_residual": 1.3442322545581393,
+        "mean_lookup_positive_attention_mass": 1.0
+      },
+      "reader20": {
+        "alpha": 0.08814937621355057,
+        "mean_lookup_gate": 0.7259114583333334,
+        "mean_lookup_relative_residual": 0.7556509971618652,
+        "mean_lookup_positive_attention_mass": 1.0
+      }
+    },
+    "trained/k2": {
+      "queries": 18,
+      "all_instrumented_native_logits_equal_plain": true,
+      "native": {
+        "token_correct": 64,
+        "tokens": 126,
+        "first_token_correct": 6,
+        "mean_target_nll": 3.5568632627380303
+      },
+      "canonical": {
+        "token_correct": 64,
+        "tokens": 126,
+        "first_token_correct": 6,
+        "mean_target_nll": 3.548576025289159
+      },
+      "native_canonical_argmax_disagreements": 0,
+      "native_canonical_correctness_disagreements": 0,
+      "max_target_nll_path_gap": 0.3741903305053711,
+      "reader12": {
+        "alpha": 0.018135705962777138,
+        "mean_lookup_gate": 0.7191840277777778,
+        "mean_lookup_relative_residual": 1.3391441106796265,
+        "mean_lookup_positive_attention_mass": 0.7799292557757275
+      },
+      "reader20": {
+        "alpha": 0.08814937621355057,
+        "mean_lookup_gate": 0.7252604166666666,
+        "mean_lookup_relative_residual": 0.6994609418842528,
+        "mean_lookup_positive_attention_mass": 0.5737431836052371
+      }
+    }
+  },
+  "formal_training_modified": false,
+  "next_diagnostic": "Restore individual initial parameter groups on trained240 in RAM, never save mixed weights as a formal checkpoint.",
+  "M5_passed": false
+}

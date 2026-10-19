@@ -37,3 +37,19 @@ def test_attention_is_grouped_per_record_and_all_masked_mass_is_not_divided():
     assert result["attention_by_prediction_position"][1]["positive_fraction"] is None
     with pytest.raises(ValueError, match="slot count"):
         diagnostic.record_attention_summary(trace, slots_per_record=3, candidate_count=2)
+
+
+def test_parameter_ablations_are_explicit_memory_subsets_and_never_base_parameters():
+    names = ["base.layer.weight", "writer.q.weight", "readers.12.q.weight", "readers.12.k.weight",
+             "readers.12.v.weight", "readers.12.o.weight", "readers.12.alpha",
+             "readers.12.gate.weight", "readers.12.gate.bias", "time_source.up.weight"]
+    assert diagnostic.ablation_parameter_names("old_writer", names) == ["writer.q.weight"]
+    assert diagnostic.ablation_parameter_names("old_reader_qk", names) == names[2:4]
+    assert diagnostic.ablation_parameter_names("old_reader_values", names) == names[4:6]
+    assert diagnostic.ablation_parameter_names("old_gates", names) == names[6:9]
+    assert diagnostic.ablation_parameter_names("old_time_source", names) == names[9:]
+    assert "base.layer.weight" not in diagnostic.ablation_parameter_names("old_readers", names)
+    with pytest.raises(ValueError):
+        diagnostic.ablation_parameter_names("unknown", names)
+    with pytest.raises(ValueError, match="no tensors"):
+        diagnostic.ablation_parameter_names("old_writer", ["base.layer.weight"])

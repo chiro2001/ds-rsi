@@ -36,6 +36,23 @@ def record_attention_summary(trace, *, slots_per_record, candidate_count):
     return result
 
 
+def ablation_parameter_names(policy, names):
+    rules = {
+        "old_writer": lambda n: n.startswith("writer."),
+        "old_readers": lambda n: n.startswith("readers."),
+        "old_gates": lambda n: n.startswith("readers.") and (n.endswith(".alpha") or ".gate." in n),
+        "old_reader_values": lambda n: n.startswith("readers.") and n.endswith((".v.weight", ".o.weight")),
+        "old_reader_qk": lambda n: n.startswith("readers.") and n.endswith((".q.weight", ".k.weight")),
+        "old_time_source": lambda n: n.startswith("time_source."),
+    }
+    if policy not in rules:
+        raise ValueError("unknown diagnostic parameter ablation")
+    selected = [name for name in names if rules[policy](name)]
+    if not selected:
+        raise ValueError("parameter ablation selected no tensors")
+    return selected
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--base", required=True)
@@ -50,6 +67,9 @@ def main():
                         default=["zh", "en", "cross_language"])
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--threads", type=int, default=2)
+    parser.add_argument("--candidate-counts", nargs="+", type=int, choices=[1, 2], default=[1, 2])
+    parser.add_argument("--parameter-ablation", action="store_true",
+                        help="restore selected initial parameters on top of trained weights, in RAM only")
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--stop-after-items", type=int)
     args = parser.parse_args()
@@ -57,6 +77,8 @@ def main():
         parser.error("worlds must be unique and nonnegative")
     if len(set(args.languages)) != len(args.languages):
         parser.error("languages must be unique")
+    if len(set(args.candidate_counts)) != len(args.candidate_counts):
+        parser.error("candidate counts must be unique")
     import torch
     from transformers import AutoTokenizer
     from dsrsi.data.compiler import EpisodeCompiler, tokenizer_fingerprint
@@ -87,6 +109,15 @@ def main():
     store = CheckpointStore(run / "checkpoints")
     snapshots = [("initial", load_pinned(store, args.baseline_checkpoint)),
                  ("trained", load_pinned(store, args.checkpoint))]
+    conditions = [(label, committed, None) for label, committed in snapshots]
+    baseline_weights = None
+    overrides = {}
+    if args.parameter_ablation:
+        baseline_weights = store.load_rank(*snapshots[0][1], rank=0)["weights"]
+        for policy in ("old_writer", "old_readers", "old_gates", "old_reader_values",
+                       "old_reader_qk", "old_time_source"):
+            overrides["trained_" + policy] = ablation_parameter_names(policy, baseline_weights)
+            conditions.append(("trained_" + policy, snapshots[1][1], overrides["trained_" + policy]))
     first = snapshots[0][1][1]
     config, architecture = first["identity"]["train_config"], first["identity"]["memory_architecture"]
     if config["data_revision"] not in {"ab-v5-indexed-digits", "ab-v6-natural-keep"}:
@@ -127,12 +158,13 @@ def main():
                 "runtime": runtime, "device": device, "data": data_identity(config["data_revision"]),
                 "reference_sha256": file_sha256(Path(args.reference_evaluation)),
                 "cases": [{"world": w, "language": l, "variant": v, "selected": ids}
-                          for w, l, v, _, ids in cases], "candidate_counts": [1, 2],
+                          for w, l, v, _, ids in cases], "candidate_counts": args.candidate_counts,
+                "condition_parameter_overrides_from_initial": overrides,
                 "script_sha256": file_sha256(Path(__file__)),
                 "implementation": {str(p.relative_to(source_root)): file_sha256(p)
                                    for p in sorted((source_root / "src/dsrsi").rglob("*.py"))}}
-    jobs = [f"{label}/{w}/{l}/{v}/k{k}" for label, _ in snapshots
-            for w, l, v, _, _ in cases for k in (1, 2)]
+    jobs = [f"{label}/{w}/{l}/{v}/k{k}" for label, _, _ in conditions
+            for w, l, v, _, _ in cases for k in args.candidate_counts]
     journal = EvaluationJournal(journal_path, identity, jobs, resume=args.resume,
                                 stop_after_items=args.stop_after_items)
     journal.install_signal_handlers()
@@ -140,8 +172,16 @@ def main():
     compiler = EpisodeCompiler(AutoTokenizer.from_pretrained(base, local_files_only=True))
     model = MemoryQwen.from_local_checkpoint(base, device=device, memory_architecture=architecture).eval()
     evaluator = MOnlyEvaluator(model, compiler, memory_candidates=2)
-    for label, committed in snapshots:
+    for label, committed, names in conditions:
         load_ab_weights(model, store, base_identity=base_identity, committed=committed)
+        if names is not None:
+            parameters = dict(model.named_parameters())
+            with torch.no_grad():
+                for name in names:
+                    if (parameters[name].shape != baseline_weights[name].shape
+                            or parameters[name].dtype != baseline_weights[name].dtype):
+                        raise ValueError("ablation parameter shape/dtype mismatch")
+                    parameters[name].copy_(baseline_weights[name].to(parameters[name].device))
         model.eval()
         for world, language, variant, row, ids in cases:
             episode = compiler.compile(row)
@@ -172,6 +212,7 @@ def main():
                 return {"snapshot": label, "world": world, "language": language, "variant": variant,
                         "episode_id": episode.episode_id, "candidate_count": candidate_count,
                         "selected_ids": ids[:candidate_count], "expected": row["probes"][0]["target"],
+                        "parameter_overrides_from_initial": names or [],
                         "native": a, "canonical": b,
                         "max_target_nll_path_difference": max(abs(x - y) for x, y in
                             zip(a["target_nll"], b["target_nll"])),
@@ -179,7 +220,7 @@ def main():
                         "reader": record_attention_summary(trace, slots_per_record=model.memory_config.slots,
                                                            candidate_count=candidate_count), "raw_reader_trace": trace}
 
-            for count in (1, 2):
+            for count in args.candidate_counts:
                 key = f"{label}/{world}/{language}/{variant}/k{count}"
                 journal.evaluate(key, lambda count=count: compute(count))
                 print(json.dumps({"item": key, "committed": len(journal.results), "total": len(jobs)}), flush=True)

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Profile copied A/B weights on CUDA; never migrate or resume a formal run.
 
-Uses the source data cursor and optimizer in a disposable, single-rank probe.
+Uses the source optimizer in a disposable, single-rank probe. The data cursor
+defaults to the source; an explicit ordinal may select a comparison workload.
 CUDA RNG is explicitly initialized, not converted from NPU RNG. Results are
 diagnostics, not evidence of equivalence to the source distributed trajectory.
 """
@@ -28,11 +29,16 @@ def main():
     parser.add_argument("--source-run", required=True)
     parser.add_argument("--output-dir", required=True)
     parser.add_argument("--episodes", type=int, default=32)
+    parser.add_argument("--start-ordinal", type=int,
+                        help="diagnostic-only workload override; never updates the source cursor")
     parser.add_argument("--mode", choices=["fallback", "scripted", "fla"], default="fallback")
     parser.add_argument("--recovery", action="store_true")
     args = parser.parse_args()
     if args.episodes < 4:
         parser.error("at least four episodes required")
+    if args.start_ordinal is not None and args.start_ordinal < 0:
+        parser.error("start ordinal must be nonnegative")
+    initialization_started = time.perf_counter()
     output = Path(args.output_dir).resolve()
     output.mkdir(parents=True, exist_ok=False)
     torch.set_num_threads(2)
@@ -59,9 +65,11 @@ def main():
     if config.stage not in {"A", "B"} or config.gdn_inverse is not None:
         raise ValueError("probe expects baseline A/B execution")
     base = Path(args.base)
+    started = time.perf_counter()
     names = set(json.loads((base / "model.safetensors.index.json").read_text())["weight_map"].values())
     identity = {"tokenizer": tokenizer_fingerprint(base),
                 "weights": {name: file_sha256(base / name) for name in sorted(names)}}
+    base_hash_seconds = time.perf_counter() - started
     random.seed(config.seed)
     np.random.seed(config.seed)
     torch.manual_seed(config.seed)
@@ -73,8 +81,12 @@ def main():
         hf.fused_recurrent_gated_delta_rule = None
         hf.causal_conv1d_fn = None
         hf.causal_conv1d_update = None
+    started = time.perf_counter()
     model = MemoryQwen.from_local_checkpoint(base, device="cuda:0",
         memory_architecture=manifest["identity"]["memory_architecture"])
+    torch.cuda.synchronize()
+    base_load_seconds = time.perf_counter() - started
+    started = time.perf_counter()
     load_ab_weights(model, store, base_identity=identity, committed=committed)
     compiler = EpisodeCompiler(AutoTokenizer.from_pretrained(base, local_files_only=True))
     probe_config = replace(config, gradient_accumulation=config.gradient_accumulation * manifest["world_size"])
@@ -83,6 +95,10 @@ def main():
     trainer.optimizer.load_state_dict(copy.deepcopy(source["optimizer"]["state"]))
     trainer.progress = replace(trainer.progress, **manifest["progress"])
     trainer.cursor = copy.deepcopy(source["data_cursor"])
+    if args.start_ordinal is not None:
+        trainer.cursor["next_ordinal"] = args.start_ordinal
+    probe_start_ordinal = trainer.cursor["next_ordinal"]
+    source_state_and_trainer_load_seconds = time.perf_counter() - started
     model.train()
     from contextlib import nullcontext
     from dsrsi.model.experimental_gdn import experimental_gdn_inverse
@@ -124,6 +140,7 @@ def main():
             del result
 
     initial = snapshot()
+    initialization_seconds = time.perf_counter() - initialization_started
     torch.cuda.reset_peak_memory_stats()
     run(args.episodes, True)
     final = snapshot()
@@ -162,6 +179,12 @@ def main():
         "transformers": transformers_version, "device": torch.cuda.get_device_name(),
         "source_checkpoint": directory.name, "source_manifest_sha256": source_sha,
         "source_progress": manifest["progress"], "source_world_size": manifest["world_size"],
+        "probe_start_ordinal": probe_start_ordinal,
+        "source_cursor_overridden_for_workload_comparison": args.start_ordinal is not None,
+        "base_path": str(base.resolve()), "output_path": str(output),
+        "base_hash_seconds": base_hash_seconds, "base_load_seconds": base_load_seconds,
+        "source_state_and_trainer_load_seconds": source_state_and_trainer_load_seconds,
+        "initialization_seconds": initialization_seconds,
         "probe_config": asdict(probe_config), "episodes": rows,
         "timing_excludes_first_episodes": 2, "measured_student_tokens": tokens,
         "measured_seconds": seconds, "student_tokens_per_second": tokens / seconds,

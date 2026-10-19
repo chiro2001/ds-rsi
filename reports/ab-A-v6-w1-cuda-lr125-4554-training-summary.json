@@ -176,7 +176,7 @@
       }
     }
   ],
-  "evaluation_pending": true,
+  "evaluation_pending": false,
   "objective_diagnostics": {
     "full_code": {
       "episodes": 400,
@@ -254,5 +254,18 @@
   "verified_process_student_tokens_per_second": 412.4164548361257,
   "process_duration_method": "proc-starttime-clock-ticks-and-pidfd-exit-CLOCK_BOOTTIME-v1",
   "process_duration_reference": "cuda5080-4554-process-duration-20261019.json",
-  "timing_note": "Verified process duration includes startup, saves and exit using kernel process start clock ticks and pidfd exit on CLOCK_BOOTTIME; never subtracts UTC timestamps."
+  "timing_note": "Verified process duration includes startup, saves and exit using kernel process start clock ticks and pidfd exit on CLOCK_BOOTTIME; never subtracts UTC timestamps.",
+  "evaluations": {
+    "oracle_exact_match": "79/96",
+    "counterfactual_pairs": "36/48",
+    "single_candidate_oracle_subgate_passed": true,
+    "native_original_gates_passed": true,
+    "M5_passed": false,
+    "actual_retrieval_pool64_coverage_at8": "17/96",
+    "actual_retrieval_pool64_gate_passed": false
+  },
+  "additional_evaluation_pending": {
+    "retrieval64": false,
+    "oracle2_challenge": true
+  }
 }

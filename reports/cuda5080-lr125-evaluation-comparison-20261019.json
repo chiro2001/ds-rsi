@@ -483,6 +483,77 @@
           }
         }
       }
+    },
+    "lr125-4554": {
+      "exact_match_count": 79,
+      "paired_exact_match_count": 36,
+      "oracle_fields": {
+        "digit_accuracy": 1.0,
+        "letter_accuracy": 1.0,
+        "queries": 96,
+        "suffix_accuracy": 0.8229166666666666,
+        "suffix_digit_accuracy": [
+          0.9375,
+          0.8229166666666666,
+          0.90625
+        ],
+        "valid_format": 1.0
+      },
+      "off_exact_match": 0,
+      "foreign_original_answer_exact_match": 0,
+      "follows_foreign_payload": 0.8229166666666666,
+      "single_candidate_oracle_subgate_passed": true,
+      "native": {
+        "en/native": {
+          "paired": {
+            "ci95_high": 0.025812381671534643,
+            "ci95_low": 0.01589555748634868,
+            "documents": 24,
+            "max_document_delta": 0.06646664937337239,
+            "mean_delta": 0.020326786984999973
+          },
+          "gate": {
+            "base_mean_nll": 2.8153368070721627,
+            "checks": {
+              "ci95_high": true,
+              "max_document_delta": true,
+              "mean_delta": true
+            },
+            "passed": true,
+            "thresholds": {
+              "max_ci95_high": 0.1,
+              "max_document_delta": 0.25,
+              "max_mean_delta": 0.05
+            },
+            "variant_mean_nll": 2.835872507095337
+          }
+        },
+        "zh/native": {
+          "paired": {
+            "ci95_high": 0.015573037167390188,
+            "ci95_low": 0.009301464590761397,
+            "documents": 24,
+            "max_document_delta": 0.02802753448486328,
+            "mean_delta": 0.012408644788795047
+          },
+          "gate": {
+            "base_mean_nll": 3.4366705819964407,
+            "checks": {
+              "ci95_high": true,
+              "max_document_delta": true,
+              "mean_delta": true
+            },
+            "passed": true,
+            "thresholds": {
+              "max_ci95_high": 0.1,
+              "max_document_delta": 0.25,
+              "max_mean_delta": 0.05
+            },
+            "variant_mean_nll": 3.449300338327885
+          }
+        }
+      },
+      "actual_retrieval_pool64_coverage_at8": 0.17708333333333334
     }
   },
   "source_to_lr125_1674_transitions": {
@@ -512,13 +583,22 @@
     }
   },
   "M5_passed": false,
-  "next_batch": {
-    "run": "ab-A-v6-natural-keep-w1-cuda-lr125-01",
-    "resume_source_micro": 3594,
-    "maximum_micro_steps": 4554,
-    "new_episodes": 960,
-    "parameters_changed": false,
-    "checkpoint_interval": 100,
-    "submitted": true
+  "next_batch": null,
+  "next_action": {
+    "kind": "oracle2-challenge-running-before-multi-candidate-course",
+    "source_micro": 4554,
+    "retrieval_pool": 64,
+    "retrieval_k": 8,
+    "next_oracle_candidate_count": 2,
+    "progression_before_formal_B": [
+      2,
+      4,
+      8,
+      "mixed-families"
+    ],
+    "formal_B_started": false,
+    "oracle2_pid": 13246,
+    "retrieval64_completed": true,
+    "retrieval64_gate_passed": false
   }
 }

@@ -1,0 +1,58 @@
+{
+  "scope": "Same pinned96 development queries; oracle sub-gate only, not full M5 or generalization/causality claim",
+  "checkpoint": "micro_000000004554_fceac90b62",
+  "manifest_sha256": "d89910a3b02d2f1c2d36a9e0e70699e7d8c24029ad8e5bde5e26478561d05c4c",
+  "oracle_gate_threshold": 0.8,
+  "oracle_gate_passed": true,
+  "exact_match": 79,
+  "counterfactual_pairs": 36,
+  "changes_3594_to4554": {
+    "retained_correct": 62,
+    "gained_correct": 17,
+    "still_incorrect": 11,
+    "lost_correct": 6
+  },
+  "pair_outcomes": {
+    "both_correct": 36,
+    "one_correct": 7,
+    "both_wrong": 5
+  },
+  "by_language": {
+    "zh": 31,
+    "en": 22,
+    "cross_language": 26
+  },
+  "previous_format_errors": [
+    {
+      "episode_id": "v6-dev-e00000008-v0",
+      "language": "cross_language",
+      "before": "Cedar-671",
+      "after": "C9-671",
+      "expected": "C9-671",
+      "now_exact_match": true
+    },
+    {
+      "episode_id": "v6-dev-e00000008-v1",
+      "language": "cross_language",
+      "before": "Cedar-001",
+      "after": "C9-071",
+      "expected": "C9-071",
+      "now_exact_match": true
+    },
+    {
+      "episode_id": "v6-dev-e00000011-v0",
+      "language": "en",
+      "before": "Q4-2020",
+      "after": "Q4-204",
+      "expected": "Q4-204",
+      "now_exact_match": true
+    }
+  ],
+  "suffix_digit_correct": [
+    90,
+    79,
+    87
+  ],
+  "M5_passed": false,
+  "actual_retrieval_in_large_pool_verified": false
+}

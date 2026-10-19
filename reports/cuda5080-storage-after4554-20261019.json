@@ -1,0 +1,11 @@
+{
+  "observed_windows_date": "2026-10-19T18:50:09.2858353+08:00",
+  "volume_free_bytes": 62748241920,
+  "vhdx_length_bytes": 135447707648,
+  "vhdx_attributes": "Archive",
+  "vhdx_length_unchanged_from_prior_audits": true,
+  "all_project_growth_storage": "E:\\ds-rsi",
+  "minimum_free_bytes_enforced": 21474836480,
+  "A_chain_student_tokens": 16037174,
+  "A_remaining_budget": 13962826
+}

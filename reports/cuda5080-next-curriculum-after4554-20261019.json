@@ -1,0 +1,58 @@
+{
+  "status": "64-pool actual retrieval completed17/96; read-only oracle2 full96 challenge running",
+  "source_run": "ab-A-v6-natural-keep-w1-cuda-lr125-01",
+  "source_checkpoint": "micro_000000004554_fceac90b62",
+  "source_manifest_sha256": "d89910a3b02d2f1c2d36a9e0e70699e7d8c24029ad8e5bde5e26478561d05c4c",
+  "contract": "docs/counterfactual-codec-curriculum.md",
+  "contract_sha256": "053811e5c26f16ae9477c1390ef2354dcc9be40e5e8f1cecb1e2fc578558ccb5",
+  "A_chain_student_tokens_consumed": 16037174,
+  "A_remaining_budget": 13962826,
+  "existing_A_run_budget_unchanged": 16505710,
+  "original_B_budget": 20000000,
+  "formal_B_started": false,
+  "read_only_next_challenge": {
+    "memory_candidates": 2,
+    "distractors": 8,
+    "queries": 96,
+    "modes": [
+      "oracle",
+      "off",
+      "oracle_foreign"
+    ],
+    "pid": 13246,
+    "submission": "control/cuda-lr125-4554-oracle2-submit.json",
+    "output": "evaluations/ab-A-v6-w1-cuda-lr125-4554-oracle2-dev.json"
+  },
+  "required_progression_before_B": "Validate2/4/8 candidates and mixed location/update/experience tasks; single-candidate oracle is only an intermediate decoding gate.",
+  "if_new_A_course_needed": {
+    "new_run_required": true,
+    "explicit_A_to_A_weights_initialization": true,
+    "new_optimizer_rng_cursor_as_documented": true,
+    "all_source_training_state_preserved": true,
+    "new_run_budget": 13962826,
+    "chain_prefix_before_new_course": 16037174,
+    "no_ordinary_resume_config_changes": true
+  },
+  "required_real_CUDA_validation_before_formal_new_course": {
+    "separate_process_complete_payload_recovery": true,
+    "frozen_prefix_reference_optimization_equality": true,
+    "minimum_natural_keep": 14,
+    "minimum_unknown_wall": 6,
+    "minimum_auxiliary": 8
+  },
+  "future_start0_proof188_coverage": {
+    "natural_keep": 38,
+    "unknown_wall": 14,
+    "known_wall": 24,
+    "auxiliary": 30
+  },
+  "formal_training_or_capability_claim_from_plan": false,
+  "retrieval64_result": {
+    "queries": 96,
+    "eligible_queries": 96,
+    "coverage_at8": 0.17708333333333334,
+    "threshold": 0.9,
+    "passed": false,
+    "formal_training_modified": false
+  }
+}

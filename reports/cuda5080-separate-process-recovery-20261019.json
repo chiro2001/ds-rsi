@@ -1,0 +1,60 @@
+{
+  "status": "separate_process_CUDA_full_state_external_pause_recovery_verified",
+  "source_run": "/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-01",
+  "source_progress": {
+    "accumulation_index": 0,
+    "micro_step": 714,
+    "optimizer_step": 119,
+    "stage": "A",
+    "student_tokens": 696760,
+    "teacher_tokens": 57508
+  },
+  "new_episodes": 188,
+  "continuous": {
+    "elapsed_seconds": 297.00787407000007,
+    "pause_to_exit_seconds": null,
+    "resume_to_first_micro_seconds": null
+  },
+  "interrupted": {
+    "elapsed_seconds": 96.94187078699997,
+    "pause_to_exit_seconds": 3.5154522010000164,
+    "resume_to_first_micro_seconds": null
+  },
+  "resumed": {
+    "elapsed_seconds": 293.95548727999994,
+    "pause_to_exit_seconds": null,
+    "resume_to_first_micro_seconds": 90.49197517099992
+  },
+  "paused_progress": {
+    "accumulation_index": 4,
+    "micro_step": 718,
+    "optimizer_step": 119,
+    "stage": "A",
+    "student_tokens": 699258,
+    "teacher_tokens": 57508
+  },
+  "paused_manifest_sha256": "5600b0b7a2f283f7c24808b7771d5fbb253bba26a03226bfe4154d1ed28133bc",
+  "final_progress": {
+    "stage": "A",
+    "optimizer_step": 134,
+    "micro_step": 902,
+    "accumulation_index": 8,
+    "student_tokens": 789560,
+    "teacher_tokens": 63598
+  },
+  "final_cursor": {
+    "next_ordinal": 1616,
+    "schema_version": 1
+  },
+  "complete_payload_exact_match": true,
+  "sample_ids_tokens_losses_exact_match": true,
+  "coverage": {
+    "natural_keep": 20,
+    "unknown_wall": 6,
+    "known_wall": 14,
+    "auxiliary": 32
+  },
+  "formal_source_modified": false,
+  "student_tokens_per_trajectory": 92800,
+  "teacher_tokens_per_trajectory": 6090
+}

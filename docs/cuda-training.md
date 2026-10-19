@@ -2,7 +2,13 @@
 
 2026-10-19起后续负载使用Windows `192.168.101.5` 的RTX5080，WSL负责执行，模型、run、评测、日志、临时文件和增长型缓存放`E:\ds-rsi`。GPU任务通过`scripts/run_5080_checked.py`启动：同进程检查设备、显存、温度、E盘实际余量，获取项目GPU锁并继承到训练进程；评测与训练串行。控制请求使用纯标准库入口，不获取GPU锁。
 
-## 当前run与迁移
+## 当前正式接续
+
+当前run为`/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-lr125-01`，完整提交快照`/mnt/e/ds-rsi/code/92657521bdd5`。最近完整保存/核验/评测边界1674，优化器199、累积0、学生1156006/教师94314、游标2388，checkpoint `micro_000000001674_6dcfd130df`、manifest SHA256 `42d9efac90eb78252161c836b7cbad9b9a4592b3dc444d2c340f42c63830f318`。回忆57/96、成对26/48，48篇native中英保持过原线；M5–M7未通过。
+
+已同run完整resume上限2154（再480个episode），提交`control/formal-A-cuda-lr125-1674-2154.json`，不能重复提交。恢复仅使用该run原全部参数加`--resume --lr 0.000125 --grad-accum 12`及前缀复用；预算16505710、keep-weight1不变。已核验A链14650296/30M，后续只追加实际新增消费。暂停命令如下方示例；先核验实际进程/latest，不用init-from，不丢累计梯度。1674和所有来源完整态保留。
+
+## 首次硬件迁移与来源run
 
 - run：`/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-01`。
 - 起点：714微批/优化器119/累积0，学生696,760、教师57,508，未消费ordinal1428。
@@ -16,19 +22,19 @@
 
 A来源链已有14,191,050/30M学生token；配置预算仍16,505,710，run内已消费696,760，剩余15,808,950。报告只把当前run新增消费追加到来源链，不能再次加初始化来源，也不能把性能/恢复副本当作正式训练成果。
 
-首批240个episode已正式接续并stopped在954：`micro_000000000954_65721a0550`，SHA256 `dddef5ea8dc887bd756b533b21fcc81c7a4f89323190012d6bf9b64a4f06c6ca`；优化器139、累积0、学生813,974/教师65,946、游标1668。新增117,214学生/8,438教师，来源链累计14,308,264，余15,691,736；配置预算不变。实际使用兼容完整快照`ca3449f25833`，954能力复评完成前不扩展。本轮回忆journal修复后使用`05b38a0bb84a`，固定714基线51/96、19/48；中英native保持过原线。
+首批240个episode已正式接续并stopped在954：`micro_000000000954_65721a0550`，SHA256 `dddef5ea8dc887bd756b533b21fcc81c7a4f89323190012d6bf9b64a4f06c6ca`；优化器139、累积0、学生813,974/教师65,946、游标1668。新增117,214学生/8,438教师，来源链累计14,308,264，余15,691,736；配置预算不变。实际使用兼容完整快照`ca3449f25833`，954完整复评通过保持后接续至1434，1434回忆回落后转下述lr125新分支。本轮回忆journal修复后使用`05b38a0bb84a`，固定714基线51/96、19/48；中英native保持过原线。
 
 ## 执行身份与恢复
 
 CUDA默认显式绑定原PyTorch GDN、卷积、gated norm和eager attention，避免自动安装的FLA库改变正式路径。checkpoint固定CUDA运行时/包版本、GPU、CPU线程数、确定性/TF32设置、HF参考函数与关键实现SHA。普通resume不能切换后端、配置、代码语义或环境；不兼容即拒绝。FLA仅有数值变化试验证据，未用于正式续训。
 
-正式恢复使用完整已提交快照和本run原参数加`--resume`：累积12、lr0.00025、keep-weight1、student-tokens16505710、ab-v6-natural-keep/facts、seed20261010、distractors7、memory-candidates1、keep-fraction0.4、counterfactual-weight1/margin2、save-every-micro100、reuse-frozen-prefix。`scripts/verify_cuda_resume.py`中的`train_arguments`从已提交manifest生成相同完整CLI参数，拒绝不支持的优化器默认值。
+来源cuda-01恢复使用完整已提交快照和本run原参数加`--resume`（当前lr125恢复应使用0.000125）：累积12、lr0.00025、keep-weight1、student-tokens16505710、ab-v6-natural-keep/facts、seed20261010、distractors7、memory-candidates1、keep-fraction0.4、counterfactual-weight1/margin2、save-every-micro100、reuse-frozen-prefix。`scripts/verify_cuda_resume.py`中的`train_arguments`从已提交manifest生成相同完整CLI参数，拒绝不支持的优化器默认值。
 
 安全暂停可从WSL调用；`CODE`为经验证的完整快照路径：
 
 ```bash
 PYTHONPATH="$CODE/src" /usr/bin/python3 -m dsrsi.training.control \
-  --run-dir /mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-01 --action pause
+  --run-dir /mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-lr125-01 --action pause
 ```
 
 收到请求后完成当前微批的反向和数据提交，保存全部累计梯度并退出。必须核对ack、完整manifest、校验和及实际进程退出，再恢复；不能据观察超时重启。SIGINT/SIGUSR2为pause，SIGTERM为stop，中途均不能写为completed。`checkpoint`动作则完整保存后继续。
@@ -45,8 +51,8 @@ PYTHONPATH="$CODE/src" /usr/bin/python3 -m dsrsi.training.control \
 
 ## 保留完整状态的学习率调整
 
-1434完整复评为oracle EM54/96、反事实成对20/48，较954的61/96、24/48回落；native中英配对平均ΔNLL0.01026035/0.01518519均过原线。原学习率不继续盲目扩展。拟从最新1434完整态创建`ab-A-v6-natural-keep-w1-cuda-lr125-01`，学习率0.00025→0.000125，保留优化器179步及全部矩、RNG、游标2148和学生1041480账本，不回退旧954或重播数据。
+1434完整复评为oracle EM54/96、反事实成对20/48，较954的61/96、24/48回落；native中英配对平均ΔNLL0.01026035/0.01518519均过原线。原学习率不继续盲目扩展。已从最新1434完整态创建`ab-A-v6-natural-keep-w1-cuda-lr125-01`，学习率0.00025→0.000125，保留优化器179步及全部矩、RNG、游标2148和学生1041480账本，不回退旧954或重播数据。
 
 `python -m dsrsi.training.learning_rate --source-run SOURCE --target-run TARGET --learning-rate 0.000125 --dry-run`先检查，再去掉`--dry-run`执行。仅允许已停止、单CUDA、空累计梯度的reference A/B、无scheduler/scaler的AdamW；来源及运行时/数据身份必须匹配。新run仅更改配置和所有optimizer param_group的lr，其它payload保存后重载逐项相同，来源不变。迁移记录追加`execution_migrations`并以kind标识数值优化策略变化，不声称未来轨迹与原run一致。所有调用仍经checked入口串行执行。
 
-新分支需先完成独立进程外部pause/resume全态对照，再从1434小批240个episode至1674，完整保存后按原96题回忆和48篇保持复评。恢复使用新run原全部参数加`--resume --lr 0.000125`，累积12、keep-weight1、预算16505710不变；不得init-from或重置账本。A链当前14535770/30M，剩余15464230。
+新分支已完成独立188个episode的外部pause/resume全态逐位对照（34长续写/18 unknown/16 known/34辅助），暂停退出3.739秒、重启首微批79.311秒。正式1434→1674小批已完整保存并按原96题回忆和48篇保持复评；结果见上方当前状态。恢复使用新run原全部参数加`--resume --lr 0.000125`，累积12、keep-weight1、预算16505710不变；不得init-from或重置账本。迁移1434起点A链14535770/30M；1674边界A链14650296/30M，剩余15349704。

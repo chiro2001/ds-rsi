@@ -64,7 +64,7 @@
   ],
   "first_188_episodes_samples_losses_ledger_match_recovery_proof": true,
   "checkpoint1600_payload_sha256_matches_recovery_proof": "2948a925d0b51f84c6fade8f21bf50141681a1b95923c0654648d62a49649921",
-  "evaluation_pending": true,
+  "evaluation_pending": false,
   "actual_data_cursor": {
     "next_ordinal": 2388,
     "schema_version": 1

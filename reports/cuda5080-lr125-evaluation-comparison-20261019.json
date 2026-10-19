@@ -1,0 +1,316 @@
+{
+  "scope": "Same pinned96 development queries; descriptive changes, no causal/significance or M5 claim",
+  "stages": {
+    "714": {
+      "exact_match_count": 51,
+      "paired_exact_match_count": 19,
+      "oracle_fields": {
+        "digit_accuracy": 0.9895833333333334,
+        "letter_accuracy": 0.9375,
+        "queries": 96,
+        "suffix_accuracy": 0.5520833333333334,
+        "suffix_digit_accuracy": [
+          0.84375,
+          0.6145833333333334,
+          0.6666666666666666
+        ],
+        "valid_format": 0.9895833333333334
+      },
+      "off_exact_match": 0.0,
+      "foreign_original_answer_exact_match": 0.0,
+      "follows_foreign_payload": 0.53125,
+      "native": {
+        "en/native": {
+          "paired": {
+            "ci95_high": 0.030805271532800462,
+            "ci95_low": 0.01951332597268952,
+            "documents": 24,
+            "max_document_delta": 0.07564322153727214,
+            "mean_delta": 0.024606090866857108
+          },
+          "gate": {
+            "base_mean_nll": 2.8153368070721627,
+            "checks": {
+              "ci95_high": true,
+              "max_document_delta": true,
+              "mean_delta": true
+            },
+            "passed": true,
+            "thresholds": {
+              "max_ci95_high": 0.1,
+              "max_document_delta": 0.25,
+              "max_mean_delta": 0.05
+            },
+            "variant_mean_nll": 2.8402043730020523
+          }
+        },
+        "zh/native": {
+          "paired": {
+            "ci95_high": 0.022278834962182578,
+            "ci95_low": 0.014520208454794355,
+            "documents": 24,
+            "max_document_delta": 0.03541398048400879,
+            "mean_delta": 0.01842329940862126
+          },
+          "gate": {
+            "base_mean_nll": 3.4366705819964407,
+            "checks": {
+              "ci95_high": true,
+              "max_document_delta": true,
+              "mean_delta": true
+            },
+            "passed": true,
+            "thresholds": {
+              "max_ci95_high": 0.1,
+              "max_document_delta": 0.25,
+              "max_mean_delta": 0.05
+            },
+            "variant_mean_nll": 3.4554049119353296
+          }
+        }
+      }
+    },
+    "954": {
+      "exact_match_count": 61,
+      "paired_exact_match_count": 24,
+      "oracle_fields": {
+        "digit_accuracy": 1.0,
+        "letter_accuracy": 0.9479166666666666,
+        "queries": 96,
+        "suffix_accuracy": 0.6666666666666666,
+        "suffix_digit_accuracy": [
+          0.8333333333333334,
+          0.71875,
+          0.84375
+        ],
+        "valid_format": 1.0
+      },
+      "off_exact_match": 0.0,
+      "foreign_original_answer_exact_match": 0.0,
+      "follows_foreign_payload": 0.6354166666666666,
+      "native": {
+        "en/native": {
+          "paired": {
+            "ci95_high": 0.039530635707908206,
+            "ci95_low": 0.025283502207862005,
+            "documents": 24,
+            "max_document_delta": 0.09735472997029622,
+            "mean_delta": 0.031557944499784045
+          },
+          "gate": {
+            "base_mean_nll": 2.8153368070721627,
+            "checks": {
+              "ci95_high": true,
+              "max_document_delta": true,
+              "mean_delta": true
+            },
+            "passed": true,
+            "thresholds": {
+              "max_ci95_high": 0.1,
+              "max_document_delta": 0.25,
+              "max_mean_delta": 0.05
+            },
+            "variant_mean_nll": 2.8471965834498407
+          }
+        },
+        "zh/native": {
+          "paired": {
+            "ci95_high": 0.03052658090988795,
+            "ci95_low": 0.02013169394599067,
+            "documents": 24,
+            "max_document_delta": 0.05153576532999674,
+            "mean_delta": 0.025203400188022192
+          },
+          "gate": {
+            "base_mean_nll": 3.4366705819964407,
+            "checks": {
+              "ci95_high": true,
+              "max_document_delta": true,
+              "mean_delta": true
+            },
+            "passed": true,
+            "thresholds": {
+              "max_ci95_high": 0.1,
+              "max_document_delta": 0.25,
+              "max_mean_delta": 0.05
+            },
+            "variant_mean_nll": 3.4622653678059576
+          }
+        }
+      }
+    },
+    "1434": {
+      "exact_match_count": 54,
+      "paired_exact_match_count": 20,
+      "oracle_fields": {
+        "digit_accuracy": 0.9375,
+        "letter_accuracy": 0.9375,
+        "queries": 96,
+        "suffix_accuracy": 0.5625,
+        "suffix_digit_accuracy": [
+          0.75,
+          0.65625,
+          0.6979166666666666
+        ],
+        "valid_format": 0.9375
+      },
+      "off_exact_match": 0.0,
+      "foreign_original_answer_exact_match": 0.0,
+      "follows_foreign_payload": 0.5625,
+      "native": {
+        "en/native": {
+          "paired": {
+            "ci95_high": 0.019573351161347497,
+            "ci95_low": 0.011679339740011426,
+            "documents": 24,
+            "max_document_delta": 0.050691843032836914,
+            "mean_delta": 0.015185185604625277
+          },
+          "gate": {
+            "base_mean_nll": 2.8153368070721627,
+            "checks": {
+              "ci95_high": true,
+              "max_document_delta": true,
+              "mean_delta": true
+            },
+            "passed": true,
+            "thresholds": {
+              "max_ci95_high": 0.1,
+              "max_document_delta": 0.25,
+              "max_mean_delta": 0.05
+            },
+            "variant_mean_nll": 2.8306924760341645
+          }
+        },
+        "zh/native": {
+          "paired": {
+            "ci95_high": 0.0129821900692251,
+            "ci95_low": 0.007515218522813585,
+            "documents": 24,
+            "max_document_delta": 0.02204163869222005,
+            "mean_delta": 0.010260354727506638
+          },
+          "gate": {
+            "base_mean_nll": 3.4366705819964407,
+            "checks": {
+              "ci95_high": true,
+              "max_document_delta": true,
+              "mean_delta": true
+            },
+            "passed": true,
+            "thresholds": {
+              "max_ci95_high": 0.1,
+              "max_document_delta": 0.25,
+              "max_mean_delta": 0.05
+            },
+            "variant_mean_nll": 3.4471214681863787
+          }
+        }
+      }
+    },
+    "lr125-1674": {
+      "exact_match_count": 57,
+      "paired_exact_match_count": 26,
+      "oracle_fields": {
+        "digit_accuracy": 0.9791666666666666,
+        "letter_accuracy": 0.9791666666666666,
+        "queries": 96,
+        "suffix_accuracy": 0.59375,
+        "suffix_digit_accuracy": [
+          0.8541666666666666,
+          0.71875,
+          0.7291666666666666
+        ],
+        "valid_format": 0.9791666666666666
+      },
+      "off_exact_match": 0.0,
+      "foreign_original_answer_exact_match": 0.0,
+      "follows_foreign_payload": 0.59375,
+      "native": {
+        "en/native": {
+          "paired": {
+            "ci95_high": 0.019813595546616446,
+            "ci95_low": 0.01132329429189364,
+            "documents": 24,
+            "max_document_delta": 0.053785244623819985,
+            "mean_delta": 0.015170183032751083
+          },
+          "gate": {
+            "base_mean_nll": 2.8153368070721627,
+            "checks": {
+              "ci95_high": true,
+              "max_document_delta": true,
+              "mean_delta": true
+            },
+            "passed": true,
+            "thresholds": {
+              "max_ci95_high": 0.1,
+              "max_document_delta": 0.25,
+              "max_mean_delta": 0.05
+            },
+            "variant_mean_nll": 2.8307564184069633
+          }
+        },
+        "zh/native": {
+          "paired": {
+            "ci95_high": 0.013235351277722253,
+            "ci95_low": 0.007698035074604883,
+            "documents": 24,
+            "max_document_delta": 0.025904417037963867,
+            "mean_delta": 0.010418000320593515
+          },
+          "gate": {
+            "base_mean_nll": 3.4366705819964407,
+            "checks": {
+              "ci95_high": true,
+              "max_document_delta": true,
+              "mean_delta": true
+            },
+            "passed": true,
+            "thresholds": {
+              "max_ci95_high": 0.1,
+              "max_document_delta": 0.25,
+              "max_mean_delta": 0.05
+            },
+            "variant_mean_nll": 3.4472365468740462
+          }
+        }
+      }
+    }
+  },
+  "source_to_lr125_1674_transitions": {
+    "all": {
+      "gained_correct": 19,
+      "still_incorrect": 23,
+      "retained_correct": 38,
+      "lost_correct": 16
+    },
+    "zh": {
+      "gained_correct": 5,
+      "still_incorrect": 4,
+      "lost_correct": 9,
+      "retained_correct": 14
+    },
+    "en": {
+      "gained_correct": 9,
+      "still_incorrect": 11,
+      "lost_correct": 2,
+      "retained_correct": 10
+    },
+    "cross_language": {
+      "still_incorrect": 8,
+      "retained_correct": 14,
+      "lost_correct": 5,
+      "gained_correct": 5
+    }
+  },
+  "M5_passed": false,
+  "next_batch": {
+    "run": "ab-A-v6-natural-keep-w1-cuda-lr125-01",
+    "resume_source_micro": 1674,
+    "maximum_micro_steps": 2154,
+    "new_episodes": 480,
+    "parameters_changed": false,
+    "submitted": true
+  }
+}

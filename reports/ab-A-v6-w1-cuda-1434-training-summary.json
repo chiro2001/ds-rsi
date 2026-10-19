@@ -1,0 +1,35 @@
+{
+  "run_id": "ab-A-v6-natural-keep-w1-cuda-01",
+  "status": "stopped",
+  "checkpoint": "micro_000000001434_f1a26a63b8",
+  "manifest_sha256": "6e8e22d69971bf46f0f9d27a08e766b4a8195593838b606c65c42b07080b0001",
+  "progress": {
+    "accumulation_index": 0,
+    "micro_step": 1434,
+    "optimizer_step": 179,
+    "stage": "A",
+    "student_tokens": 1041480,
+    "teacher_tokens": 84632
+  },
+  "new_episodes": 480,
+  "new_student_tokens": 227506,
+  "new_teacher_tokens": 18686,
+  "source_chain_student_tokens": 14535770,
+  "remaining_chain_budget": 15464230,
+  "compute_seconds": 508.8417375850004,
+  "student_tokens_per_second": 447.10561888999104,
+  "data_cursor_next_ordinal": 2148,
+  "evaluation_pending": true,
+  "actual_data_cursor": {
+    "next_ordinal": 2148,
+    "schema_version": 1
+  },
+  "all_pending_gradients_none": true,
+  "optimizer_entries": 34,
+  "rng_components": [
+    "python",
+    "numpy",
+    "torch_cpu",
+    "accelerator"
+  ]
+}

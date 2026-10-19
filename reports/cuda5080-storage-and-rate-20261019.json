@@ -1,0 +1,17 @@
+{
+  "observed_windows_date": "2026-10-19T16:33:27.6651622+08:00",
+  "volume_size_bytes": 788258615296,
+  "volume_free_bytes": 64159617024,
+  "vhdx_path": "E:\\WSL\\Ubuntu\\ext4.vhdx",
+  "vhdx_length_bytes": 135447707648,
+  "vhdx_attributes": "Archive",
+  "vhdx_length_unchanged_from_earlier_audit": true,
+  "training_storage_root": "E:\\ds-rsi",
+  "remaining_formal_chain_student_tokens": 15349704,
+  "recent_student_tokens_per_episode": 477.19166666666666,
+  "recent_compute_student_tokens_per_second": 450.7534506884927,
+  "approx_remaining_compute_hours_excluding_load_save_eval": 9.459287910395396,
+  "approx_future_100episode_checkpoints": 322,
+  "estimate_scope": "Current frozen-base A reference path and similar sample length; excludes future B/C/D state changes and evaluation/recovery diagnostic work",
+  "minimum_free_bytes_enforced": 21474836480
+}

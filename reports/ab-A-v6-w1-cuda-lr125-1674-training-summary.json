@@ -1,0 +1,84 @@
+{
+  "run_id": "ab-A-v6-natural-keep-w1-cuda-lr125-01",
+  "status": "stopped",
+  "checkpoint": "micro_000000001674_6dcfd130df",
+  "manifest_sha256": "42d9efac90eb78252161c836b7cbad9b9a4592b3dc444d2c340f42c63830f318",
+  "progress": {
+    "accumulation_index": 0,
+    "micro_step": 1674,
+    "optimizer_step": 199,
+    "stage": "A",
+    "student_tokens": 1156006,
+    "teacher_tokens": 94314
+  },
+  "new_episodes": 240,
+  "new_student_tokens": 114526,
+  "new_teacher_tokens": 9682,
+  "source_chain_student_tokens": 14650296,
+  "remaining_chain_budget": 15349704,
+  "compute_seconds": 254.07681255699754,
+  "student_tokens_per_second": 450.7534506884927,
+  "checkpoints": [
+    {
+      "event": "checkpoint",
+      "status": "checkpoint",
+      "path": "/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-lr125-01/checkpoints/micro_000000001500_6baa4632b4",
+      "save_seconds": 0.7998159109993139,
+      "progress": {
+        "stage": "A",
+        "optimizer_step": 184,
+        "micro_step": 1500,
+        "accumulation_index": 6,
+        "student_tokens": 1072212,
+        "teacher_tokens": 87040
+      }
+    },
+    {
+      "event": "checkpoint",
+      "status": "checkpoint",
+      "path": "/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-lr125-01/checkpoints/micro_000000001600_49fe4cd812",
+      "save_seconds": 0.7618583139992552,
+      "progress": {
+        "stage": "A",
+        "optimizer_step": 192,
+        "micro_step": 1600,
+        "accumulation_index": 10,
+        "student_tokens": 1118532,
+        "teacher_tokens": 91960
+      }
+    },
+    {
+      "event": "checkpoint",
+      "status": "stopped",
+      "path": "/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-lr125-01/checkpoints/micro_000000001674_6dcfd130df",
+      "save_seconds": 0.6010561950006377,
+      "progress": {
+        "stage": "A",
+        "optimizer_step": 199,
+        "micro_step": 1674,
+        "accumulation_index": 0,
+        "student_tokens": 1156006,
+        "teacher_tokens": 94314
+      }
+    }
+  ],
+  "first_188_episodes_samples_losses_ledger_match_recovery_proof": true,
+  "checkpoint1600_payload_sha256_matches_recovery_proof": "2948a925d0b51f84c6fade8f21bf50141681a1b95923c0654648d62a49649921",
+  "evaluation_pending": true,
+  "actual_data_cursor": {
+    "next_ordinal": 2388,
+    "schema_version": 1
+  },
+  "all_pending_gradients_none": true,
+  "optimizer_entries": 34,
+  "optimizer_step_values": [
+    199
+  ],
+  "rng_components": [
+    "python",
+    "numpy",
+    "torch_cpu",
+    "accelerator"
+  ],
+  "checkpoint_payload_deserialized_and_verified": true
+}

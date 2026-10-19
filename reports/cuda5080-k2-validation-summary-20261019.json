@@ -1,0 +1,42 @@
+{
+  "status": "candidate2_execution_and_recovery_verified_formal_pilot240_complete",
+  "reference_optimization_full_payload_bit_exact_at": [
+    100,
+    188
+  ],
+  "continuous_recovery_full_payload_bit_exact_at": [
+    100,
+    188
+  ],
+  "tensor_leaves_compared_per_checkpoint": 191,
+  "pending_gradient_tensors_compared": 34,
+  "all188_samples_losses_ledgers_equal": true,
+  "coverage": {
+    "natural_keep": 38,
+    "unknown_wall": 14,
+    "known_wall": 24,
+    "auxiliary": 30
+  },
+  "pause_to_exit_seconds": 3.190605127001618,
+  "resume_to_first_micro_seconds": 80.1455380619991,
+  "reference_compute_seconds": 223.09920716397028,
+  "optimized_compute_seconds": 207.29582127800313,
+  "timing_scope": "one serial matched pair; no general steady-state speedup claim",
+  "diagnostic_trajectories": 3,
+  "diagnostic_student_tokens_per_trajectory": 91106,
+  "diagnostic_teacher_tokens_per_trajectory": 7898,
+  "diagnostic_student_tokens_total": 273318,
+  "diagnostic_teacher_tokens_total": 23694,
+  "diagnostic_cost_not_formal_training": true,
+  "source_initial0_unchanged_until_verified": true,
+  "formal_pilot_submitted_only_after_checks": true,
+  "formal_pilot_checkpoint": "micro_000000000240_37195f79f5",
+  "formal_pilot_manifest_sha256": "9e6ec3cbd56e0ad533a2b7d56f061957294279833abdae9720314387376f0234",
+  "formal_pilot_student_tokens": 117828,
+  "formal_pilot_teacher_tokens": 10324,
+  "A_chain_prefix": 16037174,
+  "A_chain_consumed": 16155002,
+  "A_remaining": 13844998,
+  "ability_evaluation_pending": true,
+  "M5_passed": false
+}

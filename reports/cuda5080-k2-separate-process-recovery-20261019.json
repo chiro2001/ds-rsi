@@ -1,0 +1,79 @@
+{
+  "status": "separate_process_CUDA_full_state_external_pause_recovery_verified",
+  "source_run": "/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-k2-lr125-01",
+  "source_progress": {
+    "accumulation_index": 0,
+    "micro_step": 0,
+    "optimizer_step": 0,
+    "stage": "A",
+    "student_tokens": 0,
+    "teacher_tokens": 0
+  },
+  "new_episodes": 188,
+  "continuous": {
+    "elapsed_seconds": 283.0076111220005,
+    "pause_to_exit_seconds": null,
+    "resume_to_first_micro_seconds": null
+  },
+  "interrupted": {
+    "elapsed_seconds": 84.67746856099984,
+    "pause_to_exit_seconds": 3.190605127001618,
+    "resume_to_first_micro_seconds": null
+  },
+  "resumed": {
+    "elapsed_seconds": 280.7406041269969,
+    "pause_to_exit_seconds": null,
+    "resume_to_first_micro_seconds": 80.1455380619991
+  },
+  "paused_progress": {
+    "accumulation_index": 4,
+    "micro_step": 4,
+    "optimizer_step": 0,
+    "stage": "A",
+    "student_tokens": 2444,
+    "teacher_tokens": 0
+  },
+  "paused_manifest_sha256": "2153f16e8c10b9c5a9bbd8f667090b4f0ba9dfdf5859ec99e789abe53e64f6e5",
+  "final_progress": {
+    "stage": "A",
+    "optimizer_step": 15,
+    "micro_step": 188,
+    "accumulation_index": 8,
+    "student_tokens": 91106,
+    "teacher_tokens": 7898
+  },
+  "final_cursor": {
+    "next_ordinal": 188,
+    "schema_version": 1
+  },
+  "complete_payload_exact_match": true,
+  "sample_ids_tokens_losses_exact_match": true,
+  "coverage": {
+    "natural_keep": 38,
+    "unknown_wall": 14,
+    "known_wall": 24,
+    "auxiliary": 30
+  },
+  "formal_source_modified": false,
+  "student_tokens_per_trajectory": 91106,
+  "teacher_tokens_per_trajectory": 7898,
+  "raw_bit_and_stride_checks": [
+    {
+      "micro_step": 100,
+      "continuous_manifest_sha256": "f190314d7ad4da41e552a164a81445b79aa1c781ef8d7f7dbb323a51dc69241b",
+      "interrupted_manifest_sha256": "1e5b3987a0e65ec0c3e83a3b0e052574867a2c0b5340693f2170facb98c8aa14",
+      "raw_tensor_bytes_and_strides_exact_match": true,
+      "tensor_leaves_compared": 191,
+      "all_payload_fields_equal": true
+    },
+    {
+      "micro_step": 188,
+      "continuous_manifest_sha256": "3a6c671189fb03e7ef7d0bbd92330243f19aa5c354902ae9dcca4f45f400f2f9",
+      "interrupted_manifest_sha256": "5ee1a1264508d109bad1347f52431481d2918f405ee38c627807cdd9b0e2dcd8",
+      "raw_tensor_bytes_and_strides_exact_match": true,
+      "tensor_leaves_compared": 191,
+      "all_payload_fields_equal": true
+    }
+  ],
+  "original4554_and_formal_initial0_manifest_pointers_unchanged": true
+}

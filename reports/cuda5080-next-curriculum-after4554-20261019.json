@@ -1,12 +1,12 @@
 {
-  "status": "oracle2 failed2/96 with support verified; candidate2 new A initial0 verified; reference188 running",
+  "status": "candidate2 prefix/recovery validated; formal pilot240 complete; full ability evaluation running",
   "source_run": "ab-A-v6-natural-keep-w1-cuda-lr125-01",
   "source_checkpoint": "micro_000000004554_fceac90b62",
   "source_manifest_sha256": "d89910a3b02d2f1c2d36a9e0e70699e7d8c24029ad8e5bde5e26478561d05c4c",
   "contract": "docs/counterfactual-codec-curriculum.md",
   "contract_sha256": "053811e5c26f16ae9477c1390ef2354dcc9be40e5e8f1cecb1e2fc578558ccb5",
   "A_chain_student_tokens_consumed": 16037174,
-  "A_remaining_budget": 13962826,
+  "A_remaining_budget": 13844998,
   "existing_A_run_budget_unchanged": 16505710,
   "original_B_budget": 20000000,
   "formal_B_started": false,
@@ -66,11 +66,17 @@
     "run": "ab-A-v6-natural-keep-w1-cuda-k2-lr125-01",
     "checkpoint": "micro_000000000000_84075f4752",
     "manifest_sha256": "a9c055371ea5c743bf12897d1da69feac1fb1fbaf51a7cd3156b63f2d069a9da",
-    "formal_student_tokens": 0,
+    "formal_student_tokens": 117828,
     "source_weights_exact_match": true,
-    "explicit_new_optimizer_rng_cursor": true
+    "explicit_new_optimizer_rng_cursor": true,
+    "current_checkpoint": "micro_000000000240_37195f79f5",
+    "current_manifest_sha256": "9e6ec3cbd56e0ad533a2b7d56f061957294279833abdae9720314387376f0234",
+    "formal_teacher_tokens": 10324
   },
   "reference_optimized_initial_payload_equal": true,
   "reference_trajectory_pid": 13931,
-  "real_prefix_and_recovery_validation_complete": false
+  "real_prefix_and_recovery_validation_complete": true,
+  "formal_recall_evaluation_pid": 15248,
+  "source_A2_budget_unchanged": 13962826,
+  "A_chain_total_including_new_course": 16155002
 }

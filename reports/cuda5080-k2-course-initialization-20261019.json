@@ -31,5 +31,5 @@
   "new_run_budget": 13962826,
   "formal_student_tokens_consumed": 0,
   "formal_training_started": false,
-  "real_cuda_prefix_and_recovery_validation_pending": true
+  "real_cuda_prefix_and_recovery_validation_pending": false
 }

@@ -1,0 +1,55 @@
+{
+  "status": "unoptimized_candidate2_reference188_complete",
+  "checkpoint": "micro_000000000188_25c1b52390",
+  "manifest_sha256": "3e59a3b23981ebe21e4c765b7aa097213c55a992255b0ed8013a0f723ebf8383",
+  "progress": {
+    "stage": "A",
+    "optimizer_step": 15,
+    "micro_step": 188,
+    "accumulation_index": 8,
+    "student_tokens": 91106,
+    "teacher_tokens": 7898
+  },
+  "data_cursor": {
+    "next_ordinal": 188,
+    "schema_version": 1
+  },
+  "coverage": {
+    "natural_keep": 38,
+    "unknown_wall": 14,
+    "known_wall": 24,
+    "auxiliary": 30
+  },
+  "compute_seconds": 223.09920716397028,
+  "student_tokens": 91106,
+  "teacher_tokens": 7898,
+  "process_duration": {
+    "pid": 13931,
+    "method": "proc-starttime-pidfd-CLOCK_BOOTTIME-v1",
+    "start_clock_ticks": 1839144,
+    "clock_ticks_per_second": 100,
+    "process_start_boottime_seconds": 18391.44,
+    "observer_start_boottime_seconds": 18391.553343461,
+    "observer_start_monotonic_seconds": 18391.55334422,
+    "observer_start_realtime_seconds": 1792408693.28052,
+    "start_quantization_seconds": 0.01,
+    "signals_sent": false,
+    "training_state_modified": false,
+    "process_exit_boottime_seconds": 18690.607037079,
+    "process_duration_seconds": 299.1670370790016,
+    "observer_duration_monotonic_seconds": 299.05369539800085,
+    "observer_duration_realtime_seconds": 286.8917245864868,
+    "observer_realtime_minus_monotonic_seconds": -12.161970811514038,
+    "exit_observed": true,
+    "returncode_observed": false,
+    "includes_machine_suspend_time": true,
+    "submission": "/mnt/e/ds-rsi/control/cuda-k2-unoptimized-reference-188.json",
+    "submission_sha256": "ca7aa8166f9966d81ce7e302990cb4ba5f8aa1f27e596d18c952f2a823866fbe",
+    "observer_script_sha256": "9b2650d806a25954a6596ba17283788ff97d10fecf0230f9b91564553206a2b7"
+  },
+  "all_weights_and_pending_gradients_finite": true,
+  "pending_gradient_tensors": 34,
+  "formal_new_course_progress": 0,
+  "diagnostic_cost_not_formal_training": true,
+  "optimization_and_recovery_proof_pending": true
+}

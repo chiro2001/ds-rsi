@@ -1,0 +1,128 @@
+{
+  "run_id": "ab-A-v6-natural-keep-w1-cuda-k2-lr125-01",
+  "status": "stopped",
+  "checkpoint": "micro_000000000240_37195f79f5",
+  "manifest_sha256": "9e6ec3cbd56e0ad533a2b7d56f061957294279833abdae9720314387376f0234",
+  "progress": {
+    "accumulation_index": 0,
+    "micro_step": 240,
+    "optimizer_step": 20,
+    "stage": "A",
+    "student_tokens": 117828,
+    "teacher_tokens": 10324
+  },
+  "new_episodes": 240,
+  "new_student_tokens": 117828,
+  "new_teacher_tokens": 10324,
+  "A_chain_prefix": 16037174,
+  "source_chain_student_tokens": 16155002,
+  "remaining_chain_budget": 13844998,
+  "compute_seconds": 262.0749045260018,
+  "student_tokens_per_second": 449.59665334270755,
+  "verified_process_duration_seconds": 339.0570882400025,
+  "verified_process_student_tokens_per_second": 347.51669877078376,
+  "expected_data_cursor_next_ordinal": 240,
+  "first188_samples_losses_ledgers_equal_verified_proof": true,
+  "evaluation_pending": true,
+  "checkpoints": [
+    {
+      "event": "checkpoint",
+      "status": "checkpoint",
+      "path": "/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-k2-lr125-01/checkpoints/micro_000000000100_cd7059ff77",
+      "save_seconds": 0.7958214249993034,
+      "progress": {
+        "stage": "A",
+        "optimizer_step": 8,
+        "micro_step": 100,
+        "accumulation_index": 4,
+        "student_tokens": 48264,
+        "teacher_tokens": 4154
+      }
+    },
+    {
+      "event": "checkpoint",
+      "status": "checkpoint",
+      "path": "/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-k2-lr125-01/checkpoints/micro_000000000200_cf8ed640d2",
+      "save_seconds": 0.7849949560004461,
+      "progress": {
+        "stage": "A",
+        "optimizer_step": 16,
+        "micro_step": 200,
+        "accumulation_index": 8,
+        "student_tokens": 96838,
+        "teacher_tokens": 8826
+      }
+    },
+    {
+      "event": "checkpoint",
+      "status": "stopped",
+      "path": "/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-k2-lr125-01/checkpoints/micro_000000000240_37195f79f5",
+      "save_seconds": 0.6527868720004335,
+      "progress": {
+        "stage": "A",
+        "optimizer_step": 20,
+        "micro_step": 240,
+        "accumulation_index": 0,
+        "student_tokens": 117828,
+        "teacher_tokens": 10324
+      }
+    }
+  ],
+  "actual_data_cursor": {
+    "next_ordinal": 240,
+    "schema_version": 1
+  },
+  "optimizer_entries": 34,
+  "optimizer_step_values": [
+    20
+  ],
+  "optimizer_steps_by_parameter": {
+    "writer.queries": 20,
+    "writer.input_norm.weight": 20,
+    "writer.query_norm.weight": 20,
+    "writer.q.weight": 20,
+    "writer.k.weight": 20,
+    "writer.v.weight": 20,
+    "writer.o.weight": 20,
+    "writer.ffn_norm.weight": 20,
+    "writer.ffn.gate.weight": 20,
+    "writer.ffn.up.weight": 20,
+    "writer.ffn.down.weight": 20,
+    "writer.final_norm.weight": 20,
+    "readers.12.alpha": 20,
+    "readers.12.h_norm.weight": 20,
+    "readers.12.z_norm.weight": 20,
+    "readers.12.q.weight": 20,
+    "readers.12.k.weight": 20,
+    "readers.12.v.weight": 20,
+    "readers.12.o.weight": 20,
+    "readers.12.gate.weight": 20,
+    "readers.12.gate.bias": 20,
+    "readers.20.alpha": 20,
+    "readers.20.h_norm.weight": 20,
+    "readers.20.z_norm.weight": 20,
+    "readers.20.q.weight": 20,
+    "readers.20.k.weight": 20,
+    "readers.20.v.weight": 20,
+    "readers.20.o.weight": 20,
+    "readers.20.gate.weight": 20,
+    "readers.20.gate.bias": 20,
+    "time_source.down.weight": 20,
+    "time_source.down.bias": 20,
+    "time_source.up.weight": 20,
+    "time_source.up.bias": 20
+  },
+  "all_preservation_groups_without_writer_gradient": [],
+  "all_pending_gradients_none": true,
+  "all_weights_optimizer_moments_finite": true,
+  "rng_components": [
+    "python",
+    "numpy",
+    "torch_cpu",
+    "accelerator"
+  ],
+  "checkpoint_payload_deserialized_and_verified": true,
+  "formal100_full_payload_matches_validated_optimized100": true,
+  "formal100_tensor_raw_byte_stride_leaves_compared": 191,
+  "initialization_not_repeated": true
+}

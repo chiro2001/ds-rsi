@@ -1,0 +1,53 @@
+{
+  "status": "candidate2_reference_prefix_full_payload_bit_exact_verified",
+  "checkpoints": [
+    {
+      "micro_step": 100,
+      "reference_manifest_sha256": "6fb5e06a9cfd84f9e67b15a97913f6e74513aaf6d18266db4a08c3dc82a0bac0",
+      "optimized_manifest_sha256": "f190314d7ad4da41e552a164a81445b79aa1c781ef8d7f7dbb323a51dc69241b",
+      "full_payload_equal": true,
+      "all_tensor_values_raw_bytes_and_strides_equal": true,
+      "tensor_leaves_compared": 191,
+      "pending_gradient_tensors": 34,
+      "progress": {
+        "stage": "A",
+        "optimizer_step": 8,
+        "micro_step": 100,
+        "accumulation_index": 4,
+        "student_tokens": 48264,
+        "teacher_tokens": 4154
+      }
+    },
+    {
+      "micro_step": 188,
+      "reference_manifest_sha256": "3e59a3b23981ebe21e4c765b7aa097213c55a992255b0ed8013a0f723ebf8383",
+      "optimized_manifest_sha256": "3a6c671189fb03e7ef7d0bbd92330243f19aa5c354902ae9dcca4f45f400f2f9",
+      "full_payload_equal": true,
+      "all_tensor_values_raw_bytes_and_strides_equal": true,
+      "tensor_leaves_compared": 191,
+      "pending_gradient_tensors": 34,
+      "progress": {
+        "stage": "A",
+        "optimizer_step": 15,
+        "micro_step": 188,
+        "accumulation_index": 8,
+        "student_tokens": 91106,
+        "teacher_tokens": 7898
+      }
+    }
+  ],
+  "all188_losses_samples_token_ledgers_equal": true,
+  "coverage": {
+    "natural_keep": 38,
+    "unknown_wall": 14,
+    "known_wall": 24,
+    "auxiliary": 30
+  },
+  "reference_compute_seconds": 223.09920716397028,
+  "optimized_compute_seconds": 207.29582127800313,
+  "timing_scope": "One serial matched188-episode pair, diagnostic; no broad steady-state performance claim",
+  "diagnostic_student_tokens_per_trajectory": 91106,
+  "diagnostic_teacher_tokens_per_trajectory": 7898,
+  "formal_new_course_consumption": 0,
+  "separate_process_pause_recovery_still_pending": false
+}

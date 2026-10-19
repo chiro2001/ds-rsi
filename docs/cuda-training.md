@@ -2,21 +2,15 @@
 
 2026-10-19起后续负载使用Windows `192.168.101.5` 的RTX5080，WSL负责执行，模型、run、评测、日志、临时文件和增长型缓存放`E:\ds-rsi`。GPU任务通过`scripts/run_5080_checked.py`启动：同进程检查设备、显存、温度、E盘实际余量，获取项目GPU锁并继承到训练进程；评测与训练串行。控制请求使用纯标准库入口，不获取GPU锁。
 
-## 当前状态与后续课程
+## 当前双候选课程
 
-当前A run为`/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-lr125-01`，完整GPU执行快照`/mnt/e/ds-rsi/code/92657521bdd5`。已完整stopped/核验/评测4554，全局优化器439、累积0、学生2542884/教师212524、游标5268，checkpoint `micro_000000004554_fceac90b62`、manifest SHA256 `d89910a3b02d2f1c2d36a9e0e70699e7d8c24029ad8e5bde5e26478561d05c4c`。单条oracle完整代码79/96、成对36/48，中英native保持过原线；这只是总分译码中间门槛，M5–M7未通过。
+当前run `/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-k2-lr125-01`，GPU完整快照`/mnt/e/ds-rsi/code/92657521bdd5`。已正式原参数resume完成240并完整stopped，优化器20/累积0/学生117828/教师10324/游标240，checkpoint `micro_000000000240_37195f79f5`、SHA `9e6ec3cbd56e0ad533a2b7d56f061957294279833abdae9720314387376f0234`；34项Adam均20、空梯度和全部RNG已反序列化核验，100/200/240完整态保留。源4554权重通过明确A→A新课程初始化加载，旧4554完整训练态保留，不是旧run恢复。
 
-没有提交旧A继续到5514或B正式训练。64池实际coverage@8基线已完成17/96，未达90%，PID12407已退出；已串行启动同4554、原9池/2候选的完整96题oracle/off/oracle_foreign挑战，PID13246、`control/cuda-lr125-4554-oracle2-submit.json`。结束按`docs/counterfactual-codec-curriculum.md`继续2/4/8与混合任务课程证据，再进入正式实际寻址训练，不直接跳到B。
+新配置预算13962826、来源链前缀16037174；A2已用117828后总A16155002/30M、余13844998，不能沿用旧13494290前缀或重复加初始化。新run后续仅原全部参数加`--resume`：候选2、v6/facts、lr0.000125、累积12、keep-weight1、keep-fraction0.4、CF1/margin2、每100保存、前缀复用；不能再次init-from或默改参数。
 
-原A若恢复，仍仅原全部参数加`--resume --lr 0.000125 --grad-accum 12`及前缀复用，预算16505710、keep-weight1不变，不能在旧run里改候选数。新课程须显式A→A新run、保留旧全态、按合同声明新优化器/RNG/游标；新A预算13962826、链前缀16037174。正式新课前验证真实CUDA完整恢复和前缀优化等价，辅助诊断不替代能力。原B20M额度保持，未挪用A余额。
+正式训练前参考/优化188、外部pause4/累积4后独立resume188全部通过，100/188两点完整payload、191张量原始字节和步幅、34份累计梯度一致，loss/样本/账本同，覆盖38长续写/14 unknown/24 known/30辅助。暂停退出3.19秒、重启首微批80.15秒。三个诊断轨迹成本273318学生/23694教师单列，正式从初态0重跑；正式100也与验证轨迹全payload相同。可靠进程计时仍用b3858061a323纯标准库观察器，不拿GPU锁，训练六个核心文件/环境保持。
 
-Writer12个Adam437、其它22个439的历史差异须原样恢复；是保持题组按既有协议detach Writer所致，不能按全局步数归一。当前全态及全部旧来源保留，细节见`reports/20261019-cuda-lr125-4554.md`。
-
-## 双候选新课程的验证状态
-
-原4554 oracle2已完成2/96、成对0；逐条核验支撑均包含，须继续多候选A课程。新run `/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-k2-lr125-01`已明确A→A新优化器/RNG/游标初始化为0，权重/冻结辅助/buffers/life与4554逐项相同；原完整态保留。新预算13962826、链前缀16037174。初态`micro_000000000000_84075f4752`、SHA `a9c055371ea5c743bf12897d1da69feac1fb1fbaf51a7cd3156b63f2d069a9da`。
-
-未复用前缀参考副本初态与优化初态全部payload逐位相同，正在其上跑188参考（PID13931），之后须验证真实独立进程暂停/恢复与前缀优化/参考完整轨迹等价；正式新run仍0token，验证全通过后才能原参数加resume首批240，不得再次init-from。当前两项验证尚未完成，M5–M7未过，详见`reports/20261019-cuda-k2-course-readiness.md`。
+固定240的2候选完整96题正在复评，PID15248、`control/cuda-k2-240-recall-submit.json`；后续仍须48篇native保持。两项结果全前不扩展，不以工程验证代替能力。原4554的单候选79/96只是中间门槛，2候选初始仅2/96且真支撑全部包含，64池实际coverage@8只有17/96；M5–M7未过。课程继续2/4/8与位置/更新/经历混合任务后才进入B，B20M额度未使用，未挪A余额。详见`reports/20261019-cuda-k2-course-readiness.md`。
 
 ## 首次硬件迁移与来源run
 
@@ -50,7 +44,7 @@ CUDA默认显式绑定原PyTorch GDN、卷积、gated norm和eager attention，�
 
 ```bash
 PYTHONPATH="$CODE/src" /usr/bin/python3 -m dsrsi.training.control \
-  --run-dir /mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-lr125-01 --action pause
+  --run-dir /mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-k2-lr125-01 --action pause
 ```
 
 收到请求后完成当前微批的反向和数据提交，保存全部累计梯度并退出。必须核对ack、完整manifest、校验和及实际进程退出，再恢复；不能据观察超时重启。SIGINT/SIGUSR2为pause，SIGTERM为stop，中途均不能写为completed。`checkpoint`动作则完整保存后继续。

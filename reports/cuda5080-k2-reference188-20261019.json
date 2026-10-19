@@ -51,5 +51,7 @@
   "pending_gradient_tensors": 34,
   "formal_new_course_progress": 0,
   "diagnostic_cost_not_formal_training": true,
-  "optimization_and_recovery_proof_pending": true
+  "optimization_and_recovery_proof_pending": false,
+  "post_reference_validation_complete": true,
+  "validation_summary": "cuda5080-k2-validation-summary-20261019.json"
 }

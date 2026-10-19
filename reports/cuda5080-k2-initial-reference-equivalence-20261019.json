@@ -7,5 +7,7 @@
   "all_payload_fields_exact_match": true,
   "optimization_config_differs": true,
   "formal_new_course_student_tokens": 0,
-  "trajectory_and_recovery_proof_pending": true
+  "trajectory_and_recovery_proof_pending": false,
+  "post_reference_validation_complete": true,
+  "validation_summary": "cuda5080-k2-validation-summary-20261019.json"
 }

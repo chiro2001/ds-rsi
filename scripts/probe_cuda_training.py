@@ -31,6 +31,8 @@ def main():
     parser.add_argument("--episodes", type=int, default=32)
     parser.add_argument("--start-ordinal", type=int,
                         help="diagnostic-only workload override; never updates the source cursor")
+    parser.add_argument("--warmup-episodes", type=int, default=0,
+                        help="warm backend caches, then restore the complete initial probe state before timing")
     parser.add_argument("--mode", choices=["fallback", "scripted", "fla"], default="fallback")
     parser.add_argument("--recovery", action="store_true")
     args = parser.parse_args()
@@ -38,6 +40,8 @@ def main():
         parser.error("at least four episodes required")
     if args.start_ordinal is not None and args.start_ordinal < 0:
         parser.error("start ordinal must be nonnegative")
+    if args.warmup_episodes < 0:
+        parser.error("warmup episodes must be nonnegative")
     initialization_started = time.perf_counter()
     output = Path(args.output_dir).resolve()
     output.mkdir(parents=True, exist_ok=False)
@@ -141,6 +145,16 @@ def main():
 
     initial = snapshot()
     initialization_seconds = time.perf_counter() - initialization_started
+    warmup = {"episodes": args.warmup_episodes, "student_tokens": 0,
+              "teacher_tokens": 0, "seconds": 0.0}
+    if args.warmup_episodes:
+        started = time.perf_counter()
+        run(args.warmup_episodes, False)
+        warmup.update(seconds=time.perf_counter() - started,
+            student_tokens=trainer.progress.student_tokens - initial["progress"]["student_tokens"],
+            teacher_tokens=trainer.progress.teacher_tokens - initial["progress"]["teacher_tokens"])
+        trainer.progress, trainer.cursor, trainer.life = restore_training_state(
+            initial, model, trainer.optimizer, device="cuda:0")
     torch.cuda.reset_peak_memory_stats()
     run(args.episodes, True)
     final = snapshot()
@@ -185,6 +199,7 @@ def main():
         "base_hash_seconds": base_hash_seconds, "base_load_seconds": base_load_seconds,
         "source_state_and_trainer_load_seconds": source_state_and_trainer_load_seconds,
         "initialization_seconds": initialization_seconds,
+        "warmup": warmup,
         "probe_config": asdict(probe_config), "episodes": rows,
         "timing_excludes_first_episodes": 2, "measured_student_tokens": tokens,
         "measured_seconds": seconds, "student_tokens_per_second": tokens / seconds,

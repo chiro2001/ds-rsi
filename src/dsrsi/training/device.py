@@ -12,9 +12,24 @@ from .resource import authorized_mapping, verify_health
 def resolve_device(requested):
     world_size = int(os.environ.get("WORLD_SIZE", "1"))
     local_rank = int(os.environ.get("LOCAL_RANK", "0"))
+    if requested == "cuda" or requested.startswith("cuda:"):
+        if world_size != 1 or local_rank != 0:
+            raise ValueError("CUDA currently supports one rank; topology migration must be explicit")
+        match = re.fullmatch(r"cuda:(\d+)", requested)
+        if requested != "cuda" and match is None:
+            raise ValueError("CUDA device must be cuda or cuda:<logical index>")
+        index = int(match.group(1)) if match else 0
+        if not torch.cuda.is_available() or index >= torch.cuda.device_count():
+            raise RuntimeError("requested CUDA device is unavailable")
+        os.environ.setdefault("CUBLAS_WORKSPACE_CONFIG", ":4096:8")
+        torch.cuda.set_device(index)
+        torch.backends.cuda.matmul.allow_tf32 = False
+        torch.backends.cudnn.allow_tf32 = False
+        torch.use_deterministic_algorithms(True)
+        return f"cuda:{index}", world_size
     if not requested.startswith("npu"):
         if requested != "cpu":
-            raise ValueError("only CPU and authorized NPU execution are implemented")
+            raise ValueError("supported devices are CPU, single-rank CUDA and authorized NPU")
         return requested, world_size
     device = f"npu:{local_rank}" if world_size > 1 or requested == "npu" else requested
     chips = authorized_mapping()

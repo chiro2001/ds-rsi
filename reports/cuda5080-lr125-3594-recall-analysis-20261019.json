@@ -1,0 +1,52 @@
+{
+  "scope": "Descriptive fixed96 development queries; no causal or capability claim",
+  "source_checkpoint": "micro_000000002634_d09a3534ae",
+  "checkpoint": "micro_000000003594_aa41756346",
+  "manifest_sha256": "7974e95cc6c829689d9f446c99e4c6c8f10fd76bc6fa5826c045a29e003d8bf2",
+  "query_changes_2634_to3594": {
+    "retained_correct": 56,
+    "gained_correct": 12,
+    "lost_correct": 13,
+    "still_incorrect": 15
+  },
+  "pair_outcomes": {
+    "both_correct": 29,
+    "one_correct": 10,
+    "both_wrong": 9
+  },
+  "by_language": {
+    "zh": 27,
+    "en": 18,
+    "cross_language": 23
+  },
+  "invalid_code_format_records": [
+    {
+      "episode_id": "v6-dev-e00000008-v0",
+      "language": "cross_language",
+      "expected": "C9-671",
+      "text": "Cedar-671",
+      "stopped_on_end": true,
+      "variant": 0,
+      "world_id": "v6-dev-w00000008"
+    },
+    {
+      "episode_id": "v6-dev-e00000008-v1",
+      "language": "cross_language",
+      "expected": "C9-071",
+      "text": "Cedar-001",
+      "stopped_on_end": true,
+      "variant": 1,
+      "world_id": "v6-dev-w00000008"
+    },
+    {
+      "episode_id": "v6-dev-e00000011-v0",
+      "language": "en",
+      "expected": "Q4-204",
+      "text": "Q4-2020",
+      "stopped_on_end": true,
+      "variant": 0,
+      "world_id": "v6-dev-w00000011"
+    }
+  ],
+  "middle_digit_correct": 73
+}

@@ -69,4 +69,4 @@ autograd 图不直接序列化。跨段训练在边界完成反传并 detach 数
 
 2026-10-19已新增独立的`python -m dsrsi.training.hardware`：仅在已停止、空累计、stateless A/B且共享状态一致的NPU来源创建单CUDA新run，保持优化器和账本，显式初始化CUDA RNG；旧副本缩减入口的至少两rank限制不变。真实188个episode的独立进程外部暂停/恢复已逐位一致，暂停到退出约3.52秒、重启到首微批约90.49秒。见[5080训练与恢复](cuda-training.md)。
 
-CUDA学习率变更另用`python -m dsrsi.training.learning_rate`，仅在停止、空累积的单卡reference A/B边界创建新run，严格保留所有其它payload，不作为普通resume或权重初始化。已从1434保留全态迁至lr0.000125，真实188个episode在1438/累积4外部暂停、独立恢复到1622/累积8，与连续轨迹逐位一致；暂停退出3.74秒、重启首微批79.31秒。当前正式lr125分支最近已核验/评测边界2634，已完整resume上限3594，使用新run原参数加resume/累积12/lr0.000125；详情及当前暂停命令见[5080训练与恢复](cuda-training.md)。
+CUDA学习率变更另用`python -m dsrsi.training.learning_rate`，仅在停止、空累积的单卡reference A/B边界创建新run，严格保留所有其它payload，不作为普通resume或权重初始化。已从1434保留全态迁至lr0.000125，真实188个episode在1438/累积4外部暂停、独立恢复到1622/累积8，与连续轨迹逐位一致；暂停退出3.74秒、重启首微批79.31秒。当前正式lr125分支最近已核验/评测边界3594，已完整resume上限4554，使用新run原参数加resume/累积12/lr0.000125；详情及当前暂停命令见[5080训练与恢复](cuda-training.md)。

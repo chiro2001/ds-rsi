@@ -162,7 +162,7 @@
       }
     }
   ],
-  "evaluation_pending": true,
+  "evaluation_pending": false,
   "objective_diagnostics": {
     "full_code": {
       "episodes": 394,
@@ -246,5 +246,11 @@
   "final_manifest_created_unix": 1792403705.2896378,
   "submit_to_final_manifest_seconds": 1046.9589700698853,
   "submit_to_final_manifest_student_tokens_per_second": 436.04574109482706,
-  "timing_note": "Submission to final manifest creation includes startup and saves; micro compute timing separate."
+  "timing_note": "Submission to final manifest creation includes startup and saves; micro compute timing separate.",
+  "evaluations": {
+    "oracle_exact_match": "68/96",
+    "counterfactual_pairs": "29/48",
+    "native_original_gates_passed": true,
+    "M5_passed": false
+  }
 }

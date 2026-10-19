@@ -4,11 +4,11 @@
 
 ## 当前正式接续
 
-当前run为`/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-lr125-01`，完整提交快照`/mnt/e/ds-rsi/code/92657521bdd5`。最近完整保存/核验/评测边界2634，全局优化器279、累积0、学生1622226/教师132112、游标3348，checkpoint `micro_000000002634_d09a3534ae`、manifest SHA256 `1891c0a56918aad7c69541b8bbc58be2628e0521e7270662330893517cb80384`。完整回忆69/96、成对26/48，48篇native中英保持过原线，M5–M7未通过。
+当前run为`/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-lr125-01`，完整提交快照`/mnt/e/ds-rsi/code/92657521bdd5`。最近完整保存/核验/评测边界3594，全局优化器359、累积0、学生2078748/教师174284、游标4308，checkpoint `micro_000000003594_aa41756346`、manifest SHA256 `7974e95cc6c829689d9f446c99e4c6c8f10fd76bc6fa5826c045a29e003d8bf2`。完整回忆68/96、成对29/48，中间数字73/96、格式93/96，中英native保持过原线，M5–M7未通过。
 
-已同run完整resume上限3594（960个episode），提交`control/formal-A-cuda-lr125-2634-3594.json`，不能重复提交。完成lr125三个受控窗口并复评后扩大停止评测间隔，仍每12个episode更新、每100微批完整保存，快速中断边界保持。恢复仅本run原全部参数加`--resume --lr 0.000125 --grad-accum 12`及前缀复用；预算16505710、keep-weight1不变。已核验A链15116516/30M，后续只追加实际新消费。暂停命令如下方示例；先核验实际进程/latest，不init-from、不丢累计梯度，全部来源完整态保留。
+已同run完整resume上限4554（960个episode），提交`control/formal-A-cuda-lr125-3594-4554.json`，不能重复提交。训练仍每12个episode更新、每100微批完整保存，快速中断边界保持；960只决定停止复评间隔。恢复仅本run原全部参数加`--resume --lr 0.000125 --grad-accum 12`及前缀复用；预算16505710、keep-weight1不变。3594已核验A链15573038/30M，后续只追加实际新消费。暂停命令见下方示例；先核验实际进程/latest，不init-from、不丢累计梯度，全部来源完整态保留。
 
-逐参数Adam计数须原样保存恢复：2154的12个Writer238、其余22个239，源于1711–1722全组保持题detached Writer；2634分别接续为278/279。已逐项核验实际样本和完整payload，不能按全局步数强行归一。细节见`reports/20261019-cuda-lr125-2634.md`。
+逐参数Adam计数须原样恢复：3594的12个Writer357、其它22个359，源于第203及346次全局更新均为保持题组，既有协议detach Writer。完整payload及实际样本已核对，不能按全局步数强行归一。细节见`reports/20261019-cuda-lr125-3594.md`。
 
 ## 首次硬件迁移与来源run
 

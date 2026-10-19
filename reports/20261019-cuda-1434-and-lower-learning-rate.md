@@ -19,3 +19,7 @@
 证据：`ab-A-v6-w1-cuda-1434-training-summary.json`、`ab-A-v6-w1-cuda-1434-dev.json`、`ab-A-v6-w1-cuda-1434-native-source-nll.json`。迁移和新分支结果待实际执行后追加。
 
 迁移已在完整提交快照`92657521bdd5`实际执行，生成`micro_000000001434_7f544fa846`、manifest SHA256 `837666e29f1fe3aad45cbede70d3ebe430a7b889c9e75b2a8850c486d28955e4`，所有payload除optimizer lr均已证明保持。来源1434不变。真实188-episode独立进程恢复对照已启动，当前尚未向正式新分支追加消费。证据`cuda5080-lr125-migration-20261019.json`。
+
+新配置独立进程恢复实测通过：第1438微批/累积4外部pause，独立进程完整恢复到1622/累积8，与连续188个episode的全部payload逐位一致，样本/loss/账本相同。覆盖34长续写、18 unknown、16 known、34辅助，pause退出3.739秒、重启首微批79.311秒。每条诊断轨迹87064学生/8114教师token，正式来源没有修改。370项CI测试通过，2项可选外部检查跳过。证据`cuda5080-lr125-separate-process-recovery-20261019.json`。
+
+据此已正式resume新lr125分支1434→1674上限，240个episode，完整快照92657521bdd5；提交`control/formal-A-cuda-lr125-1434-1674.json`、日志`logs/ab-A-v6-w1-cuda-lr125-1434-1674.log`。当前只是已启动，未将计划中的进度记为完成。结束后固定代次完整回忆与保持复评。

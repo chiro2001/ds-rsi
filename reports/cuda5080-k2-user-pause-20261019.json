@@ -1,0 +1,55 @@
+{
+  "status": "paused_on_user_request",
+  "training_checkpoint": "micro_000000000240_37195f79f5",
+  "manifest_sha256": "9e6ec3cbd56e0ad533a2b7d56f061957294279833abdae9720314387376f0234",
+  "training_process_live": false,
+  "diagnostic_process_live": false,
+  "gpu_lock_released": true,
+  "diagnostic_code_snapshot": "15643fbfb7fc",
+  "diagnostic_journal_status": "paused",
+  "diagnostic_committed_items": 81,
+  "diagnostic_planned_items": 144,
+  "training_state_modified": false,
+  "new_formal_training_tokens": 0,
+  "A_chain_student_tokens": 16155002,
+  "A_remaining_student_tokens": 13844998,
+  "M5_passed": false,
+  "sampling": "18 handpicked teacher-forced cases; partial component diagnostic, no free-generation capability or unique cause established",
+  "conditions": {
+    "initial": {
+      "items": 18,
+      "complete": true,
+      "canonical_mean_target_nll": 0.06641150171090823,
+      "canonical_correct_tokens": 124,
+      "canonical_total_tokens": 126
+    },
+    "trained": {
+      "items": 18,
+      "complete": true,
+      "canonical_mean_target_nll": 0.40296435998413743,
+      "canonical_correct_tokens": 115,
+      "canonical_total_tokens": 126
+    },
+    "trained_old_writer": {
+      "items": 18,
+      "complete": true,
+      "canonical_mean_target_nll": 0.3380224631645765,
+      "canonical_correct_tokens": 116,
+      "canonical_total_tokens": 126
+    },
+    "trained_old_readers": {
+      "items": 18,
+      "complete": true,
+      "canonical_mean_target_nll": 0.11359016502180769,
+      "canonical_correct_tokens": 120,
+      "canonical_total_tokens": 126
+    },
+    "trained_old_gates": {
+      "items": 9,
+      "complete": false,
+      "canonical_mean_target_nll": 0.10483515094238967,
+      "canonical_correct_tokens": 60,
+      "canonical_total_tokens": 63
+    }
+  }
+}

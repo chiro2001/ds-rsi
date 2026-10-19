@@ -8,6 +8,8 @@
 
 已同run完整resume上限2154（再480个episode），提交`control/formal-A-cuda-lr125-1674-2154.json`，不能重复提交。恢复仅使用该run原全部参数加`--resume --lr 0.000125 --grad-accum 12`及前缀复用；预算16505710、keep-weight1不变。已核验A链14650296/30M，后续只追加实际新增消费。暂停命令如下方示例；先核验实际进程/latest，不用init-from，不丢累计梯度。1674和所有来源完整态保留。
 
+1674→2154这一批现已实际完整stopped2154，全局优化器239、累积0、学生1387194/教师112906、游标2868，checkpoint `micro_000000002154_ea11b6393d`、manifest SHA256 `7718fafdd8ffb224b9249fbb38ddf7274c97e9fb65c7023ab5c74ce20b80c146`。原7580训练进程已退出，固定2154回忆评测PID8017正在运行；保持尚待完成，结果全前不扩展。A链已核验14881484/30M，配置预算不变。逐参数Adam计数因保持题detached Writer可小于全局步数，须原样保存，不能强行归一。
+
 ## 首次硬件迁移与来源run
 
 - run：`/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-01`。

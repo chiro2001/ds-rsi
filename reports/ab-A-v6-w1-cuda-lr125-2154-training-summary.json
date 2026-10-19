@@ -1,0 +1,194 @@
+{
+  "run_id": "ab-A-v6-natural-keep-w1-cuda-lr125-01",
+  "status": "stopped",
+  "checkpoint": "micro_000000002154_ea11b6393d",
+  "manifest_sha256": "7718fafdd8ffb224b9249fbb38ddf7274c97e9fb65c7023ab5c74ce20b80c146",
+  "progress": {
+    "accumulation_index": 0,
+    "micro_step": 2154,
+    "optimizer_step": 239,
+    "stage": "A",
+    "student_tokens": 1387194,
+    "teacher_tokens": 112906
+  },
+  "new_episodes": 480,
+  "new_student_tokens": 231188,
+  "new_teacher_tokens": 18592,
+  "source_chain_student_tokens": 14881484,
+  "remaining_chain_budget": 15118516,
+  "compute_seconds": 514.2386841420084,
+  "student_tokens_per_second": 449.5733345804782,
+  "expected_data_cursor_next_ordinal": 2868,
+  "identity_unchanged_from1674": true,
+  "checkpoints": [
+    {
+      "event": "checkpoint",
+      "status": "checkpoint",
+      "path": "/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-lr125-01/checkpoints/micro_000000001700_5fe8e40675",
+      "save_seconds": 0.7867756949999603,
+      "progress": {
+        "stage": "A",
+        "optimizer_step": 201,
+        "micro_step": 1700,
+        "accumulation_index": 2,
+        "student_tokens": 1168794,
+        "teacher_tokens": 95648
+      }
+    },
+    {
+      "event": "checkpoint",
+      "status": "checkpoint",
+      "path": "/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-lr125-01/checkpoints/micro_000000001800_af09303770",
+      "save_seconds": 0.7998392850004166,
+      "progress": {
+        "stage": "A",
+        "optimizer_step": 209,
+        "micro_step": 1800,
+        "accumulation_index": 6,
+        "student_tokens": 1214612,
+        "teacher_tokens": 100860
+      }
+    },
+    {
+      "event": "checkpoint",
+      "status": "checkpoint",
+      "path": "/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-lr125-01/checkpoints/micro_000000001900_7b559150d9",
+      "save_seconds": 0.7949746799986315,
+      "progress": {
+        "stage": "A",
+        "optimizer_step": 217,
+        "micro_step": 1900,
+        "accumulation_index": 10,
+        "student_tokens": 1261886,
+        "teacher_tokens": 104052
+      }
+    },
+    {
+      "event": "checkpoint",
+      "status": "checkpoint",
+      "path": "/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-lr125-01/checkpoints/micro_000000002000_0e03e3fba3",
+      "save_seconds": 0.7114985570005956,
+      "progress": {
+        "stage": "A",
+        "optimizer_step": 226,
+        "micro_step": 2000,
+        "accumulation_index": 2,
+        "student_tokens": 1307914,
+        "teacher_tokens": 107938
+      }
+    },
+    {
+      "event": "checkpoint",
+      "status": "checkpoint",
+      "path": "/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-lr125-01/checkpoints/micro_000000002100_b57f3ef919",
+      "save_seconds": 0.8054626349985483,
+      "progress": {
+        "stage": "A",
+        "optimizer_step": 234,
+        "micro_step": 2100,
+        "accumulation_index": 6,
+        "student_tokens": 1360404,
+        "teacher_tokens": 110588
+      }
+    },
+    {
+      "event": "checkpoint",
+      "status": "stopped",
+      "path": "/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-lr125-01/checkpoints/micro_000000002154_ea11b6393d",
+      "save_seconds": 0.6519477399997413,
+      "progress": {
+        "stage": "A",
+        "optimizer_step": 239,
+        "micro_step": 2154,
+        "accumulation_index": 0,
+        "student_tokens": 1387194,
+        "teacher_tokens": 112906
+      }
+    }
+  ],
+  "evaluation_pending": true,
+  "objective_diagnostics": {
+    "full_code": {
+      "episodes": 214,
+      "mean_loss": 0.12345917908900209
+    },
+    "indexed_character": {
+      "episodes": 78,
+      "mean_loss": 0.8728052984254483
+    },
+    "natural_keep": {
+      "episodes": 84,
+      "mean_loss": 0.0011095076430744182
+    },
+    "other_preservation": {
+      "episodes": 104,
+      "mean_loss": 0.4271188026491123
+    }
+  },
+  "actual_data_cursor": {
+    "next_ordinal": 2868,
+    "schema_version": 1
+  },
+  "all_pending_gradients_none": true,
+  "optimizer_entries": 34,
+  "optimizer_step_values": [
+    238,
+    239
+  ],
+  "optimizer_steps_by_parameter": {
+    "writer.queries": 238,
+    "writer.input_norm.weight": 238,
+    "writer.query_norm.weight": 238,
+    "writer.q.weight": 238,
+    "writer.k.weight": 238,
+    "writer.v.weight": 238,
+    "writer.o.weight": 238,
+    "writer.ffn_norm.weight": 238,
+    "writer.ffn.gate.weight": 238,
+    "writer.ffn.up.weight": 238,
+    "writer.ffn.down.weight": 238,
+    "writer.final_norm.weight": 238,
+    "readers.12.alpha": 239,
+    "readers.12.h_norm.weight": 239,
+    "readers.12.z_norm.weight": 239,
+    "readers.12.q.weight": 239,
+    "readers.12.k.weight": 239,
+    "readers.12.v.weight": 239,
+    "readers.12.o.weight": 239,
+    "readers.12.gate.weight": 239,
+    "readers.12.gate.bias": 239,
+    "readers.20.alpha": 239,
+    "readers.20.h_norm.weight": 239,
+    "readers.20.z_norm.weight": 239,
+    "readers.20.q.weight": 239,
+    "readers.20.k.weight": 239,
+    "readers.20.v.weight": 239,
+    "readers.20.o.weight": 239,
+    "readers.20.gate.weight": 239,
+    "readers.20.gate.bias": 239,
+    "time_source.down.weight": 239,
+    "time_source.down.bias": 239,
+    "time_source.up.weight": 239,
+    "time_source.up.bias": 239
+  },
+  "all_preservation_groups_without_writer_gradient": [
+    {
+      "optimizer_step": 203,
+      "micro_begin": 1711,
+      "micro_end": 1722
+    }
+  ],
+  "optimizer_counter_explanation": "Global239; Writer12 parameters have Adam step238 because one12episode group contained only preservation with detached Writer slots;22 Reader/time parameters have step239. All counters retained as saved.",
+  "rng_components": [
+    "python",
+    "numpy",
+    "torch_cpu",
+    "accelerator"
+  ],
+  "checkpoint_payload_deserialized_and_verified": true,
+  "submitted_unix": 1792399781.0510533,
+  "final_manifest_created_unix": 1792400356.9641185,
+  "submit_to_final_manifest_seconds": 575.9130651950836,
+  "submit_to_final_manifest_student_tokens_per_second": 401.42864257071136,
+  "timing_note": "Submission to final committed-manifest creation includes startup and periodic saves; process-exit and observation delay excluded. Micro compute timer reported separately."
+}

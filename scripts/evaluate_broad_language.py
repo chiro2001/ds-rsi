@@ -105,7 +105,12 @@ def main():
     jobs += [f"probe/{probe_set}/{row['episode_id']}/{name}"
              for probe_set, _, row in selected for name, _ in PROBE_MODES]
     source_root = Path(__file__).resolve().parents[1]
+    runtime = {"torch": str(torch.__version__)}
+    if device.startswith("cuda"):
+        from dsrsi.model.cuda_execution import cuda_execution_identity
+        runtime = cuda_execution_identity(device)
     journal_identity = {"checkpoint": checkpoint.name, "run_dir": str(Path(args.run_dir).resolve()),
+        "runtime": runtime,
         "manifest_sha256": file_sha256(checkpoint / "manifest.json"), "base": identity,
         "device": device, "corpus_sha256": file_sha256(args.corpus) if not args.skip_nll else None,
         "corpus_manifest_sha256": file_sha256(args.manifest) if not args.skip_nll else None,

@@ -14,6 +14,17 @@ import subprocess
 import time
 
 
+def check_storage_paths(command, code, root):
+    flags = {"--base", "--run-dir", "--source-run", "--target-run", "--run-root",
+             "--output", "--output-dir", "--journal", "--corpus", "--manifest"}
+    for index, value in enumerate(command[:-1]):
+        if value in flags:
+            path = Path(command[index + 1])
+            path = (path if path.is_absolute() else code / path).resolve()
+            if not path.is_relative_to(root):
+                raise RuntimeError(f"{value} must remain under Windows E:\\ds-rsi")
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--code-root", required=True)
@@ -27,6 +38,7 @@ def main():
     if (socket.gethostname().lower() != "gamepc" or not command
             or not code.is_relative_to(root) or not (code / "src/dsrsi").is_dir()):
         raise RuntimeError("expected a complete project snapshot on the authorized 5080 host")
+    check_storage_paths(command, code, root)
     control = root / "control"
     control.mkdir(parents=True, exist_ok=True)
     lock = os.open(control / "gpu.lock", os.O_CREAT | os.O_RDWR, 0o600)
@@ -44,6 +56,7 @@ def main():
         raise RuntimeError("5080 identity, available memory or temperature check failed")
     env = dict(os.environ)
     env.update(PYTHONPATH=str(code / "src"), PYTHONDONTWRITEBYTECODE="1", PYTHONHASHSEED="0",
+               WORLD_SIZE="1", RANK="0", LOCAL_RANK="0",
                CUDA_VISIBLE_DEVICES="0", CUBLAS_WORKSPACE_CONFIG=":4096:8",
                OMP_NUM_THREADS="2", MKL_NUM_THREADS="2")
     for variable, folder in (("HF_HOME", "huggingface"), ("PIP_CACHE_DIR", "pip"),

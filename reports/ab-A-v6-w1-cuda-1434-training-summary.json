@@ -19,7 +19,7 @@
   "compute_seconds": 508.8417375850004,
   "student_tokens_per_second": 447.10561888999104,
   "data_cursor_next_ordinal": 2148,
-  "evaluation_pending": true,
+  "evaluation_pending": false,
   "actual_data_cursor": {
     "next_ordinal": 2148,
     "schema_version": 1

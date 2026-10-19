@@ -42,3 +42,11 @@ PYTHONPATH="$CODE/src" /usr/bin/python3 -m dsrsi.training.control \
 回忆评测新增逐episode原子journal，保持评测沿用逐前向journal。SIGINT/SIGTERM/SIGUSR2在当前任务完成后保存并退出；`--resume`只接续原固定代次及相同代码、配置、数据和运行时，拒绝跟随新latest或混合环境。完成所有任务前不发布完整结果。
 
 迁移和独立恢复证据见`reports/cuda5080-hardware-migration-20261019.json`、`reports/cuda5080-separate-process-recovery-20261019.json`。
+
+## 保留完整状态的学习率调整
+
+1434完整复评为oracle EM54/96、反事实成对20/48，较954的61/96、24/48回落；native中英配对平均ΔNLL0.01026035/0.01518519均过原线。原学习率不继续盲目扩展。拟从最新1434完整态创建`ab-A-v6-natural-keep-w1-cuda-lr125-01`，学习率0.00025→0.000125，保留优化器179步及全部矩、RNG、游标2148和学生1041480账本，不回退旧954或重播数据。
+
+`python -m dsrsi.training.learning_rate --source-run SOURCE --target-run TARGET --learning-rate 0.000125 --dry-run`先检查，再去掉`--dry-run`执行。仅允许已停止、单CUDA、空累计梯度的reference A/B、无scheduler/scaler的AdamW；来源及运行时/数据身份必须匹配。新run仅更改配置和所有optimizer param_group的lr，其它payload保存后重载逐项相同，来源不变。迁移记录追加`execution_migrations`并以kind标识数值优化策略变化，不声称未来轨迹与原run一致。所有调用仍经checked入口串行执行。
+
+新分支需先完成独立进程外部pause/resume全态对照，再从1434小批240个episode至1674，完整保存后按原96题回忆和48篇保持复评。恢复使用新run原全部参数加`--resume --lr 0.000125`，累积12、keep-weight1、预算16505710不变；不得init-from或重置账本。A链当前14535770/30M，剩余15464230。

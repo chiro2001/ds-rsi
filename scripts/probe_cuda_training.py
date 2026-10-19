@@ -127,6 +127,7 @@ def main():
     torch.cuda.reset_peak_memory_stats()
     run(args.episodes, True)
     final = snapshot()
+    torch.save(final, output / "final-state.pt")
     recovery = None
     if args.recovery:
         trainer.progress, trainer.cursor, trainer.life = restore_training_state(

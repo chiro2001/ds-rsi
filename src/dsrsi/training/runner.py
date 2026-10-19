@@ -183,6 +183,12 @@ class Trainer:
             self.identity["gdn_execution"] = gdn_execution_identity()
         if self.world_size > 1:
             self.identity["execution_semantics"] = "ab-episode-v4-query-weighted-coordinated-gradients"
+        if self.device.type == "cuda":
+            from dsrsi.model.cuda_execution import cuda_execution_identity, require_reference_kernels
+            experimental = getattr(model, "cuda_backend", "reference") != "reference"
+            if not experimental:
+                require_reference_kernels(model)
+            self.identity["cuda_execution"] = cuda_execution_identity(self.device, experimental=experimental)
         if not resume or "memory_architecture" in self.store.load_committed()[1]["identity"]:
             self.identity["memory_architecture"] = model.memory_architecture_identity()
         if initialization is not None:
@@ -194,6 +200,9 @@ class Trainer:
             migrations = self.store.load_committed()[1]["identity"].get("execution_migrations")
             if migrations is not None:
                 self.identity["execution_migrations"] = migrations
+            migrations = self.store.load_committed()[1]["identity"].get("hardware_migrations")
+            if migrations is not None:
+                self.identity["hardware_migrations"] = migrations
         self.progress = Progress(config.stage)
         self.cursor = {"next_ordinal": self.rank, "schema_version": 1}
         self.life = {"mode": "m_only", "streams": {}, "harness_refs": {}}
@@ -337,6 +346,9 @@ class Trainer:
             if self.progress.accumulation_index == self.config.gradient_accumulation:
                 self._optimizer_step()
             self._log({"event": "micro", "episode_id": row["episode_id"], "family": row["family"],
+                       "natural_keep": bool(row.get("annotations", {}).get("natural_keep")),
+                       "keep_wall_time_known": row.get("annotations", {}).get("keep_wall_time_known"),
+                       "codec_task": row.get("annotations", {}).get("codec_task"),
                        "loss": float(result.loss.detach()), "answer_loss": result.answer_loss,
                        "route_loss": result.route_loss, "keep_kl": result.keep_kl,
                        "counterfactual_loss": result.counterfactual_loss,

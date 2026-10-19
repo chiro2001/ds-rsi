@@ -87,7 +87,8 @@ def main():
         hf.causal_conv1d_update = None
     started = time.perf_counter()
     model = MemoryQwen.from_local_checkpoint(base, device="cuda:0",
-        memory_architecture=manifest["identity"]["memory_architecture"])
+        memory_architecture=manifest["identity"]["memory_architecture"],
+        cuda_backend="auto" if args.mode == "fla" else "reference")
     torch.cuda.synchronize()
     base_load_seconds = time.perf_counter() - started
     started = time.perf_counter()

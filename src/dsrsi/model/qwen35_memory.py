@@ -304,7 +304,8 @@ class MemoryQwen(nn.Module):
         return CachedModelOutput(self.base.norm(hidden), write_features, updated, selected)
 
     @classmethod
-    def from_local_checkpoint(cls, path, *, device="cpu", memory_config=None, memory_architecture=None):
+    def from_local_checkpoint(cls, path, *, device="cpu", memory_config=None, memory_architecture=None,
+                              cuda_backend="reference"):
         """Load only language tensors; retain original embedding/output tying."""
         path = Path(path)
         raw = json.loads((path / "config.json").read_text())
@@ -318,7 +319,11 @@ class MemoryQwen(nn.Module):
                 for key in reader.keys():
                     if key.startswith(prefix):
                         tensors[key[len(prefix):]] = reader.get_tensor(key)
-        with torch.device("meta"):
+        if cuda_backend not in {"reference", "auto"}:
+            raise ValueError("unknown CUDA execution backend")
+        from .cuda_execution import reference_gdn_loading
+        scope = reference_gdn_loading() if str(device).startswith("cuda") and cuda_backend == "reference" else nullcontext()
+        with scope, torch.device("meta"):
             base = Qwen3_5TextModel(config)
             head = nn.Linear(config.hidden_size, config.vocab_size, bias=False)
         base.load_state_dict(tensors, strict=True, assign=True)
@@ -336,6 +341,7 @@ class MemoryQwen(nn.Module):
             layout = {"writer_after": memory_architecture["writer_after"],
                       "reader_before": tuple(memory_architecture["reader_before"])}
         model = cls(base, head, memory_config=memory_config, **layout)
+        model.cuda_backend = cuda_backend
         if memory_architecture is not None and model.memory_architecture_identity() != memory_architecture:
             raise ValueError("unknown or inconsistent checkpoint memory architecture")
         return model.to(device)

@@ -1,0 +1,70 @@
+{
+  "scope": "Descriptive pinned96 development queries, no causal or capability claim",
+  "query_changes_2154_to2634": {
+    "retained_correct": 54,
+    "still_incorrect": 18,
+    "gained_correct": 15,
+    "lost_correct": 9
+  },
+  "stages": {
+    "lr125-1674": {
+      "exact_match": 57,
+      "pair_outcomes": {
+        "both_correct": 26,
+        "one_correct": 5,
+        "both_wrong": 17
+      },
+      "by_language": {
+        "zh": 19,
+        "en": 19,
+        "cross_language": 19
+      },
+      "suffix_digit_accuracy": [
+        0.8541666666666666,
+        0.71875,
+        0.7291666666666666
+      ]
+    },
+    "lr125-2154": {
+      "exact_match": 63,
+      "pair_outcomes": {
+        "both_correct": 22,
+        "one_correct": 19,
+        "both_wrong": 7
+      },
+      "by_language": {
+        "zh": 25,
+        "en": 18,
+        "cross_language": 20
+      },
+      "suffix_digit_accuracy": [
+        0.84375,
+        0.71875,
+        0.8333333333333334
+      ]
+    },
+    "lr125-2634": {
+      "exact_match": 69,
+      "pair_outcomes": {
+        "both_correct": 26,
+        "one_correct": 17,
+        "both_wrong": 5
+      },
+      "by_language": {
+        "zh": 26,
+        "en": 20,
+        "cross_language": 23
+      },
+      "suffix_digit_accuracy": [
+        0.8854166666666666,
+        0.71875,
+        0.8645833333333334
+      ]
+    }
+  },
+  "2634_failures": {
+    "queries": 27,
+    "all_include_middle_suffix_digit_error": true,
+    "interpretation": "At this checkpoint all27 full-code failures include a wrong middle suffix digit; this describes outputs and does not identify why or prove a training remedy."
+  }
+}

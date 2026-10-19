@@ -121,7 +121,7 @@ def main():
         "sampling": sampling, "evaluation_data_identity": data_identity(eval_revision),
         "implementation": {str(path.relative_to(source_root)): file_sha256(path)
                            for path in sorted((source_root / "src/dsrsi").rglob("*.py"))},
-        "script_sha256": file_sha256(__file__),
+        "script_sha256": file_sha256(Path(__file__)),
     }
     journal = EvaluationJournal(journal_path, journal_identity, jobs, resume=args.resume,
                                  stop_after_items=args.stop_after_items)

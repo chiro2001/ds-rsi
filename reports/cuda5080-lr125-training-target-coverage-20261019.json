@@ -1,0 +1,135 @@
+{
+  "scope": "Only the1200 actually consumed lr125-branch episodes1435..2634, cursor2148..3347; excludes inherited earlier training. Counts CE target characters, not equal KL/counterfactual gradient exposure. Diagnostic, no capability claim.",
+  "reference_checkpoint": "micro_000000002634_d09a3534ae",
+  "manifest_sha256": "1891c0a56918aad7c69541b8bbc58be2628e0521e7270662330893517cb80384",
+  "actual_logged_episode_ids_families_tasks_match_generator": true,
+  "episodes": {
+    "preservation": 468,
+    "full_code": 512,
+    "indexed_character": 220
+  },
+  "supervised_suffix_characters_by_position": {
+    "3": {
+      "0": 67,
+      "1": 46,
+      "2": 60,
+      "3": 56,
+      "4": 62,
+      "5": 63,
+      "6": 71,
+      "7": 64,
+      "8": 44,
+      "9": 45
+    },
+    "4": {
+      "0": 46,
+      "1": 47,
+      "2": 52,
+      "3": 58,
+      "4": 55,
+      "5": 66,
+      "6": 75,
+      "7": 67,
+      "8": 60,
+      "9": 62
+    },
+    "5": {
+      "0": 75,
+      "1": 80,
+      "2": 55,
+      "3": 65,
+      "4": 47,
+      "5": 62,
+      "6": 56,
+      "7": 47,
+      "8": 46,
+      "9": 57
+    }
+  },
+  "indexed_auxiliary_by_position": {
+    "3": {
+      "0": 5,
+      "1": 7,
+      "2": 8,
+      "3": 8,
+      "4": 5,
+      "5": 10,
+      "6": 7,
+      "7": 6,
+      "8": 7,
+      "9": 3
+    },
+    "4": {
+      "0": 5,
+      "1": 10,
+      "2": 7,
+      "3": 8,
+      "4": 6,
+      "5": 6,
+      "6": 14,
+      "7": 7,
+      "8": 5,
+      "9": 8
+    },
+    "5": {
+      "0": 9,
+      "1": 7,
+      "2": 7,
+      "3": 9,
+      "4": 6,
+      "5": 9,
+      "6": 7,
+      "7": 5,
+      "8": 8,
+      "9": 11
+    }
+  },
+  "dev2634_by_middle_digit": {
+    "3": {
+      "queries": 20,
+      "middle_correct": 12,
+      "complete_correct": 12
+    },
+    "5": {
+      "queries": 10,
+      "middle_correct": 7,
+      "complete_correct": 7
+    },
+    "0": {
+      "queries": 17,
+      "middle_correct": 11,
+      "complete_correct": 11
+    },
+    "2": {
+      "queries": 2,
+      "middle_correct": 2,
+      "complete_correct": 2
+    },
+    "7": {
+      "queries": 9,
+      "middle_correct": 8,
+      "complete_correct": 8
+    },
+    "9": {
+      "queries": 11,
+      "middle_correct": 9,
+      "complete_correct": 9
+    },
+    "4": {
+      "queries": 4,
+      "middle_correct": 4,
+      "complete_correct": 4
+    },
+    "6": {
+      "queries": 14,
+      "middle_correct": 9,
+      "complete_correct": 9
+    },
+    "1": {
+      "queries": 9,
+      "middle_correct": 7,
+      "complete_correct": 7
+    }
+  },
+  "all_middle_digit_classes_observed_in_targets": true
+}

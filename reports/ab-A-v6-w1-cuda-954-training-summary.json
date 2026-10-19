@@ -1,0 +1,42 @@
+{
+  "run_id": "ab-A-v6-natural-keep-w1-cuda-01",
+  "run_dir": "/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-01",
+  "status": "stopped",
+  "checkpoint": "micro_000000000954_65721a0550",
+  "manifest_sha256": "dddef5ea8dc887bd756b533b21fcc81c7a4f89323190012d6bf9b64a4f06c6ca",
+  "progress": {
+    "accumulation_index": 0,
+    "micro_step": 954,
+    "optimizer_step": 139,
+    "stage": "A",
+    "student_tokens": 813974,
+    "teacher_tokens": 65946
+  },
+  "initial_micro": 714,
+  "new_episodes": 240,
+  "new_student_tokens": 117214,
+  "new_teacher_tokens": 8438,
+  "source_chain_student_tokens": 14308264,
+  "remaining_chain_budget": 15691736,
+  "training_config": {
+    "counterfactual_margin": 2.0,
+    "counterfactual_weight": 1.0,
+    "curriculum": "facts",
+    "data_revision": "ab-v6-natural-keep",
+    "distractors": 7,
+    "gradient_accumulation": 12,
+    "gradient_clip": 1.0,
+    "keep_fraction": 0.4,
+    "keep_weight": 1.0,
+    "learning_rate": 0.00025,
+    "memory_candidates": 1,
+    "reuse_frozen_prefix": true,
+    "save_every_micro": 100,
+    "seed": 20261010,
+    "stage": "A",
+    "student_token_budget": 16505710,
+    "weight_decay": 0.01
+  },
+  "code_root": "/mnt/e/ds-rsi/code/ca3449f25833",
+  "evaluation_pending": true
+}

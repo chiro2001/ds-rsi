@@ -1,0 +1,32 @@
+{
+  "episodes": 240,
+  "student_tokens": 117214,
+  "teacher_tokens": 8438,
+  "compute_seconds": 266.17104384900085,
+  "student_tokens_per_second": 440.3709671232895,
+  "median_micro_seconds": 1.2608755305002433,
+  "saves": [
+    {
+      "micro": 800,
+      "status": "checkpoint",
+      "seconds": 0.795715177999682
+    },
+    {
+      "micro": 900,
+      "status": "checkpoint",
+      "seconds": 0.763232171999789
+    },
+    {
+      "micro": 954,
+      "status": "stopped",
+      "seconds": 0.6155499609999424
+    }
+  ],
+  "first_188_samples_losses_counters_match_independent_reference": true,
+  "micro900_payload_sha_matches_reference": true,
+  "coverage": {
+    "natural_keep": 32,
+    "unknown_wall": 12,
+    "auxiliary": 34
+  }
+}

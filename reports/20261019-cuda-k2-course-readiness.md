@@ -1,6 +1,6 @@
 # 5080双候选A课程：执行验证通过、首批240完整保存
 
-日期：2026-10-19。原4554权重的2候选完整96题oracle挑战只有2/96、成对0/48，逐条再生成核验真支撑始终在候选中且列第一。单条oracle79/96仅是译码中间门槛，多记录读取尚未掌握，M5–M7仍未通过。按课程协议明确建立双候选新A，完成原实现/前缀优化、真实外部暂停/独立进程恢复对照后，已正式resume首批240个episode，完整stopped并正在同口径能力复评；没有跳入B。
+日期：2026-10-19。原4554权重的2候选完整96题oracle挑战只有2/96、成对0/48，逐条再生成核验真支撑始终在候选中且列第一。单条oracle79/96仅是译码中间门槛，多记录读取尚未掌握，M5–M7仍未通过。按课程协议明确建立双候选新A，完成原实现/前缀优化、真实外部暂停/独立进程恢复对照后，已正式resume首批240个episode，完整stopped并完成同口径能力复评：双候选仅3/96、格式40/96，保持过原线；当前停在该完整状态进行诊断，没有跳入B。
 
 ## 新课程与来源完整保存
 
@@ -24,6 +24,10 @@
 
 正式前188条样本/loss/账本与已验证优化轨迹相同，正式100全payload、191张量原始字节和步幅也相同。新增117828学生后A链16155002/30M，剩余13844998；本run预算仍13962826。计算262.075秒、449.597学生token/s，可靠进程寿命339.057秒、含启动/保存/退出347.517学生token/s，保存0.65–0.80秒。新小窗口的端到端速度不能与旧960样本窗口直接作受控比，UTC时间戳不用于elapsed。
 
-训练进程14834已退出。固定240、2候选、原9池、完整96题oracle/off/oracle_foreign复评已启动，PID15248，提交`control/cuda-k2-240-recall-submit.json`、日志`logs/cuda-k2-240-recall.log`、输出`evaluations/ab-A-v6-w1-cuda-k2-240-dev.json`；随后仍需48篇native保持。两项结果完成前不扩展新课，不把原单候选成绩当双候选能力。新run后续仅原参数加resume，不能再次init-from、丢累计梯度、重置账本或改变候选数。M5–M7未通过，Goal保持active。
+训练进程14834及固定240的完整回忆、native保持进程均已退出。双候选96题完整代码3/96、成对0/48，off/替换M原答案均0、跟随替换payload3/96；格式40/96、按结束标记停止61/96，均低于初始91/96、96/96。中文1/32、英文0/32、跨语言2/32。96题真实支撑再次逐条核验均选入；16题负候选ID发生变化、80题未变，因此候选集合也需在后续机制诊断中控制。工程验证通过不代表读取能力有效，首批目前没有可接受的双候选能力证据。
 
-证据：[双候选初始完整评测](ab-A-v6-w1-cuda-lr125-4554-oracle2-dev.json)、[支撑包含](cuda5080-oracle2-support-inclusion-20261019.json)、[新初态](cuda5080-k2-course-initialization-20261019.json)、[初态全payload一致](cuda5080-k2-initial-reference-equivalence-20261019.json)、[参考188](cuda5080-k2-reference188-20261019.json)、[优化/参考轨迹](cuda5080-k2-prefix-reference-equivalence-20261019.json)、[独立暂停恢复](cuda5080-k2-separate-process-recovery-20261019.json)、[验证汇总](cuda5080-k2-validation-summary-20261019.json)、[正式240全态与计时](ab-A-v6-w1-cuda-k2-240-training-summary.json)、[正式进程寿命](cuda5080-k2-formal240-process-duration-20261019.json)。
+48篇native保持中文/英文配对平均ΔNLL0.00805415/0.01123618，95%上界0.01005026/0.01499165，单篇最大0.01751351/0.04227718，原三条线均通过。保持改善不能替代记忆能力验收；不据此继续扩大本课。
+
+已串行启动同一240权重、原9池、候选1、同96题oracle/off/oracle_foreign回读诊断，PID16309，提交`control/cuda-k2-240-oracle1-submit.json`、日志`logs/cuda-k2-240-oracle1-diagnostic.log`，输出`evaluations/ab-A-v6-w1-cuda-k2-240-oracle1-diagnostic.json`。这是固定权重的只读条件消融，不更改训练配置或checkpoint，不冒充双候选验收。用来进一步区分单条译码回退与多记录条件干扰；当前尚未完成，不定位内部原因。正式run保持stopped240，没有扩展任务，新run若恢复仍只能原参数加resume，不能再次init-from、丢累计梯度/优化器/RNG/游标、重置账本或默改候选数。任何后续课程仍须计入本次117828正式学生消费，不能因放弃该权重而抹掉成本。M5–M7未通过，Goal保持active。
+
+证据：[双候选初始完整评测](ab-A-v6-w1-cuda-lr125-4554-oracle2-dev.json)、[支撑包含](cuda5080-oracle2-support-inclusion-20261019.json)、[新初态](cuda5080-k2-course-initialization-20261019.json)、[初态全payload一致](cuda5080-k2-initial-reference-equivalence-20261019.json)、[参考188](cuda5080-k2-reference188-20261019.json)、[优化/参考轨迹](cuda5080-k2-prefix-reference-equivalence-20261019.json)、[独立暂停恢复](cuda5080-k2-separate-process-recovery-20261019.json)、[验证汇总](cuda5080-k2-validation-summary-20261019.json)、[正式240全态与计时](ab-A-v6-w1-cuda-k2-240-training-summary.json)、[正式进程寿命](cuda5080-k2-formal240-process-duration-20261019.json)、[首批双候选完整回忆](ab-A-v6-w1-cuda-k2-240-dev.json)、[首批保持](ab-A-v6-w1-cuda-k2-240-native-source-nll.json)、[输出和候选集合审计](cuda5080-k2-240-output-audit-20261019.json)。

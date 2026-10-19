@@ -37,6 +37,11 @@
   "A_chain_prefix": 16037174,
   "A_chain_consumed": 16155002,
   "A_remaining": 13844998,
-  "ability_evaluation_pending": true,
-  "M5_passed": false
+  "ability_evaluation_pending": false,
+  "M5_passed": false,
+  "ability_gate_passed": false,
+  "formal240_oracle2_exact_match": "3/96",
+  "formal240_native_original_gates_passed": true,
+  "additional_diagnostic_pending": "same240 weights with oracle1",
+  "formal_extension_submitted": false
 }

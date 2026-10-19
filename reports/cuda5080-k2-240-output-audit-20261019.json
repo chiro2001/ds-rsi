@@ -1,0 +1,44 @@
+{
+  "scope": "Same96 oracle2 queries, before4554 and after new240. Descriptive output/candidate-set audit, no mechanism or efficacy claim.",
+  "before_manifest_sha256": "d89910a3b02d2f1c2d36a9e0e70699e7d8c24029ad8e5bde5e26478561d05c4c",
+  "after_manifest_sha256": "9e6ec3cbd56e0ad533a2b7d56f061957294279833abdae9720314387376f0234",
+  "all96_current_support_records_selected": true,
+  "before": {
+    "exact_match": 2,
+    "pairs": 0,
+    "valid_code_format": 91,
+    "ended": 96
+  },
+  "after": {
+    "exact_match": 3,
+    "pairs": 0,
+    "valid_code_format": 40,
+    "ended": 61
+  },
+  "negative_candidate_identity_changed_queries": 16,
+  "negative_candidate_identity_unchanged_queries": 80,
+  "by_negative_set": {
+    "changed": {
+      "queries": 16,
+      "before_exact": 0,
+      "after_exact": 0
+    },
+    "unchanged": {
+      "queries": 80,
+      "before_exact": 2,
+      "after_exact": 3
+    }
+  },
+  "by_language": {
+    "zh": 1,
+    "en": 0,
+    "cross_language": 2
+  },
+  "pair_outcomes": {
+    "both_correct": 0,
+    "one_correct": 3,
+    "both_wrong": 45
+  },
+  "mechanism_diagnosed": false,
+  "M5_passed": false
+}

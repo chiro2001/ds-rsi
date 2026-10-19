@@ -23,7 +23,7 @@
   "verified_process_student_tokens_per_second": 347.51669877078376,
   "expected_data_cursor_next_ordinal": 240,
   "first188_samples_losses_ledgers_equal_verified_proof": true,
-  "evaluation_pending": true,
+  "evaluation_pending": false,
   "checkpoints": [
     {
       "event": "checkpoint",
@@ -124,5 +124,18 @@
   "checkpoint_payload_deserialized_and_verified": true,
   "formal100_full_payload_matches_validated_optimized100": true,
   "formal100_tensor_raw_byte_stride_leaves_compared": 191,
-  "initialization_not_repeated": true
+  "initialization_not_repeated": true,
+  "evaluations": {
+    "oracle2_exact_match": "3/96",
+    "counterfactual_pairs": "0/48",
+    "valid_format": "40/96",
+    "native_original_gates_passed": true,
+    "native_zh_mean_delta": 0.008054150889317194,
+    "native_en_mean_delta": 0.011236178378264109,
+    "M5_passed": false
+  },
+  "additional_diagnostic_pending": {
+    "single_candidate_same_weights": true
+  },
+  "formal_extension_submitted": false
 }

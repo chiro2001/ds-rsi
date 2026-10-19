@@ -1,5 +1,5 @@
 {
-  "status": "candidate2 prefix/recovery validated; formal pilot240 complete; full ability evaluation running",
+  "status": "candidate2 pilot240 complete but oracle2 remains3/96 and format40/96; native passes; same-weight oracle1 diagnostic running",
   "source_run": "ab-A-v6-natural-keep-w1-cuda-lr125-01",
   "source_checkpoint": "micro_000000004554_fceac90b62",
   "source_manifest_sha256": "d89910a3b02d2f1c2d36a9e0e70699e7d8c24029ad8e5bde5e26478561d05c4c",
@@ -76,7 +76,19 @@
   "reference_optimized_initial_payload_equal": true,
   "reference_trajectory_pid": 13931,
   "real_prefix_and_recovery_validation_complete": true,
-  "formal_recall_evaluation_pid": 15248,
+  "formal_recall_evaluation_pid": null,
   "source_A2_budget_unchanged": 13962826,
-  "A_chain_total_including_new_course": 16155002
+  "A_chain_total_including_new_course": 16155002,
+  "formal240_evaluation": {
+    "oracle2_exact_match": "3/96",
+    "pairs": "0/48",
+    "valid_format": "40/96",
+    "native_original_gates_passed": true
+  },
+  "current_diagnostic": {
+    "pid": 16309,
+    "scope": "same240 trained weights with one true memory; no training config/state change",
+    "output": "evaluations/ab-A-v6-w1-cuda-k2-240-oracle1-diagnostic.json"
+  },
+  "formal_extension_submitted": false
 }

@@ -38,5 +38,5 @@
     "weight_decay": 0.01
   },
   "code_root": "/mnt/e/ds-rsi/code/ca3449f25833",
-  "evaluation_pending": true
+  "evaluation_pending": false
 }

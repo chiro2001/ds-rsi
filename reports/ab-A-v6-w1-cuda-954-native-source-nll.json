@@ -1,0 +1,5252 @@
+{
+  "base_identity": {
+    "tokenizer": {
+      "chat_template.jinja": "273d8e0e683b885071fb17e08d71e5f2a5ddfb5309756181681de4f5a1822d80",
+      "config.json": "b90b86f35c8e6925ef74ee04d0e758f0a845c83a42089ad82bbaa948de9b4204",
+      "tokenizer.json": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+      "tokenizer_config.json": "49e2b6e395f959f077f1e992b338919c0d4a9732fc6e613995e06557f843500c"
+    },
+    "weights": {
+      "model.safetensors-00001-of-00001.safetensors": "04b1c301231dd422b8860db31311ab2721511346a32cb1e079c4c4e5f1fe4696"
+    }
+  },
+  "broad_language_capability_gate_claimed": false,
+  "checkpoint": "micro_000000000954_65721a0550",
+  "checkpoint_progress": {
+    "accumulation_index": 0,
+    "micro_step": 954,
+    "optimizer_step": 139,
+    "stage": "A",
+    "student_tokens": 813974,
+    "teacher_tokens": 65946
+  },
+  "corpus_revision": "broad-language-corpus-v1",
+  "device": "cuda:0",
+  "evaluation_identity": {
+    "base": {
+      "tokenizer": {
+        "chat_template.jinja": "273d8e0e683b885071fb17e08d71e5f2a5ddfb5309756181681de4f5a1822d80",
+        "config.json": "b90b86f35c8e6925ef74ee04d0e758f0a845c83a42089ad82bbaa948de9b4204",
+        "tokenizer.json": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+        "tokenizer_config.json": "49e2b6e395f959f077f1e992b338919c0d4a9732fc6e613995e06557f843500c"
+      },
+      "weights": {
+        "model.safetensors-00001-of-00001.safetensors": "04b1c301231dd422b8860db31311ab2721511346a32cb1e079c4c4e5f1fe4696"
+      }
+    },
+    "checkpoint": "micro_000000000954_65721a0550",
+    "config": {
+      "bootstrap": 2000,
+      "max_new_tokens": 32,
+      "memory_source_format": "native_event",
+      "modes": [
+        "base",
+        "off",
+        "unrelated"
+      ],
+      "probe_set": "none",
+      "protocols": [
+        "native"
+      ],
+      "skip_nll": false,
+      "window": 256,
+      "windows_per_language": 80
+    },
+    "corpus_manifest_sha256": "d745f6c28b7244c439cc7faadbc0698887d39a42f74e2616439965e49b37dac2",
+    "corpus_sha256": "ce2d18cdb196cc1b8b4356ae89818bb78a9aaa12dbae0e733fce03575b6c3eac",
+    "device": "cuda:0",
+    "implementation": {
+      "src/dsrsi/__init__.py": "b7c237a41410609ff7ac64a03c4b4b28ca1b98a29e95700b50b6caab56c1f725",
+      "src/dsrsi/data/__init__.py": "59fb14943d38c54282a37a2cedd3bcaadaad361e5ee841f8db83c319a8deac76",
+      "src/dsrsi/data/broad_language.py": "a65db457117a4c0f98b4a84f4ebdf9fc8357af6882e46ec53da362478ad9e9ab",
+      "src/dsrsi/data/compiler.py": "8d9d43e2113f7b95209756dc6fa12277081d0f9b4a651972022007ae0c1ecdb3",
+      "src/dsrsi/data/compression.py": "b18cf36f76dfbbbd776ed9f707238a1ae00c22aea032dbc0a2aef9c4c698b940",
+      "src/dsrsi/data/continuous.py": "7c40e0b04e722d36b5a3bf1bfc3a40557ef2bccff09807c09257a61b8e326500",
+      "src/dsrsi/data/general_keep.py": "13d13e6bf1b605e0524edba06cd749ca606ea1570c27bfe6d24d6baf8ebce8e8",
+      "src/dsrsi/data/generate.py": "2eba0d2a0ef139e180ce4b6308543ef1f470b728c5d1af65b52ec55ee1867534",
+      "src/dsrsi/data/indexed_digits.py": "a60c8099a1abb02b2f47e24ea8e805eb418af9facbf40b621d28c5c0074d446a",
+      "src/dsrsi/data/language_probes.py": "f694deeafb39ccd27ffb36d22d28ba1d634b17b0f2bedad4af033713b6b179ba",
+      "src/dsrsi/data/natural_keep.py": "08440d82e75cecd0494b0d08b5f390cb54eeeedaf60ac6cca453ca9826ff8896",
+      "src/dsrsi/data/revisions.py": "aa5f9ed70ffd2dcf379ea580b804a00a8020d6796c8e26a151446d916103d5c7",
+      "src/dsrsi/data/robust.py": "6cb9e1707d75c8501b360f389427469d99ce1c96f3919efa6eec527634a42508",
+      "src/dsrsi/data/robust_fields.py": "4bf3133dd741390f4ba4b140ebbf9756f29599ee80becf378b67c2adb5ea8f05",
+      "src/dsrsi/data/robust_order.py": "2931199fa47beadbee5c8a096f50acb37a61da2f3c388c806b318dfae7fc4f21",
+      "src/dsrsi/data/tool_generate.py": "bd6d12837465dd5eb7c6600979a4a8386dd53f2844bb795a348b641edbd9631a",
+      "src/dsrsi/data/tools.py": "e524e10e7079c1b6891a5faa511c32e6147096835795f3bdd4d3bd75aad37a81",
+      "src/dsrsi/evaluation/__init__.py": "6775bea367dcea1d1f798b65a3af8a183cad774722ded8f415ed8c69d47f0820",
+      "src/dsrsi/evaluation/checkpoint.py": "181166bad7fb469920fc25b0bd1e035f5293afc83f9271ffbbdd6476c31abbd5",
+      "src/dsrsi/evaluation/codec.py": "4fa0e944ea2464e036f3cfa6389da024b6f1c7f8dcaf25f778dc861d7dd96e8e",
+      "src/dsrsi/evaluation/field_probe.py": "5c01699ffa8324aee35991aad9c67006d9db8b8aadbd47a32d4b4b3d67509c15",
+      "src/dsrsi/evaluation/journal.py": "0ec02951fca7c562214067a38a310b55c4531665d372efc5d0141e62787e1a3c",
+      "src/dsrsi/evaluation/language_nll.py": "ed29bce0b5c49a48602bb4599753e7d706daadfa171037fed5775987251931fe",
+      "src/dsrsi/evaluation/m_only.py": "30b300c0d601e673faa8139498c90cfdcb4876edde8216f325983406baa2dbcd",
+      "src/dsrsi/evaluation/metrics.py": "30997c27553c038671bc685ce0d59355621e55687b4e42827b63aebdf81a1a30",
+      "src/dsrsi/evaluation/pinned.py": "76a0c711f38dbf22969e72c3ad935d650e6e69135a96879137acbc2e33e7bb7e",
+      "src/dsrsi/evaluation/sampling.py": "aebbca732c5bd338f1585b9faa1c31786ba3fd97c96fbec3b43387cd35cb2d62",
+      "src/dsrsi/evaluation/tools.py": "63a8db1fc4eff51fa2c60b0068372df4b7e522cf4f79eaa959e328e598291530",
+      "src/dsrsi/harness/__init__.py": "ec2a7ee8009700b7d39210d6161ceb872e844c0de78acbcff6fade336c620e63",
+      "src/dsrsi/harness/memory_tools.py": "366805f52c33b9b39e79e9a231e240ac246cf96b33e08adea416bab6118cf933",
+      "src/dsrsi/memory/__init__.py": "5510a2d2fef9a64f9260db9d375da0953e8f7a3dd242c4c0715d7ec386967a04",
+      "src/dsrsi/memory/modules.py": "7fd141b8b45490387e85676dba7296ea934243c0b76ba05f2fbca90deaf0b2bb",
+      "src/dsrsi/memory/store.py": "73e7ddd8fe26d6820e0339712717068eac446084090e385b93fc0b36ab0f81d3",
+      "src/dsrsi/model/__init__.py": "6e17b80685992ef23d77a69c382505998e5636a40b90f363bab0f1f1c20d57be",
+      "src/dsrsi/model/cuda_execution.py": "43a7232c66eedde7c1166de9560c7048f03019127b8ec38e14d0e5e3fe5fba0b",
+      "src/dsrsi/model/experimental_gdn.py": "a94b6dd5da71b021cdf0274808d1e5e4bc2c92b1c9b68afe29cf8e1b3c1806a9",
+      "src/dsrsi/model/experimental_triangular.py": "638765970fc4a0207289ad3cb2106b68df73db964db12cc55cc6584cf0d908a8",
+      "src/dsrsi/model/frozen_prefix_reuse.py": "12572bda67b97fd87520aad88fc65d2f5f48f2312fbcdfd3553d1eb4e6084076",
+      "src/dsrsi/model/gdn_execution.py": "7fc8b4bc345c954fd3a13bb6289737de37f945b9e253628133b244c59e4ad334",
+      "src/dsrsi/model/lora.py": "a01187ed4e2a077ca968a209ff7aae025ee21db88bb369ab85c354a710975c3b",
+      "src/dsrsi/model/qwen35_memory.py": "7fa4b45577f4ad24f2a2afe428b6ab377ff665168007c2d43c893b069f042c8b",
+      "src/dsrsi/model/streaming.py": "dd4ed6166993fe52b3da127636a76da7e5635ec51b42e76814ca76c6136db805",
+      "src/dsrsi/model/streaming_layers.py": "ab162f1b401041ee3337f3c82e3a0e67871b95a9cd890476135d5738b188e7d3",
+      "src/dsrsi/state/__init__.py": "26c6d3867f4c9f31c75e1964d46603f74dc7adcf1fbcadd56f4f62a478ad5505",
+      "src/dsrsi/state/life_state.py": "669fcf1dba3d884fb75f316864e7924cc09571cdc641b676a3f84a8dcbf54e5f",
+      "src/dsrsi/state/streaming_cache.py": "d3f61d8e8cb8650aa6f04ca156a692cea5388286d65cee5dc6cdda5583771f46",
+      "src/dsrsi/training/__init__.py": "14aecbe8e3a0b7ed626e56c2827d28dbac79580ef926bdd9279d7fb5efcc3695",
+      "src/dsrsi/training/checkpoint.py": "7d8a24c6a9d10294fdcc8ee17639216dd2e3a4cc7256de9d3249104073d92bf7",
+      "src/dsrsi/training/compression_objective.py": "ec7578bbbe05e9d9f7c706d0d69145eef7cc42e87616bfd3c74a7c631bdbaf3e",
+      "src/dsrsi/training/context_runner.py": "ea595eec878d3337ef2ecfa60b9e1f4eee117842e64bfdef189972fd2d1db7a2",
+      "src/dsrsi/training/control.py": "ef925f899a80d5fa3e723013bccb5da6ddc6b2911ef4acd7978832af5a44b13e",
+      "src/dsrsi/training/device.py": "041adfefec46a30f9f27c4166a6adec917d8f1be60ffad43d9944591dd4ef0d1",
+      "src/dsrsi/training/distributed.py": "03f699fd114438630ddf79e19db40958989ccc6cf4c28412170eba5d3a3cd412",
+      "src/dsrsi/training/episode_objective.py": "163b5cf761acfcd4ed4677baaa7b9de573ebb6e0f5cfb5b42af6d026a3c70492",
+      "src/dsrsi/training/execution.py": "5251dd7f07e3da9f7f54064cf9f00d245c1b0bbc5c94b8fa0b312b768a3f92da",
+      "src/dsrsi/training/hardware.py": "94d57e8bc63ac25073f4b5ffebe1d454d87ce0d44248f842f26e3922a4694b52",
+      "src/dsrsi/training/losses.py": "565a6ac4cee9f0df458c40a7d794834921d7fb49a5b6d3c70bfcf2350fb95abb",
+      "src/dsrsi/training/resource.py": "29b7c02ca3c1f248dd65fad7364e77c9f0d44bcb3052d1da1684f20ef25338a7",
+      "src/dsrsi/training/runner.py": "89883f095f2959d833047884f8ed810b101942ab6b50d58fb87fae074083c3f9",
+      "src/dsrsi/training/tool_objective.py": "4ff8b1c7d71a258596be0f819418a634dac61e03e67870832352f0571897cb24",
+      "src/dsrsi/training/tool_runner.py": "8ad752eb23a2db55289ee485f714c2ed417a8998c34d3a2f2f8e91abcdd8e608",
+      "src/dsrsi/training/topology.py": "a4b4ef66fb6319d3079a3b1a8843486d6e3a11fcfafa38bd12caebb08d1498b0",
+      "src/dsrsi/utils/__init__.py": "a4b1d0261233bb19b8d8f95e4bc76ef21e26b970848c7ab9991a2a9a9ef9a188",
+      "src/dsrsi/utils/atomic.py": "0c90307fa19fdedbf039fb7cc730a73292441aec9522b7ccde1b3a8a6ef4ccdf"
+    },
+    "manifest_sha256": "dddef5ea8dc887bd756b533b21fcc81c7a4f89323190012d6bf9b64a4f06c6ca",
+    "run_dir": "/mnt/e/ds-rsi/runs/ab-A-v6-natural-keep-w1-cuda-01",
+    "runtime": {
+      "compute_capability": [
+        12,
+        0
+      ],
+      "cpu_threads": 2,
+      "cublas_workspace": ":4096:8",
+      "cuda": "13.0",
+      "cudnn": 91501,
+      "deterministic": true,
+      "gpu": "NVIDIA GeForce RTX 5080",
+      "hf_reference": {
+        "Qwen3_5RMSNormGated": "a0cfa46c58a8f76b7562c84131715e10d5e2af3831e26abdc9255cc615064156",
+        "torch_causal_conv1d_update": "3e69946e91492dea1d3650f62d88566ba654c3f954894d6079e0ed0cb6ef106c",
+        "torch_chunk_gated_delta_rule": "1066875a52cdd601582d9b3b8ebb31aa6a3d563de5dc34eb500ae860febbc7d0",
+        "torch_recurrent_gated_delta_rule": "deb51ab402b0127b55e20faf565c33f06ff6b85735d729e4ec33d26751a5cea4"
+      },
+      "implementation": {
+        "model/cuda_execution.py": "43a7232c66eedde7c1166de9560c7048f03019127b8ec38e14d0e5e3fe5fba0b",
+        "model/qwen35_memory.py": "7fa4b45577f4ad24f2a2afe428b6ab377ff665168007c2d43c893b069f042c8b",
+        "training/checkpoint.py": "7d8a24c6a9d10294fdcc8ee17639216dd2e3a4cc7256de9d3249104073d92bf7",
+        "training/control.py": "ef925f899a80d5fa3e723013bccb5da6ddc6b2911ef4acd7978832af5a44b13e",
+        "training/device.py": "041adfefec46a30f9f27c4166a6adec917d8f1be60ffad43d9944591dd4ef0d1",
+        "training/runner.py": "89883f095f2959d833047884f8ed810b101942ab6b50d58fb87fae074083c3f9"
+      },
+      "packages": {
+        "numpy": "1.26.4",
+        "safetensors": "0.8.0",
+        "tokenizers": "0.22.2",
+        "transformers": "5.14.1"
+      },
+      "python": "3.12.3",
+      "python_hash_seed": "0",
+      "tf32": false,
+      "torch": "2.10.0+cu130",
+      "version": "cuda-reference-gdn-eager-v1"
+    },
+    "script_sha256": "60e5e34cb6e9f1670e88643f4536680402dd88092100fc8dd3307325b870ac10"
+  },
+  "generation_execution": "canonical_single_token_streaming",
+  "journal_items": 480,
+  "manifest_sha256": "dddef5ea8dc887bd756b533b21fcc81c7a4f89323190012d6bf9b64a4f06c6ca",
+  "nll": {
+    "by_language_documents": {
+      "en": 24,
+      "zh": 24
+    },
+    "corpus_file_sha256": "ce2d18cdb196cc1b8b4356ae89818bb78a9aaa12dbae0e733fce03575b6c3eac",
+    "corpus_manifest": "/mnt/e/ds-rsi/code/05b38a0bb84a/data/manifests/broad-language-corpus-v1.json",
+    "corpus_manifest_sha256": "d745f6c28b7244c439cc7faadbc0698887d39a42f74e2616439965e49b37dac2",
+    "document_sha256": {
+      "en-alan-turing": "4468de92705004bdeb5085e605aad865aaec6e38d39abc4522d59e4cf3ac211b",
+      "en-amazon-rainforest": "c21955682fa0c808295cf6dabe5cc043824fd690b12871b2df7059e16e1a1b10",
+      "en-ancient-rome": "31114e252d1f7010d69a997d8c406d56b2804c4b8753e864657c7f75b5e1a8d7",
+      "en-antarctica": "f1e823dd54076d7a7382d59b46f1ca3ffa54f2919673a08d1a7b928b009239ec",
+      "en-atlantic-ocean": "d4ddadda7e3514e88976aeb251e85cce22b697d0a57fe558bc6205bf01185f2e",
+      "en-basketball": "ef7193094af8f070ad5e4fd8fc517d10a4c3e7407ccf4eeb09f0669cc2cb3c8f",
+      "en-bicycle": "8c74372d9430bf5a87be8628eaa5fcec778b6f659a3edae465d2ea29c6b73976",
+      "en-chess": "7e940b4c52639e39f2a75f4b824e4eea30744ab1588e0ea0b7ff92a709891c48",
+      "en-coffee": "5c34cac42b2660b9cefc7dc4f3f6d39dfb93448935bcd7dec3fc261dba61ba21",
+      "en-honey": "8314903e68fba600f8fa486917a49d333b7660fb52d97d9d80958cf63f277c27",
+      "en-jazz": "0133d635ca6b27d6381687d276839efb9fd8f66da783aaeafe415fad5a6ed3ab",
+      "en-morse-code": "52a19193f7a265168317f3b3b971a8d8a6f9cba955b40e7b2dd61423334b1c0c",
+      "en-mount-fuji": "33a53f4e92d967cddd8b584f803bb2f629cb351bd5d8e93c4393732010fab2eb",
+      "en-paper": "e9c13d994a2e59e910374d09db2ff3a1bbe2075475875aa4bae8827162a640ea",
+      "en-photosynthesis": "20cd2ed36b994bed804884b051b177e575a275a74feea747db47d3ca44c8269c",
+      "en-piano": "e394e190c593eeecbf521efe859ba725925ee48a45b3afcda0aec05e7d150f69",
+      "en-printing-press": "a03051c5972d42645f29a50c3c827a904e31d977f0f02e6cf36e909d691014ec",
+      "en-silk-road": "a3059c8d90b00d02f615547b068b690ff2a7cb9c28daf1d52ee1ff7bf787a5af",
+      "en-solar-system": "c4381634b956477ed0f58f85370290235a9bb6ed06124f5387760788b259ba53",
+      "en-sonnet": "d08d9425858ef9566dccc7bacb25aae44fe758334cf7e3a159e77356b09f5e36",
+      "en-taj-mahal": "addaed0fd0fc338a109dd56353ce43653ce284ba620a338f128f18f5c8d839b3",
+      "en-tea": "53360a75c7f8dbdb9e4f7fd3a463cb2d2d98452240daa65f9d6dcc2587ddc4fb",
+      "en-vaccine": "888a253d0f08e4b743d22822be76b24a312d7a16a1efe2f53fe3ac1ca3831312",
+      "en-william-shakespeare": "a7b1ca3eba61858d7d59e816f1207e002d133d58cc458955f7eb1202527e6ac4",
+      "zh-丝绸之路": "399487bd88f7f9923dda763fbe039de26781614156ac9139219deaf20c506148",
+      "zh-中秋节": "218567f6611c4e8e3655670d62d68c7cdb42ede041a71f5478554da5de327826",
+      "zh-中药": "d349d3eb642ce2688663fe72d48c1dd826997ede22ae9efb9d6833e5d00c47d3",
+      "zh-书法": "a36741216c0a1c2800016d49e7bcb86ef63b7b9a77431fa999024ec2e6af59a9",
+      "zh-京剧": "90fda2b3710c7c1982887e2c6d06c5eed1609413338cf9bcbdf78d14c804b0ce",
+      "zh-光合作用": "594b0c65ec5684b40ff29807002ac2fe1b20f485a6412125e32282d7adb15c06",
+      "zh-咖啡": "268f35f6a79badd4c6c4042833d425ad33fc41aeab0f40e8558c8e9c1d4fe32f",
+      "zh-唐朝": "f9330934433d7cf7e0d5c2054589dcd649a6831956b4daa155ca8273b33071e1",
+      "zh-围棋": "bafe561419e1bb2d7bdbdd0c5e2e85626eb3914fd0c007bfb200eef8b2de54bb",
+      "zh-大熊猫": "6b58cd19679462da847c10062dd0fcd22bf479bb4388c612b7af82f4977edf00",
+      "zh-太极拳": "a0ff3a19ef41b3d33e046b75ebf21fd1a3a895ac883e78db6abeadfef67d748d",
+      "zh-太阳系": "8323d754c7b003805eac969c69c27e81a994b6a80c15bc4d4f58ab9e596dbc71",
+      "zh-故宫": "96b4149f652a1df9d30791d836f1467d0bb9e17c252f9d9ea801ac59ab939a62",
+      "zh-月球": "2d62f3db95ae7ea246efe3a63e9e0fd011d90eb8aa1a2b9b8b2a4bc0ad00c6eb",
+      "zh-李白": "e34fe910c646aa18d314b1a705da692bbbe05434dff2abde5c20009b2204fe46",
+      "zh-珠穆朗瑪峰": "2e5f39451ce213ae83dd2351b4b7816039861d29c2c47b61bebbd25401ba99c0",
+      "zh-疫苗": "fa8640ff0878a3e1d3127b9b5003c60686ceaa63bc2005e203db1399aa042e9e",
+      "zh-红楼梦": "f9efc5be107e4805ecd14995a37139ea9922e0584693b11c1aacec18632f0220",
+      "zh-自行車": "90d6b51c3bc6b4e6ee7c0c6dbe125aef544ebb5a612d4f1d02ada3ea9b7e595e",
+      "zh-茶": "08e4e12a72e5a56008e374f730576c629cef1016ae7a8ca6a23926d5798ca111",
+      "zh-论语": "5471c880345ca9a95ba6bd0beb362474f3ef339330b9f99cb095caaa7febba71",
+      "zh-长城": "5b0773b41372c53716b942b2f636749a2cee054b2142d77b8d2ad71dc5faacb5",
+      "zh-长江": "e31615735a8a50cafe54143c8e4b58a03e726d7142fc74600cf706ed0df33ede",
+      "zh-黄河": "0e3fa4071f9e34832b398353b2c3f91997479b2e6f73ff4fdc8c718691424293"
+    },
+    "documents": 48,
+    "memory_source": {
+      "format": "native_event",
+      "logical_begin": 0,
+      "query_logical_begin": 4096,
+      "wall_time": "unknown"
+    },
+    "parity": {
+      "en/native": {
+        "aggregate": {
+          "base": {
+            "documents": 24,
+            "mean_nll": 2.8153368070721627,
+            "perplexity": 16.69879910692591,
+            "tokens": 9280,
+            "windows": 80
+          },
+          "off": {
+            "documents": 24,
+            "mean_nll": 2.8153368070721627,
+            "perplexity": 16.69879910692591,
+            "tokens": 9280,
+            "windows": 80
+          },
+          "unrelated": {
+            "documents": 24,
+            "mean_nll": 2.8471965834498407,
+            "perplexity": 17.23938485698919,
+            "tokens": 9280,
+            "windows": 80
+          }
+        },
+        "gate": {
+          "off_vs_base": {
+            "base_mean_nll": 2.8153368070721627,
+            "checks": {
+              "ci95_high": true,
+              "max_document_delta": true,
+              "mean_delta": true
+            },
+            "passed": true,
+            "thresholds": {
+              "max_ci95_high": 0.1,
+              "max_document_delta": 0.25,
+              "max_mean_delta": 0.05
+            },
+            "variant_mean_nll": 2.8153368070721627
+          },
+          "unrelated_vs_base": {
+            "base_mean_nll": 2.8153368070721627,
+            "checks": {
+              "ci95_high": true,
+              "max_document_delta": true,
+              "mean_delta": true
+            },
+            "passed": true,
+            "thresholds": {
+              "max_ci95_high": 0.1,
+              "max_document_delta": 0.25,
+              "max_mean_delta": 0.05
+            },
+            "variant_mean_nll": 2.8471965834498407
+          }
+        },
+        "paired": {
+          "off_vs_base": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "documents": 24,
+            "max_document_delta": 0.0,
+            "mean_delta": 0.0
+          },
+          "unrelated_vs_base": {
+            "ci95_high": 0.039530635707908206,
+            "ci95_low": 0.025283502207862005,
+            "documents": 24,
+            "max_document_delta": 0.09735472997029622,
+            "mean_delta": 0.031557944499784045
+          }
+        }
+      },
+      "zh/native": {
+        "aggregate": {
+          "base": {
+            "documents": 24,
+            "mean_nll": 3.4366705819964407,
+            "perplexity": 31.083296410726373,
+            "tokens": 9280,
+            "windows": 80
+          },
+          "off": {
+            "documents": 24,
+            "mean_nll": 3.4366705819964407,
+            "perplexity": 31.083296410726373,
+            "tokens": 9280,
+            "windows": 80
+          },
+          "unrelated": {
+            "documents": 24,
+            "mean_nll": 3.4622653678059576,
+            "perplexity": 31.88913537126297,
+            "tokens": 9280,
+            "windows": 80
+          }
+        },
+        "gate": {
+          "off_vs_base": {
+            "base_mean_nll": 3.4366705819964407,
+            "checks": {
+              "ci95_high": true,
+              "max_document_delta": true,
+              "mean_delta": true
+            },
+            "passed": true,
+            "thresholds": {
+              "max_ci95_high": 0.1,
+              "max_document_delta": 0.25,
+              "max_mean_delta": 0.05
+            },
+            "variant_mean_nll": 3.4366705819964407
+          },
+          "unrelated_vs_base": {
+            "base_mean_nll": 3.4366705819964407,
+            "checks": {
+              "ci95_high": true,
+              "max_document_delta": true,
+              "mean_delta": true
+            },
+            "passed": true,
+            "thresholds": {
+              "max_ci95_high": 0.1,
+              "max_document_delta": 0.25,
+              "max_mean_delta": 0.05
+            },
+            "variant_mean_nll": 3.4622653678059576
+          }
+        },
+        "paired": {
+          "off_vs_base": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "documents": 24,
+            "max_document_delta": 0.0,
+            "mean_delta": 0.0
+          },
+          "unrelated_vs_base": {
+            "ci95_high": 0.03052658090988795,
+            "ci95_low": 0.02013169394599067,
+            "documents": 24,
+            "max_document_delta": 0.05153576532999674,
+            "mean_delta": 0.025203400188022192
+          }
+        }
+      }
+    },
+    "selected_windows": {
+      "by_document": {
+        "en-alan-turing": 4,
+        "en-amazon-rainforest": 3,
+        "en-ancient-rome": 4,
+        "en-antarctica": 4,
+        "en-atlantic-ocean": 3,
+        "en-basketball": 3,
+        "en-bicycle": 3,
+        "en-chess": 3,
+        "en-coffee": 4,
+        "en-honey": 3,
+        "en-jazz": 4,
+        "en-morse-code": 3,
+        "en-mount-fuji": 4,
+        "en-paper": 3,
+        "en-photosynthesis": 4,
+        "en-piano": 3,
+        "en-printing-press": 3,
+        "en-silk-road": 4,
+        "en-solar-system": 3,
+        "en-sonnet": 3,
+        "en-taj-mahal": 3,
+        "en-tea": 3,
+        "en-vaccine": 3,
+        "en-william-shakespeare": 3,
+        "zh-丝绸之路": 4,
+        "zh-中秋节": 3,
+        "zh-中药": 3,
+        "zh-书法": 3,
+        "zh-京剧": 4,
+        "zh-光合作用": 4,
+        "zh-咖啡": 3,
+        "zh-唐朝": 4,
+        "zh-围棋": 3,
+        "zh-大熊猫": 3,
+        "zh-太极拳": 3,
+        "zh-太阳系": 3,
+        "zh-故宫": 4,
+        "zh-月球": 4,
+        "zh-李白": 3,
+        "zh-珠穆朗瑪峰": 3,
+        "zh-疫苗": 3,
+        "zh-红楼梦": 3,
+        "zh-自行車": 3,
+        "zh-茶": 4,
+        "zh-论语": 3,
+        "zh-长城": 3,
+        "zh-长江": 4,
+        "zh-黄河": 3
+      },
+      "by_language": {
+        "en": 80,
+        "zh": 80
+      }
+    },
+    "window": 256,
+    "windows_per_language": 80
+  },
+  "nll_execution": "parallel_native_teacher_forcing",
+  "nll_records": [
+    {
+      "document_id": "zh-丝绸之路",
+      "language": "zh",
+      "mean_nll": 4.029940605163574,
+      "mode": "base",
+      "nll_sum": 467.4731101989746,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-丝绸之路",
+      "language": "zh",
+      "mean_nll": 4.029940605163574,
+      "mode": "off",
+      "nll_sum": 467.4731101989746,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-丝绸之路",
+      "language": "zh",
+      "mean_nll": 4.029284954071045,
+      "mode": "unrelated",
+      "nll_sum": 467.3970546722412,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-光合作用",
+      "language": "zh",
+      "mean_nll": 4.266398906707764,
+      "mode": "base",
+      "nll_sum": 494.9022731781006,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-光合作用",
+      "language": "zh",
+      "mean_nll": 4.266398906707764,
+      "mode": "off",
+      "nll_sum": 494.9022731781006,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-光合作用",
+      "language": "zh",
+      "mean_nll": 4.327056407928467,
+      "mode": "unrelated",
+      "nll_sum": 501.93854331970215,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-故宫",
+      "language": "zh",
+      "mean_nll": 3.105660915374756,
+      "mode": "base",
+      "nll_sum": 360.2566661834717,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-故宫",
+      "language": "zh",
+      "mean_nll": 3.105660915374756,
+      "mode": "off",
+      "nll_sum": 360.2566661834717,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-故宫",
+      "language": "zh",
+      "mean_nll": 3.195434093475342,
+      "mode": "unrelated",
+      "nll_sum": 370.67035484313965,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-长江",
+      "language": "zh",
+      "mean_nll": 1.536628246307373,
+      "mode": "base",
+      "nll_sum": 178.24887657165527,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-长江",
+      "language": "zh",
+      "mean_nll": 1.536628246307373,
+      "mode": "off",
+      "nll_sum": 178.24887657165527,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-长江",
+      "language": "zh",
+      "mean_nll": 1.6064372062683105,
+      "mode": "unrelated",
+      "nll_sum": 186.34671592712402,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-茶",
+      "language": "zh",
+      "mean_nll": 3.2641959190368652,
+      "mode": "base",
+      "nll_sum": 378.64672660827637,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-茶",
+      "language": "zh",
+      "mean_nll": 3.2641959190368652,
+      "mode": "off",
+      "nll_sum": 378.64672660827637,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-茶",
+      "language": "zh",
+      "mean_nll": 3.2948622703552246,
+      "mode": "unrelated",
+      "nll_sum": 382.20402336120605,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-京剧",
+      "language": "zh",
+      "mean_nll": 3.0063095092773438,
+      "mode": "base",
+      "nll_sum": 348.7319030761719,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-京剧",
+      "language": "zh",
+      "mean_nll": 3.0063095092773438,
+      "mode": "off",
+      "nll_sum": 348.7319030761719,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-京剧",
+      "language": "zh",
+      "mean_nll": 3.0339853763580322,
+      "mode": "unrelated",
+      "nll_sum": 351.94230365753174,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-唐朝",
+      "language": "zh",
+      "mean_nll": 4.007107257843018,
+      "mode": "base",
+      "nll_sum": 464.82444190979004,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-唐朝",
+      "language": "zh",
+      "mean_nll": 4.007107257843018,
+      "mode": "off",
+      "nll_sum": 464.82444190979004,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-唐朝",
+      "language": "zh",
+      "mean_nll": 4.077358722686768,
+      "mode": "unrelated",
+      "nll_sum": 472.97361183166504,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-月球",
+      "language": "zh",
+      "mean_nll": 2.2925539016723633,
+      "mode": "base",
+      "nll_sum": 265.93625259399414,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-月球",
+      "language": "zh",
+      "mean_nll": 2.2925539016723633,
+      "mode": "off",
+      "nll_sum": 265.93625259399414,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-月球",
+      "language": "zh",
+      "mean_nll": 2.332822799682617,
+      "mode": "unrelated",
+      "nll_sum": 270.6074447631836,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-疫苗",
+      "language": "zh",
+      "mean_nll": 4.372560501098633,
+      "mode": "base",
+      "nll_sum": 507.2170181274414,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-疫苗",
+      "language": "zh",
+      "mean_nll": 4.372560501098633,
+      "mode": "off",
+      "nll_sum": 507.2170181274414,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-疫苗",
+      "language": "zh",
+      "mean_nll": 4.387774467468262,
+      "mode": "unrelated",
+      "nll_sum": 508.98183822631836,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-太阳系",
+      "language": "zh",
+      "mean_nll": 3.3455076217651367,
+      "mode": "base",
+      "nll_sum": 388.07888412475586,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-太阳系",
+      "language": "zh",
+      "mean_nll": 3.3455076217651367,
+      "mode": "off",
+      "nll_sum": 388.07888412475586,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-太阳系",
+      "language": "zh",
+      "mean_nll": 3.3842570781707764,
+      "mode": "unrelated",
+      "nll_sum": 392.57382106781006,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-自行車",
+      "language": "zh",
+      "mean_nll": 3.425619125366211,
+      "mode": "base",
+      "nll_sum": 397.37181854248047,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-自行車",
+      "language": "zh",
+      "mean_nll": 3.425619125366211,
+      "mode": "off",
+      "nll_sum": 397.37181854248047,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-自行車",
+      "language": "zh",
+      "mean_nll": 3.471978187561035,
+      "mode": "unrelated",
+      "nll_sum": 402.7494697570801,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-咖啡",
+      "language": "zh",
+      "mean_nll": 2.722912073135376,
+      "mode": "base",
+      "nll_sum": 315.8578004837036,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-咖啡",
+      "language": "zh",
+      "mean_nll": 2.722912073135376,
+      "mode": "off",
+      "nll_sum": 315.8578004837036,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-咖啡",
+      "language": "zh",
+      "mean_nll": 2.743356704711914,
+      "mode": "unrelated",
+      "nll_sum": 318.22937774658203,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-李白",
+      "language": "zh",
+      "mean_nll": 3.421203851699829,
+      "mode": "base",
+      "nll_sum": 396.8596467971802,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-李白",
+      "language": "zh",
+      "mean_nll": 3.421203851699829,
+      "mode": "off",
+      "nll_sum": 396.8596467971802,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-李白",
+      "language": "zh",
+      "mean_nll": 3.426323890686035,
+      "mode": "unrelated",
+      "nll_sum": 397.4535713195801,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-论语",
+      "language": "zh",
+      "mean_nll": 3.0000619888305664,
+      "mode": "base",
+      "nll_sum": 348.0071907043457,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-论语",
+      "language": "zh",
+      "mean_nll": 3.0000619888305664,
+      "mode": "off",
+      "nll_sum": 348.0071907043457,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-论语",
+      "language": "zh",
+      "mean_nll": 3.020726203918457,
+      "mode": "unrelated",
+      "nll_sum": 350.404239654541,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-珠穆朗瑪峰",
+      "language": "zh",
+      "mean_nll": 2.8767342567443848,
+      "mode": "base",
+      "nll_sum": 333.70117378234863,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-珠穆朗瑪峰",
+      "language": "zh",
+      "mean_nll": 2.8767342567443848,
+      "mode": "off",
+      "nll_sum": 333.70117378234863,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-珠穆朗瑪峰",
+      "language": "zh",
+      "mean_nll": 2.958998918533325,
+      "mode": "unrelated",
+      "nll_sum": 343.2438745498657,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-围棋",
+      "language": "zh",
+      "mean_nll": 3.6034352779388428,
+      "mode": "base",
+      "nll_sum": 417.99849224090576,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-围棋",
+      "language": "zh",
+      "mean_nll": 3.6034352779388428,
+      "mode": "off",
+      "nll_sum": 417.99849224090576,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-围棋",
+      "language": "zh",
+      "mean_nll": 3.60862135887146,
+      "mode": "unrelated",
+      "nll_sum": 418.60007762908936,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-长城",
+      "language": "zh",
+      "mean_nll": 3.082810401916504,
+      "mode": "base",
+      "nll_sum": 357.60600662231445,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-长城",
+      "language": "zh",
+      "mean_nll": 3.082810401916504,
+      "mode": "off",
+      "nll_sum": 357.60600662231445,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-长城",
+      "language": "zh",
+      "mean_nll": 3.110234260559082,
+      "mode": "unrelated",
+      "nll_sum": 360.7871742248535,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-书法",
+      "language": "zh",
+      "mean_nll": 3.9340662956237793,
+      "mode": "base",
+      "nll_sum": 456.3516902923584,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-书法",
+      "language": "zh",
+      "mean_nll": 3.9340662956237793,
+      "mode": "off",
+      "nll_sum": 456.3516902923584,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-书法",
+      "language": "zh",
+      "mean_nll": 3.9377336502075195,
+      "mode": "unrelated",
+      "nll_sum": 456.77710342407227,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-太极拳",
+      "language": "zh",
+      "mean_nll": 3.855473518371582,
+      "mode": "base",
+      "nll_sum": 447.2349281311035,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-太极拳",
+      "language": "zh",
+      "mean_nll": 3.855473518371582,
+      "mode": "off",
+      "nll_sum": 447.2349281311035,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-太极拳",
+      "language": "zh",
+      "mean_nll": 3.8865087032318115,
+      "mode": "unrelated",
+      "nll_sum": 450.83500957489014,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-大熊猫",
+      "language": "zh",
+      "mean_nll": 3.223991632461548,
+      "mode": "base",
+      "nll_sum": 373.98302936553955,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-大熊猫",
+      "language": "zh",
+      "mean_nll": 3.223991632461548,
+      "mode": "off",
+      "nll_sum": 373.98302936553955,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-大熊猫",
+      "language": "zh",
+      "mean_nll": 3.239748001098633,
+      "mode": "unrelated",
+      "nll_sum": 375.8107681274414,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-黄河",
+      "language": "zh",
+      "mean_nll": 2.4862194061279297,
+      "mode": "base",
+      "nll_sum": 288.40145111083984,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-黄河",
+      "language": "zh",
+      "mean_nll": 2.4862194061279297,
+      "mode": "off",
+      "nll_sum": 288.40145111083984,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-黄河",
+      "language": "zh",
+      "mean_nll": 2.528918504714966,
+      "mode": "unrelated",
+      "nll_sum": 293.35454654693604,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-红楼梦",
+      "language": "zh",
+      "mean_nll": 3.66943097114563,
+      "mode": "base",
+      "nll_sum": 425.65399265289307,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-红楼梦",
+      "language": "zh",
+      "mean_nll": 3.66943097114563,
+      "mode": "off",
+      "nll_sum": 425.65399265289307,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-红楼梦",
+      "language": "zh",
+      "mean_nll": 3.729496955871582,
+      "mode": "unrelated",
+      "nll_sum": 432.6216468811035,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-中秋节",
+      "language": "zh",
+      "mean_nll": 3.7847375869750977,
+      "mode": "base",
+      "nll_sum": 439.0295600891113,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-中秋节",
+      "language": "zh",
+      "mean_nll": 3.7847375869750977,
+      "mode": "off",
+      "nll_sum": 439.0295600891113,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-中秋节",
+      "language": "zh",
+      "mean_nll": 3.789116859436035,
+      "mode": "unrelated",
+      "nll_sum": 439.5375556945801,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-中药",
+      "language": "zh",
+      "mean_nll": 3.01778244972229,
+      "mode": "base",
+      "nll_sum": 350.06276416778564,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-中药",
+      "language": "zh",
+      "mean_nll": 3.01778244972229,
+      "mode": "off",
+      "nll_sum": 350.06276416778564,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-中药",
+      "language": "zh",
+      "mean_nll": 3.023714780807495,
+      "mode": "unrelated",
+      "nll_sum": 350.75091457366943,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "zh-丝绸之路",
+      "language": "zh",
+      "mean_nll": 3.185119152069092,
+      "mode": "base",
+      "nll_sum": 369.47382164001465,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-丝绸之路",
+      "language": "zh",
+      "mean_nll": 3.185119152069092,
+      "mode": "off",
+      "nll_sum": 369.47382164001465,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-丝绸之路",
+      "language": "zh",
+      "mean_nll": 3.2043797969818115,
+      "mode": "unrelated",
+      "nll_sum": 371.70805644989014,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-光合作用",
+      "language": "zh",
+      "mean_nll": 4.162675380706787,
+      "mode": "base",
+      "nll_sum": 482.8703441619873,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-光合作用",
+      "language": "zh",
+      "mean_nll": 4.162675380706787,
+      "mode": "off",
+      "nll_sum": 482.8703441619873,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-光合作用",
+      "language": "zh",
+      "mean_nll": 4.240480422973633,
+      "mode": "unrelated",
+      "nll_sum": 491.8957290649414,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-故宫",
+      "language": "zh",
+      "mean_nll": 2.7935895919799805,
+      "mode": "base",
+      "nll_sum": 324.05639266967773,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-故宫",
+      "language": "zh",
+      "mean_nll": 2.7935895919799805,
+      "mode": "off",
+      "nll_sum": 324.05639266967773,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-故宫",
+      "language": "zh",
+      "mean_nll": 2.7814698219299316,
+      "mode": "unrelated",
+      "nll_sum": 322.65049934387207,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-长江",
+      "language": "zh",
+      "mean_nll": 3.8066670894622803,
+      "mode": "base",
+      "nll_sum": 441.5733823776245,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-长江",
+      "language": "zh",
+      "mean_nll": 3.8066670894622803,
+      "mode": "off",
+      "nll_sum": 441.5733823776245,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-长江",
+      "language": "zh",
+      "mean_nll": 3.836517095565796,
+      "mode": "unrelated",
+      "nll_sum": 445.0359830856323,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-茶",
+      "language": "zh",
+      "mean_nll": 2.716916084289551,
+      "mode": "base",
+      "nll_sum": 315.1622657775879,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-茶",
+      "language": "zh",
+      "mean_nll": 2.716916084289551,
+      "mode": "off",
+      "nll_sum": 315.1622657775879,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-茶",
+      "language": "zh",
+      "mean_nll": 2.7301838397979736,
+      "mode": "unrelated",
+      "nll_sum": 316.70132541656494,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-京剧",
+      "language": "zh",
+      "mean_nll": 3.8724374771118164,
+      "mode": "base",
+      "nll_sum": 449.2027473449707,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-京剧",
+      "language": "zh",
+      "mean_nll": 3.8724374771118164,
+      "mode": "off",
+      "nll_sum": 449.2027473449707,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-京剧",
+      "language": "zh",
+      "mean_nll": 3.8706555366516113,
+      "mode": "unrelated",
+      "nll_sum": 448.9960422515869,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-唐朝",
+      "language": "zh",
+      "mean_nll": 3.3670430183410645,
+      "mode": "base",
+      "nll_sum": 390.5769901275635,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-唐朝",
+      "language": "zh",
+      "mean_nll": 3.3670430183410645,
+      "mode": "off",
+      "nll_sum": 390.5769901275635,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-唐朝",
+      "language": "zh",
+      "mean_nll": 3.3705735206604004,
+      "mode": "unrelated",
+      "nll_sum": 390.98652839660645,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-月球",
+      "language": "zh",
+      "mean_nll": 3.754688024520874,
+      "mode": "base",
+      "nll_sum": 435.5438108444214,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-月球",
+      "language": "zh",
+      "mean_nll": 3.754688024520874,
+      "mode": "off",
+      "nll_sum": 435.5438108444214,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-月球",
+      "language": "zh",
+      "mean_nll": 3.744464635848999,
+      "mode": "unrelated",
+      "nll_sum": 434.3578977584839,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-疫苗",
+      "language": "zh",
+      "mean_nll": 1.0490801334381104,
+      "mode": "base",
+      "nll_sum": 121.6932954788208,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-疫苗",
+      "language": "zh",
+      "mean_nll": 1.0490801334381104,
+      "mode": "off",
+      "nll_sum": 121.6932954788208,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-疫苗",
+      "language": "zh",
+      "mean_nll": 1.0449973344802856,
+      "mode": "unrelated",
+      "nll_sum": 121.21969079971313,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-太阳系",
+      "language": "zh",
+      "mean_nll": 3.0132083892822266,
+      "mode": "base",
+      "nll_sum": 349.5321731567383,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-太阳系",
+      "language": "zh",
+      "mean_nll": 3.0132083892822266,
+      "mode": "off",
+      "nll_sum": 349.5321731567383,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-太阳系",
+      "language": "zh",
+      "mean_nll": 3.0059542655944824,
+      "mode": "unrelated",
+      "nll_sum": 348.69069480895996,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-自行車",
+      "language": "zh",
+      "mean_nll": 4.472010135650635,
+      "mode": "base",
+      "nll_sum": 518.7531757354736,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-自行車",
+      "language": "zh",
+      "mean_nll": 4.472010135650635,
+      "mode": "off",
+      "nll_sum": 518.7531757354736,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-自行車",
+      "language": "zh",
+      "mean_nll": 4.498672008514404,
+      "mode": "unrelated",
+      "nll_sum": 521.8459529876709,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-咖啡",
+      "language": "zh",
+      "mean_nll": 3.771946430206299,
+      "mode": "base",
+      "nll_sum": 437.54578590393066,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-咖啡",
+      "language": "zh",
+      "mean_nll": 3.771946430206299,
+      "mode": "off",
+      "nll_sum": 437.54578590393066,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-咖啡",
+      "language": "zh",
+      "mean_nll": 3.8162174224853516,
+      "mode": "unrelated",
+      "nll_sum": 442.6812210083008,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-李白",
+      "language": "zh",
+      "mean_nll": 3.6934409141540527,
+      "mode": "base",
+      "nll_sum": 428.4391460418701,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-李白",
+      "language": "zh",
+      "mean_nll": 3.6934409141540527,
+      "mode": "off",
+      "nll_sum": 428.4391460418701,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-李白",
+      "language": "zh",
+      "mean_nll": 3.7144968509674072,
+      "mode": "unrelated",
+      "nll_sum": 430.88163471221924,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-论语",
+      "language": "zh",
+      "mean_nll": 4.035254955291748,
+      "mode": "base",
+      "nll_sum": 468.0895748138428,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-论语",
+      "language": "zh",
+      "mean_nll": 4.035254955291748,
+      "mode": "off",
+      "nll_sum": 468.0895748138428,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-论语",
+      "language": "zh",
+      "mean_nll": 4.047056198120117,
+      "mode": "unrelated",
+      "nll_sum": 469.4585189819336,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-珠穆朗瑪峰",
+      "language": "zh",
+      "mean_nll": 2.5383706092834473,
+      "mode": "base",
+      "nll_sum": 294.4509906768799,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-珠穆朗瑪峰",
+      "language": "zh",
+      "mean_nll": 2.5383706092834473,
+      "mode": "off",
+      "nll_sum": 294.4509906768799,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-珠穆朗瑪峰",
+      "language": "zh",
+      "mean_nll": 2.57291316986084,
+      "mode": "unrelated",
+      "nll_sum": 298.4579277038574,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-围棋",
+      "language": "zh",
+      "mean_nll": 3.619292974472046,
+      "mode": "base",
+      "nll_sum": 419.8379850387573,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-围棋",
+      "language": "zh",
+      "mean_nll": 3.619292974472046,
+      "mode": "off",
+      "nll_sum": 419.8379850387573,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-围棋",
+      "language": "zh",
+      "mean_nll": 3.6427481174468994,
+      "mode": "unrelated",
+      "nll_sum": 422.55878162384033,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-长城",
+      "language": "zh",
+      "mean_nll": 3.343559741973877,
+      "mode": "base",
+      "nll_sum": 387.8529300689697,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-长城",
+      "language": "zh",
+      "mean_nll": 3.343559741973877,
+      "mode": "off",
+      "nll_sum": 387.8529300689697,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-长城",
+      "language": "zh",
+      "mean_nll": 3.3513970375061035,
+      "mode": "unrelated",
+      "nll_sum": 388.762056350708,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-书法",
+      "language": "zh",
+      "mean_nll": 2.8795485496520996,
+      "mode": "base",
+      "nll_sum": 334.02763175964355,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-书法",
+      "language": "zh",
+      "mean_nll": 2.8795485496520996,
+      "mode": "off",
+      "nll_sum": 334.02763175964355,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-书法",
+      "language": "zh",
+      "mean_nll": 2.902556896209717,
+      "mode": "unrelated",
+      "nll_sum": 336.69659996032715,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-太极拳",
+      "language": "zh",
+      "mean_nll": 5.092075824737549,
+      "mode": "base",
+      "nll_sum": 590.6807956695557,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-太极拳",
+      "language": "zh",
+      "mean_nll": 5.092075824737549,
+      "mode": "off",
+      "nll_sum": 590.6807956695557,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-太极拳",
+      "language": "zh",
+      "mean_nll": 5.140501499176025,
+      "mode": "unrelated",
+      "nll_sum": 596.298173904419,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-大熊猫",
+      "language": "zh",
+      "mean_nll": 2.560925245285034,
+      "mode": "base",
+      "nll_sum": 297.06732845306396,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-大熊猫",
+      "language": "zh",
+      "mean_nll": 2.560925245285034,
+      "mode": "off",
+      "nll_sum": 297.06732845306396,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-大熊猫",
+      "language": "zh",
+      "mean_nll": 2.5668818950653076,
+      "mode": "unrelated",
+      "nll_sum": 297.7582998275757,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-黄河",
+      "language": "zh",
+      "mean_nll": 1.9029101133346558,
+      "mode": "base",
+      "nll_sum": 220.73757314682007,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-黄河",
+      "language": "zh",
+      "mean_nll": 1.9029101133346558,
+      "mode": "off",
+      "nll_sum": 220.73757314682007,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-黄河",
+      "language": "zh",
+      "mean_nll": 1.903291940689087,
+      "mode": "unrelated",
+      "nll_sum": 220.78186511993408,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-红楼梦",
+      "language": "zh",
+      "mean_nll": 3.9054245948791504,
+      "mode": "base",
+      "nll_sum": 453.02925300598145,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-红楼梦",
+      "language": "zh",
+      "mean_nll": 3.9054245948791504,
+      "mode": "off",
+      "nll_sum": 453.02925300598145,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-红楼梦",
+      "language": "zh",
+      "mean_nll": 3.9455389976501465,
+      "mode": "unrelated",
+      "nll_sum": 457.682523727417,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-中秋节",
+      "language": "zh",
+      "mean_nll": 3.764583110809326,
+      "mode": "base",
+      "nll_sum": 436.69164085388184,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-中秋节",
+      "language": "zh",
+      "mean_nll": 3.764583110809326,
+      "mode": "off",
+      "nll_sum": 436.69164085388184,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-中秋节",
+      "language": "zh",
+      "mean_nll": 3.7729642391204834,
+      "mode": "unrelated",
+      "nll_sum": 437.6638517379761,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-中药",
+      "language": "zh",
+      "mean_nll": 3.5543668270111084,
+      "mode": "base",
+      "nll_sum": 412.3065519332886,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-中药",
+      "language": "zh",
+      "mean_nll": 3.5543668270111084,
+      "mode": "off",
+      "nll_sum": 412.3065519332886,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-中药",
+      "language": "zh",
+      "mean_nll": 3.5677812099456787,
+      "mode": "unrelated",
+      "nll_sum": 413.86262035369873,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "zh-丝绸之路",
+      "language": "zh",
+      "mean_nll": 4.048097610473633,
+      "mode": "base",
+      "nll_sum": 469.5793228149414,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-丝绸之路",
+      "language": "zh",
+      "mean_nll": 4.048097610473633,
+      "mode": "off",
+      "nll_sum": 469.5793228149414,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-丝绸之路",
+      "language": "zh",
+      "mean_nll": 4.117027282714844,
+      "mode": "unrelated",
+      "nll_sum": 477.5751647949219,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-光合作用",
+      "language": "zh",
+      "mean_nll": 3.592785120010376,
+      "mode": "base",
+      "nll_sum": 416.7630739212036,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-光合作用",
+      "language": "zh",
+      "mean_nll": 3.592785120010376,
+      "mode": "off",
+      "nll_sum": 416.7630739212036,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-光合作用",
+      "language": "zh",
+      "mean_nll": 3.597047805786133,
+      "mode": "unrelated",
+      "nll_sum": 417.2575454711914,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-故宫",
+      "language": "zh",
+      "mean_nll": 3.380955696105957,
+      "mode": "base",
+      "nll_sum": 392.190860748291,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-故宫",
+      "language": "zh",
+      "mean_nll": 3.380955696105957,
+      "mode": "off",
+      "nll_sum": 392.190860748291,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-故宫",
+      "language": "zh",
+      "mean_nll": 3.385983467102051,
+      "mode": "unrelated",
+      "nll_sum": 392.7740821838379,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-长江",
+      "language": "zh",
+      "mean_nll": 4.149707794189453,
+      "mode": "base",
+      "nll_sum": 481.36610412597656,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-长江",
+      "language": "zh",
+      "mean_nll": 4.149707794189453,
+      "mode": "off",
+      "nll_sum": 481.36610412597656,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-长江",
+      "language": "zh",
+      "mean_nll": 4.1903533935546875,
+      "mode": "unrelated",
+      "nll_sum": 486.08099365234375,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-茶",
+      "language": "zh",
+      "mean_nll": 2.186020612716675,
+      "mode": "base",
+      "nll_sum": 253.57839107513428,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-茶",
+      "language": "zh",
+      "mean_nll": 2.186020612716675,
+      "mode": "off",
+      "nll_sum": 253.57839107513428,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-茶",
+      "language": "zh",
+      "mean_nll": 2.1669375896453857,
+      "mode": "unrelated",
+      "nll_sum": 251.36476039886475,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-京剧",
+      "language": "zh",
+      "mean_nll": 4.432018756866455,
+      "mode": "base",
+      "nll_sum": 514.1141757965088,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-京剧",
+      "language": "zh",
+      "mean_nll": 4.432018756866455,
+      "mode": "off",
+      "nll_sum": 514.1141757965088,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-京剧",
+      "language": "zh",
+      "mean_nll": 4.452009677886963,
+      "mode": "unrelated",
+      "nll_sum": 516.4331226348877,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-唐朝",
+      "language": "zh",
+      "mean_nll": 3.6450960636138916,
+      "mode": "base",
+      "nll_sum": 422.8311433792114,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-唐朝",
+      "language": "zh",
+      "mean_nll": 3.6450960636138916,
+      "mode": "off",
+      "nll_sum": 422.8311433792114,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-唐朝",
+      "language": "zh",
+      "mean_nll": 3.686398983001709,
+      "mode": "unrelated",
+      "nll_sum": 427.62228202819824,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-月球",
+      "language": "zh",
+      "mean_nll": 2.898724317550659,
+      "mode": "base",
+      "nll_sum": 336.25202083587646,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-月球",
+      "language": "zh",
+      "mean_nll": 2.898724317550659,
+      "mode": "off",
+      "nll_sum": 336.25202083587646,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-月球",
+      "language": "zh",
+      "mean_nll": 2.888686180114746,
+      "mode": "unrelated",
+      "nll_sum": 335.08759689331055,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-疫苗",
+      "language": "zh",
+      "mean_nll": 1.5363423824310303,
+      "mode": "base",
+      "nll_sum": 178.2157163619995,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-疫苗",
+      "language": "zh",
+      "mean_nll": 1.5363423824310303,
+      "mode": "off",
+      "nll_sum": 178.2157163619995,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-疫苗",
+      "language": "zh",
+      "mean_nll": 1.5498056411743164,
+      "mode": "unrelated",
+      "nll_sum": 179.7774543762207,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-太阳系",
+      "language": "zh",
+      "mean_nll": 2.7432916164398193,
+      "mode": "base",
+      "nll_sum": 318.22182750701904,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-太阳系",
+      "language": "zh",
+      "mean_nll": 2.7432916164398193,
+      "mode": "off",
+      "nll_sum": 318.22182750701904,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-太阳系",
+      "language": "zh",
+      "mean_nll": 2.7607903480529785,
+      "mode": "unrelated",
+      "nll_sum": 320.2516803741455,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-自行車",
+      "language": "zh",
+      "mean_nll": 3.674119472503662,
+      "mode": "base",
+      "nll_sum": 426.1978588104248,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-自行車",
+      "language": "zh",
+      "mean_nll": 3.674119472503662,
+      "mode": "off",
+      "nll_sum": 426.1978588104248,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-自行車",
+      "language": "zh",
+      "mean_nll": 3.6882073879241943,
+      "mode": "unrelated",
+      "nll_sum": 427.83205699920654,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-咖啡",
+      "language": "zh",
+      "mean_nll": 3.420501470565796,
+      "mode": "base",
+      "nll_sum": 396.7781705856323,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-咖啡",
+      "language": "zh",
+      "mean_nll": 3.420501470565796,
+      "mode": "off",
+      "nll_sum": 396.7781705856323,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-咖啡",
+      "language": "zh",
+      "mean_nll": 3.432262659072876,
+      "mode": "unrelated",
+      "nll_sum": 398.1424684524536,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-李白",
+      "language": "zh",
+      "mean_nll": 4.034653186798096,
+      "mode": "base",
+      "nll_sum": 468.0197696685791,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-李白",
+      "language": "zh",
+      "mean_nll": 4.034653186798096,
+      "mode": "off",
+      "nll_sum": 468.0197696685791,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-李白",
+      "language": "zh",
+      "mean_nll": 4.068009376525879,
+      "mode": "unrelated",
+      "nll_sum": 471.88908767700195,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-论语",
+      "language": "zh",
+      "mean_nll": 3.949864149093628,
+      "mode": "base",
+      "nll_sum": 458.18424129486084,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-论语",
+      "language": "zh",
+      "mean_nll": 3.949864149093628,
+      "mode": "off",
+      "nll_sum": 458.18424129486084,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-论语",
+      "language": "zh",
+      "mean_nll": 3.9926486015319824,
+      "mode": "unrelated",
+      "nll_sum": 463.14723777770996,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-珠穆朗瑪峰",
+      "language": "zh",
+      "mean_nll": 2.9266550540924072,
+      "mode": "base",
+      "nll_sum": 339.49198627471924,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-珠穆朗瑪峰",
+      "language": "zh",
+      "mean_nll": 2.9266550540924072,
+      "mode": "off",
+      "nll_sum": 339.49198627471924,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-珠穆朗瑪峰",
+      "language": "zh",
+      "mean_nll": 2.9644551277160645,
+      "mode": "unrelated",
+      "nll_sum": 343.8767948150635,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-围棋",
+      "language": "zh",
+      "mean_nll": 3.4219539165496826,
+      "mode": "base",
+      "nll_sum": 396.9466543197632,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-围棋",
+      "language": "zh",
+      "mean_nll": 3.4219539165496826,
+      "mode": "off",
+      "nll_sum": 396.9466543197632,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-围棋",
+      "language": "zh",
+      "mean_nll": 3.4227707386016846,
+      "mode": "unrelated",
+      "nll_sum": 397.0414056777954,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-长城",
+      "language": "zh",
+      "mean_nll": 4.42085599899292,
+      "mode": "base",
+      "nll_sum": 512.8192958831787,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-长城",
+      "language": "zh",
+      "mean_nll": 4.42085599899292,
+      "mode": "off",
+      "nll_sum": 512.8192958831787,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-长城",
+      "language": "zh",
+      "mean_nll": 4.4783172607421875,
+      "mode": "unrelated",
+      "nll_sum": 519.4848022460938,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-书法",
+      "language": "zh",
+      "mean_nll": 4.15813684463501,
+      "mode": "base",
+      "nll_sum": 482.34387397766113,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-书法",
+      "language": "zh",
+      "mean_nll": 4.15813684463501,
+      "mode": "off",
+      "nll_sum": 482.34387397766113,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-书法",
+      "language": "zh",
+      "mean_nll": 4.165575981140137,
+      "mode": "unrelated",
+      "nll_sum": 483.20681381225586,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-太极拳",
+      "language": "zh",
+      "mean_nll": 4.153215408325195,
+      "mode": "base",
+      "nll_sum": 481.77298736572266,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-太极拳",
+      "language": "zh",
+      "mean_nll": 4.153215408325195,
+      "mode": "off",
+      "nll_sum": 481.77298736572266,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-太极拳",
+      "language": "zh",
+      "mean_nll": 4.162257671356201,
+      "mode": "unrelated",
+      "nll_sum": 482.82188987731934,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-大熊猫",
+      "language": "zh",
+      "mean_nll": 3.836254596710205,
+      "mode": "base",
+      "nll_sum": 445.0055332183838,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-大熊猫",
+      "language": "zh",
+      "mean_nll": 3.836254596710205,
+      "mode": "off",
+      "nll_sum": 445.0055332183838,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-大熊猫",
+      "language": "zh",
+      "mean_nll": 3.853752374649048,
+      "mode": "unrelated",
+      "nll_sum": 447.03527545928955,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-黄河",
+      "language": "zh",
+      "mean_nll": 4.0902099609375,
+      "mode": "base",
+      "nll_sum": 474.46435546875,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-黄河",
+      "language": "zh",
+      "mean_nll": 4.0902099609375,
+      "mode": "off",
+      "nll_sum": 474.46435546875,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-黄河",
+      "language": "zh",
+      "mean_nll": 4.1331095695495605,
+      "mode": "unrelated",
+      "nll_sum": 479.440710067749,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-红楼梦",
+      "language": "zh",
+      "mean_nll": 3.3501129150390625,
+      "mode": "base",
+      "nll_sum": 388.61309814453125,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-红楼梦",
+      "language": "zh",
+      "mean_nll": 3.3501129150390625,
+      "mode": "off",
+      "nll_sum": 388.61309814453125,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-红楼梦",
+      "language": "zh",
+      "mean_nll": 3.390251398086548,
+      "mode": "unrelated",
+      "nll_sum": 393.26916217803955,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-中秋节",
+      "language": "zh",
+      "mean_nll": 4.47470235824585,
+      "mode": "base",
+      "nll_sum": 519.0654735565186,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-中秋节",
+      "language": "zh",
+      "mean_nll": 4.47470235824585,
+      "mode": "off",
+      "nll_sum": 519.0654735565186,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-中秋节",
+      "language": "zh",
+      "mean_nll": 4.484396457672119,
+      "mode": "unrelated",
+      "nll_sum": 520.1899890899658,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-中药",
+      "language": "zh",
+      "mean_nll": 3.538381814956665,
+      "mode": "base",
+      "nll_sum": 410.45229053497314,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-中药",
+      "language": "zh",
+      "mean_nll": 3.538381814956665,
+      "mode": "off",
+      "nll_sum": 410.45229053497314,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-中药",
+      "language": "zh",
+      "mean_nll": 3.5755391120910645,
+      "mode": "unrelated",
+      "nll_sum": 414.7625370025635,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "zh-丝绸之路",
+      "language": "zh",
+      "mean_nll": 2.2139322757720947,
+      "mode": "base",
+      "nll_sum": 256.816143989563,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "zh-丝绸之路",
+      "language": "zh",
+      "mean_nll": 2.2139322757720947,
+      "mode": "off",
+      "nll_sum": 256.816143989563,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "zh-丝绸之路",
+      "language": "zh",
+      "mean_nll": 2.2269296646118164,
+      "mode": "unrelated",
+      "nll_sum": 258.3238410949707,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "zh-光合作用",
+      "language": "zh",
+      "mean_nll": 2.82059383392334,
+      "mode": "base",
+      "nll_sum": 327.1888847351074,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "zh-光合作用",
+      "language": "zh",
+      "mean_nll": 2.82059383392334,
+      "mode": "off",
+      "nll_sum": 327.1888847351074,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "zh-光合作用",
+      "language": "zh",
+      "mean_nll": 2.8324685096740723,
+      "mode": "unrelated",
+      "nll_sum": 328.5663471221924,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "zh-故宫",
+      "language": "zh",
+      "mean_nll": 2.588371753692627,
+      "mode": "base",
+      "nll_sum": 300.2511234283447,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "zh-故宫",
+      "language": "zh",
+      "mean_nll": 2.588371753692627,
+      "mode": "off",
+      "nll_sum": 300.2511234283447,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "zh-故宫",
+      "language": "zh",
+      "mean_nll": 2.669543504714966,
+      "mode": "unrelated",
+      "nll_sum": 309.66704654693604,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "zh-长江",
+      "language": "zh",
+      "mean_nll": 4.120892524719238,
+      "mode": "base",
+      "nll_sum": 478.02353286743164,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "zh-长江",
+      "language": "zh",
+      "mean_nll": 4.120892524719238,
+      "mode": "off",
+      "nll_sum": 478.02353286743164,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "zh-长江",
+      "language": "zh",
+      "mean_nll": 4.127862930297852,
+      "mode": "unrelated",
+      "nll_sum": 478.8320999145508,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "zh-茶",
+      "language": "zh",
+      "mean_nll": 4.2832350730896,
+      "mode": "base",
+      "nll_sum": 496.85526847839355,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "zh-茶",
+      "language": "zh",
+      "mean_nll": 4.2832350730896,
+      "mode": "off",
+      "nll_sum": 496.85526847839355,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "zh-茶",
+      "language": "zh",
+      "mean_nll": 4.312082767486572,
+      "mode": "unrelated",
+      "nll_sum": 500.2016010284424,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "zh-京剧",
+      "language": "zh",
+      "mean_nll": 4.026302814483643,
+      "mode": "base",
+      "nll_sum": 467.05112648010254,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "zh-京剧",
+      "language": "zh",
+      "mean_nll": 4.026302814483643,
+      "mode": "off",
+      "nll_sum": 467.05112648010254,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "zh-京剧",
+      "language": "zh",
+      "mean_nll": 4.038595676422119,
+      "mode": "unrelated",
+      "nll_sum": 468.4770984649658,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "zh-唐朝",
+      "language": "zh",
+      "mean_nll": 4.553834438323975,
+      "mode": "base",
+      "nll_sum": 528.244794845581,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "zh-唐朝",
+      "language": "zh",
+      "mean_nll": 4.553834438323975,
+      "mode": "off",
+      "nll_sum": 528.244794845581,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "zh-唐朝",
+      "language": "zh",
+      "mean_nll": 4.636870861053467,
+      "mode": "unrelated",
+      "nll_sum": 537.8770198822021,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "zh-月球",
+      "language": "zh",
+      "mean_nll": 4.07735013961792,
+      "mode": "base",
+      "nll_sum": 472.9726161956787,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "zh-月球",
+      "language": "zh",
+      "mean_nll": 4.07735013961792,
+      "mode": "off",
+      "nll_sum": 472.9726161956787,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "zh-月球",
+      "language": "zh",
+      "mean_nll": 4.112837314605713,
+      "mode": "unrelated",
+      "nll_sum": 477.0891284942627,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "en-alan-turing",
+      "language": "en",
+      "mean_nll": 2.5107522010803223,
+      "mode": "base",
+      "nll_sum": 291.2472553253174,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-alan-turing",
+      "language": "en",
+      "mean_nll": 2.5107522010803223,
+      "mode": "off",
+      "nll_sum": 291.2472553253174,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-alan-turing",
+      "language": "en",
+      "mean_nll": 2.535701274871826,
+      "mode": "unrelated",
+      "nll_sum": 294.14134788513184,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-photosynthesis",
+      "language": "en",
+      "mean_nll": 2.0784738063812256,
+      "mode": "base",
+      "nll_sum": 241.10296154022217,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-photosynthesis",
+      "language": "en",
+      "mean_nll": 2.0784738063812256,
+      "mode": "off",
+      "nll_sum": 241.10296154022217,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-photosynthesis",
+      "language": "en",
+      "mean_nll": 2.2045071125030518,
+      "mode": "unrelated",
+      "nll_sum": 255.722825050354,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-silk-road",
+      "language": "en",
+      "mean_nll": 2.942927122116089,
+      "mode": "base",
+      "nll_sum": 341.3795461654663,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-silk-road",
+      "language": "en",
+      "mean_nll": 2.942927122116089,
+      "mode": "off",
+      "nll_sum": 341.3795461654663,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-silk-road",
+      "language": "en",
+      "mean_nll": 3.0360758304595947,
+      "mode": "unrelated",
+      "nll_sum": 352.184796333313,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-mount-fuji",
+      "language": "en",
+      "mean_nll": 2.309011936187744,
+      "mode": "base",
+      "nll_sum": 267.8453845977783,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-mount-fuji",
+      "language": "en",
+      "mean_nll": 2.309011936187744,
+      "mode": "off",
+      "nll_sum": 267.8453845977783,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-mount-fuji",
+      "language": "en",
+      "mean_nll": 2.3402538299560547,
+      "mode": "unrelated",
+      "nll_sum": 271.46944427490234,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-coffee",
+      "language": "en",
+      "mean_nll": 2.8141705989837646,
+      "mode": "base",
+      "nll_sum": 326.4437894821167,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-coffee",
+      "language": "en",
+      "mean_nll": 2.8141705989837646,
+      "mode": "off",
+      "nll_sum": 326.4437894821167,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-coffee",
+      "language": "en",
+      "mean_nll": 2.8519399166107178,
+      "mode": "unrelated",
+      "nll_sum": 330.82503032684326,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-jazz",
+      "language": "en",
+      "mean_nll": 3.141115427017212,
+      "mode": "base",
+      "nll_sum": 364.3693895339966,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-jazz",
+      "language": "en",
+      "mean_nll": 3.141115427017212,
+      "mode": "off",
+      "nll_sum": 364.3693895339966,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-jazz",
+      "language": "en",
+      "mean_nll": 3.1671016216278076,
+      "mode": "unrelated",
+      "nll_sum": 367.3837881088257,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-ancient-rome",
+      "language": "en",
+      "mean_nll": 1.629012942314148,
+      "mode": "base",
+      "nll_sum": 188.96550130844116,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-ancient-rome",
+      "language": "en",
+      "mean_nll": 1.629012942314148,
+      "mode": "off",
+      "nll_sum": 188.96550130844116,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-ancient-rome",
+      "language": "en",
+      "mean_nll": 1.6649436950683594,
+      "mode": "unrelated",
+      "nll_sum": 193.1334686279297,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-antarctica",
+      "language": "en",
+      "mean_nll": 1.6198283433914185,
+      "mode": "base",
+      "nll_sum": 187.90008783340454,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-antarctica",
+      "language": "en",
+      "mean_nll": 1.6198283433914185,
+      "mode": "off",
+      "nll_sum": 187.90008783340454,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-antarctica",
+      "language": "en",
+      "mean_nll": 1.6373478174209595,
+      "mode": "unrelated",
+      "nll_sum": 189.9323468208313,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-vaccine",
+      "language": "en",
+      "mean_nll": 2.4675328731536865,
+      "mode": "base",
+      "nll_sum": 286.23381328582764,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-vaccine",
+      "language": "en",
+      "mean_nll": 2.4675328731536865,
+      "mode": "off",
+      "nll_sum": 286.23381328582764,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-vaccine",
+      "language": "en",
+      "mean_nll": 2.52984619140625,
+      "mode": "unrelated",
+      "nll_sum": 293.462158203125,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-solar-system",
+      "language": "en",
+      "mean_nll": 2.289978265762329,
+      "mode": "base",
+      "nll_sum": 265.6374788284302,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-solar-system",
+      "language": "en",
+      "mean_nll": 2.289978265762329,
+      "mode": "off",
+      "nll_sum": 265.6374788284302,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-solar-system",
+      "language": "en",
+      "mean_nll": 2.30645489692688,
+      "mode": "unrelated",
+      "nll_sum": 267.54876804351807,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-bicycle",
+      "language": "en",
+      "mean_nll": 2.6886003017425537,
+      "mode": "base",
+      "nll_sum": 311.87763500213623,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-bicycle",
+      "language": "en",
+      "mean_nll": 2.6886003017425537,
+      "mode": "off",
+      "nll_sum": 311.87763500213623,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-bicycle",
+      "language": "en",
+      "mean_nll": 2.6974751949310303,
+      "mode": "unrelated",
+      "nll_sum": 312.9071226119995,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-tea",
+      "language": "en",
+      "mean_nll": 2.6660568714141846,
+      "mode": "base",
+      "nll_sum": 309.2625970840454,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-tea",
+      "language": "en",
+      "mean_nll": 2.6660568714141846,
+      "mode": "off",
+      "nll_sum": 309.2625970840454,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-tea",
+      "language": "en",
+      "mean_nll": 2.6853508949279785,
+      "mode": "unrelated",
+      "nll_sum": 311.5007038116455,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-william-shakespeare",
+      "language": "en",
+      "mean_nll": 2.0833046436309814,
+      "mode": "base",
+      "nll_sum": 241.66333866119385,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-william-shakespeare",
+      "language": "en",
+      "mean_nll": 2.0833046436309814,
+      "mode": "off",
+      "nll_sum": 241.66333866119385,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-william-shakespeare",
+      "language": "en",
+      "mean_nll": 2.086172580718994,
+      "mode": "unrelated",
+      "nll_sum": 241.99601936340332,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-amazon-rainforest",
+      "language": "en",
+      "mean_nll": 2.2507338523864746,
+      "mode": "base",
+      "nll_sum": 261.08512687683105,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-amazon-rainforest",
+      "language": "en",
+      "mean_nll": 2.2507338523864746,
+      "mode": "off",
+      "nll_sum": 261.08512687683105,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-amazon-rainforest",
+      "language": "en",
+      "mean_nll": 2.25913667678833,
+      "mode": "unrelated",
+      "nll_sum": 262.0598545074463,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-printing-press",
+      "language": "en",
+      "mean_nll": 3.513826847076416,
+      "mode": "base",
+      "nll_sum": 407.60391426086426,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-printing-press",
+      "language": "en",
+      "mean_nll": 3.513826847076416,
+      "mode": "off",
+      "nll_sum": 407.60391426086426,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-printing-press",
+      "language": "en",
+      "mean_nll": 3.5444390773773193,
+      "mode": "unrelated",
+      "nll_sum": 411.15493297576904,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-chess",
+      "language": "en",
+      "mean_nll": 2.3026015758514404,
+      "mode": "base",
+      "nll_sum": 267.1017827987671,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-chess",
+      "language": "en",
+      "mean_nll": 2.3026015758514404,
+      "mode": "off",
+      "nll_sum": 267.1017827987671,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-chess",
+      "language": "en",
+      "mean_nll": 2.3104684352874756,
+      "mode": "unrelated",
+      "nll_sum": 268.01433849334717,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-taj-mahal",
+      "language": "en",
+      "mean_nll": 1.80111825466156,
+      "mode": "base",
+      "nll_sum": 208.92971754074097,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-taj-mahal",
+      "language": "en",
+      "mean_nll": 1.80111825466156,
+      "mode": "off",
+      "nll_sum": 208.92971754074097,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-taj-mahal",
+      "language": "en",
+      "mean_nll": 1.7961547374725342,
+      "mode": "unrelated",
+      "nll_sum": 208.35394954681396,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-morse-code",
+      "language": "en",
+      "mean_nll": 3.467787265777588,
+      "mode": "base",
+      "nll_sum": 402.2633228302002,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-morse-code",
+      "language": "en",
+      "mean_nll": 3.467787265777588,
+      "mode": "off",
+      "nll_sum": 402.2633228302002,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-morse-code",
+      "language": "en",
+      "mean_nll": 3.670973777770996,
+      "mode": "unrelated",
+      "nll_sum": 425.83295822143555,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-honey",
+      "language": "en",
+      "mean_nll": 2.716813087463379,
+      "mode": "base",
+      "nll_sum": 315.15031814575195,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-honey",
+      "language": "en",
+      "mean_nll": 2.716813087463379,
+      "mode": "off",
+      "nll_sum": 315.15031814575195,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-honey",
+      "language": "en",
+      "mean_nll": 2.717747449874878,
+      "mode": "unrelated",
+      "nll_sum": 315.25870418548584,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-basketball",
+      "language": "en",
+      "mean_nll": 2.572767496109009,
+      "mode": "base",
+      "nll_sum": 298.441029548645,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-basketball",
+      "language": "en",
+      "mean_nll": 2.572767496109009,
+      "mode": "off",
+      "nll_sum": 298.441029548645,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-basketball",
+      "language": "en",
+      "mean_nll": 2.5989158153533936,
+      "mode": "unrelated",
+      "nll_sum": 301.47423458099365,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-piano",
+      "language": "en",
+      "mean_nll": 2.5874156951904297,
+      "mode": "base",
+      "nll_sum": 300.14022064208984,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-piano",
+      "language": "en",
+      "mean_nll": 2.5874156951904297,
+      "mode": "off",
+      "nll_sum": 300.14022064208984,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-piano",
+      "language": "en",
+      "mean_nll": 2.635526418685913,
+      "mode": "unrelated",
+      "nll_sum": 305.7210645675659,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-atlantic-ocean",
+      "language": "en",
+      "mean_nll": 2.172980785369873,
+      "mode": "base",
+      "nll_sum": 252.06577110290527,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-atlantic-ocean",
+      "language": "en",
+      "mean_nll": 2.172980785369873,
+      "mode": "off",
+      "nll_sum": 252.06577110290527,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-atlantic-ocean",
+      "language": "en",
+      "mean_nll": 2.176002264022827,
+      "mode": "unrelated",
+      "nll_sum": 252.41626262664795,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-paper",
+      "language": "en",
+      "mean_nll": 3.0182273387908936,
+      "mode": "base",
+      "nll_sum": 350.11437129974365,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-paper",
+      "language": "en",
+      "mean_nll": 3.0182273387908936,
+      "mode": "off",
+      "nll_sum": 350.11437129974365,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-paper",
+      "language": "en",
+      "mean_nll": 3.0600173473358154,
+      "mode": "unrelated",
+      "nll_sum": 354.9620122909546,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-sonnet",
+      "language": "en",
+      "mean_nll": 3.954810619354248,
+      "mode": "base",
+      "nll_sum": 458.7580318450928,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-sonnet",
+      "language": "en",
+      "mean_nll": 3.954810619354248,
+      "mode": "off",
+      "nll_sum": 458.7580318450928,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-sonnet",
+      "language": "en",
+      "mean_nll": 3.993577718734741,
+      "mode": "unrelated",
+      "nll_sum": 463.25501537323,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 0
+    },
+    {
+      "document_id": "en-alan-turing",
+      "language": "en",
+      "mean_nll": 3.021941900253296,
+      "mode": "base",
+      "nll_sum": 350.5452604293823,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-alan-turing",
+      "language": "en",
+      "mean_nll": 3.021941900253296,
+      "mode": "off",
+      "nll_sum": 350.5452604293823,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-alan-turing",
+      "language": "en",
+      "mean_nll": 3.0223617553710938,
+      "mode": "unrelated",
+      "nll_sum": 350.5939636230469,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-photosynthesis",
+      "language": "en",
+      "mean_nll": 2.8438668251037598,
+      "mode": "base",
+      "nll_sum": 329.88855171203613,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-photosynthesis",
+      "language": "en",
+      "mean_nll": 2.8438668251037598,
+      "mode": "off",
+      "nll_sum": 329.88855171203613,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-photosynthesis",
+      "language": "en",
+      "mean_nll": 2.857621192932129,
+      "mode": "unrelated",
+      "nll_sum": 331.48405838012695,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-silk-road",
+      "language": "en",
+      "mean_nll": 2.835299253463745,
+      "mode": "base",
+      "nll_sum": 328.89471340179443,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-silk-road",
+      "language": "en",
+      "mean_nll": 2.835299253463745,
+      "mode": "off",
+      "nll_sum": 328.89471340179443,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-silk-road",
+      "language": "en",
+      "mean_nll": 2.8636395931243896,
+      "mode": "unrelated",
+      "nll_sum": 332.1821928024292,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-mount-fuji",
+      "language": "en",
+      "mean_nll": 3.0686075687408447,
+      "mode": "base",
+      "nll_sum": 355.958477973938,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-mount-fuji",
+      "language": "en",
+      "mean_nll": 3.0686075687408447,
+      "mode": "off",
+      "nll_sum": 355.958477973938,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-mount-fuji",
+      "language": "en",
+      "mean_nll": 3.095353603363037,
+      "mode": "unrelated",
+      "nll_sum": 359.0610179901123,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-coffee",
+      "language": "en",
+      "mean_nll": 2.7277305126190186,
+      "mode": "base",
+      "nll_sum": 316.41673946380615,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-coffee",
+      "language": "en",
+      "mean_nll": 2.7277305126190186,
+      "mode": "off",
+      "nll_sum": 316.41673946380615,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-coffee",
+      "language": "en",
+      "mean_nll": 2.777404546737671,
+      "mode": "unrelated",
+      "nll_sum": 322.1789274215698,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-jazz",
+      "language": "en",
+      "mean_nll": 2.7120847702026367,
+      "mode": "base",
+      "nll_sum": 314.60183334350586,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-jazz",
+      "language": "en",
+      "mean_nll": 2.7120847702026367,
+      "mode": "off",
+      "nll_sum": 314.60183334350586,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-jazz",
+      "language": "en",
+      "mean_nll": 2.7721328735351562,
+      "mode": "unrelated",
+      "nll_sum": 321.5674133300781,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-ancient-rome",
+      "language": "en",
+      "mean_nll": 2.6989197731018066,
+      "mode": "base",
+      "nll_sum": 313.07469367980957,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-ancient-rome",
+      "language": "en",
+      "mean_nll": 2.6989197731018066,
+      "mode": "off",
+      "nll_sum": 313.07469367980957,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-ancient-rome",
+      "language": "en",
+      "mean_nll": 2.7376935482025146,
+      "mode": "unrelated",
+      "nll_sum": 317.5724515914917,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-antarctica",
+      "language": "en",
+      "mean_nll": 2.3440067768096924,
+      "mode": "base",
+      "nll_sum": 271.9047861099243,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-antarctica",
+      "language": "en",
+      "mean_nll": 2.3440067768096924,
+      "mode": "off",
+      "nll_sum": 271.9047861099243,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-antarctica",
+      "language": "en",
+      "mean_nll": 2.3720643520355225,
+      "mode": "unrelated",
+      "nll_sum": 275.1594648361206,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-vaccine",
+      "language": "en",
+      "mean_nll": 2.721675395965576,
+      "mode": "base",
+      "nll_sum": 315.71434593200684,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-vaccine",
+      "language": "en",
+      "mean_nll": 2.721675395965576,
+      "mode": "off",
+      "nll_sum": 315.71434593200684,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-vaccine",
+      "language": "en",
+      "mean_nll": 2.7386531829833984,
+      "mode": "unrelated",
+      "nll_sum": 317.6837692260742,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-solar-system",
+      "language": "en",
+      "mean_nll": 2.5026769638061523,
+      "mode": "base",
+      "nll_sum": 290.3105278015137,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-solar-system",
+      "language": "en",
+      "mean_nll": 2.5026769638061523,
+      "mode": "off",
+      "nll_sum": 290.3105278015137,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-solar-system",
+      "language": "en",
+      "mean_nll": 2.555713415145874,
+      "mode": "unrelated",
+      "nll_sum": 296.4627561569214,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-bicycle",
+      "language": "en",
+      "mean_nll": 2.616698741912842,
+      "mode": "base",
+      "nll_sum": 303.53705406188965,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-bicycle",
+      "language": "en",
+      "mean_nll": 2.616698741912842,
+      "mode": "off",
+      "nll_sum": 303.53705406188965,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-bicycle",
+      "language": "en",
+      "mean_nll": 2.661158800125122,
+      "mode": "unrelated",
+      "nll_sum": 308.69442081451416,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-tea",
+      "language": "en",
+      "mean_nll": 3.3967199325561523,
+      "mode": "base",
+      "nll_sum": 394.0195121765137,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-tea",
+      "language": "en",
+      "mean_nll": 3.3967199325561523,
+      "mode": "off",
+      "nll_sum": 394.0195121765137,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-tea",
+      "language": "en",
+      "mean_nll": 3.4122848510742188,
+      "mode": "unrelated",
+      "nll_sum": 395.8250427246094,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-william-shakespeare",
+      "language": "en",
+      "mean_nll": 2.22411847114563,
+      "mode": "base",
+      "nll_sum": 257.99774265289307,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-william-shakespeare",
+      "language": "en",
+      "mean_nll": 2.22411847114563,
+      "mode": "off",
+      "nll_sum": 257.99774265289307,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-william-shakespeare",
+      "language": "en",
+      "mean_nll": 2.2232792377471924,
+      "mode": "unrelated",
+      "nll_sum": 257.9003915786743,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-amazon-rainforest",
+      "language": "en",
+      "mean_nll": 3.3411941528320312,
+      "mode": "base",
+      "nll_sum": 387.5785217285156,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-amazon-rainforest",
+      "language": "en",
+      "mean_nll": 3.3411941528320312,
+      "mode": "off",
+      "nll_sum": 387.5785217285156,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-amazon-rainforest",
+      "language": "en",
+      "mean_nll": 3.4396309852600098,
+      "mode": "unrelated",
+      "nll_sum": 398.99719429016113,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-printing-press",
+      "language": "en",
+      "mean_nll": 3.062376022338867,
+      "mode": "base",
+      "nll_sum": 355.2356185913086,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-printing-press",
+      "language": "en",
+      "mean_nll": 3.062376022338867,
+      "mode": "off",
+      "nll_sum": 355.2356185913086,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-printing-press",
+      "language": "en",
+      "mean_nll": 3.059192419052124,
+      "mode": "unrelated",
+      "nll_sum": 354.8663206100464,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-chess",
+      "language": "en",
+      "mean_nll": 2.520589828491211,
+      "mode": "base",
+      "nll_sum": 292.38842010498047,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-chess",
+      "language": "en",
+      "mean_nll": 2.520589828491211,
+      "mode": "off",
+      "nll_sum": 292.38842010498047,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-chess",
+      "language": "en",
+      "mean_nll": 2.531766653060913,
+      "mode": "unrelated",
+      "nll_sum": 293.6849317550659,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-taj-mahal",
+      "language": "en",
+      "mean_nll": 2.6358163356781006,
+      "mode": "base",
+      "nll_sum": 305.75469493865967,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-taj-mahal",
+      "language": "en",
+      "mean_nll": 2.6358163356781006,
+      "mode": "off",
+      "nll_sum": 305.75469493865967,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-taj-mahal",
+      "language": "en",
+      "mean_nll": 2.77238392829895,
+      "mode": "unrelated",
+      "nll_sum": 321.5965356826782,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-morse-code",
+      "language": "en",
+      "mean_nll": 3.151334762573242,
+      "mode": "base",
+      "nll_sum": 365.5548324584961,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-morse-code",
+      "language": "en",
+      "mean_nll": 3.151334762573242,
+      "mode": "off",
+      "nll_sum": 365.5548324584961,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-morse-code",
+      "language": "en",
+      "mean_nll": 3.207477331161499,
+      "mode": "unrelated",
+      "nll_sum": 372.0673704147339,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-honey",
+      "language": "en",
+      "mean_nll": 2.9723424911499023,
+      "mode": "base",
+      "nll_sum": 344.7917289733887,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-honey",
+      "language": "en",
+      "mean_nll": 2.9723424911499023,
+      "mode": "off",
+      "nll_sum": 344.7917289733887,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-honey",
+      "language": "en",
+      "mean_nll": 3.004315137863159,
+      "mode": "unrelated",
+      "nll_sum": 348.50055599212646,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-basketball",
+      "language": "en",
+      "mean_nll": 2.59867000579834,
+      "mode": "base",
+      "nll_sum": 301.4457206726074,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-basketball",
+      "language": "en",
+      "mean_nll": 2.59867000579834,
+      "mode": "off",
+      "nll_sum": 301.4457206726074,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-basketball",
+      "language": "en",
+      "mean_nll": 2.6370737552642822,
+      "mode": "unrelated",
+      "nll_sum": 305.90055561065674,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-piano",
+      "language": "en",
+      "mean_nll": 3.4581360816955566,
+      "mode": "base",
+      "nll_sum": 401.14378547668457,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-piano",
+      "language": "en",
+      "mean_nll": 3.4581360816955566,
+      "mode": "off",
+      "nll_sum": 401.14378547668457,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-piano",
+      "language": "en",
+      "mean_nll": 3.499725103378296,
+      "mode": "unrelated",
+      "nll_sum": 405.9681119918823,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-atlantic-ocean",
+      "language": "en",
+      "mean_nll": 2.4590272903442383,
+      "mode": "base",
+      "nll_sum": 285.24716567993164,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-atlantic-ocean",
+      "language": "en",
+      "mean_nll": 2.4590272903442383,
+      "mode": "off",
+      "nll_sum": 285.24716567993164,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-atlantic-ocean",
+      "language": "en",
+      "mean_nll": 2.4823689460754395,
+      "mode": "unrelated",
+      "nll_sum": 287.954797744751,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-paper",
+      "language": "en",
+      "mean_nll": 2.8806657791137695,
+      "mode": "base",
+      "nll_sum": 334.15723037719727,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-paper",
+      "language": "en",
+      "mean_nll": 2.8806657791137695,
+      "mode": "off",
+      "nll_sum": 334.15723037719727,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-paper",
+      "language": "en",
+      "mean_nll": 2.90004825592041,
+      "mode": "unrelated",
+      "nll_sum": 336.4055976867676,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-sonnet",
+      "language": "en",
+      "mean_nll": 2.7375235557556152,
+      "mode": "base",
+      "nll_sum": 317.55273246765137,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-sonnet",
+      "language": "en",
+      "mean_nll": 2.7375235557556152,
+      "mode": "off",
+      "nll_sum": 317.55273246765137,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-sonnet",
+      "language": "en",
+      "mean_nll": 2.73358154296875,
+      "mode": "unrelated",
+      "nll_sum": 317.095458984375,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 1
+    },
+    {
+      "document_id": "en-alan-turing",
+      "language": "en",
+      "mean_nll": 3.230262041091919,
+      "mode": "base",
+      "nll_sum": 374.7103967666626,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-alan-turing",
+      "language": "en",
+      "mean_nll": 3.230262041091919,
+      "mode": "off",
+      "nll_sum": 374.7103967666626,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-alan-turing",
+      "language": "en",
+      "mean_nll": 3.2634172439575195,
+      "mode": "unrelated",
+      "nll_sum": 378.55640029907227,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-photosynthesis",
+      "language": "en",
+      "mean_nll": 2.767756700515747,
+      "mode": "base",
+      "nll_sum": 321.05977725982666,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-photosynthesis",
+      "language": "en",
+      "mean_nll": 2.767756700515747,
+      "mode": "off",
+      "nll_sum": 321.05977725982666,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-photosynthesis",
+      "language": "en",
+      "mean_nll": 2.7715463638305664,
+      "mode": "unrelated",
+      "nll_sum": 321.4993782043457,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-silk-road",
+      "language": "en",
+      "mean_nll": 3.069911003112793,
+      "mode": "base",
+      "nll_sum": 356.109676361084,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-silk-road",
+      "language": "en",
+      "mean_nll": 3.069911003112793,
+      "mode": "off",
+      "nll_sum": 356.109676361084,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-silk-road",
+      "language": "en",
+      "mean_nll": 3.0953495502471924,
+      "mode": "unrelated",
+      "nll_sum": 359.0605478286743,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-mount-fuji",
+      "language": "en",
+      "mean_nll": 3.3638057708740234,
+      "mode": "base",
+      "nll_sum": 390.2014694213867,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-mount-fuji",
+      "language": "en",
+      "mean_nll": 3.3638057708740234,
+      "mode": "off",
+      "nll_sum": 390.2014694213867,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-mount-fuji",
+      "language": "en",
+      "mean_nll": 3.372279644012451,
+      "mode": "unrelated",
+      "nll_sum": 391.18443870544434,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-coffee",
+      "language": "en",
+      "mean_nll": 3.787468433380127,
+      "mode": "base",
+      "nll_sum": 439.3463382720947,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-coffee",
+      "language": "en",
+      "mean_nll": 3.787468433380127,
+      "mode": "off",
+      "nll_sum": 439.3463382720947,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-coffee",
+      "language": "en",
+      "mean_nll": 3.8214917182922363,
+      "mode": "unrelated",
+      "nll_sum": 443.2930393218994,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-jazz",
+      "language": "en",
+      "mean_nll": 2.7716846466064453,
+      "mode": "base",
+      "nll_sum": 321.51541900634766,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-jazz",
+      "language": "en",
+      "mean_nll": 2.7716846466064453,
+      "mode": "off",
+      "nll_sum": 321.51541900634766,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-jazz",
+      "language": "en",
+      "mean_nll": 2.786841630935669,
+      "mode": "unrelated",
+      "nll_sum": 323.2736291885376,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-ancient-rome",
+      "language": "en",
+      "mean_nll": 2.2515501976013184,
+      "mode": "base",
+      "nll_sum": 261.17982292175293,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-ancient-rome",
+      "language": "en",
+      "mean_nll": 2.2515501976013184,
+      "mode": "off",
+      "nll_sum": 261.17982292175293,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-ancient-rome",
+      "language": "en",
+      "mean_nll": 2.2499895095825195,
+      "mode": "unrelated",
+      "nll_sum": 260.99878311157227,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-antarctica",
+      "language": "en",
+      "mean_nll": 3.0602078437805176,
+      "mode": "base",
+      "nll_sum": 354.98410987854004,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-antarctica",
+      "language": "en",
+      "mean_nll": 3.0602078437805176,
+      "mode": "off",
+      "nll_sum": 354.98410987854004,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-antarctica",
+      "language": "en",
+      "mean_nll": 3.133284091949463,
+      "mode": "unrelated",
+      "nll_sum": 363.4609546661377,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-vaccine",
+      "language": "en",
+      "mean_nll": 2.5671026706695557,
+      "mode": "base",
+      "nll_sum": 297.78390979766846,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-vaccine",
+      "language": "en",
+      "mean_nll": 2.5671026706695557,
+      "mode": "off",
+      "nll_sum": 297.78390979766846,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-vaccine",
+      "language": "en",
+      "mean_nll": 2.5762689113616943,
+      "mode": "unrelated",
+      "nll_sum": 298.84719371795654,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-solar-system",
+      "language": "en",
+      "mean_nll": 2.5084149837493896,
+      "mode": "base",
+      "nll_sum": 290.9761381149292,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-solar-system",
+      "language": "en",
+      "mean_nll": 2.5084149837493896,
+      "mode": "off",
+      "nll_sum": 290.9761381149292,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-solar-system",
+      "language": "en",
+      "mean_nll": 2.507255792617798,
+      "mode": "unrelated",
+      "nll_sum": 290.84167194366455,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-bicycle",
+      "language": "en",
+      "mean_nll": 3.344412326812744,
+      "mode": "base",
+      "nll_sum": 387.9518299102783,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-bicycle",
+      "language": "en",
+      "mean_nll": 3.344412326812744,
+      "mode": "off",
+      "nll_sum": 387.9518299102783,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-bicycle",
+      "language": "en",
+      "mean_nll": 3.3799428939819336,
+      "mode": "unrelated",
+      "nll_sum": 392.0733757019043,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-tea",
+      "language": "en",
+      "mean_nll": 3.373352527618408,
+      "mode": "base",
+      "nll_sum": 391.30889320373535,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-tea",
+      "language": "en",
+      "mean_nll": 3.373352527618408,
+      "mode": "off",
+      "nll_sum": 391.30889320373535,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-tea",
+      "language": "en",
+      "mean_nll": 3.4164650440216064,
+      "mode": "unrelated",
+      "nll_sum": 396.30994510650635,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-william-shakespeare",
+      "language": "en",
+      "mean_nll": 2.6127874851226807,
+      "mode": "base",
+      "nll_sum": 303.08334827423096,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-william-shakespeare",
+      "language": "en",
+      "mean_nll": 2.6127874851226807,
+      "mode": "off",
+      "nll_sum": 303.08334827423096,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-william-shakespeare",
+      "language": "en",
+      "mean_nll": 2.62237286567688,
+      "mode": "unrelated",
+      "nll_sum": 304.19525241851807,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-amazon-rainforest",
+      "language": "en",
+      "mean_nll": 3.199449300765991,
+      "mode": "base",
+      "nll_sum": 371.136118888855,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-amazon-rainforest",
+      "language": "en",
+      "mean_nll": 3.199449300765991,
+      "mode": "off",
+      "nll_sum": 371.136118888855,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-amazon-rainforest",
+      "language": "en",
+      "mean_nll": 3.2086613178253174,
+      "mode": "unrelated",
+      "nll_sum": 372.2047128677368,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-printing-press",
+      "language": "en",
+      "mean_nll": 3.64394474029541,
+      "mode": "base",
+      "nll_sum": 422.6975898742676,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-printing-press",
+      "language": "en",
+      "mean_nll": 3.64394474029541,
+      "mode": "off",
+      "nll_sum": 422.6975898742676,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-printing-press",
+      "language": "en",
+      "mean_nll": 3.6952497959136963,
+      "mode": "unrelated",
+      "nll_sum": 428.64897632598877,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-chess",
+      "language": "en",
+      "mean_nll": 2.3246562480926514,
+      "mode": "base",
+      "nll_sum": 269.66012477874756,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-chess",
+      "language": "en",
+      "mean_nll": 2.3246562480926514,
+      "mode": "off",
+      "nll_sum": 269.66012477874756,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-chess",
+      "language": "en",
+      "mean_nll": 2.339491367340088,
+      "mode": "unrelated",
+      "nll_sum": 271.3809986114502,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-taj-mahal",
+      "language": "en",
+      "mean_nll": 2.5754778385162354,
+      "mode": "base",
+      "nll_sum": 298.7554292678833,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-taj-mahal",
+      "language": "en",
+      "mean_nll": 2.5754778385162354,
+      "mode": "off",
+      "nll_sum": 298.7554292678833,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-taj-mahal",
+      "language": "en",
+      "mean_nll": 2.5824599266052246,
+      "mode": "unrelated",
+      "nll_sum": 299.56535148620605,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-morse-code",
+      "language": "en",
+      "mean_nll": 2.558336019515991,
+      "mode": "base",
+      "nll_sum": 296.766978263855,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-morse-code",
+      "language": "en",
+      "mean_nll": 2.558336019515991,
+      "mode": "off",
+      "nll_sum": 296.766978263855,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-morse-code",
+      "language": "en",
+      "mean_nll": 2.591071128845215,
+      "mode": "unrelated",
+      "nll_sum": 300.5642509460449,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-honey",
+      "language": "en",
+      "mean_nll": 2.5417072772979736,
+      "mode": "base",
+      "nll_sum": 294.83804416656494,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-honey",
+      "language": "en",
+      "mean_nll": 2.5417072772979736,
+      "mode": "off",
+      "nll_sum": 294.83804416656494,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-honey",
+      "language": "en",
+      "mean_nll": 2.5655934810638428,
+      "mode": "unrelated",
+      "nll_sum": 297.60884380340576,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-basketball",
+      "language": "en",
+      "mean_nll": 4.045686721801758,
+      "mode": "base",
+      "nll_sum": 469.2996597290039,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-basketball",
+      "language": "en",
+      "mean_nll": 4.045686721801758,
+      "mode": "off",
+      "nll_sum": 469.2996597290039,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-basketball",
+      "language": "en",
+      "mean_nll": 4.097602844238281,
+      "mode": "unrelated",
+      "nll_sum": 475.3219299316406,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-piano",
+      "language": "en",
+      "mean_nll": 2.4528064727783203,
+      "mode": "base",
+      "nll_sum": 284.52555084228516,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-piano",
+      "language": "en",
+      "mean_nll": 2.4528064727783203,
+      "mode": "off",
+      "nll_sum": 284.52555084228516,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-piano",
+      "language": "en",
+      "mean_nll": 2.4359025955200195,
+      "mode": "unrelated",
+      "nll_sum": 282.56470108032227,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-atlantic-ocean",
+      "language": "en",
+      "mean_nll": 2.720163106918335,
+      "mode": "base",
+      "nll_sum": 315.53892040252686,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-atlantic-ocean",
+      "language": "en",
+      "mean_nll": 2.720163106918335,
+      "mode": "off",
+      "nll_sum": 315.53892040252686,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-atlantic-ocean",
+      "language": "en",
+      "mean_nll": 2.728938341140747,
+      "mode": "unrelated",
+      "nll_sum": 316.55684757232666,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-paper",
+      "language": "en",
+      "mean_nll": 2.3290038108825684,
+      "mode": "base",
+      "nll_sum": 270.16444206237793,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-paper",
+      "language": "en",
+      "mean_nll": 2.3290038108825684,
+      "mode": "off",
+      "nll_sum": 270.16444206237793,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-paper",
+      "language": "en",
+      "mean_nll": 2.372497797012329,
+      "mode": "unrelated",
+      "nll_sum": 275.2097444534302,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-sonnet",
+      "language": "en",
+      "mean_nll": 3.554962158203125,
+      "mode": "base",
+      "nll_sum": 412.3756103515625,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-sonnet",
+      "language": "en",
+      "mean_nll": 3.554962158203125,
+      "mode": "off",
+      "nll_sum": 412.3756103515625,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-sonnet",
+      "language": "en",
+      "mean_nll": 3.5820398330688477,
+      "mode": "unrelated",
+      "nll_sum": 415.5166206359863,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 2
+    },
+    {
+      "document_id": "en-alan-turing",
+      "language": "en",
+      "mean_nll": 3.7498650550842285,
+      "mode": "base",
+      "nll_sum": 434.9843463897705,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "en-alan-turing",
+      "language": "en",
+      "mean_nll": 3.7498650550842285,
+      "mode": "off",
+      "nll_sum": 434.9843463897705,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "en-alan-turing",
+      "language": "en",
+      "mean_nll": 3.7641005516052246,
+      "mode": "unrelated",
+      "nll_sum": 436.63566398620605,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "en-photosynthesis",
+      "language": "en",
+      "mean_nll": 2.143566131591797,
+      "mode": "base",
+      "nll_sum": 248.65367126464844,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "en-photosynthesis",
+      "language": "en",
+      "mean_nll": 2.143566131591797,
+      "mode": "off",
+      "nll_sum": 248.65367126464844,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "en-photosynthesis",
+      "language": "en",
+      "mean_nll": 2.160578489303589,
+      "mode": "unrelated",
+      "nll_sum": 250.6271047592163,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "en-silk-road",
+      "language": "en",
+      "mean_nll": 3.5981438159942627,
+      "mode": "base",
+      "nll_sum": 417.3846826553345,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "en-silk-road",
+      "language": "en",
+      "mean_nll": 3.5981438159942627,
+      "mode": "off",
+      "nll_sum": 417.3846826553345,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "en-silk-road",
+      "language": "en",
+      "mean_nll": 3.6306848526000977,
+      "mode": "unrelated",
+      "nll_sum": 421.1594429016113,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "en-mount-fuji",
+      "language": "en",
+      "mean_nll": 2.866476058959961,
+      "mode": "base",
+      "nll_sum": 332.51122283935547,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "en-mount-fuji",
+      "language": "en",
+      "mean_nll": 2.866476058959961,
+      "mode": "off",
+      "nll_sum": 332.51122283935547,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "en-mount-fuji",
+      "language": "en",
+      "mean_nll": 2.882993221282959,
+      "mode": "unrelated",
+      "nll_sum": 334.42721366882324,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "en-coffee",
+      "language": "en",
+      "mean_nll": 3.6240904331207275,
+      "mode": "base",
+      "nll_sum": 420.3944902420044,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "en-coffee",
+      "language": "en",
+      "mean_nll": 3.6240904331207275,
+      "mode": "off",
+      "nll_sum": 420.3944902420044,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "en-coffee",
+      "language": "en",
+      "mean_nll": 3.649867296218872,
+      "mode": "unrelated",
+      "nll_sum": 423.38460636138916,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "en-jazz",
+      "language": "en",
+      "mean_nll": 3.304155111312866,
+      "mode": "base",
+      "nll_sum": 383.2819929122925,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "en-jazz",
+      "language": "en",
+      "mean_nll": 3.304155111312866,
+      "mode": "off",
+      "nll_sum": 383.2819929122925,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "en-jazz",
+      "language": "en",
+      "mean_nll": 3.315098762512207,
+      "mode": "unrelated",
+      "nll_sum": 384.551456451416,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "en-ancient-rome",
+      "language": "en",
+      "mean_nll": 3.125688076019287,
+      "mode": "base",
+      "nll_sum": 362.5798168182373,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "en-ancient-rome",
+      "language": "en",
+      "mean_nll": 3.125688076019287,
+      "mode": "off",
+      "nll_sum": 362.5798168182373,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "en-ancient-rome",
+      "language": "en",
+      "mean_nll": 3.239003896713257,
+      "mode": "unrelated",
+      "nll_sum": 375.7244520187378,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "en-antarctica",
+      "language": "en",
+      "mean_nll": 3.0281782150268555,
+      "mode": "base",
+      "nll_sum": 351.26867294311523,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "en-antarctica",
+      "language": "en",
+      "mean_nll": 3.0281782150268555,
+      "mode": "off",
+      "nll_sum": 351.26867294311523,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    },
+    {
+      "document_id": "en-antarctica",
+      "language": "en",
+      "mean_nll": 3.0743303298950195,
+      "mode": "unrelated",
+      "nll_sum": 356.62231826782227,
+      "protocol": "native",
+      "tokens": 116,
+      "window": 3
+    }
+  ],
+  "probe_revision": "language-retention-broad-v1",
+  "requested_modes": [
+    "base",
+    "off",
+    "unrelated"
+  ],
+  "scope_note": "held-out natural-text NLL with an unrelated memory record plus fixed generated probes; retention regression evidence, not a capability gate",
+  "status": "broad_heldout_language_retention_evaluation",
+  "v1_probe_revision": "language-retention-dev-v1"
+}

@@ -1,0 +1,31 @@
+{
+  "run_id": "ab-A-v6-natural-keep-w1-cuda-k12-fg-lr125-01",
+  "status": "stopped",
+  "checkpoint": "micro_000000000240_ffbbc05810",
+  "manifest_sha256": "285963bfbe045458b5195df4e1083f441a0aed6c10708b4de529cb1d0623069f",
+  "progress": {
+    "accumulation_index": 0,
+    "micro_step": 240,
+    "optimizer_step": 20,
+    "stage": "A",
+    "student_tokens": 117828,
+    "teacher_tokens": 10324
+  },
+  "A_chain_prefix": 16272830,
+  "A_chain_student_tokens": 16390658,
+  "remaining_chain_budget": 13609342,
+  "compute_seconds": 275.51972062799723,
+  "compute_student_tokens_per_second": 427.65722806132516,
+  "process_duration_seconds": 361.3569811919997,
+  "process_student_tokens_per_second": 326.0709108519879,
+  "fact_candidate_counts": {
+    "1": 70,
+    "2": 78
+  },
+  "first188_losses_samples_candidates_ledgers_match_verified_proof": true,
+  "formal100_full_payload_and_raw_bytes_match": true,
+  "formal100_tensor_leaves": 167,
+  "all28_optimizer_states_and_empty_gradients_verified": true,
+  "evaluation_pending": true,
+  "frozen_reader_gate_parameters_equal_initial": true
+}

@@ -1,0 +1,77 @@
+{
+  "scope": "96 dev free generation, no M5 or final test claim",
+  "scores": {
+    "initial1": {
+      "EM": 79,
+      "paired": 36,
+      "valid_format": 96,
+      "ended": 96,
+      "by_language": {
+        "zh": 31,
+        "en": 22,
+        "cross_language": 26
+      }
+    },
+    "mixed1": {
+      "EM": 55,
+      "paired": 21,
+      "valid_format": 73,
+      "ended": 87,
+      "by_language": {
+        "zh": 26,
+        "en": 11,
+        "cross_language": 18
+      }
+    },
+    "mixed2": {
+      "EM": 3,
+      "paired": 1,
+      "valid_format": 60,
+      "ended": 79,
+      "by_language": {
+        "zh": 0,
+        "en": 2,
+        "cross_language": 1
+      }
+    },
+    "frozen1": {
+      "EM": 59,
+      "paired": 24,
+      "valid_format": 91,
+      "ended": 95,
+      "by_language": {
+        "zh": 29,
+        "en": 11,
+        "cross_language": 19
+      }
+    },
+    "frozen2": {
+      "EM": 1,
+      "paired": 0,
+      "valid_format": 81,
+      "ended": 94,
+      "by_language": {
+        "zh": 0,
+        "en": 0,
+        "cross_language": 1
+      }
+    }
+  },
+  "comparisons": {
+    "initial1_to_frozen1": {
+      "newly_correct": 2,
+      "newly_wrong": 22,
+      "candidate_IDs_changed": 0
+    },
+    "mixed1_to_frozen1": {
+      "newly_correct": 11,
+      "newly_wrong": 7,
+      "candidate_IDs_changed": 0
+    },
+    "mixed2_to_frozen2": {
+      "newly_correct": 0,
+      "newly_wrong": 2,
+      "candidate_IDs_changed": 0
+    }
+  }
+}

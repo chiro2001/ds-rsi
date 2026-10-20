@@ -87,6 +87,27 @@ def test_new_course_can_initialize_from_double_course_but_does_not_resume_it(tmp
     assert (source.store.root / "latest.json").read_bytes() == pointer
 
 
+def test_actual_answer_and_counterfactual_forwards_receive_the_scheduled_records(tmp_path):
+    trainer = build(tmp_path)
+    original = trainer.model.forward
+    observed = []
+
+    def capture(*args, **kwargs):
+        if kwargs.get("records") is not None:
+            observed.extend(len(records) for records in kwargs["records"])
+        return original(*args, **kwargs)
+
+    trainer.model.forward = capture
+    # Fixed seed17 fixtures cover both counterfactual pairs and a keep query.
+    for ordinal, expected_family, count in [(0, "single_fact", 1), (1, "single_fact", 1),
+                                            (4, "language_preservation", 2),
+                                            (6, "single_fact", 2), (7, "single_fact", 2)]:
+        observed.clear()
+        row, _, _ = trainer._forward_episode(ordinal)
+        assert row["family"] == expected_family
+        assert observed == [count] * (1 if expected_family == "language_preservation" else 3)
+
+
 def test_resume_cli_keeps_the_explicit_candidate_schedule():
     import importlib.util
     from dataclasses import asdict

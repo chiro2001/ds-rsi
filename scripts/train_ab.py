@@ -28,6 +28,8 @@ def main():
     parser.add_argument("--memory-candidates", type=int, default=8)
     parser.add_argument("--memory-candidate-curriculum", choices=["single-double-world-v1"],
                         help="explicit new A course: paired-world single/double fact rehearsal; keep remains double")
+    parser.add_argument("--memory-trainable-policy", choices=["freeze-reader-gates-v1"],
+                        help="explicit new rehearsal course: freeze Reader gate and alpha parameters")
     parser.add_argument("--counterfactual-weight", type=float, default=0.0)
     parser.add_argument("--counterfactual-margin", type=float, default=2.0)
     parser.add_argument("--keep-fraction", type=float)
@@ -115,6 +117,7 @@ def main():
                                  curriculum=args.curriculum, save_every_micro=args.save_every_micro,
                                  memory_candidates=args.memory_candidates, counterfactual_weight=args.counterfactual_weight,
                                  memory_candidate_curriculum=args.memory_candidate_curriculum,
+                                 memory_trainable_policy=args.memory_trainable_policy,
                                  reuse_frozen_prefix=args.reuse_frozen_prefix,
                                  gdn_inverse=args.gdn_inverse,
                                  counterfactual_margin=args.counterfactual_margin, keep_fraction=args.keep_fraction,

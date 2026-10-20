@@ -50,6 +50,10 @@ def load_ab_weights(model, store, *, base_identity, committed=None, allow_writer
         raise CheckpointError("evaluation loader supports explicit A/B checkpoints")
     model.address.requires_grad_(config["stage"] == "B")
     model.consolidator.requires_grad_(False)
+    if config.get("memory_trainable_policy") is not None:
+        from dsrsi.training.memory_trainable import source_memory_trainable_policy
+        with source_memory_trainable_policy(model, config["memory_trainable_policy"]):
+            return _load_groups(model, store, directory, manifest)
     return _load_groups(model, store, directory, manifest)
 
 

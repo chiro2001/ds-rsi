@@ -39,6 +39,7 @@ class TrainConfig:
     reuse_frozen_prefix: bool = False
     gdn_inverse: str | None = None
     memory_candidate_curriculum: str | None = None
+    memory_trainable_policy: str | None = None
 
     def __post_init__(self):
         if self.stage not in {"A", "B"} or min(self.student_token_budget, self.gradient_accumulation) < 1:
@@ -54,6 +55,12 @@ class TrainConfig:
                     or self.data_revision != "ab-v6-natural-keep" or self.curriculum != "facts"
                     or self.memory_candidates != 2):
                 raise ValueError("single/double rehearsal requires explicit v6 A facts with maximum two candidates")
+        if self.memory_trainable_policy is not None:
+            from .memory_trainable import FREEZE_READER_GATES_V1
+            if (self.memory_trainable_policy != FREEZE_READER_GATES_V1 or self.stage != "A"
+                    or self.data_revision != "ab-v6-natural-keep" or self.curriculum != "facts"
+                    or self.memory_candidate_curriculum is None):
+                raise ValueError("Reader gate freezing requires explicit v6 A single/double rehearsal")
         if self.data_revision not in AB_REVISIONS or self.curriculum not in ("mixed", "facts", "locations"):
             raise ValueError("unknown data revision/curriculum")
         if self.data_revision == LEGACY_AB_REVISION and self.curriculum != "mixed":
@@ -131,9 +138,11 @@ class Trainer:
             if config.stage == "A" and not (anchor_change or gate_change) and (source_config.get("data_revision", LEGACY_AB_REVISION),
                                        source_config.get("curriculum", "mixed"), source_config.get("memory_candidates", 8),
                                        source_config.get("counterfactual_weight", 0.0), source_config.get("keep_fraction"),
-                                       source_config.get("keep_weight", 0.2), source_config.get("memory_candidate_curriculum")) == (
+                                       source_config.get("keep_weight", 0.2), source_config.get("memory_candidate_curriculum"),
+                                       source_config.get("memory_trainable_policy")) == (
                                            config.data_revision, config.curriculum, config.memory_candidates, config.counterfactual_weight,
-                                           config.keep_fraction, config.keep_weight, config.memory_candidate_curriculum):
+                                           config.keep_fraction, config.keep_weight, config.memory_candidate_curriculum,
+                                           config.memory_trainable_policy):
                 raise ValueError("A-to-A initialization must explicitly change data revision or curriculum")
             if self.run_dir.resolve() == Path(initialize_from).resolve():
                 raise ValueError("stage transition requires a new run directory")
@@ -151,6 +160,14 @@ class Trainer:
         elif resume:
             # Resume pins lineage and never follows an advancing source latest.
             initialization = self.store.load_committed()[1]["identity"].get("initialization")
+        if config.memory_trainable_policy is not None:
+            from .memory_trainable import apply_memory_trainable_policy
+            frozen_names = apply_memory_trainable_policy(model, config.memory_trainable_policy)
+            if initialization is not None and not resume:
+                initialization["memory_trainable_policy_change"] = {
+                    "source": manifest["identity"]["train_config"].get("memory_trainable_policy"),
+                    "target": config.memory_trainable_policy, "frozen_parameter_names": frozen_names,
+                    "training_state_reset_as_explicit_A_to_A": True}
         self.objective = EpisodeObjective(model, compiler, stage=config.stage, memory_candidates=config.memory_candidates,
             counterfactual_weight=config.counterfactual_weight, counterfactual_margin=config.counterfactual_margin,
             keep_weight=config.keep_weight, reuse_frozen_prefix=config.reuse_frozen_prefix)
@@ -169,6 +186,8 @@ class Trainer:
             config_identity.pop("gdn_inverse")
         if config.memory_candidate_curriculum is None:
             config_identity.pop("memory_candidate_curriculum")
+        if config.memory_trainable_policy is None:
+            config_identity.pop("memory_trainable_policy")
         if not config.reuse_frozen_prefix:
             config_identity.pop("reuse_frozen_prefix")
         if config.keep_fraction is None:
@@ -196,6 +215,10 @@ class Trainer:
             path = Path(__file__).resolve().with_name("candidate_curriculum.py")
             self.identity["candidate_curriculum"] = {"version": config.memory_candidate_curriculum,
                                                       "sha256": file_sha256(path)}
+        if config.memory_trainable_policy is not None:
+            path = Path(__file__).resolve().with_name("memory_trainable.py")
+            self.identity["memory_trainable_policy"] = {"version": config.memory_trainable_policy,
+                                                       "sha256": file_sha256(path)}
         if config.gdn_inverse is not None:
             from dsrsi.model.gdn_execution import gdn_execution_identity
             self.identity["gdn_execution"] = gdn_execution_identity()

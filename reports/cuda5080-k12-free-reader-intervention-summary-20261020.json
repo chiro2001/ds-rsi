@@ -1,0 +1,61 @@
+{
+  "scope": "18 handpicked worlds/language/variant cases per condition and k; fixed candidate IDs; answer-free generation; no overall capability or freeze-efficacy claim",
+  "conditions": {
+    "initial/k1": {
+      "queries": 18,
+      "EM": 16,
+      "paired": 7,
+      "pairs": 9,
+      "ended": 18
+    },
+    "initial/k2": {
+      "queries": 18,
+      "EM": 1,
+      "paired": 0,
+      "pairs": 9,
+      "ended": 18
+    },
+    "trained/k1": {
+      "queries": 18,
+      "EM": 11,
+      "paired": 5,
+      "pairs": 9,
+      "ended": 18
+    },
+    "trained/k2": {
+      "queries": 18,
+      "EM": 0,
+      "paired": 0,
+      "pairs": 9,
+      "ended": 15
+    },
+    "trained_old_readers/k1": {
+      "queries": 18,
+      "EM": 14,
+      "paired": 6,
+      "pairs": 9,
+      "ended": 18
+    },
+    "trained_old_readers/k2": {
+      "queries": 18,
+      "EM": 0,
+      "paired": 0,
+      "pairs": 9,
+      "ended": 18
+    },
+    "trained_old_gates/k1": {
+      "queries": 18,
+      "EM": 14,
+      "paired": 6,
+      "pairs": 9,
+      "ended": 18
+    },
+    "trained_old_gates/k2": {
+      "queries": 18,
+      "EM": 1,
+      "paired": 0,
+      "pairs": 9,
+      "ended": 18
+    }
+  }
+}

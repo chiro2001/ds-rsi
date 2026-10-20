@@ -1,0 +1,70 @@
+{
+  "status": "single_double_reference_and_independent_recovery_verified",
+  "code_snapshot": "cd7f45f17a95",
+  "source_manifest_sha256": "0e9093b846166d3166acd52cf415b2582846ed205d6108c2e42b14392de876ef",
+  "source_formal_state_modified": false,
+  "initial_payload_exact_match": true,
+  "initial_raw_tensor_leaves": 55,
+  "checkpoints": [
+    {
+      "step": 100,
+      "trajectory": "continuous",
+      "reference_manifest_sha256": "56c6cdf75854b80c44deb9fa1e38d66b0a6712c9b863c37a0cb5065fac818e1a",
+      "candidate_manifest_sha256": "3add8b6e7ac337c8e1d0f0c2802a959bcc36d2c1e92792d9b31c83165ab1b6ca",
+      "full_payload_equal": true,
+      "raw_tensor_bytes_and_strides_equal": true,
+      "tensor_leaves": 191,
+      "pending_gradient_tensors": 34
+    },
+    {
+      "step": 100,
+      "trajectory": "interrupted",
+      "reference_manifest_sha256": "56c6cdf75854b80c44deb9fa1e38d66b0a6712c9b863c37a0cb5065fac818e1a",
+      "candidate_manifest_sha256": "1353e1e1960906a1cc5ab94f4132cd0c3ddab58a9f4dc363ed39e71757f88ee8",
+      "full_payload_equal": true,
+      "raw_tensor_bytes_and_strides_equal": true,
+      "tensor_leaves": 191,
+      "pending_gradient_tensors": 34
+    },
+    {
+      "step": 188,
+      "trajectory": "continuous",
+      "reference_manifest_sha256": "2697e7c838bcfa5258042f394bc57f47c27019bca62bae0a27e117604cd0a3ba",
+      "candidate_manifest_sha256": "9a7e7b689b60b6eefe1508629b18858d7f1ceeddc4dca31d3abe9fa71dfe4bd6",
+      "full_payload_equal": true,
+      "raw_tensor_bytes_and_strides_equal": true,
+      "tensor_leaves": 191,
+      "pending_gradient_tensors": 34
+    },
+    {
+      "step": 188,
+      "trajectory": "interrupted",
+      "reference_manifest_sha256": "2697e7c838bcfa5258042f394bc57f47c27019bca62bae0a27e117604cd0a3ba",
+      "candidate_manifest_sha256": "be0538fd798e953d78e3c10035473c850f6b60c084c851a88e96cbe5e44f59da",
+      "full_payload_equal": true,
+      "raw_tensor_bytes_and_strides_equal": true,
+      "tensor_leaves": 191,
+      "pending_gradient_tensors": 34
+    }
+  ],
+  "all188_losses_samples_candidates_token_ledgers_equal": true,
+  "coverage": {
+    "natural_keep": 38,
+    "unknown_wall": 14,
+    "known_wall": 24,
+    "auxiliary": 30
+  },
+  "fact_candidate_counts": {
+    "1": 56,
+    "2": 58
+  },
+  "pause_to_exit_seconds": 2.8682124069998736,
+  "resume_to_first_micro_seconds": 75.75483468800007,
+  "diagnostic_student_tokens_per_trajectory": 91106,
+  "diagnostic_teacher_tokens_per_trajectory": 7898,
+  "diagnostic_trajectories": 3,
+  "diagnostic_student_tokens_total": 273318,
+  "formal_training_tokens": 0,
+  "reference_elapsed_seconds": 305.74955930199997,
+  "M5_passed": false
+}

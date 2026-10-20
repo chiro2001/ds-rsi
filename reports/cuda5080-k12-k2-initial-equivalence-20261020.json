@@ -1,0 +1,8 @@
+{
+  "status": "pure_double_and_mixed_course_initial_payload_exact_match",
+  "pure_double_manifest_sha256": "a9c055371ea5c743bf12897d1da69feac1fb1fbaf51a7cd3156b63f2d069a9da",
+  "mixed_manifest_sha256": "0e9093b846166d3166acd52cf415b2582846ed205d6108c2e42b14392de876ef",
+  "weights_optimizer_rng_cursor_and_ledger_equal": true,
+  "numerical_future_trajectory_identity_claimed": false,
+  "course_and_budget_config_changes_declared": true
+}

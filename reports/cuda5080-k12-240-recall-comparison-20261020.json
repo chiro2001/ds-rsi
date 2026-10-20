@@ -1,0 +1,93 @@
+{
+  "scope": "Full96 dev recall, no test-generalization or M5 pass claimed",
+  "scores": {
+    "initial1": {
+      "EM": 79,
+      "paired": 36,
+      "valid_format": 96,
+      "ended": 96,
+      "by_language": {
+        "zh": 31,
+        "en": 22,
+        "cross_language": 26
+      }
+    },
+    "initial2": {
+      "EM": 2,
+      "paired": 0,
+      "valid_format": 91,
+      "ended": 96,
+      "by_language": {
+        "zh": 0,
+        "en": 2,
+        "cross_language": 0
+      }
+    },
+    "pure2_1": {
+      "EM": 28,
+      "paired": 10,
+      "valid_format": 62,
+      "ended": 78,
+      "by_language": {
+        "zh": 13,
+        "en": 6,
+        "cross_language": 9
+      }
+    },
+    "pure2_2": {
+      "EM": 3,
+      "paired": 0,
+      "valid_format": 40,
+      "ended": 61,
+      "by_language": {
+        "zh": 1,
+        "en": 0,
+        "cross_language": 2
+      }
+    },
+    "mixed1": {
+      "EM": 55,
+      "paired": 21,
+      "valid_format": 73,
+      "ended": 87,
+      "by_language": {
+        "zh": 26,
+        "en": 11,
+        "cross_language": 18
+      }
+    },
+    "mixed2": {
+      "EM": 3,
+      "paired": 1,
+      "valid_format": 60,
+      "ended": 79,
+      "by_language": {
+        "zh": 0,
+        "en": 2,
+        "cross_language": 1
+      }
+    }
+  },
+  "comparisons": {
+    "initial1_to_mixed1": {
+      "newly_correct": 2,
+      "newly_wrong": 26,
+      "selected_candidate_IDs_changed": 0
+    },
+    "pure2_1_to_mixed1": {
+      "newly_correct": 27,
+      "newly_wrong": 0,
+      "selected_candidate_IDs_changed": 0
+    },
+    "initial2_to_mixed2": {
+      "newly_correct": 2,
+      "newly_wrong": 1,
+      "selected_candidate_IDs_changed": 4
+    },
+    "pure2_2_to_mixed2": {
+      "newly_correct": 2,
+      "newly_wrong": 2,
+      "selected_candidate_IDs_changed": 12
+    }
+  }
+}

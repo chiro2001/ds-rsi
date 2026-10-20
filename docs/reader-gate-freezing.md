@@ -25,3 +25,9 @@ A已消费16272830/30M，包括两个未采用课程各117828的成本；新预�
 397项完整本地测试通过、2项跳过，执行完整快照`77e3f48885cb`。新初态已stopped0：`micro_000000000000_62c6f53eaa`、SHA `33094442115368dc151aac5cfaaa39c4a781bb49d91eeb5e62af4340bb0521ed`；参考初态`micro_000000000000_2e39f11cf9`、SHA `ab3828a98d1b56a06a1d3d31e9cd352fa3b5bac46d15735def49abf55b1ae6e1`。实际反序列化核验所有记忆参数/buffers/life等于4554，RNG等于上一复习初态，6门控参数均在frozen_auxiliary，28可训练参数的优化器为空、梯度全空。原完整态及235656已失败消费均保留，新预算13727170。
 
 真实CUDA验证控制进程PID5119，`control/cuda-k12-fg-validation-submit.json`、`logs/cuda-k12-fg-validation.log`，依次运行参考188、优化连续188和pause后独立恢复188，并比较100/188全部payload/原始字节和6冻结参数。正式新分支仍0微批，未开始首批训练。必须先核验真实进程和验证报告，不能据观察超时重启。
+
+## CUDA验证通过与正式提交
+
+参考/优化连续/外部pause4后独立进程resume188三轨迹全部通过。100/188两点的完整payload、167张量原始字节/步幅、28份累计梯度以及全部loss/样本/候选/账本一致，6门控参数始终等于初态。覆盖38长续写、14 unknown、24 known壁钟、30辅助，记忆题单/双56/58。暂停退出2.6459秒、重启首微批77.7887秒。三轨迹共273318学生/23694教师单列诊断成本，不计正式进度。
+
+已提交原参数resume首批0→240，PID5818、`control/formal-A-cuda-k12-fg-0-240.json`、日志`logs/ab-A-v6-w1-cuda-k12-fg-0-240.log`。固定240评测控制进程PID5821，`control/cuda-k12-fg-first240-evaluations-controller.json`，结束先核验完整态、6冻结参数及正式100/前188匹配，再串行oracle2/oracle1各96题和native保持；不会自动提交下一批。提交不代表240已完成，必须核验真实进程/latest/journal；当前固定GPU快照仍77e3f48885cb，后续同run只原全部参数加resume，不再init-from。

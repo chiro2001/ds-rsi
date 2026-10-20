@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""Matched-record teacher-forced Reader traces; never a capability evaluation."""
+"""Matched-record Reader interventions; teacher-forced or answer-free diagnostics."""
 
 import argparse
+from dataclasses import asdict
 import json
 from pathlib import Path
 
@@ -53,6 +54,16 @@ def ablation_parameter_names(policy, names):
     return selected
 
 
+
+def generate_fixed_candidates(evaluator, response, records, *, life_id, expected, prefix):
+    """Use only the answer-free cached prompt; expected is used by existing scoring."""
+    answer = evaluator.generate(response, records, life_id=life_id, expected=expected,
+                                mode="oracle", prefix=prefix)
+    if answer.selected_records != [record.record_id for record in records]:
+        raise ValueError("free-generation routing changed the fixed candidate IDs/order")
+    return asdict(answer)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--base", required=True)
@@ -70,6 +81,11 @@ def main():
     parser.add_argument("--candidate-counts", nargs="+", type=int, choices=[1, 2], default=[1, 2])
     parser.add_argument("--parameter-ablation", action="store_true",
                         help="restore selected initial parameters on top of trained weights, in RAM only")
+    parser.add_argument("--conditions", nargs="+", choices=["initial", "trained", "trained_old_writer",
+                        "trained_old_readers", "trained_old_gates", "trained_old_reader_values",
+                        "trained_old_reader_qk", "trained_old_time_source"])
+    parser.add_argument("--prediction-mode", choices=["teacher-forced", "free-generation"],
+                        default="teacher-forced")
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--stop-after-items", type=int)
     args = parser.parse_args()
@@ -118,6 +134,11 @@ def main():
                        "old_reader_qk", "old_time_source"):
             overrides["trained_" + policy] = ablation_parameter_names(policy, baseline_weights)
             conditions.append(("trained_" + policy, snapshots[1][1], overrides["trained_" + policy]))
+    if args.conditions is not None:
+        available = {label for label, _, _ in conditions}
+        if len(set(args.conditions)) != len(args.conditions) or not set(args.conditions) <= available:
+            raise ValueError("requested unique conditions must exist in the selected ablation mode")
+        conditions = [item for item in conditions if item[0] in args.conditions]
     first = snapshots[0][1][1]
     config, architecture = first["identity"]["train_config"], first["identity"]["memory_architecture"]
     if config["data_revision"] not in {"ab-v5-indexed-digits", "ab-v6-natural-keep"}:
@@ -160,6 +181,8 @@ def main():
                 "cases": [{"world": w, "language": l, "variant": v, "selected": ids}
                           for w, l, v, _, ids in cases], "candidate_counts": args.candidate_counts,
                 "condition_parameter_overrides_from_initial": overrides,
+                "conditions": [label for label, _, _ in conditions], "prediction_mode": args.prediction_mode,
+                "max_new_tokens": 16,
                 "script_sha256": file_sha256(Path(__file__)),
                 "implementation": {str(p.relative_to(source_root)): file_sha256(p)
                                    for p in sorted((source_root / "src/dsrsi").rglob("*.py"))}}
@@ -171,7 +194,7 @@ def main():
     torch.manual_seed(config["seed"])
     compiler = EpisodeCompiler(AutoTokenizer.from_pretrained(base, local_files_only=True))
     model = MemoryQwen.from_local_checkpoint(base, device=device, memory_architecture=architecture).eval()
-    evaluator = MOnlyEvaluator(model, compiler, memory_candidates=2)
+    evaluator = MOnlyEvaluator(model, compiler, max_new_tokens=16, memory_candidates=2)
     for label, committed, names in conditions:
         load_ab_weights(model, store, base_identity=base_identity, committed=committed)
         if names is not None:
@@ -197,6 +220,13 @@ def main():
                 records = [cached["pool"][key] for key in ids[:candidate_count]]
                 if any(r.slots.shape[0] != model.memory_config.slots for r in records):
                     raise ValueError("diagnostic requires uncompressed per-record slot layout")
+                if args.prediction_mode == "free-generation":
+                    answer = generate_fixed_candidates(evaluator, response, records,
+                        life_id=episode.episode_id, expected=row["probes"][0]["target"], prefix=cached["prefix"])
+                    return {"snapshot": label, "world": world, "language": language, "variant": variant,
+                            "episode_id": episode.episode_id, "candidate_count": candidate_count,
+                            "selected_ids": ids[:candidate_count], "expected": row["probes"][0]["target"],
+                            "parameter_overrides_from_initial": names or [], "answer": answer}
                 targets = response.input_ids[response.prompt_length:]
                 with torch.no_grad():
                     plain = native_logits(model, response, records, life_id=episode.episode_id)
@@ -225,9 +255,10 @@ def main():
                 journal.evaluate(key, lambda count=count: compute(count))
                 print(json.dumps({"item": key, "committed": len(journal.results), "total": len(jobs)}), flush=True)
     journal.finish()
-    report = {"status": "matched_candidate_teacher_forced_reader_diagnostic",
+    report = {"status": ("matched_candidate_teacher_forced_reader_diagnostic" if args.prediction_mode == "teacher-forced"
+                         else "matched_candidate_free_generation_parameter_diagnostic"),
               "identity": identity, "sampling": "handpicked mechanism cases; not representative capability scoring",
-              "gold_prefix_used": True, "future_targets_used_in_prediction": False,
+              "gold_prefix_used": args.prediction_mode == "teacher-forced", "future_targets_used_in_prediction": False,
               "formal_training_modified": False, "free_generation_capability_claimed": False,
               "M5_passed": False, "records": [item["value"] for item in journal.results]}
     atomic_json(output, report)

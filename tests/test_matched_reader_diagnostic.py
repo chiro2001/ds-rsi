@@ -53,3 +53,65 @@ def test_parameter_ablations_are_explicit_memory_subsets_and_never_base_paramete
         diagnostic.ablation_parameter_names("unknown", names)
     with pytest.raises(ValueError, match="no tensors"):
         diagnostic.ablation_parameter_names("old_writer", ["base.layer.weight"])
+
+
+def test_free_generation_uses_existing_answer_free_evaluator_and_rejects_candidate_drift():
+    from dataclasses import dataclass
+    from types import SimpleNamespace
+
+    @dataclass
+    class Answer:
+        selected_records: list
+        text: str = "generated without gold prefix"
+
+    class Evaluator:
+        def generate(self, response, records, **kwargs):
+            assert response is prompt and records is fixed
+            assert kwargs == dict(life_id="life", expected="gold for scoring", mode="oracle", prefix=prefix)
+            return Answer([r.record_id for r in records])
+
+    prompt, prefix = object(), object()
+    fixed = [SimpleNamespace(record_id="support"), SimpleNamespace(record_id="distractor")]
+    result = diagnostic.generate_fixed_candidates(Evaluator(), prompt, fixed,
+        life_id="life", expected="gold for scoring", prefix=prefix)
+    assert result["selected_records"] == ["support", "distractor"]
+
+    class Drifted(Evaluator):
+        def generate(self, *args, **kwargs):
+            return Answer(["distractor", "support"])
+
+    with pytest.raises(ValueError, match="fixed candidate"):
+        diagnostic.generate_fixed_candidates(Drifted(), prompt, fixed,
+            life_id="life", expected="gold for scoring", prefix=prefix)
+
+
+def test_real_free_generation_is_independent_of_the_gold_suffix_and_expected_answer():
+    torch = pytest.importorskip("torch")
+    pytest.importorskip("transformers")
+    from test_qwen_bridge import tiny
+    from test_episode_objective import SmallVocabularyTokenizer
+    from dsrsi.data.compiler import EpisodeCompiler
+    from dsrsi.data.revisions import make_generator
+    from dsrsi.evaluation.m_only import MOnlyEvaluator
+
+    class DecodingTokenizer(SmallVocabularyTokenizer):
+        def decode(self, tokens, **kwargs):
+            return " ".join(str(token) for token in tokens)
+
+    torch.manual_seed(7)
+    compiler = EpisodeCompiler(DecodingTokenizer(), max_query_tokens=1000)
+    evaluator = MOnlyEvaluator(tiny().eval(), compiler, max_new_tokens=2, memory_candidates=1)
+    row = make_generator(revision="ab-v6-natural-keep", seed=17, split="dev", distractors=2).episode(
+        0, family="single_fact", language="en")
+    episode = compiler.compile(row)
+    response = episode.responses[0]
+    records = [r for r in evaluator.source_records(episode) if r.record_id in response.support_groups[0]]
+    prefix = evaluator._encode_prefix(response)
+    a = diagnostic.generate_fixed_candidates(evaluator, response, records,
+        life_id=episode.episode_id, expected=row["probes"][0]["target"], prefix=prefix)
+    changed = copy.deepcopy(response)
+    changed.input_ids[changed.prompt_length:] = [3] * (len(changed.input_ids) - changed.prompt_length)
+    b = diagnostic.generate_fixed_candidates(evaluator, changed, records,
+        life_id=episode.episode_id, expected="a different scoring target", prefix=prefix)
+    assert a["token_ids"] == b["token_ids"] and a["text"] == b["text"]
+    assert a["expected"] != b["expected"]

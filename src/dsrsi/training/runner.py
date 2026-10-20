@@ -38,6 +38,7 @@ class TrainConfig:
     keep_weight: float = 0.2
     reuse_frozen_prefix: bool = False
     gdn_inverse: str | None = None
+    memory_candidate_curriculum: str | None = None
 
     def __post_init__(self):
         if self.stage not in {"A", "B"} or min(self.student_token_budget, self.gradient_accumulation) < 1:
@@ -47,6 +48,12 @@ class TrainConfig:
             raise ValueError("frozen prefix reuse must be a boolean")
         if self.gdn_inverse not in {None, "scripted_rows"}:
             raise ValueError("only the verified original-order scripted GDN execution is supported")
+        if self.memory_candidate_curriculum is not None:
+            from .candidate_curriculum import SINGLE_DOUBLE_V1
+            if (self.memory_candidate_curriculum != SINGLE_DOUBLE_V1 or self.stage != "A"
+                    or self.data_revision != "ab-v6-natural-keep" or self.curriculum != "facts"
+                    or self.memory_candidates != 2):
+                raise ValueError("single/double rehearsal requires explicit v6 A facts with maximum two candidates")
         if self.data_revision not in AB_REVISIONS or self.curriculum not in ("mixed", "facts", "locations"):
             raise ValueError("unknown data revision/curriculum")
         if self.data_revision == LEGACY_AB_REVISION and self.curriculum != "mixed":
@@ -124,9 +131,9 @@ class Trainer:
             if config.stage == "A" and not (anchor_change or gate_change) and (source_config.get("data_revision", LEGACY_AB_REVISION),
                                        source_config.get("curriculum", "mixed"), source_config.get("memory_candidates", 8),
                                        source_config.get("counterfactual_weight", 0.0), source_config.get("keep_fraction"),
-                                       source_config.get("keep_weight", 0.2)) == (
+                                       source_config.get("keep_weight", 0.2), source_config.get("memory_candidate_curriculum")) == (
                                            config.data_revision, config.curriculum, config.memory_candidates, config.counterfactual_weight,
-                                           config.keep_fraction, config.keep_weight):
+                                           config.keep_fraction, config.keep_weight, config.memory_candidate_curriculum):
                 raise ValueError("A-to-A initialization must explicitly change data revision or curriculum")
             if self.run_dir.resolve() == Path(initialize_from).resolve():
                 raise ValueError("stage transition requires a new run directory")
@@ -147,6 +154,11 @@ class Trainer:
         self.objective = EpisodeObjective(model, compiler, stage=config.stage, memory_candidates=config.memory_candidates,
             counterfactual_weight=config.counterfactual_weight, counterfactual_margin=config.counterfactual_margin,
             keep_weight=config.keep_weight, reuse_frozen_prefix=config.reuse_frozen_prefix)
+        self.single_candidate_objective = None
+        if config.memory_candidate_curriculum is not None:
+            self.single_candidate_objective = EpisodeObjective(model, compiler, stage=config.stage, memory_candidates=1,
+                counterfactual_weight=config.counterfactual_weight, counterfactual_margin=config.counterfactual_margin,
+                keep_weight=config.keep_weight, reuse_frozen_prefix=config.reuse_frozen_prefix)
         self.optimizer = torch.optim.AdamW([p for p in model.parameters() if p.requires_grad],
                                            lr=config.learning_rate, weight_decay=config.weight_decay,
                                            foreach=False, fused=False)
@@ -155,6 +167,8 @@ class Trainer:
         config_identity = asdict(config)
         if config.gdn_inverse is None:
             config_identity.pop("gdn_inverse")
+        if config.memory_candidate_curriculum is None:
+            config_identity.pop("memory_candidate_curriculum")
         if not config.reuse_frozen_prefix:
             config_identity.pop("reuse_frozen_prefix")
         if config.keep_fraction is None:
@@ -178,6 +192,10 @@ class Trainer:
         if config.reuse_frozen_prefix:
             path = Path(__file__).resolve().parents[1] / "model/frozen_prefix_reuse.py"
             self.identity["prefix_reuse"] = {"version": "native-frozen-prefix-reuse-v1", "sha256": file_sha256(path)}
+        if config.memory_candidate_curriculum is not None:
+            path = Path(__file__).resolve().with_name("candidate_curriculum.py")
+            self.identity["candidate_curriculum"] = {"version": config.memory_candidate_curriculum,
+                                                      "sha256": file_sha256(path)}
         if config.gdn_inverse is not None:
             from dsrsi.model.gdn_execution import gdn_execution_identity
             self.identity["gdn_execution"] = gdn_execution_identity()
@@ -309,8 +327,15 @@ class Trainer:
             from dsrsi.model.gdn_execution import scripted_gdn_scope
             scope = scripted_gdn_scope(self.model)
         with scope:
-            result = self.objective(row, oracle_include=oracle, **kwargs)
+            count = self._candidate_count(ordinal, row["family"])
+            objective = self.single_candidate_objective if count != self.config.memory_candidates else self.objective
+            result = objective(row, oracle_include=oracle, **kwargs)
         return row, oracle, result
+
+    def _candidate_count(self, ordinal, family):
+        from .candidate_curriculum import candidate_count
+        return candidate_count(seed=self.config.seed, ordinal=ordinal, family=family,
+                               maximum=self.config.memory_candidates, curriculum=self.config.memory_candidate_curriculum)
 
     def run(self, *, max_micro_steps=None, install_signals=True):
         def prepare():
@@ -357,7 +382,9 @@ class Trainer:
                        "covered_queries": result.covered_queries, "queries": result.queries,
                        "global_queries": global_queries,
                        "tool_events": result.tool_events, "reply_events": result.reply_events, "tool_loss": result.tool_loss,
-                       "oracle_included": oracle, "micro_seconds": time.monotonic() - started})
+                       "oracle_included": oracle, "micro_seconds": time.monotonic() - started,
+                       **({"memory_candidates_used": self._candidate_count(ordinal, row["family"])}
+                          if getattr(self.config, "memory_candidate_curriculum", None) is not None else {})})
             # No autograd graphs survive this boundary. Completed gradients are
             # saved even before an accumulation group has reached its optimizer step.
             del result

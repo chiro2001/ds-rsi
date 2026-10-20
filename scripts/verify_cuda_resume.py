@@ -39,6 +39,7 @@ def train_arguments(base, run, config, maximum):
                "save_every_micro": "save-every-micro", "memory_candidates": "memory-candidates",
                "counterfactual_weight": "counterfactual-weight", "counterfactual_margin": "counterfactual-margin",
                "keep_fraction": "keep-fraction", "keep_weight": "keep-weight"}
+    options["memory_candidate_curriculum"] = "memory-candidate-curriculum"
     if config.get("weight_decay", 0.01) != 0.01 or config.get("gradient_clip", 1.0) != 1.0:
         raise ValueError("CLI recovery proof requires the supported optimizer defaults")
     result = ["scripts/train_ab.py", "--base", str(base), "--run-dir", str(run),

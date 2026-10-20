@@ -1,0 +1,79 @@
+{
+  "status": "bounded_training_evaluations_and_readonly_diagnostic_complete",
+  "code_snapshot": "90028447c53a",
+  "checkpoint": "micro_000000000240_67eaeabdba",
+  "manifest_sha256": "5442e2ff2ecc80f697ac6c3c9196b910ecd690a4c85ca542ad5960c4420db046",
+  "progress": {
+    "accumulation_index": 0,
+    "micro_step": 240,
+    "optimizer_step": 20,
+    "stage": "A",
+    "student_tokens": 117828,
+    "teacher_tokens": 10324
+  },
+  "full_payload_file_checksums_verified": true,
+  "training_state_unchanged_by_evaluation": true,
+  "evaluations": {
+    "ab-A-v6-w1-cuda-k12-fg-rs1-240-oracle2-dev": {
+      "status": "completed",
+      "items": 96,
+      "report_sha256": "90d4d4bc042ed170b2c33a0d5bfc6c4781721e74b4d086049dab89335a4a050e"
+    },
+    "ab-A-v6-w1-cuda-k12-fg-rs1-240-oracle1-dev": {
+      "status": "completed",
+      "items": 96,
+      "report_sha256": "925cf6b04f782c7b83366634a8f20e55c2c3edc5704c417da483897e08663995"
+    },
+    "ab-A-v6-w1-cuda-k12-fg-rs1-240-native-source-nll": {
+      "status": "completed",
+      "items": 480,
+      "report_sha256": "eca92f59e484ebdbd70afbcdfd7a7f176f4960adc27f133a4ce00c106f4f6dc9"
+    },
+    "cuda-k12-fg-rs1-matched-reader-trace-0-240": {
+      "status": "completed",
+      "items": 72,
+      "report_sha256": "57f05aeb9a922a2da1abf02d70c5374f3f07eef9bbf7b9ab21c1d9c8ae6891a2"
+    }
+  },
+  "workers": {
+    "formal-A-cuda-k12-fg-rs1-0-240": {
+      "pid": 16539,
+      "project_worker_exited": true
+    },
+    "cuda-k12-fg-rs1-240-oracle2-submit": {
+      "pid": 16792,
+      "project_worker_exited": true
+    },
+    "cuda-k12-fg-rs1-240-oracle1-submit": {
+      "pid": 17221,
+      "project_worker_exited": true
+    },
+    "cuda-k12-fg-rs1-240-native-submit": {
+      "pid": 17643,
+      "project_worker_exited": true
+    },
+    "cuda-k12-fg-rs1-reader-trace-submit": {
+      "pid": 17859,
+      "project_worker_exited": true
+    },
+    "cuda-k12-fg-rs1-first240-evaluations-controller": {
+      "pid": 16541,
+      "project_worker_exited": true
+    },
+    "continue-cuda-rs1-bounded240-submit": {
+      "pid": 15869,
+      "project_worker_exited": true
+    }
+  },
+  "project_gpu_lock_released": true,
+  "keepalive_pid": 299,
+  "windows_e_free_bytes": 60958674944,
+  "A_chain_student_tokens": 16508486,
+  "remaining_A_budget": 13491514,
+  "run_config_budget": 13609342,
+  "further_training_submitted": false,
+  "M5_passed": false,
+  "wsl_vhdx_length_bytes": 135447707648,
+  "wsl_vhdx_length_unchanged": true,
+  "existing_vhdx_compacted": false
+}

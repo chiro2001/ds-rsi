@@ -1,0 +1,121 @@
+{
+  "scope": "96 dev free generation, no M5 or final test claim",
+  "scores": {
+    "initial1": {
+      "EM": 79,
+      "paired": 36,
+      "valid_format": 96,
+      "ended": 96,
+      "by_language": {
+        "zh": 31,
+        "en": 22,
+        "cross_language": 26
+      }
+    },
+    "mixed1": {
+      "EM": 55,
+      "paired": 21,
+      "valid_format": 73,
+      "ended": 87,
+      "by_language": {
+        "zh": 26,
+        "en": 11,
+        "cross_language": 18
+      }
+    },
+    "mixed2": {
+      "EM": 3,
+      "paired": 1,
+      "valid_format": 60,
+      "ended": 79,
+      "by_language": {
+        "zh": 0,
+        "en": 2,
+        "cross_language": 1
+      }
+    },
+    "frozen1": {
+      "EM": 59,
+      "paired": 24,
+      "valid_format": 91,
+      "ended": 95,
+      "by_language": {
+        "zh": 29,
+        "en": 11,
+        "cross_language": 19
+      }
+    },
+    "frozen2": {
+      "EM": 1,
+      "paired": 0,
+      "valid_format": 81,
+      "ended": 94,
+      "by_language": {
+        "zh": 0,
+        "en": 0,
+        "cross_language": 1
+      }
+    },
+    "support1": {
+      "EM": 68,
+      "paired": 26,
+      "valid_format": 94,
+      "ended": 96,
+      "by_language": {
+        "zh": 27,
+        "en": 19,
+        "cross_language": 22
+      },
+      "off_correct": 0,
+      "foreign_original_correct": 0,
+      "follows_foreign": 68
+    },
+    "support2": {
+      "EM": 1,
+      "paired": 0,
+      "valid_format": 84,
+      "ended": 95,
+      "by_language": {
+        "zh": 0,
+        "en": 0,
+        "cross_language": 1
+      },
+      "off_correct": 0,
+      "foreign_original_correct": 0,
+      "follows_foreign": 1
+    }
+  },
+  "comparisons": {
+    "frozen1_to_support1": {
+      "newly_correct": 12,
+      "newly_wrong": 3,
+      "candidate_IDs_changed": 0
+    },
+    "frozen2_to_support2": {
+      "newly_correct": 0,
+      "newly_wrong": 0,
+      "candidate_IDs_changed": 2
+    }
+  },
+  "native_preservation": {
+    "en/native": {
+      "passed": true,
+      "ci95_high": 0.025358861519230738,
+      "ci95_low": 0.015092473891046313,
+      "documents": 24,
+      "max_document_delta": 0.06790359814961751,
+      "mean_delta": 0.01955696733461486
+    },
+    "zh/native": {
+      "passed": true,
+      "ci95_high": 0.015290980537732443,
+      "ci95_low": 0.008744652072588602,
+      "documents": 24,
+      "max_document_delta": 0.024617552757263184,
+      "mean_delta": 0.012001763615343304
+    }
+  },
+  "checkpoint": "micro_000000000240_67eaeabdba",
+  "manifest_sha256": "5442e2ff2ecc80f697ac6c3c9196b910ecd690a4c85ca542ad5960c4420db046",
+  "M5_passed": false
+}

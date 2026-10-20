@@ -28,3 +28,9 @@
 48篇native保持仍在PID4186串行运行，journal共480个前向；控制进程3077不自动提交下一训练批。三项全部完成后固定相同代次做只读、固定正负ID的18案例自由生成干预，比较初态/240/旧Reader/旧gate-alpha，144项，所有还原在RAM中且条件间重载。新诊断快照`13637a14f082`保持六个训练核心文件不变，13专项通过，gold suffix/expected改变不影响真实tiny模型生成。该干预不是总体能力验收或冻结有效性的既成证明；尚未实施任何冻结训练。
 
 证据：[初始化](cuda5080-k12-initialization-20261020.json)、[恢复/前缀验证](cuda5080-k12-validation-20261020.json)、[正式训练态](ab-A-v6-w1-cuda-k12-240-training-summary.json)、[逐题比较](cuda5080-k12-240-recall-comparison-20261020.json)、[双候选完整评测](ab-A-v6-w1-cuda-k12-240-oracle2-dev.json)、[单候选完整评测](ab-A-v6-w1-cuda-k12-240-oracle1-dev.json)。
+
+## 保持复评与下一诊断
+
+48篇native保持已完成，中英文原三线全部通过。中文档配对平均ΔNLL0.00777814、95%上界0.01022773、单篇最大0.02083540；英文0.01259363、0.01647121、0.04475689。阈值仍为0.05/0.10/0.25，off与base逐篇差值为0。保持通过不代替记忆回忆，单候选55/96、双候选3/96仍不扩批。
+
+原评测控制进程3077及native4186均已退出，固定240的只读自由生成组件干预已启动PID4404，完整快照13637a14f082，提交`control/cuda-k12-free-reader-intervention-submit.json`、日志`logs/cuda-k12-fixed-free-reader-intervention.log`、输出`evaluations/cuda-k12-fixed-free-reader-intervention-0-240.json`。18个挑选案例、初态/240/还原旧Reader/还原旧gate-alpha四条件、候选1/2共144项，参数只在RAM中还原且条件间完整重载，未新增正式训练token。完成后先分析实际自由生成，不能把运行次数或teacher-forced改善当作冻结策略已有效。

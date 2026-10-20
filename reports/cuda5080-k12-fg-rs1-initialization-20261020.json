@@ -1,0 +1,52 @@
+{
+  "status": "explicit_A_to_A_reader_support_initialization_verified",
+  "checkpoint": "micro_000000000000_ebd4687fa2",
+  "manifest_sha256": "2f1db4cb0f36f17a16ff1471b4ff676394331185a028045e8a5b791a9e5c00ef",
+  "source_manifest_sha256": "d89910a3b02d2f1c2d36a9e0e70699e7d8c24029ad8e5bde5e26478561d05c4c",
+  "previous_frozen_initial_manifest_sha256": "33094442115368dc151aac5cfaaa39c4a781bb49d91eeb5e62af4340bb0521ed",
+  "all_memory_parameters_buffers_life_equal_source": true,
+  "all_initial_payload_equal_previous_frozen_course": true,
+  "source_complete_states_preserved": true,
+  "frozen_reader_gate_parameter_names": [
+    "readers.12.alpha",
+    "readers.12.gate.bias",
+    "readers.12.gate.weight",
+    "readers.20.alpha",
+    "readers.20.gate.bias",
+    "readers.20.gate.weight"
+  ],
+  "trainable_parameter_tensors": 28,
+  "new_optimizer_empty": true,
+  "all_pending_gradients_empty": true,
+  "train_config": {
+    "counterfactual_margin": 2.0,
+    "counterfactual_weight": 1.0,
+    "curriculum": "facts",
+    "data_revision": "ab-v6-natural-keep",
+    "distractors": 7,
+    "gradient_accumulation": 12,
+    "gradient_clip": 1.0,
+    "keep_fraction": 0.4,
+    "keep_weight": 1.0,
+    "learning_rate": 0.000125,
+    "memory_candidate_curriculum": "single-double-world-v1",
+    "memory_candidates": 2,
+    "memory_trainable_policy": "freeze-reader-gates-v1",
+    "reader_support_weight": 1.0,
+    "reuse_frozen_prefix": true,
+    "save_every_micro": 100,
+    "seed": 20261010,
+    "stage": "A",
+    "student_token_budget": 13609342,
+    "weight_decay": 0.01
+  },
+  "reader_support_objective": {
+    "sha256": "a54ee7e50f1620cc29ca32ef657909a9b15e7c333e5407ef6fbf0afb355afbc0",
+    "version": "reader-support-mass-v1"
+  },
+  "A_chain_prefix": 16390658,
+  "new_run_budget": 13609342,
+  "retained_rejected_course_student_cost": 353484,
+  "immutable_source_data_implementation_unchanged": true,
+  "cuda_environment_change_only_declared_runner": true
+}

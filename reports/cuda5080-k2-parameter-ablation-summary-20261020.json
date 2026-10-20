@@ -1,0 +1,62 @@
+{
+  "scope": "18 handpicked teacher-forced examples per condition, not free-generation capability or unique cause proof",
+  "formal_training_modified": false,
+  "conditions": {
+    "initial": {
+      "queries": 18,
+      "canonical_mean_target_nll": 0.06641150171090823,
+      "correct_tokens": 124,
+      "first_token_correct": 18,
+      "total_tokens": 126
+    },
+    "trained": {
+      "queries": 18,
+      "canonical_mean_target_nll": 0.40296435998413743,
+      "correct_tokens": 115,
+      "first_token_correct": 14,
+      "total_tokens": 126
+    },
+    "trained_old_writer": {
+      "queries": 18,
+      "canonical_mean_target_nll": 0.3380224631645765,
+      "correct_tokens": 116,
+      "first_token_correct": 14,
+      "total_tokens": 126
+    },
+    "trained_old_readers": {
+      "queries": 18,
+      "canonical_mean_target_nll": 0.11359016502180769,
+      "correct_tokens": 120,
+      "first_token_correct": 18,
+      "total_tokens": 126
+    },
+    "trained_old_gates": {
+      "queries": 18,
+      "canonical_mean_target_nll": 0.16512974697658167,
+      "correct_tokens": 120,
+      "first_token_correct": 18,
+      "total_tokens": 126
+    },
+    "trained_old_reader_values": {
+      "queries": 18,
+      "canonical_mean_target_nll": 0.2615727420881527,
+      "correct_tokens": 115,
+      "first_token_correct": 14,
+      "total_tokens": 126
+    },
+    "trained_old_reader_qk": {
+      "queries": 18,
+      "canonical_mean_target_nll": 0.4087343906386874,
+      "correct_tokens": 115,
+      "first_token_correct": 14,
+      "total_tokens": 126
+    },
+    "trained_old_time_source": {
+      "queries": 18,
+      "canonical_mean_target_nll": 0.3915546570934234,
+      "correct_tokens": 115,
+      "first_token_correct": 14,
+      "total_tokens": 126
+    }
+  }
+}

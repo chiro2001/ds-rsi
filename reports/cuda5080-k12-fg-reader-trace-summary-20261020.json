@@ -1,0 +1,89 @@
+{
+  "scope": "Matched handpicked18 teacher-forced cases per condition, no capability claim",
+  "conditions": {
+    "initial/k1": {
+      "queries": 18,
+      "correct_tokens": 124,
+      "tokens": 126,
+      "first_token_correct": 18,
+      "mean_nll": 0.06641150171090823,
+      "readers": {
+        "12": {
+          "lookup_gate": 0.7717013888888888,
+          "lookup_positive_mass": 1.0,
+          "all_position_positive_mass": 1.0,
+          "relative_residual": 1.5687769187821283
+        },
+        "20": {
+          "lookup_gate": 0.9266493055555556,
+          "lookup_positive_mass": 1.0,
+          "all_position_positive_mass": 1.0,
+          "relative_residual": 1.133564101325141
+        }
+      }
+    },
+    "initial/k2": {
+      "queries": 18,
+      "correct_tokens": 68,
+      "tokens": 126,
+      "first_token_correct": 13,
+      "mean_nll": 5.513340348338814,
+      "readers": {
+        "12": {
+          "lookup_gate": 0.7717013888888888,
+          "lookup_positive_mass": 0.8004273133928477,
+          "all_position_positive_mass": 0.5796838548087065,
+          "relative_residual": 1.5652915570471022
+        },
+        "20": {
+          "lookup_gate": 0.9264322916666666,
+          "lookup_positive_mass": 0.7028722924173391,
+          "all_position_positive_mass": 0.4148196622493879,
+          "relative_residual": 1.082651333676444
+        }
+      }
+    },
+    "trained/k1": {
+      "queries": 18,
+      "correct_tokens": 119,
+      "tokens": 126,
+      "first_token_correct": 18,
+      "mean_nll": 0.15946051518456386,
+      "readers": {
+        "12": {
+          "lookup_gate": 0.7703993055555556,
+          "lookup_positive_mass": 1.0,
+          "all_position_positive_mass": 1.0,
+          "relative_residual": 1.447585768169827
+        },
+        "20": {
+          "lookup_gate": 0.8561197916666666,
+          "lookup_positive_mass": 1.0,
+          "all_position_positive_mass": 1.0,
+          "relative_residual": 0.928019748793708
+        }
+      }
+    },
+    "trained/k2": {
+      "queries": 18,
+      "correct_tokens": 68,
+      "tokens": 126,
+      "first_token_correct": 14,
+      "mean_nll": 4.251046616548634,
+      "readers": {
+        "12": {
+          "lookup_gate": 0.7703993055555556,
+          "lookup_positive_mass": 0.8015656044715731,
+          "all_position_positive_mass": 0.5286258421369634,
+          "relative_residual": 1.444676399230957
+        },
+        "20": {
+          "lookup_gate": 0.8563368055555556,
+          "lookup_positive_mass": 0.6204410957004249,
+          "all_position_positive_mass": 0.3885971217249915,
+          "relative_residual": 0.8430300156275431
+        }
+      }
+    }
+  }
+}

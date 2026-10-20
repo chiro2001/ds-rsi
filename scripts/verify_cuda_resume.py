@@ -41,6 +41,7 @@ def train_arguments(base, run, config, maximum):
                "keep_fraction": "keep-fraction", "keep_weight": "keep-weight"}
     options["memory_candidate_curriculum"] = "memory-candidate-curriculum"
     options["memory_trainable_policy"] = "memory-trainable-policy"
+    options["reader_support_weight"] = "reader-support-weight"
     if config.get("weight_decay", 0.01) != 0.01 or config.get("gradient_clip", 1.0) != 1.0:
         raise ValueError("CLI recovery proof requires the supported optimizer defaults")
     result = ["scripts/train_ab.py", "--base", str(base), "--run-dir", str(run),

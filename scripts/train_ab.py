@@ -30,6 +30,8 @@ def main():
                         help="explicit new A course: paired-world single/double fact rehearsal; keep remains double")
     parser.add_argument("--memory-trainable-policy", choices=["freeze-reader-gates-v1"],
                         help="explicit new rehearsal course: freeze Reader gate and alpha parameters")
+    parser.add_argument("--reader-support-weight", type=float, default=0.0,
+                        help="explicit new A objective: support-record attention supervision")
     parser.add_argument("--counterfactual-weight", type=float, default=0.0)
     parser.add_argument("--counterfactual-margin", type=float, default=2.0)
     parser.add_argument("--keep-fraction", type=float)
@@ -118,6 +120,7 @@ def main():
                                  memory_candidates=args.memory_candidates, counterfactual_weight=args.counterfactual_weight,
                                  memory_candidate_curriculum=args.memory_candidate_curriculum,
                                  memory_trainable_policy=args.memory_trainable_policy,
+                                 reader_support_weight=args.reader_support_weight,
                                  reuse_frozen_prefix=args.reuse_frozen_prefix,
                                  gdn_inverse=args.gdn_inverse,
                                  counterfactual_margin=args.counterfactual_margin, keep_fraction=args.keep_fraction,

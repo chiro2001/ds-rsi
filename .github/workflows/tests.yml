@@ -18,3 +18,16 @@ jobs:
       - run: python -m pip install --index-url https://download.pytorch.org/whl/cpu torch==2.10.0
       - run: python -m pip install -e '.[model,test]'
       - run: python -m pytest -q
+  official-shine-qwen3:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: python -m pip install --index-url https://download.pytorch.org/whl/cpu torch==2.10.0
+      - run: python -m pip install -e '.[model,test]'
+      - run: python -m pip install --no-deps --target "$RUNNER_TEMP/shine-compat" -r requirements/shine-qwen3-compat.txt
+      - run: PYTHONPATH="$RUNNER_TEMP/shine-compat:$PWD/src" python -m pytest -q tests/test_shine_qwen3_official.py tests/test_shine_qwen3_data.py

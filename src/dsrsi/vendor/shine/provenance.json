@@ -1,0 +1,40 @@
+{
+  "repository": "https://github.com/MuLabPKU/SHINE",
+  "commit": "fd606798c5d0e0f7d2c82df1204a83f8a1104036",
+  "files": {
+    "LoraQwen.py": {
+      "upstream_path": "LoraQwen.py",
+      "upstream_sha256": "cbe252cc2aa309220afb650b834a756cf883787e569d8b44cce15aba8e93ae70",
+      "vendored_sha256": "cbe252cc2aa309220afb650b834a756cf883787e569d8b44cce15aba8e93ae70"
+    },
+    "metanetwork_family.py": {
+      "upstream_path": "metanetwork_family.py",
+      "upstream_sha256": "f71c0e3f12f3ec8a96d565792cd18608bbc4cf5721b5afa3df387c8a5cc91472",
+      "vendored_sha256": "9909e5ab57e5ac27b6d36b55fb420b1bbd90e0c32d71e3a79f255ad4c6b84ff8"
+    },
+    "ddp.py": {
+      "upstream_path": "utils/myddp.py",
+      "upstream_sha256": "d8d100f7bb562ac2dd639646d12ace600aa3698e33b60973c4a9529adfb8ae22",
+      "vendored_sha256": "d8d100f7bb562ac2dd639646d12ace600aa3698e33b60973c4a9529adfb8ae22"
+    },
+    "Qwen3-0.6B.yaml": {
+      "upstream_path": "configs/Qwen3-0.6B.yaml",
+      "upstream_sha256": "224ba37ef9570499f2a38b6feef2ec9901f8a7af56aa621659436bb5d82ead67",
+      "vendored_sha256": "224ba37ef9570499f2a38b6feef2ec9901f8a7af56aa621659436bb5d82ead67"
+    },
+    "LICENSE": {
+      "upstream_path": "LICENSE",
+      "upstream_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "vendored_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    }
+  },
+  "adaptations": [
+    "metanetwork_family.py: package-relative ddp import only; numerical code unchanged"
+  ],
+  "extracted_chat_template": {
+    "upstream_path": "meta_train_parallel.py",
+    "upstream_sha256": "851fddde4d1cd3295836390da707f81a9953308e37aa3365968b02410c84194b",
+    "method": "ast.literal_eval of tokenizer.chat_template assignment",
+    "sha256": "6fdcf8df0800286b8e8e89498729c08c2d98c5653bd865f8174c81947856fce2"
+  }
+}

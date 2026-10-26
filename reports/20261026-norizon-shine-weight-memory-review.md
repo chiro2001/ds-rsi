@@ -87,3 +87,7 @@ arXiv:2610.15677研究的是底座知识、一个生成的LoRA更新、显式输
 - 对照路线LIFT：**LIFT: Improving Long Context Understanding of Large Language Models through Long Input Fine-Tuning**，arXiv:2502.14644；属于对新输入做梯度适配，与SHINE的前向参数生成需要区分计时口径。
 
 本次完成的是公开技术核验、代码阅读和实验设计；没有复现论文的时延或能力，没有更改正式checkpoint，也没有新增正式训练消费。
+
+## 同日补充：Doc-to-LoRA对照
+
+另见[Doc-to-LoRA专项报告](20261026-doc-to-lora-review-and-comparison.md)。D2L的现成2B基座检查点及组合训练值得优先作为外部对照；与SHINE的架构和硬件、数据不同，不按单一时延或跨模型任务分数给出统一排名。两条路线均需验收多事实问答、无关记忆干扰及完整持久化。

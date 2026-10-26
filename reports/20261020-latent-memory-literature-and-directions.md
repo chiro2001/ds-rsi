@@ -99,3 +99,7 @@ Titans将在线神经记忆作为内循环学习，局部键值关联目标更�
 ## 2026-10-26补充：Norizon／SHINE权重记忆
 
 新增高相关备选是SHINE的单次前向上下文→LoRA生成路线，与Titans/FwPKM的在线优化更新不同。详见[专项调研](20261026-norizon-shine-weight-memory-review.md)。它值得在独立副本上和当前slots路线对照，但仍需同记忆多问题、多事实选择及知识组合验收；未将其直接启用到正式runner。
+
+## 2026-10-26补充：Doc-to-LoRA
+
+新增[Doc-to-LoRA专项调研与SHINE比较](20261026-doc-to-lora-review-and-comparison.md)。现成Gemma-2B检查点、证据条件蒸馏和专门组合训练，使其适合作为权重记忆路线的首个外部能力基线候选。分块组合伴随rank增长；官方便捷API既不自动追加经历，也不在hypernetwork检查点中持久化已生成记忆，仍需独立长期记忆管理。未启动复现或新训练。

@@ -10,13 +10,16 @@ from .robust_fields import AB_FIELDS_REVISION, AllFieldsEpisodeGenerator
 from .indexed_digits import AB_INDEXED_REVISION, IndexedDigitEpisodeGenerator
 from .natural_keep import AB_NATURAL_KEEP_REVISION, NaturalKeepEpisodeGenerator
 from .compression import COMPRESSION_REVISION, CompressionEpisodeGenerator
+from .fixed_pair import FIXED_PAIR_REVISION, FixedPairEpisodeGenerator
 
 AB_DATA_REVISION = AB_FIELDS_REVISION
 AB_REVISIONS = (LEGACY_AB_REVISION, AB_V2_REVISION, AB_ORDER_REVISION, AB_FIELDS_REVISION,
-                AB_INDEXED_REVISION, AB_NATURAL_KEEP_REVISION)
+                AB_INDEXED_REVISION, AB_NATURAL_KEEP_REVISION, FIXED_PAIR_REVISION)
 
 
 def make_generator(*, revision=AB_DATA_REVISION, **kwargs):
+    if revision == FIXED_PAIR_REVISION:
+        return FixedPairEpisodeGenerator(**kwargs)
     if revision == AB_NATURAL_KEEP_REVISION:
         return NaturalKeepEpisodeGenerator(**kwargs)
     if revision == COMPRESSION_REVISION:
@@ -31,6 +34,13 @@ def make_generator(*, revision=AB_DATA_REVISION, **kwargs):
 
 
 def data_identity(revision):
+    if revision == FIXED_PAIR_REVISION:
+        identity = data_identity(AB_NATURAL_KEEP_REVISION)
+        identity["revision"] = revision
+        identity["candidate_semantics"] = "two-questions-one-source-ordered-pair-v1"
+        path = Path(__file__).resolve().with_name("fixed_pair.py")
+        identity["files"][path.name] = hashlib.sha256(path.read_bytes()).hexdigest()
+        return identity
     if revision == AB_NATURAL_KEEP_REVISION:
         identity = data_identity(AB_INDEXED_REVISION)
         identity["revision"] = revision

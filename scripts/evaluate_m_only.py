@@ -32,7 +32,7 @@ def main():
     parser.add_argument("--languages", nargs="+", choices=["zh", "en", "cross_language"], default=["zh"])
     parser.add_argument("--threads", type=int, default=8)
     parser.add_argument("--device", default="cpu")
-    parser.add_argument("--eval-data-revision", choices=["ab-v1", "ab-v2-matched-entities", "ab-v3-random-entity-order", "ab-v4-fields-and-language", "ab-v5-indexed-digits"],
+    parser.add_argument("--eval-data-revision", choices=["ab-v1", "ab-v2-matched-entities", "ab-v3-random-entity-order", "ab-v4-fields-and-language", "ab-v5-indexed-digits", "ab-v6-natural-keep"],
                         help="explicit distribution challenge; default matches the pinned training revision")
     parser.add_argument("--include-foreign", action="store_true", help="replace all selected payloads with the other counterfactual world")
     parser.add_argument("--modes", nargs="+", choices=["actual", "oracle", "oracle_foreign", "off", "shuffled", "foreign"],
@@ -73,6 +73,8 @@ def main():
     committed = load_pinned(store, args.checkpoint)
     config = committed[1]["identity"]["train_config"]
     data_revision = config.get("data_revision", LEGACY_AB_REVISION)
+    if data_revision == "ab-v7-fixed-pair-qa" and args.eval_data_revision is None:
+        raise ValueError("fixed-pair runs use evaluate_fixed_pair.py; choose an explicit legacy evaluation revision here")
     if "data" in committed[1]["identity"] and data_identity(data_revision) != committed[1]["identity"]["data"]:
         raise RuntimeError("evaluation data/compiler identity differs from the pinned training revision")
     torch.manual_seed(config["seed"])

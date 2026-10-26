@@ -42,6 +42,7 @@ class TrainConfig:
     memory_candidate_curriculum: str | None = None
     memory_trainable_policy: str | None = None
     reader_support_weight: float = 0.0
+    evidence_distillation_weight: float = 0.0
 
     def __post_init__(self):
         if self.stage not in {"A", "B"} or min(self.student_token_budget, self.gradient_accumulation) < 1:
@@ -54,13 +55,13 @@ class TrainConfig:
         if self.memory_candidate_curriculum is not None:
             from .candidate_curriculum import SINGLE_DOUBLE_V1
             if (self.memory_candidate_curriculum != SINGLE_DOUBLE_V1 or self.stage != "A"
-                    or self.data_revision != "ab-v6-natural-keep" or self.curriculum != "facts"
+                    or self.data_revision not in {"ab-v6-natural-keep", "ab-v7-fixed-pair-qa"} or self.curriculum != "facts"
                     or self.memory_candidates != 2):
                 raise ValueError("single/double rehearsal requires explicit v6 A facts with maximum two candidates")
         if self.memory_trainable_policy is not None:
             from .memory_trainable import FREEZE_READER_GATES_V1
             if (self.memory_trainable_policy != FREEZE_READER_GATES_V1 or self.stage != "A"
-                    or self.data_revision != "ab-v6-natural-keep" or self.curriculum != "facts"
+                    or self.data_revision not in {"ab-v6-natural-keep", "ab-v7-fixed-pair-qa"} or self.curriculum != "facts"
                     or self.memory_candidate_curriculum is None):
                 raise ValueError("Reader gate freezing requires explicit v6 A single/double rehearsal")
         if not math.isfinite(self.reader_support_weight) or self.reader_support_weight < 0:
@@ -69,6 +70,15 @@ class TrainConfig:
                 or self.curriculum != "facts" or self.memory_candidate_curriculum is None
                 or self.memory_trainable_policy != "freeze-reader-gates-v1"):
             raise ValueError("Reader support v1 requires the explicit frozen-gate A rehearsal course")
+        if not math.isfinite(self.evidence_distillation_weight) or self.evidence_distillation_weight < 0:
+            raise ValueError("evidence distillation weight must be finite and nonnegative")
+        if self.evidence_distillation_weight and self.data_revision != "ab-v7-fixed-pair-qa":
+            raise ValueError("evidence distillation requires the fixed-pair data revision")
+        if self.data_revision == "ab-v7-fixed-pair-qa" and (
+                self.stage != "A" or self.curriculum != "facts" or self.memory_candidates != 2
+                or self.memory_candidate_curriculum != "single-double-world-v1"
+                or self.memory_trainable_policy != "freeze-reader-gates-v1"):
+            raise ValueError("fixed-pair data requires explicit A facts, rehearsal and frozen Reader gates")
         if self.data_revision not in AB_REVISIONS or self.curriculum not in ("mixed", "facts", "locations"):
             raise ValueError("unknown data revision/curriculum")
         if self.data_revision == LEGACY_AB_REVISION and self.curriculum != "mixed":
@@ -147,10 +157,12 @@ class Trainer:
                                        source_config.get("curriculum", "mixed"), source_config.get("memory_candidates", 8),
                                        source_config.get("counterfactual_weight", 0.0), source_config.get("keep_fraction"),
                                        source_config.get("keep_weight", 0.2), source_config.get("memory_candidate_curriculum"),
-                                       source_config.get("memory_trainable_policy"), source_config.get("reader_support_weight", 0.0)) == (
+                                       source_config.get("memory_trainable_policy"), source_config.get("reader_support_weight", 0.0),
+                                       source_config.get("evidence_distillation_weight", 0.0)) == (
                                            config.data_revision, config.curriculum, config.memory_candidates, config.counterfactual_weight,
                                            config.keep_fraction, config.keep_weight, config.memory_candidate_curriculum,
-                                           config.memory_trainable_policy, config.reader_support_weight):
+                                           config.memory_trainable_policy, config.reader_support_weight,
+                                           config.evidence_distillation_weight):
                 raise ValueError("A-to-A initialization must explicitly change data revision or curriculum")
             if self.run_dir.resolve() == Path(initialize_from).resolve():
                 raise ValueError("stage transition requires a new run directory")
@@ -177,6 +189,16 @@ class Trainer:
                     "target": config.memory_trainable_policy, "frozen_parameter_names": frozen_names,
                     "training_state_reset_as_explicit_A_to_A": True}
         objective_class, objective_options = EpisodeObjective, {}
+        if config.data_revision == "ab-v7-fixed-pair-qa":
+            from .evidence_distillation import FixedPairDistillationObjective, EVIDENCE_DISTILLATION_VERSION
+            objective_class = FixedPairDistillationObjective
+            objective_options["evidence_distillation_weight"] = config.evidence_distillation_weight
+            if initialization is not None and not resume:
+                initialization["fixed_pair_objective_change"] = {
+                    "version": EVIDENCE_DISTILLATION_VERSION,
+                    "source_weight": manifest["identity"]["train_config"].get("evidence_distillation_weight", 0.0),
+                    "target_weight": config.evidence_distillation_weight,
+                    "training_state_reset_as_explicit_A_to_A": True}
         if config.reader_support_weight:
             from .reader_support_objective import ReaderSupportObjective, READER_SUPPORT_VERSION
             objective_class = ReaderSupportObjective
@@ -208,6 +230,8 @@ class Trainer:
             config_identity.pop("memory_trainable_policy")
         if not config.reader_support_weight:
             config_identity.pop("reader_support_weight")
+        if not config.evidence_distillation_weight:
+            config_identity.pop("evidence_distillation_weight")
         if not config.reuse_frozen_prefix:
             config_identity.pop("reuse_frozen_prefix")
         if config.keep_fraction is None:
@@ -244,6 +268,14 @@ class Trainer:
             path = Path(__file__).resolve().with_name("reader_support_objective.py")
             self.identity["reader_support_objective"] = {"version": READER_SUPPORT_VERSION,
                                                         "sha256": file_sha256(path)}
+        if config.data_revision == "ab-v7-fixed-pair-qa":
+            from .evidence_distillation import EVIDENCE_DISTILLATION_VERSION
+            root = Path(__file__).resolve().parents[1]
+            files = ("training/evidence_distillation.py", "evaluation/fixed_records.py", "evaluation/m_only.py")
+            self.identity["evidence_distillation"] = {
+                "version": EVIDENCE_DISTILLATION_VERSION,
+                "implementation": {p: file_sha256(root / p) for p in files},
+                "teacher_screen": "canonical-free-greedy-exact-tokens-and-end-v1"}
         if config.gdn_inverse is not None:
             from dsrsi.model.gdn_execution import gdn_execution_identity
             self.identity["gdn_execution"] = gdn_execution_identity()
@@ -436,7 +468,16 @@ class Trainer:
                        **({"reader_support_loss": result.reader_support_loss,
                            "reader_support_mass": result.reader_support_mass,
                            "reader_support_readers": result.reader_support_readers}
-                          if getattr(self.config, "reader_support_weight", 0) else {})})
+                          if getattr(self.config, "reader_support_weight", 0) else {}),
+                       **({"evidence_loss": result.evidence_loss,
+                           "evidence_teacher_attempted": result.evidence_teacher_attempted,
+                           "evidence_teacher_accepted": result.evidence_teacher_accepted,
+                           "fixed_candidates_per_query": result.fixed_candidates_per_query,
+                           "pair_kind": row.get("annotations", {}).get("pair_kind")}
+                          if getattr(self.config, "data_revision", None) == "ab-v7-fixed-pair-qa" else {}),
+                       **({"cuda_peak_allocated_bytes": torch.cuda.max_memory_allocated(self.device),
+                           "cuda_peak_reserved_bytes": torch.cuda.max_memory_reserved(self.device)}
+                          if self.device.type == "cuda" else {})})
             # No autograd graphs survive this boundary. Completed gradients are
             # saved even before an accumulation group has reached its optimizer step.
             del result

@@ -21,7 +21,7 @@ def main():
     parser.add_argument("--lr", type=float, default=5e-4)
     parser.add_argument("--seed", type=int, default=20261010)
     parser.add_argument("--distractors", type=int, default=7)
-    parser.add_argument("--data-revision", choices=["ab-v1", "ab-v2-matched-entities", "ab-v3-random-entity-order", "ab-v4-fields-and-language", "ab-v5-indexed-digits", "ab-v6-natural-keep"],
+    parser.add_argument("--data-revision", choices=["ab-v1", "ab-v2-matched-entities", "ab-v3-random-entity-order", "ab-v4-fields-and-language", "ab-v5-indexed-digits", "ab-v6-natural-keep", "ab-v7-fixed-pair-qa"],
                         default="ab-v4-fields-and-language")
     parser.add_argument("--curriculum", choices=["mixed", "facts", "locations"], default="mixed")
     parser.add_argument("--save-every-micro", type=int, default=100)
@@ -32,6 +32,8 @@ def main():
                         help="explicit new rehearsal course: freeze Reader gate and alpha parameters")
     parser.add_argument("--reader-support-weight", type=float, default=0.0,
                         help="explicit new A objective: support-record attention supervision")
+    parser.add_argument("--evidence-distillation-weight", type=float, default=0.0,
+                        help="explicit v7 A objective: free-greedy-screened plaintext evidence teacher")
     parser.add_argument("--counterfactual-weight", type=float, default=0.0)
     parser.add_argument("--counterfactual-margin", type=float, default=2.0)
     parser.add_argument("--keep-fraction", type=float)
@@ -121,6 +123,7 @@ def main():
                                  memory_candidate_curriculum=args.memory_candidate_curriculum,
                                  memory_trainable_policy=args.memory_trainable_policy,
                                  reader_support_weight=args.reader_support_weight,
+                                 evidence_distillation_weight=args.evidence_distillation_weight,
                                  reuse_frozen_prefix=args.reuse_frozen_prefix,
                                  gdn_inverse=args.gdn_inverse,
                                  counterfactual_margin=args.counterfactual_margin, keep_fraction=args.keep_fraction,

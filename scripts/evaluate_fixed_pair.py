@@ -108,10 +108,12 @@ def main():
                             nonlocal written, foreign
                             selected = []
                             query = response
+                            source_tokens = 0
                             if view in {"memory", "foreign"}:
                                 if written is None:
                                     with torch.no_grad():
                                         written = evaluator.source_records(episode)
+                                    source_tokens += sum(len(span.input_ids) for span in episode.source)
                                 ids = row["annotations"]["fixed_memory_candidate_ids"]
                                 selected = [r for r in written if r.record_id in ids]
                                 if args.memory_candidates == 1:
@@ -120,7 +122,9 @@ def main():
                                     if foreign is None:
                                         opposite = generator.episode(w, variant=1 - variant, family="single_fact", language=lang)
                                         with torch.no_grad():
-                                            foreign = evaluator.source_records(compiler.compile(opposite))
+                                            opposite_episode = compiler.compile(opposite)
+                                            foreign = evaluator.source_records(opposite_episode)
+                                        source_tokens += sum(len(span.input_ids) for span in opposite_episode.source)
                                     by_id = {r.record_id: r for r in foreign}
                                     from dataclasses import replace
                                     selected = [replace(r, slots=by_id[r.record_id].slots) for r in selected]
@@ -130,7 +134,8 @@ def main():
                             result = generate_fixed_records(model, compiler, query, selected,
                                                             life_id=episode.episode_id, expected=probe["target"],
                                                             max_new_tokens=args.max_new_tokens)
-                            value = dict(result["answer"], view=view, input_tokens=result["input_tokens"],
+                            value = dict(result["answer"], view=view, query_input_tokens=result["input_tokens"],
+                                         source_input_tokens=source_tokens,
                                          episode_id=row["episode_id"], language=lang, world=w, variant=variant,
                                          pair_kind=row["annotations"]["pair_kind"],
                                          codec_task=row["annotations"]["codec_task"],
@@ -149,11 +154,16 @@ def main():
         summary[view] = dict(queries=len(part), correct=sum(r["exact_match"] for r in part),
                              exact_token_matches=sum(r["exact_token_match"] for r in part),
                              both_questions_correct=sum(all(r["exact_match"] for r in rows) for rows in groups.values()),
-                             paired_worlds=len(groups), actual_input_tokens=sum(r["input_tokens"] for r in part))
+                             paired_worlds=len(groups), query_input_tokens=sum(r["query_input_tokens"] for r in part),
+                             source_input_tokens=sum(r["source_input_tokens"] for r in part),
+                             actual_input_tokens=sum(r["query_input_tokens"] + r["source_input_tokens"] for r in part))
     journal.finish()
     report = dict(status="fixed_pair_free_generation_diagnostic", checkpoint=directory.name,
                    manifest_sha256=identity["manifest_sha256"], sampling=identity["config"],
                    summary=summary, records=records, M5_passed=False, source_training_state_modified=False)
+    if device.startswith("cuda"):
+        report["cuda_memory"] = dict(peak_allocated_bytes=torch.cuda.max_memory_allocated(device),
+                                     peak_reserved_bytes=torch.cuda.max_memory_reserved(device))
     atomic_json(output, report)
     print(json.dumps(report["summary"], ensure_ascii=False, indent=2), flush=True)
 

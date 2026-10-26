@@ -1,0 +1,48 @@
+{
+  "diagnostic_student": 149523,
+  "diagnostic_teacher": 24522,
+  "evidence_sha256": {
+    "shine-generator-U-lr10-128-amplitude.json": "24b3658854ba1026bbf8706d88c886722da36e22e1c8889e80dd5d16caa220eb",
+    "shine-generator-U-lr10-128-fixed-source.json": "e233e50711737b62d0f665201ef957d8aa3ce82be691a829cdd1d3c66dd554cc",
+    "shine-generator-U-lr10-128-write-cpu.json": "b02f7f50873920c1b4e5637cb68655ed8ad5d3a53e440d2b0fb3eddfa5228152",
+    "shine-generator-U-lr10-128-write-objective.json": "0aeaf10938ff8409f49a403872b1226d2518b319ae6acebed7b7bdc98e47ab1f",
+    "shine-generator-U-lr10-128-write-path.json": "8be7ec163e2202b5ce5ecc6d5ad5b9fa4feab79dbbf4fa2b92ca951ed67a5054"
+  },
+  "formal_A_chain_student": 16658338,
+  "formal_A_new_tokens": 0,
+  "formal_A_remaining": 13341662,
+  "full_training_payload_sha256": "e077ff8c9cd3f8a97b17ab59832d48bb3746f31d83b6f3fa7f50b103006c8d8e",
+  "full_training_payload_unchanged": true,
+  "gpu": "16303 MiB, 3666 MiB, 12312 MiB, 44",
+  "gpu_lock_released": true,
+  "latest": {
+    "directory": "micro_000000000128_6211452e25",
+    "manifest_sha256": "cefbe381ef798ae44e847a52162e753be7ba1bce8d69858f86abaf55d3d111cf"
+  },
+  "new_student": 10299,
+  "pending": 0,
+  "progress": {
+    "accumulation_index": 0,
+    "micro_step": 128,
+    "optimizer_step": 64,
+    "stage": "SHINE_diagnostic",
+    "student_tokens": 64064,
+    "teacher_tokens": 0
+  },
+  "remaining_student": 477,
+  "status": "stopped",
+  "vhdx": {
+    "compaction_performed": false,
+    "growth_from_pre_diagnostic_bytes": 0,
+    "length_bytes": 106998792192,
+    "path": "E:\\WSL\\Ubuntu\\ext4.vhdx"
+  },
+  "windows_free_bytes": 99838431232,
+  "worker_alive": {
+    "18015": false,
+    "18259": false,
+    "18260": false,
+    "18485": false
+  },
+  "wsl_keepalive_preserved": true
+}

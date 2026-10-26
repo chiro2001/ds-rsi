@@ -16,7 +16,7 @@ import time
 
 def check_storage_paths(command, code, root):
     flags = {"--base", "--run-dir", "--source-run", "--target-run", "--run-root",
-             "--output", "--output-dir", "--journal", "--corpus", "--manifest"}
+             "--output", "--output-dir", "--journal", "--corpus", "--manifest", "--diagnostic-ledger"}
     for index, value in enumerate(command[:-1]):
         if value in flags:
             path = Path(command[index + 1])

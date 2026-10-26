@@ -22,7 +22,7 @@ from dsrsi.model.shine import ShineConfig,ShineQwen,GeneratedMemory
 from dsrsi.training.checkpoint import CheckpointStore,restore_training_state,file_sha256
 from dsrsi.training.device import resolve_device
 from dsrsi.training.diagnostic_budget import DiagnosticBudget
-from dsrsi.training.shine_pilot import encode_memories
+from dsrsi.training.shine_pilot import encode_memories,evaluate_fixture,fixture_rows
 from dsrsi.utils.atomic import atomic_json
 
 
@@ -48,6 +48,7 @@ def main():
     p.add_argument('--resume',action='store_true')
     p.add_argument('--world',type=int,default=0)
     p.add_argument('--timing-repeats',type=int,default=5)
+    p.add_argument('--amplitude-only',action='store_true')
     args=p.parse_args()
     base,run,out,ledger_path=[Path(x).resolve() for x in (args.base,args.run_dir,args.output,args.diagnostic_ledger)]
     if any(not x.is_relative_to(Path('/mnt/e/ds-rsi')) for x in (base,run,out,ledger_path)):
@@ -79,6 +80,27 @@ def main():
     identity=dict(checkpoint=d.name,manifest_sha256=file_sha256(d/'manifest.json'),script_sha256=file_sha256(Path(__file__)),
                   architecture=model.architecture_identity(),world=args.world,timing_repeats=args.timing_repeats,scope='one held-out zh world per U/P/C; no M5 claim')
     identity=json.loads(json.dumps(identity))
+    if args.amplitude_only:
+        original=model.encode;results={}
+        rows=fixture_rows(worlds=c['worlds'],task=c['task'],seed=c['seed'])
+        if c['task']!='U':raise ValueError('amplitude screen is pinned to the U fixture')
+        before={name:value.detach().cpu().clone() for name,value in model.named_parameters() if value.requires_grad}
+        try:
+            for scale in [.5,2.]:
+                def scaled(source_ids,**kwargs):
+                    memory=original(source_ids,**kwargs)
+                    return GeneratedMemory(memory.record_id,memory.life_id,{k:(a*scale,b) for k,(a,b) in memory.factors.items()})
+                model.encode=scaled
+                result=evaluate_fixture(model,compiler,rows,views=('memory',),
+                         journal_path=str(out)+f'.scale{scale}.journal.json',identity=dict(identity,read_factor_scale=scale,source_write_scale=1.),
+                         resume=args.resume and Path(str(out)+f'.scale{scale}.journal.json').exists(),ledger=ledger)
+                results[str(scale)]=result
+                print(json.dumps(dict(read_scale=scale,summary=result['summary'])),flush=True)
+        finally:model.encode=original
+        assert all(torch.equal(value.detach().cpu(),before[name]) for name,value in model.named_parameters() if value.requires_grad)
+        atomic_json(out,dict(identity=identity,scope='Fixed weights/source write rule; A factors scaled only at read; seen fixture, not heldout model selection',
+                            amplitude=results,training_parameters_unchanged=True,formal_A_tokens_consumed=0,M5_passed=False))
+        return
     timing_path=Path(str(out)+'.timing.json')
     with torch.no_grad():
         if timing_path.exists():

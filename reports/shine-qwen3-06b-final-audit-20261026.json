@@ -1,0 +1,174 @@
+{
+  "all_weights_and_adam_finite": true,
+  "audited_unix": 1793020804.9250648,
+  "binding_snapshot": "19c87da",
+  "budget_by_kind": {
+    "binding_payload_roundtrip_query": {
+      "entries": 1,
+      "student": 34
+    },
+    "binding_probe_query": {
+      "entries": 8,
+      "student": 284
+    },
+    "binding_probe_source": {
+      "entries": 4,
+      "student": 788
+    },
+    "evaluation_gold_foreign": {
+      "entries": 48,
+      "student": 1753
+    },
+    "evaluation_gold_memory": {
+      "entries": 48,
+      "student": 1753
+    },
+    "evaluation_gold_off": {
+      "entries": 48,
+      "student": 1753
+    },
+    "evaluation_gold_plaintext": {
+      "entries": 48,
+      "student": 7335
+    },
+    "evaluation_query_foreign": {
+      "entries": 48,
+      "student": 1969
+    },
+    "evaluation_query_memory": {
+      "entries": 48,
+      "student": 1926
+    },
+    "evaluation_query_off": {
+      "entries": 48,
+      "student": 2760
+    },
+    "evaluation_query_plaintext": {
+      "entries": 48,
+      "student": 8342
+    },
+    "evaluation_source": {
+      "entries": 24,
+      "student": 6655
+    },
+    "max_shape_backward_probe": {
+      "entries": 2,
+      "student": 1034
+    },
+    "prompt_control_query": {
+      "entries": 64,
+      "student": 9205
+    },
+    "prompt_control_source": {
+      "entries": 4,
+      "student": 1107
+    },
+    "reconstruction_probe_gold": {
+      "entries": 8,
+      "student": 836
+    },
+    "reconstruction_probe_query": {
+      "entries": 4,
+      "student": 290
+    },
+    "reconstruction_probe_source": {
+      "entries": 4,
+      "student": 1078
+    },
+    "training_pretrain": {
+      "entries": 436,
+      "student": 159043
+    },
+    "training_qa": {
+      "entries": 228,
+      "student": 79966
+    },
+    "write_latency": {
+      "entries": 6,
+      "student": 1182
+    }
+  },
+  "checkpoint": "micro_000000000652_180f948127",
+  "conservative_modified_external_cache_bytes": 173073400,
+  "conservative_owned_plus_modified_cache_bytes": 13347537130,
+  "controller_snapshot": "97853ef",
+  "cursor": {
+    "next_ordinal": 652
+  },
+  "empty_gradients": true,
+  "evidence_sha256": {
+    "evaluations/shine-qwen3-binding-controls.json": "57183a434595f74a012d378ca64e225a2804c5e72514fed813de56067e8addba",
+    "evaluations/shine-qwen3-final-dev.json": "5d64f6613386e5978df50e581c444fac98017a3cf45ee4354f008322d216ecdb",
+    "evaluations/shine-qwen3-final-prompt-controls.json": "d170341ee3f7e008fc69200b3a672c4b284f905426dd20a914b95035cb641498",
+    "evaluations/shine-qwen3-final-train.json": "74d3908d70656ebad4479448b0ca293d01db70889b051a6f8d09988cde87e2e7",
+    "evaluations/shine-qwen3-initial-dev.json": "771856e808b4a6389c7ba433018b2de7feea99e9ce60ad4791c525ab8c2bfa6c",
+    "evaluations/shine-qwen3-pretrain-dev.json": "c2a309190e7ce6110915ac8eb8fafe6077fb2d928d3f5db54a2970cb5680d9e2",
+    "evaluations/shine-qwen3-reconstruction-probe.json": "9fcc1dcd66961ef6934187fb0a9a988f1955cc7b8caac89df81ec3b81a14c1f6",
+    "recovery-report.json": "a4d683215362e209746b11eebd86d099307751774d1a842cf02a3d1245fb4a73",
+    "resource-micro4.json": "d86a2e9c4b94960057f5e98277b544ad62731daba9c3e52b08a6b05044a2b8cd",
+    "write-benchmark.json": "a3f98157432833032eee167027ebeed6bf81d3c9abe28b86acb160e41a5de210"
+  },
+  "formal_A_chain_student": 16658338,
+  "formal_A_new_tokens": 0,
+  "full_payload_bytes": 1377318823,
+  "full_payload_sha256": "9c05096ff8185dc3168d9ce01b340ab2b2d984b3150aa42004f7b393095c766f",
+  "full_rng_present": true,
+  "gpu": "16303 MiB, 5378 MiB, 10600 MiB, 50",
+  "gpu_lock_released": true,
+  "manifest_sha256": "2e2cf86b2087636e89ce37a91c912aa877a0c10fc5f6bcdadfd94ad5c22e6fcd",
+  "modified_external_cache_files": 17,
+  "old_qwen35_ledger_student": 149523,
+  "old_qwen35_payload_unchanged": true,
+  "optimizer_states": 443,
+  "owned_limit_bytes": 16106127360,
+  "owned_unique_inode_bytes": 13174463730,
+  "pending": 0,
+  "phase_optimizer_steps": 57,
+  "progress": {
+    "accumulation_index": 0,
+    "micro_step": 652,
+    "optimizer_step": 163,
+    "stage": "SHINE_qwen3_qa",
+    "student_tokens": 234849,
+    "teacher_tokens": 0
+  },
+  "prompt_snapshot": "6508aee",
+  "reconstruction_snapshot": "8e6129b",
+  "remaining_student": 10907,
+  "scheduler_last_epoch": 57,
+  "status": "stopped",
+  "student_limit": 300000,
+  "student_used": 289093,
+  "trainable_parameters": 114728960,
+  "trainable_tensors": 443,
+  "training_snapshot": "65bd68b",
+  "vhdx": {
+    "baseline_length_bytes": 106998792192,
+    "compaction_performed": false,
+    "growth_bytes": 0,
+    "length_bytes": 106998792192,
+    "path": "E:\\WSL\\Ubuntu\\ext4.vhdx"
+  },
+  "windows_free_bytes": 83614466048,
+  "worker_alive": {
+    "23554": false,
+    "23851": false,
+    "23946": false,
+    "24060": false,
+    "24078": false,
+    "24082": false,
+    "24103": false,
+    "24339": false,
+    "24360": false,
+    "24784": false,
+    "24987": false,
+    "25004": false,
+    "25236": false,
+    "25453": false,
+    "25471": false,
+    "25688": false,
+    "25689": false,
+    "26765": false
+  },
+  "wsl_keepalive_preserved": true
+}

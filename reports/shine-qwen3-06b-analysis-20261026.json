@@ -1,0 +1,561 @@
+{
+  "compute_seconds": 378.3514099260792,
+  "final_dev": {
+    "natural": {
+      "foreign": {
+        "ended": 8,
+        "final_answer_word_F1": 0.057291666666666664,
+        "mean_gold_NLL": 3.8119339793920517,
+        "normalized_EM": 0,
+        "queries": 8,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 0
+      },
+      "memory": {
+        "ended": 8,
+        "final_answer_word_F1": 0.17169642857142858,
+        "mean_gold_NLL": 2.7730080112814903,
+        "normalized_EM": 0,
+        "queries": 8,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 0
+      },
+      "off": {
+        "ended": 0,
+        "final_answer_word_F1": 0.0,
+        "mean_gold_NLL": 7.9912300407886505,
+        "normalized_EM": 0,
+        "queries": 8,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 8
+      },
+      "plaintext": {
+        "ended": 0,
+        "final_answer_word_F1": 0.0,
+        "mean_gold_NLL": 6.624074935913086,
+        "normalized_EM": 0,
+        "queries": 8,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 8
+      }
+    },
+    "synthetic": {
+      "foreign": {
+        "ended": 8,
+        "final_answer_word_F1": 0.0,
+        "mean_gold_NLL": 2.163127325475216,
+        "normalized_EM": 0,
+        "queries": 8,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 0
+      },
+      "memory": {
+        "ended": 8,
+        "final_answer_word_F1": 0.0,
+        "mean_gold_NLL": 1.1621493846178055,
+        "normalized_EM": 0,
+        "queries": 8,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 0
+      },
+      "off": {
+        "ended": 0,
+        "final_answer_word_F1": 0.0,
+        "mean_gold_NLL": 8.233297169208527,
+        "normalized_EM": 0,
+        "queries": 8,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 8
+      },
+      "plaintext": {
+        "ended": 0,
+        "final_answer_word_F1": 0.0,
+        "mean_gold_NLL": 5.092499673366547,
+        "normalized_EM": 0,
+        "queries": 8,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 8
+      }
+    },
+    "synthetic_pair_control": {
+      "both_exact": 0,
+      "both_strict_and_EOS": 0,
+      "details": [
+        {
+          "both_exact": false,
+          "both_strict_and_EOS": false,
+          "probe": 0,
+          "world": "shine-U-v7-dev-e00000000"
+        },
+        {
+          "both_exact": false,
+          "both_strict_and_EOS": false,
+          "probe": 1,
+          "world": "shine-U-v7-dev-e00000000"
+        },
+        {
+          "both_exact": false,
+          "both_strict_and_EOS": false,
+          "probe": 0,
+          "world": "shine-U-v7-dev-e00000001"
+        },
+        {
+          "both_exact": false,
+          "both_strict_and_EOS": false,
+          "probe": 1,
+          "world": "shine-U-v7-dev-e00000001"
+        }
+      ],
+      "foreign_follows_swapped_content": 0,
+      "foreign_trials": 8,
+      "pairs": 4
+    }
+  },
+  "final_dev_matched_initial_subset": {
+    "natural": {
+      "foreign": {
+        "ended": 4,
+        "final_answer_word_F1": 0.11458333333333333,
+        "mean_gold_NLL": 3.854677736759186,
+        "normalized_EM": 0,
+        "queries": 4,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 0
+      },
+      "memory": {
+        "ended": 4,
+        "final_answer_word_F1": 0.26339285714285715,
+        "mean_gold_NLL": 2.7618963718414307,
+        "normalized_EM": 0,
+        "queries": 4,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 0
+      },
+      "off": {
+        "ended": 0,
+        "final_answer_word_F1": 0.0,
+        "mean_gold_NLL": 6.0653058886528015,
+        "normalized_EM": 0,
+        "queries": 4,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 4
+      },
+      "plaintext": {
+        "ended": 0,
+        "final_answer_word_F1": 0.0,
+        "mean_gold_NLL": 4.282284259796143,
+        "normalized_EM": 0,
+        "queries": 4,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 4
+      }
+    },
+    "synthetic": {
+      "foreign": {
+        "ended": 4,
+        "final_answer_word_F1": 0.0,
+        "mean_gold_NLL": 2.2174030989408493,
+        "normalized_EM": 0,
+        "queries": 4,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 0
+      },
+      "memory": {
+        "ended": 4,
+        "final_answer_word_F1": 0.0,
+        "mean_gold_NLL": 0.998370498418808,
+        "normalized_EM": 0,
+        "queries": 4,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 0
+      },
+      "off": {
+        "ended": 0,
+        "final_answer_word_F1": 0.0,
+        "mean_gold_NLL": 8.176508069038391,
+        "normalized_EM": 0,
+        "queries": 4,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 4
+      },
+      "plaintext": {
+        "ended": 0,
+        "final_answer_word_F1": 0.0,
+        "mean_gold_NLL": 4.937263131141663,
+        "normalized_EM": 0,
+        "queries": 4,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 4
+      }
+    },
+    "synthetic_pair_control": {
+      "both_exact": 0,
+      "both_strict_and_EOS": 0,
+      "details": [
+        {
+          "both_exact": false,
+          "both_strict_and_EOS": false,
+          "probe": 0,
+          "world": "shine-U-v7-dev-e00000000"
+        },
+        {
+          "both_exact": false,
+          "both_strict_and_EOS": false,
+          "probe": 1,
+          "world": "shine-U-v7-dev-e00000000"
+        }
+      ],
+      "foreign_follows_swapped_content": 0,
+      "foreign_trials": 4,
+      "pairs": 2
+    }
+  },
+  "final_train": {
+    "natural": {
+      "foreign": {
+        "ended": 7,
+        "final_answer_word_F1": 0.10526315789473684,
+        "mean_gold_NLL": 2.007888861000538,
+        "normalized_EM": 0,
+        "queries": 8,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 0
+      },
+      "memory": {
+        "ended": 8,
+        "final_answer_word_F1": 0.4380175706646295,
+        "mean_gold_NLL": 0.5503103099763393,
+        "normalized_EM": 1,
+        "queries": 8,
+        "strict_string_and_EOS": 1,
+        "unfinished_think": 0
+      },
+      "off": {
+        "ended": 0,
+        "final_answer_word_F1": 0.0,
+        "mean_gold_NLL": 5.877501606941223,
+        "normalized_EM": 0,
+        "queries": 8,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 8
+      },
+      "plaintext": {
+        "ended": 0,
+        "final_answer_word_F1": 0.0,
+        "mean_gold_NLL": 4.590980440378189,
+        "normalized_EM": 0,
+        "queries": 8,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 8
+      }
+    },
+    "synthetic": {
+      "foreign": {
+        "ended": 8,
+        "final_answer_word_F1": 0.0,
+        "mean_gold_NLL": 1.2142300382256508,
+        "normalized_EM": 0,
+        "queries": 8,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 0
+      },
+      "memory": {
+        "ended": 8,
+        "final_answer_word_F1": 0.875,
+        "mean_gold_NLL": 0.09231528546661139,
+        "normalized_EM": 7,
+        "queries": 8,
+        "strict_string_and_EOS": 7,
+        "unfinished_think": 0
+      },
+      "off": {
+        "ended": 0,
+        "final_answer_word_F1": 0.0,
+        "mean_gold_NLL": 7.86094069480896,
+        "normalized_EM": 0,
+        "queries": 8,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 8
+      },
+      "plaintext": {
+        "ended": 0,
+        "final_answer_word_F1": 0.0,
+        "mean_gold_NLL": 4.607800781726837,
+        "normalized_EM": 0,
+        "queries": 8,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 8
+      }
+    },
+    "synthetic_pair_control": {
+      "both_exact": 3,
+      "both_strict_and_EOS": 3,
+      "details": [
+        {
+          "both_exact": true,
+          "both_strict_and_EOS": true,
+          "probe": 0,
+          "world": "shine-U-v7-train-e00000000"
+        },
+        {
+          "both_exact": false,
+          "both_strict_and_EOS": false,
+          "probe": 1,
+          "world": "shine-U-v7-train-e00000000"
+        },
+        {
+          "both_exact": true,
+          "both_strict_and_EOS": true,
+          "probe": 0,
+          "world": "shine-U-v7-train-e00000001"
+        },
+        {
+          "both_exact": true,
+          "both_strict_and_EOS": true,
+          "probe": 1,
+          "world": "shine-U-v7-train-e00000001"
+        }
+      ],
+      "foreign_follows_swapped_content": 7,
+      "foreign_trials": 8,
+      "pairs": 4
+    }
+  },
+  "initial_dev": {
+    "natural": {
+      "foreign": {
+        "ended": 0,
+        "final_answer_word_F1": 0.0,
+        "mean_gold_NLL": 5.090626657009125,
+        "normalized_EM": 0,
+        "queries": 4,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 2
+      },
+      "memory": {
+        "ended": 0,
+        "final_answer_word_F1": 0.029411764705882353,
+        "mean_gold_NLL": 5.199694454669952,
+        "normalized_EM": 0,
+        "queries": 4,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 3
+      },
+      "off": {
+        "ended": 0,
+        "final_answer_word_F1": 0.0,
+        "mean_gold_NLL": 6.0653058886528015,
+        "normalized_EM": 0,
+        "queries": 4,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 4
+      },
+      "plaintext": {
+        "ended": 0,
+        "final_answer_word_F1": 0.0,
+        "mean_gold_NLL": 4.282284259796143,
+        "normalized_EM": 0,
+        "queries": 4,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 4
+      }
+    },
+    "synthetic": {
+      "foreign": {
+        "ended": 0,
+        "final_answer_word_F1": 0.0,
+        "mean_gold_NLL": 7.315908432006836,
+        "normalized_EM": 0,
+        "queries": 4,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 4
+      },
+      "memory": {
+        "ended": 0,
+        "final_answer_word_F1": 0.0,
+        "mean_gold_NLL": 7.157961487770081,
+        "normalized_EM": 0,
+        "queries": 4,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 4
+      },
+      "off": {
+        "ended": 0,
+        "final_answer_word_F1": 0.0,
+        "mean_gold_NLL": 8.176508069038391,
+        "normalized_EM": 0,
+        "queries": 4,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 4
+      },
+      "plaintext": {
+        "ended": 0,
+        "final_answer_word_F1": 0.0,
+        "mean_gold_NLL": 4.937263131141663,
+        "normalized_EM": 0,
+        "queries": 4,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 4
+      }
+    },
+    "synthetic_pair_control": {
+      "both_exact": 0,
+      "both_strict_and_EOS": 0,
+      "details": [
+        {
+          "both_exact": false,
+          "both_strict_and_EOS": false,
+          "probe": 0,
+          "world": "shine-U-v7-dev-e00000000"
+        },
+        {
+          "both_exact": false,
+          "both_strict_and_EOS": false,
+          "probe": 1,
+          "world": "shine-U-v7-dev-e00000000"
+        }
+      ],
+      "foreign_follows_swapped_content": 0,
+      "foreign_trials": 4,
+      "pairs": 2
+    }
+  },
+  "metric_notes": [
+    "Normalized EM is the original raw-string, case/whitespace-normalized metric.",
+    "Strict string+EOS is additionally reported; it is not an exact-token benchmark.",
+    "Word F1 is SQuAD-style after extracting completed reasoning blocks; unfinished reasoning scores zero.",
+    "No M5 or paper-benchmark acceptance is implied by these selected small sets."
+  ],
+  "peak_allocated_bytes": 7938232320,
+  "peak_reserved_bytes": 8487174144,
+  "pretrain_dev": {
+    "natural": {
+      "foreign": {
+        "ended": 1,
+        "final_answer_word_F1": 0.015625,
+        "mean_gold_NLL": 3.631096124649048,
+        "normalized_EM": 0,
+        "queries": 4,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 0
+      },
+      "memory": {
+        "ended": 1,
+        "final_answer_word_F1": 0.1597222222222222,
+        "mean_gold_NLL": 2.9159168899059296,
+        "normalized_EM": 0,
+        "queries": 4,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 0
+      },
+      "off": {
+        "ended": 0,
+        "final_answer_word_F1": 0.0,
+        "mean_gold_NLL": 6.0653058886528015,
+        "normalized_EM": 0,
+        "queries": 4,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 4
+      },
+      "plaintext": {
+        "ended": 0,
+        "final_answer_word_F1": 0.0,
+        "mean_gold_NLL": 4.282284259796143,
+        "normalized_EM": 0,
+        "queries": 4,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 4
+      }
+    },
+    "synthetic": {
+      "foreign": {
+        "ended": 4,
+        "final_answer_word_F1": 0.0,
+        "mean_gold_NLL": 3.971253752708435,
+        "normalized_EM": 0,
+        "queries": 4,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 0
+      },
+      "memory": {
+        "ended": 4,
+        "final_answer_word_F1": 0.0,
+        "mean_gold_NLL": 3.330862283706665,
+        "normalized_EM": 0,
+        "queries": 4,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 0
+      },
+      "off": {
+        "ended": 0,
+        "final_answer_word_F1": 0.0,
+        "mean_gold_NLL": 8.176508069038391,
+        "normalized_EM": 0,
+        "queries": 4,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 4
+      },
+      "plaintext": {
+        "ended": 0,
+        "final_answer_word_F1": 0.0,
+        "mean_gold_NLL": 4.937263131141663,
+        "normalized_EM": 0,
+        "queries": 4,
+        "strict_string_and_EOS": 0,
+        "unfinished_think": 4
+      }
+    },
+    "synthetic_pair_control": {
+      "both_exact": 0,
+      "both_strict_and_EOS": 0,
+      "details": [
+        {
+          "both_exact": false,
+          "both_strict_and_EOS": false,
+          "probe": 0,
+          "world": "shine-U-v7-dev-e00000000"
+        },
+        {
+          "both_exact": false,
+          "both_strict_and_EOS": false,
+          "probe": 1,
+          "world": "shine-U-v7-dev-e00000000"
+        }
+      ],
+      "foreign_follows_swapped_content": 0,
+      "foreign_trials": 4,
+      "pairs": 2
+    }
+  },
+  "stages": {
+    "SHINE_qwen3_pretrain": {
+      "compute_seconds": 244.23106749007275,
+      "exposure_distribution": {
+        "4": 56,
+        "5": 40
+      },
+      "first32_mean_loss": 4.170974899083376,
+      "last32_mean_loss": 2.3004235737025738,
+      "micro_steps": 424,
+      "student_input_tokens": 154883,
+      "student_tokens_per_compute_second": 634.1658397177317,
+      "supervised_tokens": 40553,
+      "trainable_parameters": 114728960
+    },
+    "SHINE_qwen3_qa": {
+      "compute_seconds": 134.12034243600647,
+      "exposure_distribution": {
+        "7": 28,
+        "8": 4
+      },
+      "first32_mean_loss": 1.6805523112416267,
+      "last32_mean_loss": 0.14996872312622145,
+      "micro_steps": 228,
+      "student_input_tokens": 79966,
+      "student_tokens_per_compute_second": 596.225736883684,
+      "supervised_tokens": 4475,
+      "trainable_parameters": 114728960
+    }
+  },
+  "total_train_student": 234849
+}

@@ -62,6 +62,9 @@ def main():
         if file_sha256(d/f['file'])!=f['sha256']:raise ValueError('payload checksum differs')
     c=m['identity']['train_config']
     if c['mode']!='generator':raise ValueError('shared writer generator required')
+    code_root=Path(__file__).resolve().parents[1]
+    for relative,expected in m['identity']['implementation'].items():
+        if file_sha256(code_root/relative)!=expected:raise ValueError('training implementation differs')
     actual_base=dict(tokenizer=tokenizer_fingerprint(base),weights={n:file_sha256(base/n) for n in m['identity']['base']['weights']})
     if actual_base!=m['identity']['base']:raise ValueError('base/tokenizer differs')
     cfg=dict(m['identity']['architecture']['config']);cfg['layers']=tuple(cfg['layers'])
@@ -71,6 +74,7 @@ def main():
     optimizer=torch.optim.AdamW([v for v in model.parameters() if v.requires_grad],lr=c['lr'],weight_decay=0.,foreach=False)
     payload=store.load_rank(d,m,rank=0);restore_training_state(payload,model,optimizer,device=device);model.eval()
     del optimizer,payload
+    torch.cuda.reset_peak_memory_stats()
     compiler=EpisodeCompiler(AutoTokenizer.from_pretrained(base,local_files_only=True));ledger=DiagnosticBudget(ledger_path)
     identity=dict(checkpoint=d.name,manifest_sha256=file_sha256(d/'manifest.json'),script_sha256=file_sha256(Path(__file__)),
                   architecture=model.architecture_identity(),world=args.world,timing_repeats=args.timing_repeats,scope='one held-out zh world per U/P/C; no M5 claim')
@@ -154,7 +158,8 @@ def main():
                   correct=sum(x['task']==task and x['view']==view and x['exact_match'] for x in records)) for view in ['memory','off','foreign','plaintext']} for task in ['U','P','C']}
         atomic_json(out,dict(identity=identity,summary=summary,records=records,timing=timing,
                             diagnostic_only=True,M5_passed=False,training_state_modified=False,
-                            peak_allocated_bytes=torch.cuda.max_memory_allocated(),peak_reserved_bytes=torch.cuda.max_memory_reserved()))
+                            inference_peak_allocated_bytes=torch.cuda.max_memory_allocated(),inference_peak_reserved_bytes=torch.cuda.max_memory_reserved(),
+                            memory_statistics_reset_after_checkpoint_restore=True))
         print(json.dumps(dict(summary=summary,timing=timing),indent=2),flush=True)
 
 

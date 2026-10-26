@@ -1,0 +1,2 @@
+# Preserve upstream source bytes (and provenance hashes), including whitespace.
+src/dsrsi/vendor/shine/* -whitespace

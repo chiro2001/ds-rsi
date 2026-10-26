@@ -13,7 +13,7 @@ def arguments():
     p.add_argument('--root',required=True)
     p.add_argument('--run-dir',required=True)
     p.add_argument('--diagnostic-ledger',required=True)
-    p.add_argument('--action',choices=['prepare','initialize','train','evaluate'],required=True)
+    p.add_argument('--action',choices=['prepare','initialize','train','resource','benchmark','evaluate'],required=True)
     p.add_argument('--resume',action='store_true')
     p.add_argument('--max-micro-steps',type=int,default=10**9)
     p.add_argument('--pause-after',type=int)
@@ -126,11 +126,13 @@ def main():
     def owned_bytes(*,refresh=False):
         nonlocal cached_owned
         if cached_owned is not None and not refresh:return cached_owned
-        total=0
+        total=0;seen=set()
         for directory,_,names in os.walk(root):
             for name in names:
                 path=Path(directory)/name
-                if path.is_file():total+=path.stat().st_size
+                if path.is_file():
+                    stat=path.stat();key=(stat.st_dev,stat.st_ino)
+                    if key not in seen:total+=stat.st_size;seen.add(key)
         cached_owned=total
         return total
     def guard(extra=0):
@@ -157,6 +159,50 @@ def main():
     log(dict(event='ready',progress=asdict(progress),trainable_parameters=sum(p.numel() for p in parameters),
              architecture=model.architecture_identity(),owned_bytes=owned_bytes()))
     if args.action=='initialize':return
+    if args.action=='resource':
+        if not args.resume or not args.output:raise ValueError('resource probe requires --resume and output')
+        from dsrsi.training.topology import require_equal
+        before=capture_training_state(model,optimizer,progress=progress,data_cursor={'next_ordinal':progress.micro_step},
+            life_state={},scheduler=scheduler,device='cuda')
+        torch.cuda.reset_peak_memory_stats();records=[]
+        for first,last in [(0,plan['pretrain_steps']),(plan['pretrain_steps'],plan['total_steps'])]:
+            candidates=[training_record(corpus,tokenizer,i,plan['pretrain_steps']) for i in range(first,last)]
+            record=max(candidates,key=lambda r:token_cost(r))
+            cost=token_cost(record,model.memory_tokens)
+            key=ledger.reserve(run=str(run),kind='max_shape_backward_probe',student=cost)
+            memory=model.encode(torch.tensor([record['source_ids']],device='cuda'))
+            loss=model.answer(torch.tensor([record['input_ids']],device='cuda'),torch.tensor([record['labels']],device='cuda'),memory=memory)
+            loss.backward();norm=float(torch.nn.utils.clip_grad_norm_(parameters,1.,error_if_nonfinite=True))
+            optimizer.zero_grad(set_to_none=True);del memory,loss
+            torch.cuda.synchronize();ledger.commit(key,student=cost)
+            records.append(dict(stage=record['stage'],student_tokens=cost,grad_norm=norm,
+                source_tokens=len(record['source_ids']),query_tokens=len(record['input_ids']),
+                peak_allocated_bytes=torch.cuda.max_memory_allocated(),peak_reserved_bytes=torch.cuda.max_memory_reserved()))
+        restore_training_state(before,model,optimizer,scheduler=scheduler,device='cuda')
+        after=capture_training_state(model,optimizer,progress=progress,data_cursor={'next_ordinal':progress.micro_step},
+            life_state={},scheduler=scheduler,device='cuda');require_equal(before,after,'resource_probe_state')
+        if torch.cuda.max_memory_reserved()>10*(1<<30):raise RuntimeError('max-shape probe exceeds 10GiB reserved; no training continuation')
+        atomic_json(args.output,dict(records=records,full_training_state_unchanged=True,progress=asdict(progress)))
+        log(dict(event='resource_probe_passed',records=records));return
+    if args.action=='benchmark':
+        if not args.resume or not args.output:raise ValueError('benchmark requires resume and output')
+        import statistics
+        row=next(x for x in corpus['qa_dev'] if x['kind']=='synthetic')
+        ids=tokenizer.encode(row['source'],add_special_tokens=False);cost=len(ids)+model.memory_tokens
+        source=torch.tensor([ids],device='cuda');model.eval();rng=capture_rng('cuda');seconds=[]
+        with torch.no_grad():
+            for _ in range(6):
+                key=ledger.reserve(run=str(run),kind='write_latency',student=cost)
+                torch.cuda.synchronize();start=time.perf_counter();memory=model.encode(source);torch.cuda.synchronize()
+                seconds.append(time.perf_counter()-start);ledger.commit(key,student=cost)
+        # Measure only raw factor bytes here; full training checkpoints remain separate.
+        factors=[t for layer in memory.values() for family in layer.values() for projection in family.values() for t in projection.values() if t is not None]
+        restore_rng(rng,'cuda')
+        atomic_json(args.output,dict(source_tokens=len(ids),memory_tokens=model.memory_tokens,
+            seconds=seconds,warm_median_seconds=statistics.median(seconds[1:]),
+            factor_bytes=sum(t.numel()*t.element_size() for t in factors),
+            scope='loaded model, pretokenized source; encoding and M2P only, no optimizer or disk',
+            progress=asdict(progress),training_parameters_updated=False));return
     if args.action=='evaluate':
         if not args.resume or not args.output:raise ValueError('evaluation requires pinned --resume and --output')
         output=Path(args.output).resolve()
@@ -264,7 +310,7 @@ def main():
             grad_norm=grad_norm,lr=optimizer.param_groups[0]['lr'],progress=asdict(progress),
             peak_allocated_bytes=torch.cuda.max_memory_allocated(),peak_reserved_bytes=torch.cuda.max_memory_reserved()))
         if torch.cuda.max_memory_reserved()>10*(1<<30):stop_reason='reserved_memory_limit';break
-        if progress.micro_step%200==0 and progress.micro_step not in [plan['pretrain_steps'],plan['total_steps']]:save('checkpoint')
+        if progress.micro_step%256==0 and progress.micro_step not in [plan['pretrain_steps'],plan['total_steps']]:save('checkpoint')
     final=save('stopped')
     atomic_json(run/f'summary-micro{progress.micro_step}.json',dict(reason=stop_reason,checkpoint=final.name,
         manifest_sha256=file_sha256(final/'manifest.json'),progress=asdict(progress),owned_bytes=owned_bytes(),

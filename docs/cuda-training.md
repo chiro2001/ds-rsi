@@ -2,7 +2,17 @@
 
 2026-10-19起后续负载使用Windows `192.168.101.5` 的RTX5080，WSL负责执行，模型、run、评测、日志、临时文件和增长型缓存放`E:\ds-rsi`。GPU任务通过`scripts/run_5080_checked.py`启动：同进程检查设备、显存、温度、E盘实际余量，获取项目GPU锁并继承到训练进程；评测与训练串行。控制请求使用纯标准库入口，不获取GPU锁。
 
-## 当前固定候选多问题与证据蒸馏（2026-10-26）
+## 当前SHINE式权重记忆诊断（2026-10-26）
+
+用户选择S路线后已在5080完成受限小型SHINE可行性诊断，未启动slots/D2L对照或正式300k训练。当前`/mnt/e/ds-rsi/artifacts/shine-generator-U-r4-lr10-01`，完整训练快照`c953c3d6de24`，lr1e-5/累积2/cf1/run诊断预算90000，所有诊断共用`/mnt/e/ds-rsi/control/shine-diagnostic-ledger.json`的150000上限。
+
+原始0.8B语言权重冻结，新4341504参数的共享写入适配器、18 memory queries和双向轴向M2P生成6层down_proj/rank4的LoRA。当前完整stopped128/优化器64/累积0/学生64064，checkpoint `micro_000000000128_6211452e25`、manifest SHA `cefbe381ef798ae44e847a52162e753be7ba1bce8d69858f86abaf55d3d111cf`。59份Adam/空梯度、四个评测代次与全态不变已核验；真实非空累积独立恢复全payload/240张量字节步幅一致，暂停7.30秒、冷恢复首微批82.05秒。
+
+已见32题0→2→2→8，原文32/32；独立U/P/C小样本均0/4，门槛未过，原48篇native尚未对SHINE验收，M5–M7未过。热写入160.7ms只针对25源token＋18虚拟查询、模型已加载；首次4.264秒，不能当长文档/冷启动或有用记忆达标。所有状态保留、worker退出、GPU锁释放；额外幅度对照被显存预检拒绝，未执行。
+
+诊断实际139224学生/24522教师独立记账，A正式新消费0，旧A链16658338/30M、正式余13341662不变。E盘末余约93.01GiB，VHDX增长0。所有增长路径继续E盘、WSL保活326保留。详见[方法与恢复](shine-pilot-v1.md)和[完整结果](../reports/20261026-shine5080-pilot.md)。
+
+## 历史固定候选多问题与证据蒸馏（2026-10-26）
 
 当前run为`/mnt/e/ds-rsi/runs/ab-A-v7-fixed-pair-evidence-kl-01`，完整训练/评测快照`/mnt/e/ds-rsi/code/4eca2ff0b77f`。固定4554权重显式A→A初始化一次，新优化器/RNG/游标已声明；旧全部状态保留。新revision `ab-v7-fixed-pair-qa`使用相同源顺序的两条候选回答两个问题，并保留单候选复习和40%保持；双候选事实增加经自由生成精确筛查的原文教师top32+tail KL。骨干/Writer/Reader不变，没有引入LoRA；28训练张量、6门控冻结，AddressEncoder仍冻结。详见[算法协议](fixed-pair-evidence-distillation.md)。
 

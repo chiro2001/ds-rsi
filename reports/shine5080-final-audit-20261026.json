@@ -1,0 +1,733 @@
+{
+  "status": "SHINE_bounded_learnability_diagnostic_finished",
+  "checkpoint": "micro_000000000128_6211452e25",
+  "manifest_sha256": "cefbe381ef798ae44e847a52162e753be7ba1bce8d69858f86abaf55d3d111cf",
+  "progress": {
+    "accumulation_index": 0,
+    "micro_step": 128,
+    "optimizer_step": 64,
+    "stage": "SHINE_diagnostic",
+    "student_tokens": 64064,
+    "teacher_tokens": 0
+  },
+  "all59_optimizer_slots_and_empty_gradients_verified": true,
+  "adam_step_counts": [
+    64
+  ],
+  "checkpoints_all_file_sha_verified": [
+    {
+      "path": "artifacts/shine-generator-U-r4-01/checkpoints/micro_000000000000_1cfd7b337e",
+      "manifest_sha256": "ab352f798f8e493f3817f58ee6fdd29dea307d2680dae6249eb0802bf83e1666",
+      "status": "stopped",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 0,
+        "optimizer_step": 0,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 0,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-generator-U-r4-lr10-01/checkpoints/micro_000000000000_9f6b60de29",
+      "manifest_sha256": "d02fc622eef42c19cd358c8e813bc1ac133b2c2a27ec99cac2736153e4480ebf",
+      "status": "stopped",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 0,
+        "optimizer_step": 0,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 0,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-generator-U-r4-lr10-01/checkpoints/micro_000000000008_f5a0d597f3",
+      "manifest_sha256": "edd971a9b3a6427ce1a43efa12d93dbe303ea8172fbcfc557eb449425fc78087",
+      "status": "stopped",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 8,
+        "optimizer_step": 4,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 4008,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-generator-U-r4-lr10-01/checkpoints/micro_000000000020_bf081dc993",
+      "manifest_sha256": "039d27bde113c9f69b6ae04603032befdfdcb538d834e4ed7955a9e9d04f6c58",
+      "status": "checkpoint",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 20,
+        "optimizer_step": 10,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 10032,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-generator-U-r4-lr10-01/checkpoints/micro_000000000032_4692d6da21",
+      "manifest_sha256": "216c2a10e456f1456c08b6ac524fa2680fd96dc3a4ae0c484571c488ab16a079",
+      "status": "checkpoint",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 32,
+        "optimizer_step": 16,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 16016,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-generator-U-r4-lr10-01/checkpoints/micro_000000000040_5fb7ea5a16",
+      "manifest_sha256": "813c2a8b359413344265586b790cd3429e4c876937f6da580f340405a36efc94",
+      "status": "checkpoint",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 40,
+        "optimizer_step": 20,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 20024,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-generator-U-r4-lr10-01/checkpoints/micro_000000000060_20e55a79e3",
+      "manifest_sha256": "068957f55c66339e10cfdba7e4388aef9eef5199efcfcd90d208cbc4ace670e4",
+      "status": "checkpoint",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 60,
+        "optimizer_step": 30,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 30048,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-generator-U-r4-lr10-01/checkpoints/micro_000000000064_05a16dbbaa",
+      "manifest_sha256": "e8f676cf3282c3b624dca0ced268dc26ca5907c1a52c810faf8956264e45ea44",
+      "status": "checkpoint",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 64,
+        "optimizer_step": 32,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 32032,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-generator-U-r4-lr10-01/checkpoints/micro_000000000080_0e63896ccd",
+      "manifest_sha256": "5762234c0e98d07f7114867bdd7926a47bfa744073e71bc126e33516034720cf",
+      "status": "checkpoint",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 80,
+        "optimizer_step": 40,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 40040,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-generator-U-r4-lr10-01/checkpoints/micro_000000000096_c3fe3039ac",
+      "manifest_sha256": "775833b4bea74b99c6cd41dc518622ff4c79c8fd4d7efa6854ec7bb79b8ac8b0",
+      "status": "checkpoint",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 96,
+        "optimizer_step": 48,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 48048,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-generator-U-r4-lr10-01/checkpoints/micro_000000000100_e2139245b2",
+      "manifest_sha256": "78a53adcc439a8f0d6f0b9fdceb89734cf30a91da45e4739284e9c4495a1f562",
+      "status": "checkpoint",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 100,
+        "optimizer_step": 50,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 50072,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-generator-U-r4-lr10-01/checkpoints/micro_000000000120_f2666201b9",
+      "manifest_sha256": "bf453b1cefe357a19b8d93a0d3d9a6206c319e2133495e42fd9811551fa3f0ec",
+      "status": "checkpoint",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 120,
+        "optimizer_step": 60,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 60064,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-generator-U-r4-lr10-01/checkpoints/micro_000000000128_0669a6ddc8",
+      "manifest_sha256": "ee4c4d13046d35786493c7aa6ad4027a7843a06a03e2d8e6111cb8899a65939b",
+      "status": "checkpoint",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 128,
+        "optimizer_step": 64,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 64064,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-generator-U-r4-lr10-01/checkpoints/micro_000000000128_6211452e25",
+      "manifest_sha256": "cefbe381ef798ae44e847a52162e753be7ba1bce8d69858f86abaf55d3d111cf",
+      "status": "stopped",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 128,
+        "optimizer_step": 64,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 64064,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-generator-U-r4-lr10-proof-01/continuous/checkpoints/micro_000000000008_959c66444c",
+      "manifest_sha256": "c2132e674e3ba4cec439bf6929ea65b28a508d8804581b36f3cc559e44443ec3",
+      "status": "stopped",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 8,
+        "optimizer_step": 4,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 4008,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-generator-U-r4-lr10-proof-01/continuous/checkpoints/micro_000000000016_d9e71cfd4f",
+      "manifest_sha256": "5184e3edbe602479a07373bf9c7f905ea35cca64e228768e85b783de00e1a908",
+      "status": "stopped",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 16,
+        "optimizer_step": 8,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 8008,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-generator-U-r4-lr10-proof-01/interrupted/checkpoints/micro_000000000008_8ae41fefd2",
+      "manifest_sha256": "330a2b0eea952bcb57e3bf5fdf7493e1026e22060d004cd80915f42b7fb297e6",
+      "status": "stopped",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 8,
+        "optimizer_step": 4,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 4008,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-generator-U-r4-lr10-proof-01/interrupted/checkpoints/micro_000000000011_9579f1c64b",
+      "manifest_sha256": "7879847b24017c32024ea514521d696d14ee101a5fa5d9022780c74fe5fb9e57",
+      "status": "paused",
+      "progress": {
+        "accumulation_index": 1,
+        "micro_step": 11,
+        "optimizer_step": 5,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 5526,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-generator-U-r4-lr10-proof-01/interrupted/checkpoints/micro_000000000016_73f5ecccf3",
+      "manifest_sha256": "2dc0ed1dff2ee13947af3be562bb9c3207454f820d540068708e21f84116de77",
+      "status": "stopped",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 16,
+        "optimizer_step": 8,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 8008,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-generator-U-r4-lr100-01/checkpoints/micro_000000000000_0128f7ef75",
+      "manifest_sha256": "dcaa2f8300ef39fcfcbe91e03bb52dd889ccb49c91ea85722da214cd9ccb0fb9",
+      "status": "stopped",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 0,
+        "optimizer_step": 0,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 0,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-generator-U-r4-lr100-01/checkpoints/micro_000000000008_6fd48d74c7",
+      "manifest_sha256": "086d0b937285434912f1a9a32fb2c755224d3ef4c7c14f8b7936a2af1d49fe0e",
+      "status": "stopped",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 8,
+        "optimizer_step": 4,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 4008,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-generator-U-r4-proof-01/continuous/checkpoints/micro_000000000000_4df0efc08b",
+      "manifest_sha256": "7cf699ea6c9a5081f6e376250b8bdf3a4ed2c428bcbc54180bd2bf14608156a0",
+      "status": "stopped",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 0,
+        "optimizer_step": 0,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 0,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-generator-U-r4-proof-01/continuous/checkpoints/micro_000000000016_2452d3da87",
+      "manifest_sha256": "82a25be5c7f22be0d42f7f66673ed70598a0d3a013354c4e71e568dde0b77d93",
+      "status": "stopped",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 16,
+        "optimizer_step": 8,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 8008,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-generator-U-r4-proof-01/interrupted/checkpoints/micro_000000000000_588601e933",
+      "manifest_sha256": "82c2f863c5321e239b2d5c4359e4344c1fe3a50ba0f9bf2b084bb95ed401b20e",
+      "status": "stopped",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 0,
+        "optimizer_step": 0,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 0,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-generator-U-r4-proof-01/interrupted/checkpoints/micro_000000000003_edc7a5d339",
+      "manifest_sha256": "8a51fbf2e0a54ba0e06dc100abd360710ad2f4baa0998d8264e778a8ae4c1273",
+      "status": "paused",
+      "progress": {
+        "accumulation_index": 1,
+        "micro_step": 3,
+        "optimizer_step": 1,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 1522,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-generator-U-r4-proof-01/interrupted/checkpoints/micro_000000000016_a3ca0d9f4d",
+      "manifest_sha256": "c26380ee4a4e8d0669c0a76c8dcdcf149bc2023565336efd0bbeb3f65648d8d9",
+      "status": "stopped",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 16,
+        "optimizer_step": 8,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 8008,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-oracle-U-r4-01/checkpoints/micro_000000000000_dbc90fafe3",
+      "manifest_sha256": "b191d7bb5b95f6a7146921216fd83e353c295a7fd98a24509c4a149bbc9c5548",
+      "status": "stopped",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 0,
+        "optimizer_step": 0,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 0,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-oracle-U-r4-01/checkpoints/micro_000000000020_9223ac7a3d",
+      "manifest_sha256": "09dc049ea4b964bd8946867ca92d0724101141ae30c6589bb0e2f1e83380fa45",
+      "status": "checkpoint",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 20,
+        "optimizer_step": 20,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 2888,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-oracle-U-r4-01/checkpoints/micro_000000000040_6dcec58935",
+      "manifest_sha256": "73dfea63b2cb77967426cb879fd66a20071681d515de7b12548944f34ff219f3",
+      "status": "checkpoint",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 40,
+        "optimizer_step": 40,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 5778,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-oracle-U-r4-01/checkpoints/micro_000000000060_506192cf42",
+      "manifest_sha256": "53451704f3aa5cfdaad1b13f286a43ef46642165699ef1fa48ba97876bf612fc",
+      "status": "checkpoint",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 60,
+        "optimizer_step": 60,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 8670,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-oracle-U-r4-01/checkpoints/micro_000000000080_69baea267c",
+      "manifest_sha256": "3c4411e8ed56c130894058af38a241b56454516158763c2dcaa74e74e120b6ec",
+      "status": "checkpoint",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 80,
+        "optimizer_step": 80,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 11560,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-oracle-U-r4-01/checkpoints/micro_000000000100_e8c67b1533",
+      "manifest_sha256": "1d31acc1f2dcbbed713579d22ef0b6798061b33e45dee4e8f6f5cf9be2e4c30a",
+      "status": "checkpoint",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 100,
+        "optimizer_step": 100,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 14448,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-oracle-U-r4-01/checkpoints/micro_000000000120_e52d105532",
+      "manifest_sha256": "2173750ec9b4f0d0d3860471df97ceb123462f9ad59702bfc13a224573cc02cc",
+      "status": "checkpoint",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 120,
+        "optimizer_step": 120,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 17338,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-oracle-U-r4-01/checkpoints/micro_000000000140_fb1eab14ef",
+      "manifest_sha256": "6c5c99a6adbb4054a91ed1d4f3150bfcc4c72b38ed5197b929581d38edfebb47",
+      "status": "checkpoint",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 140,
+        "optimizer_step": 140,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 20230,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-oracle-U-r4-01/checkpoints/micro_000000000160_55924aa9cb",
+      "manifest_sha256": "ee101e5553be1433f5fef14c2ab70a1ed8bef525722a4b39613f4d6c8f1cb98b",
+      "status": "checkpoint",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 160,
+        "optimizer_step": 160,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 23120,
+        "teacher_tokens": 0
+      }
+    },
+    {
+      "path": "artifacts/shine-oracle-U-r4-01/checkpoints/micro_000000000166_0e50e2b8fa",
+      "manifest_sha256": "b6e1b900ace223599eb239872da44f367b78069588c43b3f7eaaeeca68beecc8",
+      "status": "stopped",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 166,
+        "optimizer_step": 166,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 23986,
+        "teacher_tokens": 0
+      }
+    }
+  ],
+  "fixed_evaluation_checkpoints": [
+    {
+      "micro": 32,
+      "checkpoint": "micro_000000000032_4692d6da21",
+      "manifest_sha256": "216c2a10e456f1456c08b6ac524fa2680fd96dc3a4ae0c484571c488ab16a079",
+      "payload_weights_match_journal": true,
+      "items": 64
+    },
+    {
+      "micro": 64,
+      "checkpoint": "micro_000000000064_05a16dbbaa",
+      "manifest_sha256": "e8f676cf3282c3b624dca0ced268dc26ca5907c1a52c810faf8956264e45ea44",
+      "payload_weights_match_journal": true,
+      "items": 64
+    },
+    {
+      "micro": 96,
+      "checkpoint": "micro_000000000096_c3fe3039ac",
+      "manifest_sha256": "775833b4bea74b99c6cd41dc518622ff4c79c8fd4d7efa6854ec7bb79b8ac8b0",
+      "payload_weights_match_journal": true,
+      "items": 64
+    },
+    {
+      "micro": 128,
+      "checkpoint": "micro_000000000128_0669a6ddc8",
+      "manifest_sha256": "ee4c4d13046d35786493c7aa6ad4027a7843a06a03e2d8e6111cb8899a65939b",
+      "payload_weights_match_journal": true,
+      "items": 64
+    }
+  ],
+  "evaluation128_full_state_unchanged": true,
+  "first16_selected_run_events_match_recovery_reference": true,
+  "baselines": [
+    {
+      "run": "ab-A-v6-natural-keep-w1-cuda-lr125-01",
+      "checkpoint": "micro_000000004554_fceac90b62",
+      "manifest_sha256": "d89910a3b02d2f1c2d36a9e0e70699e7d8c24029ad8e5bde5e26478561d05c4c",
+      "all_files_valid": true
+    },
+    {
+      "run": "ab-A-v7-fixed-pair-evidence-kl-01",
+      "checkpoint": "micro_000000000240_8e7072186e",
+      "manifest_sha256": "5c6ae2b247193b338e169cba6402cff52743b466fb6543749efe3bab5bd72b61",
+      "all_files_valid": true
+    }
+  ],
+  "diagnostic_student_total": 139224,
+  "diagnostic_teacher_total": 24522,
+  "diagnostic_student_limit": 150000,
+  "pending_reservations": 0,
+  "cost_by_kind": {
+    "evaluation_query": {
+      "student": 16282,
+      "teacher": 22192
+    },
+    "training_micro": {
+      "student": 116074,
+      "teacher": 0
+    },
+    "evaluation_source": {
+      "student": 2768,
+      "teacher": 0
+    },
+    "parallel_vs_cached_gold": {
+      "student": 1152,
+      "teacher": 0
+    },
+    "writer_latency": {
+      "student": 258,
+      "teacher": 0
+    },
+    "payload_roundtrip_query": {
+      "student": 140,
+      "teacher": 0
+    },
+    "probe_source": {
+      "student": 392,
+      "teacher": 0
+    },
+    "probe_query": {
+      "student": 1766,
+      "teacher": 2330
+    },
+    "probe_foreign_source": {
+      "student": 392,
+      "teacher": 0
+    }
+  },
+  "selected_generator_training_student_tokens": 64064,
+  "selected_generator_compute_seconds": 636.390846613991,
+  "selected_generator_compute_student_tokens_per_second": 100.667695553545,
+  "training_peak_allocated_bytes": 5471104512,
+  "training_peak_reserved_bytes": 5553258496,
+  "source_artifact_sizes": {
+    "shine-generator-U-r4-01": 17412871,
+    "shine-generator-U-r4-lr10-01": 644001794,
+    "shine-generator-U-r4-lr10-proof-01": 278360685,
+    "shine-generator-U-r4-lr100-01": 69609492,
+    "shine-generator-U-r4-proof-01": 208800776,
+    "shine-oracle-U-r4-01": 200764686
+  },
+  "new_artifact_total_bytes": 1418950304,
+  "small_probe_items": 48,
+  "amplitude": {
+    "status": "not_started_resource_preflight_rejected",
+    "input_tokens_consumed": 0
+  },
+  "workers": [
+    {
+      "record": "shine-amplitude-controller.json",
+      "pid": 14959,
+      "project_worker_exited": true
+    },
+    {
+      "record": "shine-generator-U-initialize-01-submit.json",
+      "pid": 11588,
+      "project_worker_exited": true
+    },
+    {
+      "record": "shine-generator-U-lr10-128-amplitude-submit.json",
+      "pid": 14987,
+      "project_worker_exited": true
+    },
+    {
+      "record": "shine-generator-U-lr10-128-small-submit.json",
+      "pid": 14339,
+      "project_worker_exited": true
+    },
+    {
+      "record": "shine-generator-U-lr10-fit8-128-submit.json",
+      "pid": 13060,
+      "project_worker_exited": true
+    },
+    {
+      "record": "shine-generator-U-lr10-proof-continuous-01-submit.json",
+      "pid": 12591,
+      "project_worker_exited": true
+    },
+    {
+      "record": "shine-generator-U-lr10-proof-interrupted-01-submit.json",
+      "pid": 12803,
+      "project_worker_exited": true
+    },
+    {
+      "record": "shine-generator-U-lr10-proof-resume-01-submit.json",
+      "pid": 12819,
+      "project_worker_exited": true
+    },
+    {
+      "record": "shine-generator-U-proof-continue-submit.json",
+      "pid": 12017,
+      "project_worker_exited": true
+    },
+    {
+      "record": "shine-generator-U-proof-continuous-01-submit.json",
+      "pid": 11802,
+      "project_worker_exited": true
+    },
+    {
+      "record": "shine-generator-U-proof-continuous-retry1-submit.json",
+      "pid": 12043,
+      "project_worker_exited": true
+    },
+    {
+      "record": "shine-generator-U-proof-controller.json",
+      "pid": 11563,
+      "project_worker_exited": true
+    },
+    {
+      "record": "shine-generator-U-proof-interrupted-01-submit.json",
+      "pid": 12058,
+      "project_worker_exited": true
+    },
+    {
+      "record": "shine-generator-U-proof-resume-01-submit.json",
+      "pid": 12072,
+      "project_worker_exited": true
+    },
+    {
+      "record": "shine-generator-U-r4-lr10-01-submit.json",
+      "pid": 12327,
+      "project_worker_exited": true
+    },
+    {
+      "record": "shine-generator-U-r4-lr100-01-submit.json",
+      "pid": 12312,
+      "project_worker_exited": true
+    },
+    {
+      "record": "shine-lr-pilots-controller.json",
+      "pid": 12287,
+      "project_worker_exited": true
+    },
+    {
+      "record": "shine-lr10-fit-controller.json",
+      "pid": 12809,
+      "project_worker_exited": true
+    },
+    {
+      "record": "shine-lr10-pin-controller.json",
+      "pid": 13279,
+      "project_worker_exited": true
+    },
+    {
+      "record": "shine-lr10-recovery-controller.json",
+      "pid": 12566,
+      "project_worker_exited": true
+    },
+    {
+      "record": "shine-oracle-U-path-controller.json",
+      "pid": 11339,
+      "project_worker_exited": true
+    },
+    {
+      "record": "shine-oracle-U-path-submit.json",
+      "pid": 11544,
+      "project_worker_exited": true
+    },
+    {
+      "record": "shine-oracle-U-r4-01-submit.json",
+      "pid": 10478,
+      "project_worker_exited": true
+    },
+    {
+      "record": "shine-oracle-U-r4-final166-eval-submit.json",
+      "pid": 11321,
+      "project_worker_exited": true
+    },
+    {
+      "record": "shine-small-eval-controller.json",
+      "pid": 14315,
+      "project_worker_exited": true
+    }
+  ],
+  "project_gpu_lock_released": true,
+  "keepalive_pid": 326,
+  "windows_e_free_bytes": 99873333248,
+  "final_gpu_total_used_free_temperature": "16303, 11092, 4886, 45",
+  "generator_learning_gate_passed": false,
+  "formal_A_student_tokens_consumed": 0,
+  "A_chain_student_tokens": 16658338,
+  "remaining_A_formal_budget": 13341662,
+  "formal_300k_not_started": true,
+  "other_methods_not_started": true,
+  "M5_passed": false,
+  "further_training_submitted": false
+}

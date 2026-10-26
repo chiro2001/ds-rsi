@@ -1,0 +1,73 @@
+{
+  "status": "selected_SHINE_generator_bounded_fit_completed",
+  "checkpoint": "micro_000000000128_6211452e25",
+  "manifest_sha256": "cefbe381ef798ae44e847a52162e753be7ba1bce8d69858f86abaf55d3d111cf",
+  "progress": {
+    "accumulation_index": 0,
+    "micro_step": 128,
+    "optimizer_step": 64,
+    "stage": "SHINE_diagnostic",
+    "student_tokens": 64064,
+    "teacher_tokens": 0
+  },
+  "scores": {
+    "32": {
+      "memory": {
+        "correct": 0,
+        "ended": 32,
+        "exact_tokens": 0,
+        "queries": 32
+      },
+      "off": {
+        "correct": 0,
+        "ended": 20,
+        "exact_tokens": 0,
+        "queries": 32
+      }
+    },
+    "64": {
+      "memory": {
+        "correct": 2,
+        "ended": 32,
+        "exact_tokens": 2,
+        "queries": 32
+      },
+      "off": {
+        "correct": 0,
+        "ended": 20,
+        "exact_tokens": 0,
+        "queries": 32
+      }
+    },
+    "96": {
+      "memory": {
+        "correct": 2,
+        "ended": 32,
+        "exact_tokens": 2,
+        "queries": 32
+      },
+      "off": {
+        "correct": 0,
+        "ended": 20,
+        "exact_tokens": 0,
+        "queries": 32
+      }
+    },
+    "128": {
+      "memory": {
+        "correct": 8,
+        "ended": 32,
+        "exact_tokens": 8,
+        "queries": 32
+      },
+      "off": {
+        "correct": 0,
+        "ended": 20,
+        "exact_tokens": 0,
+        "queries": 32
+      }
+    }
+  },
+  "generator_learning_gate_passed": false,
+  "further_training_submitted": false
+}

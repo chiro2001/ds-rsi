@@ -8,7 +8,7 @@ from pathlib import Path
 import torch
 from transformers import AutoTokenizer
 
-from dsrsi.data.compiler import EpisodeCompiler
+from dsrsi.data.compiler import EpisodeCompiler,tokenizer_fingerprint
 from dsrsi.model.shine import ShineQwen
 from dsrsi.state.streaming_cache import StreamingCache
 from dsrsi.training.checkpoint import CheckpointStore, file_sha256
@@ -31,9 +31,16 @@ def main():
     store=CheckpointStore(run/'checkpoints');d,manifest=store.load_committed()
     config=manifest['identity']['train_config']
     if config['mode']!='oracle':raise ValueError('capacity diagnostic only')
+    base_id=dict(tokenizer=tokenizer_fingerprint(base),weights={name:file_sha256(base/name)
+                  for name in manifest['identity']['base']['weights']})
+    if base_id!=manifest['identity']['base']:raise ValueError('base/tokenizer identity differs')
     torch.manual_seed(config['seed'])
     payload=store.load_rank(d,manifest,rank=0)
     model=ShineQwen.from_local_checkpoint(base,device=device)
+    from dsrsi.model.cuda_execution import require_reference_kernels,cuda_execution_identity
+    require_reference_kernels(model)
+    if cuda_execution_identity(device)!=manifest['identity']['runtime']:
+        raise ValueError('capacity diagnostic runtime differs')
     if json.loads(json.dumps(model.architecture_identity()))!=manifest['identity']['architecture']:
         raise ValueError('architecture differs')
     rows=fixture_rows(worlds=config['worlds'],task=config['task'],seed=config['seed'])

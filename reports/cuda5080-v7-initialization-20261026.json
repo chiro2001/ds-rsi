@@ -1,0 +1,48 @@
+{
+  "status": "explicit_A_to_A_fixed_pair_initialization_verified",
+  "checkpoint": "micro_000000000000_2f9fb8f48a",
+  "manifest_sha256": "25cb949833f682b63275db87f575be9f3a95bf51af0732f8e04f0bdae0b6d0ee",
+  "source_manifest_sha256": "d89910a3b02d2f1c2d36a9e0e70699e7d8c24029ad8e5bde5e26478561d05c4c",
+  "previous_frozen_initial_manifest_sha256": "33094442115368dc151aac5cfaaa39c4a781bb49d91eeb5e62af4340bb0521ed",
+  "all_memory_parameters_buffers_life_equal_source": true,
+  "all_initial_payload_equal_previous_frozen_course": true,
+  "new_optimizer_empty": true,
+  "all_pending_gradients_empty": true,
+  "trainable_parameter_tensors": 28,
+  "frozen_reader_gate_parameter_tensors": 6,
+  "train_config": {
+    "counterfactual_margin": 2.0,
+    "counterfactual_weight": 1.0,
+    "curriculum": "facts",
+    "data_revision": "ab-v7-fixed-pair-qa",
+    "distractors": 7,
+    "evidence_distillation_weight": 1.0,
+    "gradient_accumulation": 12,
+    "gradient_clip": 1.0,
+    "keep_fraction": 0.4,
+    "keep_weight": 1.0,
+    "learning_rate": 0.000125,
+    "memory_candidate_curriculum": "single-double-world-v1",
+    "memory_candidates": 2,
+    "memory_trainable_policy": "freeze-reader-gates-v1",
+    "reuse_frozen_prefix": true,
+    "save_every_micro": 100,
+    "seed": 20261010,
+    "stage": "A",
+    "student_token_budget": 13491514,
+    "weight_decay": 0.01
+  },
+  "evidence_distillation": {
+    "implementation": {
+      "evaluation/fixed_records.py": "f072ae0d00c6e0add643ab279de84fac331b29ae1e97ec250458c6c2e978c1b2",
+      "evaluation/m_only.py": "30b300c0d601e673faa8139498c90cfdcb4876edde8216f325983406baa2dbcd",
+      "training/evidence_distillation.py": "30cd3d86736288d6719d46392cdfc00599f076d241c5be8a3b3ca17e89c92e56"
+    },
+    "teacher_screen": "canonical-free-greedy-exact-tokens-and-end-v1",
+    "version": "fixed-pair-evidence-top32-tail-v1"
+  },
+  "A_chain_prefix": 16508486,
+  "new_run_budget": 13491514,
+  "retained_rejected_course_student_cost": 471312,
+  "source_complete_states_preserved": true
+}

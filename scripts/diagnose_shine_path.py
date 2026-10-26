@@ -10,7 +10,7 @@ import torch
 from transformers import AutoTokenizer
 
 from dsrsi.data.compiler import EpisodeCompiler,tokenizer_fingerprint
-from dsrsi.model.shine import ShineConfig, ShineQwen
+from dsrsi.model.shine import GeneratedMemory, ShineConfig, ShineQwen
 from dsrsi.state.streaming_cache import StreamingCache
 from dsrsi.training.checkpoint import CheckpointStore, file_sha256
 from dsrsi.training.device import resolve_device
@@ -39,6 +39,7 @@ def main():
     p.add_argument('--contexts',type=int,default=4)
     p.add_argument('--probes',choices=['all','p1'],default='all')
     p.add_argument('--capture-encoding',action='store_true')
+    p.add_argument('--fixed-memory-only',action='store_true',help='reuse context-zero factors across all questions; no weight update')
     args=p.parse_args()
     paths=[Path(v).resolve() for v in (args.base,args.run_dir,args.output,args.diagnostic_ledger)]
     if any(not v.is_relative_to(Path('/mnt/e/ds-rsi')) for v in paths):raise ValueError('CUDA paths must remain on E:')
@@ -67,6 +68,8 @@ def main():
     rows=fixture_rows(worlds=config['worlds'],task=config['task'],seed=config['seed'])
     if args.contexts>len(rows) or args.capture_encoding and (config['mode']!='generator' or args.contexts%2):
         raise ValueError('encoding summary requires paired generator contexts within fixture')
+    if args.fixed_memory_only and (config['mode']!='generator' or config['task']!='U' or args.capture_encoding):
+        raise ValueError('fixed-memory control requires a U generator without encoding hooks')
     if config['mode']=='oracle':
         direct=DirectFactors(model,rows).to(device);direct.load_state_dict(payload['weights'],strict=True)
     else:
@@ -96,8 +99,10 @@ def main():
     upper=0
     for row in rows[:args.contexts]:
         episode=compiler.compile(row)
-        if direct is None:upper+=sum(len(s.input_ids)+model.memory_tokens for s in episode.source)
-        upper+=sum(2*len(r.input_ids) for r in episode.responses if args.probes=='all' or r.event_id=='p1')
+        if direct is None and (not args.fixed_memory_only or row is rows[0]):
+            upper+=sum(len(s.input_ids)+model.memory_tokens for s in episode.source)
+        upper+=sum(len(r.prompt_ids)+16 if args.fixed_memory_only else 2*len(r.input_ids)
+                   for r in episode.responses if args.probes=='all' or r.event_id=='p1')
     budget=ledger.read()
     if sum(e['student'] for e in budget['entries'])+upper>budget['student_limit']:
         raise ValueError('complete path diagnostic exceeds remaining budget')
@@ -110,6 +115,35 @@ def main():
         reference=json.loads(Path(str(free_path)+'.journal.json').read_text())
         if reference['identity']['weights_sha256']!=h.hexdigest():raise ValueError('free-generation reference weights differ')
     free_index={(r['context_index'],r['probe_id']):r for r in free['records'] if r['view']=='memory'} if free else {}
+    if args.fixed_memory_only:
+        with torch.no_grad():
+            first=compiler.compile(rows[0]);cost=sum(len(s.input_ids)+model.memory_tokens for s in first.source)
+            key=ledger.reserve(run=str(out),kind='constant_memory_source',student=cost)
+            fixed,actual=encode_memories(model,first);ledger.commit(key,student=actual)
+            for number,row in enumerate(rows[:args.contexts]):
+                episode=compiler.compile(row)
+                # This intervention intentionally reuses only the factors. The life/record
+                # identity names the current diagnostic query, not a genuine new write.
+                memories=[GeneratedMemory(episode.source[0].event_id,episode.episode_id,fixed[0].factors)]
+                for probe,response in zip(row['probes'],episode.responses,strict=True):
+                    if args.probes=='p1' and response.event_id!='p1':continue
+                    key=ledger.reserve(run=str(out),kind='constant_memory_query',student=len(response.prompt_ids)+16)
+                    result=model.generate(response.prompt_ids,memories=memories,life_id=episode.episode_id,
+                                          eos_token_id=compiler.tokenizer.eos_token_id)
+                    ledger.commit(key,student=result['input_tokens'])
+                    text=compiler.tokenizer.decode(result['token_ids'],skip_special_tokens=True)
+                    records.append(dict(context=number,probe=probe['probe_id'],expected=probe['target'],text=text,
+                        exact_tokens=result['stopped_on_end'] and result['token_ids']+[compiler.tokenizer.eos_token_id]==response.input_ids[response.prompt_length:],
+                        dynamic_reference=free_index[number,probe['probe_id']],**result))
+        assert all(torch.equal(v.detach().cpu(),before[n]) for n,v in model.named_parameters() if v.requires_grad)
+        atomic_json(out,dict(checkpoint=d.name,manifest_sha256=file_sha256(d/'manifest.json'),
+            script_sha256=file_sha256(Path(__file__)),free_reference_sha256=file_sha256(free_path),
+            scope='Frozen context-zero factors reused across p1 questions; intentionally mismatched source, not a new memory write',
+            fixed_source_context=0,contexts=args.contexts,probes=args.probes,student_tokens_upper_bound=upper,
+            training_parameters_unchanged=True,records=records,exact_tokens=sum(r['exact_tokens'] for r in records),
+            dynamic_exact_tokens=sum(r['dynamic_reference']['exact_token_match'] for r in records)))
+        print(json.dumps(dict(fixed_correct=sum(r['exact_tokens'] for r in records),queries=len(records))),flush=True)
+        return
     with torch.no_grad():
         for number,row in enumerate(rows[:args.contexts]):
             episode=compiler.compile(row)
@@ -125,7 +159,6 @@ def main():
                     if number%2==0:prior=memories[0].state()
                     else:
                         from evaluate_shine_small import relative_update_change
-                        from dsrsi.model.shine import GeneratedMemory
                         update_pairs.append(relative_update_change([GeneratedMemory.from_state(prior,'cpu')],
                             [GeneratedMemory.from_state(memories[0].state(),'cpu')]))
             else:memories=direct.memories(number,row)

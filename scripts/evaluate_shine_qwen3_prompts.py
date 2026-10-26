@@ -41,6 +41,7 @@ def main():
     for flag in ['root','run-dir','diagnostic-ledger','output']:p.add_argument('--'+flag,required=True)
     p.add_argument('--expected-micro',type=int,default=652)
     p.add_argument('--resume',action='store_true')
+    p.add_argument('--binding-only',action='store_true')
     args=p.parse_args();root=Path(args.root).resolve();run=Path(args.run_dir).resolve();out=Path(args.output).resolve();ledger_path=Path(args.diagnostic_ledger).resolve()
     assert root==Path('/mnt/e/ds-rsi/reproduction/shine-qwen3-06b')
     assert all(x.is_relative_to(root) for x in [run,out,ledger_path])
@@ -81,6 +82,63 @@ def main():
     weights=payload['weights'];del payload
     corpus=json.loads((root/'data/corpus.json').read_text());rows=[x for x in corpus['qa_dev'] if x['kind']=='natural'][:2]
     rows+=[x for x in corpus['qa_dev'] if x['kind']=='synthetic'][:2]
+    if args.binding_only:
+        import time
+        known=[x for x in corpus['qa_train'] if x['kind']=='synthetic' and x['variant']==0]
+        a,b=known[:2];av,bv=a['queries'][0]['target'],b['queries'][0]['target']
+        novel=av[:-1]+str((int(av[-1])+1)%10)
+        assert novel not in {q['target'] for x in corpus['qa_train'] for q in x['queries']}
+        assert a['source'].count(av)==1 and b['source'].count(bv)==1
+        cases=[dict(name='known_A',row=a,source=a['source'],target=av),
+               dict(name='known_entity_A_seen_value_B',row=a,source=a['source'].replace(av,bv),target=bv),
+               dict(name='known_entity_B_seen_value_A',row=b,source=b['source'].replace(bv,av),target=av),
+               dict(name='known_entity_A_novel_last_digit',row=a,source=a['source'].replace(av,novel),target=novel)]
+        ledger=DiagnosticBudget(ledger_path,limit=300000)
+        prompts=[[chat(tokenizer,[dict(role='user',content=q['question'])],prompt=True) for q in c['row']['queries']] for c in cases]
+        sources=[tokenizer.encode(c['source'],add_special_tokens=False) for c in cases]
+        upper=sum(len(x)+176 for x in sources)+sum(len(x)+32 for qs in prompts for x in qs)+len(prompts[1][0])+32
+        assert sum(e['student'] for e in ledger.read()['entries'])+upper<=300000,'binding controls exceed remaining budget'
+        memories=[];records=[]
+        for c,ids,qs in zip(cases,sources,prompts,strict=True):
+            key=ledger.reserve(run=str(out),kind='binding_probe_source',student=len(ids)+176)
+            with torch.no_grad():mem=model.encode(torch.tensor([ids],device='cuda'))
+            ledger.commit(key,student=len(ids)+176);memories.append(mem)
+            for j,query in enumerate(qs):
+                key=ledger.reserve(run=str(out),kind='binding_probe_query',student=len(query)+32)
+                result=model.generate(query,memory=mem,max_new_tokens=32,eos_token_id=tokenizer.eos_token_id)
+                ledger.commit(key,student=result['input_tokens']);text=tokenizer.decode(result['token_ids'],skip_special_tokens=True)
+                records.append(dict(case=c['name'],probe=j,source=c['source'],expected=c['target'],text=text,
+                    exact=normalized(text)==normalized(c['target']),**result))
+        def tensors(tree):
+            if isinstance(tree,dict):return [t for v in tree.values() for t in tensors(v)]
+            return [tree] if isinstance(tree,torch.Tensor) else []
+        def transfer(tree,device):
+            if isinstance(tree,dict):return {k:transfer(v,device) for k,v in tree.items()}
+            return tree.detach().to(device).clone() if isinstance(tree,torch.Tensor) else tree
+        payload_path=Path(str(out)+'.memory.pt');assert not payload_path.exists()
+        torch.cuda.synchronize();start=time.perf_counter()
+        exported=dict(checkpoint_manifest_sha256=file_sha256(d/'manifest.json'),case=cases[1]['name'],factors=transfer(memories[1],'cpu'))
+        with payload_path.open('xb') as f:torch.save(exported,f);f.flush();os.fsync(f.fileno())
+        export_seconds=time.perf_counter()-start
+        start=time.perf_counter();loaded=torch.load(payload_path,map_location='cpu',weights_only=True)
+        assert loaded['checkpoint_manifest_sha256']==file_sha256(d/'manifest.json')
+        reloaded=transfer(loaded['factors'],'cuda');torch.cuda.synchronize();reload_seconds=time.perf_counter()-start
+        key=ledger.reserve(run=str(out),kind='binding_payload_roundtrip_query',student=len(prompts[1][0])+32)
+        repeated=model.generate(prompts[1][0],memory=reloaded,max_new_tokens=32,eos_token_id=tokenizer.eos_token_id)
+        ledger.commit(key,student=repeated['input_tokens'])
+        live=next(r for r in records if r['case']==cases[1]['name'] and r['probe']==0)
+        assert all(repeated[k]==live[k] for k in repeated),'payload roundtrip changed output'
+        assert all(torch.equal(v.detach().cpu(),weights[n]) for n,v in params.items())
+        assert file_sha256(d/m['files'][0]['file'])==m['files'][0]['sha256']
+        atomic_json(out,dict(checkpoint=d.name,manifest_sha256=file_sha256(d/'manifest.json'),script_sha256=file_sha256(Path(__file__)),
+            scope='Frozen familiar-entity/new-binding controls; two questions decoded independently, no answer in prompt',
+            student_upper=upper,records=records,training_payload_unchanged=True,
+            roundtrip=dict(factor_bytes=sum(t.numel()*t.element_size() for t in tensors(memories[1])),
+                file_bytes=payload_path.stat().st_size,file_sha256=file_sha256(payload_path),
+                export_cpu_and_fsync_seconds=export_seconds,reload_cpu_to_gpu_seconds=reload_seconds,
+                generation_identical=True,example_correct=live['exact']),M5_passed=False))
+        print(json.dumps(dict(binding_controls_complete=True,correct=sum(r['exact'] for r in records),queries=len(records))),flush=True)
+        return
     views=['memory','off','foreign','plaintext'];styles=['official_system','empty_think']
     def prompt(row,q,style,view):
         system=WITH_CONTEXT+row['source'] if view=='plaintext' else NO_CONTEXT

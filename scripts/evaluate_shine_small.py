@@ -5,6 +5,7 @@ import argparse
 import hashlib
 import json
 import os
+import signal
 from pathlib import Path
 import statistics
 import time
@@ -78,13 +79,17 @@ def main():
     torch.cuda.reset_peak_memory_stats()
     compiler=EpisodeCompiler(AutoTokenizer.from_pretrained(base,local_files_only=True));ledger=DiagnosticBudget(ledger_path)
     identity=dict(checkpoint=d.name,manifest_sha256=file_sha256(d/'manifest.json'),script_sha256=file_sha256(Path(__file__)),
-                  architecture=model.architecture_identity(),world=args.world,timing_repeats=args.timing_repeats,scope='one held-out zh world per U/P/C; no M5 claim')
+                  architecture=model.architecture_identity(),world=args.world,timing_repeats=args.timing_repeats,
+                  scope='seen U fixture, global read-amplitude only' if args.amplitude_only else 'one held-out zh world per U/P/C; no M5 claim')
     identity=json.loads(json.dumps(identity))
     if args.amplitude_only:
         original=model.encode;results={}
         rows=fixture_rows(worlds=c['worlds'],task=c['task'],seed=c['seed'])
         if c['task']!='U':raise ValueError('amplitude screen is pinned to the U fixture')
         before={name:value.detach().cpu().clone() for name,value in model.named_parameters() if value.requires_grad}
+        paused=[False]
+        for name in ['SIGINT','SIGTERM','SIGUSR2']:
+            signal.signal(getattr(signal,name),lambda *_:paused.__setitem__(0,True))
         try:
             for scale in [.5,2.]:
                 def scaled(source_ids,**kwargs):
@@ -93,13 +98,19 @@ def main():
                 model.encode=scaled
                 result=evaluate_fixture(model,compiler,rows,views=('memory',),
                          journal_path=str(out)+f'.scale{scale}.journal.json',identity=dict(identity,read_factor_scale=scale,source_write_scale=1.),
-                         resume=args.resume and Path(str(out)+f'.scale{scale}.journal.json').exists(),ledger=ledger)
+                         resume=args.resume and Path(str(out)+f'.scale{scale}.journal.json').exists(),ledger=ledger,pause_check=lambda:paused[0])
                 results[str(scale)]=result
                 print(json.dumps(dict(read_scale=scale,summary=result['summary'])),flush=True)
         finally:model.encode=original
         assert all(torch.equal(value.detach().cpu(),before[name]) for name,value in model.named_parameters() if value.requires_grad)
+        ref=run/f'evaluation-micro{m["progress"]["micro_step"]}.json'
+        reference=json.loads(ref.read_text())
+        ref_identity=EvaluationJournal.read(str(ref)+'.journal.json')['identity'];h=hashlib.sha256()
+        for name,tensor in before.items():h.update(name.encode());h.update(tensor.contiguous().view(torch.uint8).numpy().tobytes())
+        if ref_identity['weights_sha256']!=h.hexdigest():raise ValueError('unscaled reference weights differ')
         atomic_json(out,dict(identity=identity,scope='Fixed weights/source write rule; A factors scaled only at read; seen fixture, not heldout model selection',
-                            amplitude=results,training_parameters_unchanged=True,formal_A_tokens_consumed=0,M5_passed=False))
+                            amplitude=results,unscaled_reference_summary=reference['summary'],unscaled_reference_sha256=file_sha256(ref),
+                            training_parameters_unchanged=True,formal_A_tokens_consumed=0,M5_passed=False))
         return
     timing_path=Path(str(out)+'.timing.json')
     with torch.no_grad():

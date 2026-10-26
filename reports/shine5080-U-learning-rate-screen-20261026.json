@@ -1,0 +1,89 @@
+{
+  "scope": "Same initialization, sample order and first8 microbatches; learning-rate-only stability screen, not capability",
+  "code_snapshot": "c953c3d6de24",
+  "source_initial_manifest_sha256": "ab352f798f8e493f3817f58ee6fdd29dea307d2680dae6249eb0802bf83e1666",
+  "candidates": [
+    {
+      "run": "shine-generator-U-r4-lr100-01",
+      "learning_rate": 0.0001,
+      "initial_equal_except_learning_rate": true,
+      "initial_manifest_sha256": "dcaa2f8300ef39fcfcbe91e03bb52dd889ccb49c91ea85722da214cd9ccb0fb9",
+      "checkpoint": "micro_000000000008_6fd48d74c7",
+      "manifest_sha256": "086d0b937285434912f1a9a32fb2c755224d3ef4c7c14f8b7936a2af1d49fe0e",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 8,
+        "optimizer_step": 4,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 4008,
+        "teacher_tokens": 0
+      },
+      "answer_losses": [
+        4.016783356666565,
+        4.0266371965408325,
+        3.023933529853821,
+        2.7175328731536865,
+        38.04568862915039,
+        32.06609630584717,
+        31.284499168395996,
+        28.915398597717285
+      ],
+      "cf_losses": [
+        2.1269280910491943,
+        2.1269280910491943,
+        2.076572299003601,
+        2.1428154706954956,
+        2.2776793837547302,
+        2.1121883392333984,
+        0.2393110729753971,
+        2.172802209854126
+      ],
+      "last4_mean_answer": 32.57792067527771,
+      "peak_allocated_bytes": 5462504960,
+      "peak_reserved_bytes": 5553258496,
+      "process_seconds": 116.20187557600002
+    },
+    {
+      "run": "shine-generator-U-r4-lr10-01",
+      "learning_rate": 1e-05,
+      "initial_equal_except_learning_rate": true,
+      "initial_manifest_sha256": "d02fc622eef42c19cd358c8e813bc1ac133b2c2a27ec99cac2736153e4480ebf",
+      "checkpoint": "micro_000000000008_f5a0d597f3",
+      "manifest_sha256": "edd971a9b3a6427ce1a43efa12d93dbe303ea8172fbcfc557eb449425fc78087",
+      "progress": {
+        "accumulation_index": 0,
+        "micro_step": 8,
+        "optimizer_step": 4,
+        "stage": "SHINE_diagnostic",
+        "student_tokens": 4008,
+        "teacher_tokens": 0
+      },
+      "answer_losses": [
+        4.016783356666565,
+        4.0266371965408325,
+        3.3570170402526855,
+        2.997264266014099,
+        2.9584007263183594,
+        2.635693073272705,
+        3.0513031482696533,
+        2.8925588130950928
+      ],
+      "cf_losses": [
+        2.1269280910491943,
+        2.1269280910491943,
+        2.0744954347610474,
+        2.1210038661956787,
+        2.104358673095703,
+        2.1778355836868286,
+        2.142399549484253,
+        2.1752912998199463
+      ],
+      "last4_mean_answer": 2.8844889402389526,
+      "peak_allocated_bytes": 5462504960,
+      "peak_reserved_bytes": 5553258496,
+      "process_seconds": 116.59671135300232
+    }
+  ],
+  "no_formal_A_consumption": true,
+  "shared_student_limit": 150000
+}

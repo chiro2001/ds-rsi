@@ -1,0 +1,38 @@
+{
+  "run_id": "ab-A-v7-fixed-pair-evidence-kl-01",
+  "status": "stopped",
+  "checkpoint": "micro_000000000240_8e7072186e",
+  "manifest_sha256": "5c6ae2b247193b338e169cba6402cff52743b466fb6543749efe3bab5bd72b61",
+  "progress": {
+    "accumulation_index": 0,
+    "micro_step": 240,
+    "optimizer_step": 20,
+    "stage": "A",
+    "student_tokens": 149852,
+    "teacher_tokens": 27426
+  },
+  "A_chain_prefix": 16508486,
+  "A_chain_student_tokens": 16658338,
+  "remaining_chain_budget": 13341662,
+  "compute_seconds": 1125.9210892899928,
+  "compute_student_tokens_per_second": 133.0928085684023,
+  "process_duration_seconds": 1205.6375522639992,
+  "process_student_tokens_per_second": 124.29274429831862,
+  "fact_candidate_counts": {
+    "1": 70,
+    "2": 78
+  },
+  "first188_losses_samples_candidates_ledgers_match_verified_proof": true,
+  "formal100_full_payload_and_raw_bytes_match": true,
+  "formal100_tensor_leaves": 167,
+  "all28_optimizer_states_and_empty_gradients_verified": true,
+  "evaluation_pending": true,
+  "frozen_reader_gate_parameters_equal_initial": true,
+  "evidence_teacher_attempts": 156,
+  "evidence_teacher_acceptances": 116,
+  "supervised_queries": 388,
+  "teacher_keep_tokens": 10324,
+  "teacher_evidence_tokens": 17102,
+  "peak_allocated_bytes": 3623827968,
+  "peak_reserved_bytes": 4661968896
+}

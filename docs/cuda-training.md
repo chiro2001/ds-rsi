@@ -2,7 +2,24 @@
 
 2026-10-19起后续负载使用Windows `192.168.101.5` 的RTX5080，WSL负责执行，模型、run、评测、日志、临时文件和增长型缓存放`E:\ds-rsi`。GPU任务通过`scripts/run_5080_checked.py`启动：同进程检查设备、显存、温度、E盘实际余量，获取项目GPU锁并继承到训练进程；评测与训练串行。控制请求使用纯标准库入口，不获取GPU锁。
 
-## 当前支撑记录监督试验（2026-10-20）
+## 当前固定候选多问题与证据蒸馏（2026-10-26）
+
+当前run为`/mnt/e/ds-rsi/runs/ab-A-v7-fixed-pair-evidence-kl-01`，完整训练/评测快照`/mnt/e/ds-rsi/code/4eca2ff0b77f`。固定4554权重显式A→A初始化一次，新优化器/RNG/游标已声明；旧全部状态保留。新revision `ab-v7-fixed-pair-qa`使用相同源顺序的两条候选回答两个问题，并保留单候选复习和40%保持；双候选事实增加经自由生成精确筛查的原文教师top32+tail KL。骨干/Writer/Reader不变，没有引入LoRA；28训练张量、6门控冻结，AddressEncoder仍冻结。详见[算法协议](fixed-pair-evidence-distillation.md)。
+
+首批240已完整stopped：`micro_000000000240_8e7072186e`、manifest SHA `5c6ae2b247193b338e169cba6402cff52743b466fb6543749efe3bab5bd72b61`，优化器20/累积0/学生149852/教师27426。28项Adam、空梯度、有限权重/矩、RNG、6冻结参数及正式100/前188与验证匹配均已核验。固定240五项评测已完成：新双问题单/双候选20/48、2/48（初态32/48、2/48）；原v6单/双33/96、0/96（初态79/96、2/96），native中英均过原线。当前不扩此分支，全部worker/控制进程退出、GPU锁释放、五报告与最终payload SHA核验通过，M5–M7未过。详见[本轮完整报告与后续方案](../reports/20261026-cuda-fixed-pair-evidence-pilot.md)。
+
+新run前A链16,508,486，首批后16,658,338/30M，剩余13,341,662；恢复配置预算仍13,491,514。四个未采用旧课共471,312消费保留。后续只能同run原全部参数`--resume`，不再次`--init-from`、改预算为余额或丢弃完整训练态。核心参数为lr0.000125、累积12、keep-weight1、keep-fraction0.4、CF1/margin2、memory-candidates2、single-double-world-v1、freeze-reader-gates-v1、evidence-distillation-weight1、每100保存、前缀复用及原Torch GDN/eager。
+
+真实CUDA三轨迹100/188全payload及167张量原始字节/步幅、28梯度和全部事件一致，pause4/累积4后独立resume188通过。暂停退出3.88秒，重启首微批75.34秒。诊断346434学生/61758教师单列；正式计算133.09、可靠完整进程124.29学生token/s。Torch峰值allocated3.37GiB、reserved4.34GiB，包含双候选两查询图与教师筛查；整卡外部负载另计。所有增长路径仍在E盘，保留20GiB下限，WSL保活326不关闭。
+
+当前run的纯标准库安全暂停命令（不会获取GPU锁）：
+
+```bash
+PYTHONPATH=/mnt/e/ds-rsi/code/4eca2ff0b77f/src /usr/bin/python3 -m dsrsi.training.control \
+  --run-dir /mnt/e/ds-rsi/runs/ab-A-v7-fixed-pair-evidence-kl-01 --action pause
+```
+
+## 历史支撑记录监督试验（2026-10-20）
 
 当前新run为`ab-A-v6-natural-keep-w1-cuda-k12-fg-rs1-lr125-01`，完整执行快照`90028447c53a`。已显式从4554权重新建A优化器/RNG/游标，正式stopped0，初态全payload与旧冻结课一致；CI411通过2跳过。保持单/双复习、6门控参数冻结与原训练参数，仅新增`reader-support-weight1`，不改变模型输入或评测。实际CUDA188三轨迹、100/188全态和全部日志逐位一致已通过，暂停2.873秒、首微批恢复77.139秒。正式已原参数resume完成240并完整stopped，优化器20/累积0/学生117828/教师10324，checkpoint `micro_000000000240_67eaeabdba`、SHA `5442e2ff2ecc80f697ac6c3c9196b910ecd690a4c85ca542ad5960c4420db046`。正式100与前188也匹配验证。固定240的oracle1/2各96题、48篇native与72项固定候选诊断已全部完成：单候选68/96、双候选1/96，native中英均过原线。多记录读取没有改善，当前不扩这条分支；完整状态保留、GPU进程均退出，详见本轮汇总报告。
 

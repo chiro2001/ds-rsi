@@ -1,0 +1,22 @@
+{
+  "checkpoint": "micro_000000000240_8e7072186e",
+  "manifest_sha256": "5c6ae2b247193b338e169cba6402cff52743b466fb6543749efe3bab5bd72b61",
+  "seed": 20261010,
+  "evaluation_revision": "ab-v6-natural-keep",
+  "distractors": 8,
+  "oracle_support": {
+    "1": {
+      "queries": 96,
+      "true_support_selected": 96,
+      "true_support_first": 96,
+      "pre_oracle_actual_coverage": 0.11458333333333333
+    },
+    "2": {
+      "queries": 96,
+      "true_support_selected": 96,
+      "true_support_first": 96,
+      "pre_oracle_actual_coverage": 0.25
+    }
+  },
+  "field_semantics": "actual_support_coverage measures pre-oracle routing; all oracle selections were regenerated and checked against true support groups"
+}

@@ -1,0 +1,90 @@
+{
+  "status": "v7_bounded_training_and_full_evaluations_complete",
+  "code_snapshot": "4eca2ff0b77f",
+  "checkpoint": "micro_000000000240_8e7072186e",
+  "manifest_sha256": "5c6ae2b247193b338e169cba6402cff52743b466fb6543749efe3bab5bd72b61",
+  "progress": {
+    "accumulation_index": 0,
+    "micro_step": 240,
+    "optimizer_step": 20,
+    "stage": "A",
+    "student_tokens": 149852,
+    "teacher_tokens": 27426
+  },
+  "full_payload_file_checksums_verified": true,
+  "training_state_unchanged_by_evaluation": true,
+  "evaluations": {
+    "paired2-dev": {
+      "status": "completed",
+      "items": 144,
+      "report_sha256": "a1b6a55e935855034073ee87448524c5367b071cb1ebe4da77efe3395e059941"
+    },
+    "paired1-dev": {
+      "status": "completed",
+      "items": 144,
+      "report_sha256": "6cb9220e54d91a67a7f01c83c2025766f6640b7cf5737c255c9ecaf2f619e719"
+    },
+    "oracle2-dev": {
+      "status": "completed",
+      "items": 96,
+      "report_sha256": "e1133e0eef1d06ac2f7f96aeb18174ae6bdfa2c7c9f2c4bd022c8cfda627cef1"
+    },
+    "oracle1-dev": {
+      "status": "completed",
+      "items": 96,
+      "report_sha256": "124dd68e47a926f4bb905703f5f4464a53d6f195341951ce05b0e6ddcac3ca75"
+    },
+    "native-source-nll": {
+      "status": "completed",
+      "items": 480,
+      "report_sha256": "64533d53a48de06b44ee73c8ac0f201b8068615a1a33e009264ad8390e6b8ad9"
+    }
+  },
+  "workers": {
+    "formal-A-cuda-v7-fixed-pair-0-240": {
+      "pid": 5229,
+      "project_worker_exited": true
+    },
+    "cuda-v7-fixed-pair-validation-submit": {
+      "pid": 3236,
+      "project_worker_exited": true
+    },
+    "cuda-v7-fixed-pair-first240-evaluations-controller": {
+      "pid": 5231,
+      "project_worker_exited": true
+    },
+    "continue-v7-bounded240-submit": {
+      "pid": 3254,
+      "project_worker_exited": true
+    },
+    "cuda-v7-fixed-pair-240-paired2-submit": {
+      "pid": 6069,
+      "project_worker_exited": true
+    },
+    "cuda-v7-fixed-pair-240-paired1-submit": {
+      "pid": 6310,
+      "project_worker_exited": true
+    },
+    "cuda-v7-fixed-pair-240-oracle2-submit": {
+      "pid": 6735,
+      "project_worker_exited": true
+    },
+    "cuda-v7-fixed-pair-240-oracle1-submit": {
+      "pid": 7154,
+      "project_worker_exited": true
+    },
+    "cuda-v7-fixed-pair-240-native-submit": {
+      "pid": 7593,
+      "project_worker_exited": true
+    }
+  },
+  "project_gpu_lock_released": true,
+  "keepalive_pid": 326,
+  "windows_e_free_bytes": 101226463232,
+  "A_chain_prefix": 16508486,
+  "A_chain_student_tokens": 16658338,
+  "remaining_A_budget": 13341662,
+  "run_config_budget": 13491514,
+  "further_training_submitted": false,
+  "M5_passed": false
+}

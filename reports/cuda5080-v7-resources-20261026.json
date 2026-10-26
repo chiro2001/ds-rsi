@@ -1,0 +1,29 @@
+{
+  "windows_e_free_bytes": 101226459136,
+  "owned_training_state_directory_sizes": {
+    "runs/ab-A-v7-fixed-pair-evidence-kl-01": 129040393,
+    "artifacts/cuda-v7-fixed-pair-reference-unoptimized-01": 96785867,
+    "artifacts/cuda-v7-fixed-pair-prefix-recovery-01": 216165190
+  },
+  "final_whole_gpu_sample": "16303, 5965, 7",
+  "vhdx": {
+    "Path": "E:\\WSL\\Ubuntu\\ext4.vhdx",
+    "Length": 106998792192,
+    "initial_length_bytes": 106998792192,
+    "length_growth_bytes": 0,
+    "compaction_performed_this_round": false
+  },
+  "initial_windows_e_free_bytes": 101703327744,
+  "minimum_free_bytes": 21474836480,
+  "project_torch_peak_allocated_bytes": 3623827968,
+  "project_torch_peak_reserved_bytes": 4661968896,
+  "training_whole_device_sample": {
+    "scope": "Training-time whole-device sample; includes existing external workloads, not project peak",
+    "sample_unix": 1792990935.7897415,
+    "total_MiB": 16303,
+    "used_MiB": 10810,
+    "utilization_percent": 27
+  },
+  "all_growing_project_paths": "/mnt/e/ds-rsi",
+  "GPU_external_workloads_untouched": true
+}

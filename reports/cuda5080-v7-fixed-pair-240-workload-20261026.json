@@ -1,0 +1,39 @@
+{
+  "checkpoint": "micro_000000000240_8e7072186e",
+  "manifest_sha256": "5c6ae2b247193b338e169cba6402cff52743b466fb6543749efe3bab5bd72b61",
+  "scope": "Formal240 micro-event aggregation; workload timing includes all operations in each micro, not isolated teacher timings",
+  "micro_workload_groups": {
+    "fact2": {
+      "micros": 78,
+      "seconds": 905.9259778939931,
+      "student_tokens": 64964,
+      "teacher_tokens": 17102,
+      "fraction_compute_seconds": 0.8046087656687123
+    },
+    "fact1": {
+      "micros": 70,
+      "seconds": 166.0507277359966,
+      "student_tokens": 58426,
+      "teacher_tokens": 0,
+      "fraction_compute_seconds": 0.14747989829438968
+    },
+    "keep": {
+      "micros": 92,
+      "seconds": 53.94438366000304,
+      "student_tokens": 26462,
+      "teacher_tokens": 10324,
+      "fraction_compute_seconds": 0.04791133603689796
+    }
+  },
+  "evidence_teacher_by_task": {
+    "full_code": {
+      "attempted": 104,
+      "accepted": 104
+    },
+    "indexed_character": {
+      "attempted": 52,
+      "accepted": 12
+    }
+  },
+  "teacher_acceptance_rate": 0.7435897435897436
+}

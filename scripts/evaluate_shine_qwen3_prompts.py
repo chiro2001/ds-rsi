@@ -42,6 +42,7 @@ def main():
     p.add_argument('--expected-micro',type=int,default=652)
     p.add_argument('--resume',action='store_true')
     p.add_argument('--binding-only',action='store_true')
+    p.add_argument('--reconstruction-only',action='store_true')
     args=p.parse_args();root=Path(args.root).resolve();run=Path(args.run_dir).resolve();out=Path(args.output).resolve();ledger_path=Path(args.diagnostic_ledger).resolve()
     assert root==Path('/mnt/e/ds-rsi/reproduction/shine-qwen3-06b')
     assert all(x.is_relative_to(root) for x in [run,out,ledger_path])
@@ -82,6 +83,55 @@ def main():
     weights=payload['weights'];del payload
     corpus=json.loads((root/'data/corpus.json').read_text());rows=[x for x in corpus['qa_dev'] if x['kind']=='natural'][:2]
     rows+=[x for x in corpus['qa_dev'] if x['kind']=='synthetic'][:2]
+    if args.reconstruction_only:
+        import hashlib
+        from dsrsi.data.shine_qwen3 import compile_messages
+        pre_store=CheckpointStore(root/'runs/pretrain-eval/checkpoints');pd,pm=pre_store.load_committed()
+        assert pm['progress']['micro_step']==424 and pm['progress']['stage']=='SHINE_qwen3_pretrain'
+        assert pm['identity']==m['identity']
+        old=pre_store.load_rank(pd,pm,rank=0);pre_weights,pre_buffers=old['weights'],old['buffers'];del old
+        final_buffers={n:v.detach().cpu().clone() for n,v in model.named_buffers()}
+        samples=[('seen',corpus['pretrain_train'][0]),('heldout',corpus['pretrain_dev'][0])]
+        query=chat(tokenizer,[dict(role='user',content='<RECON>')],prompt=True)
+        records=[];ledger=DiagnosticBudget(ledger_path,limit=300000);upper=0
+        for _,row in samples:
+            gold=compile_messages(tokenizer,row['source'],[dict(role='user',content='<RECON>'),dict(role='assistant',content=row['source'])])
+            upper+=2*(len(gold['source_ids'])+176+len(query)+128+2*len(gold['input_ids']))
+        assert sum(e['student'] for e in ledger.read()['entries'])+upper<=300000,'reconstruction probe exceeds remaining budget'
+        for phase,phase_weights,phase_buffers in [('pretrain',pre_weights,pre_buffers),('final',weights,final_buffers)]:
+            with torch.no_grad():
+                for n,v in params.items():v.copy_(phase_weights[n].to(v.device))
+                for n,v in model.named_buffers():v.copy_(phase_buffers[n].to(v.device))
+            for split,row in samples:
+                gold=compile_messages(tokenizer,row['source'],[dict(role='user',content='<RECON>'),dict(role='assistant',content=row['source'])])
+                cost=len(gold['source_ids'])+176
+                key=ledger.reserve(run=str(out),kind='reconstruction_probe_source',student=cost)
+                with torch.no_grad():mem=model.encode(torch.tensor([gold['source_ids']],device='cuda'))
+                ledger.commit(key,student=cost)
+                key=ledger.reserve(run=str(out),kind='reconstruction_probe_query',student=len(query)+128)
+                result=model.generate(query,memory=mem,max_new_tokens=128,eos_token_id=tokenizer.eos_token_id)
+                ledger.commit(key,student=result['input_tokens']);text=tokenizer.decode(result['token_ids'],skip_special_tokens=True)
+                nll={}
+                for view,active in [('memory',mem),('off',None)]:
+                    key=ledger.reserve(run=str(out),kind='reconstruction_probe_gold',student=len(gold['input_ids']))
+                    with torch.no_grad():nll[view]=float(model.answer(torch.tensor([gold['input_ids']],device='cuda'),torch.tensor([gold['labels']],device='cuda'),memory=active))
+                    ledger.commit(key,student=len(gold['input_ids']))
+                target_ids=tokenizer.encode(row['source'],add_special_tokens=False)+[tokenizer.eos_token_id]
+                answer,unfinished=final_answer(text)
+                records.append(dict(phase=phase,split=split,row_id=row['id'],source_sha256=hashlib.sha256(row['source'].encode()).hexdigest(),
+                    normalized_exact=normalized(text)==normalized(row['source']),exact_tokens_and_EOS=result['token_ids']==target_ids,
+                    target_tokens=len(target_ids),generated_tokens=len(result['token_ids']),stopped_on_end=result['stopped_on_end'],
+                    source_word_F1=span_f1(answer,row['source']),unfinished_think=unfinished,gold_NLL=nll,
+                    generation_sha256=hashlib.sha256(text.encode()).hexdigest(),preview=text[:96]))
+        assert all(torch.equal(v.detach().cpu(),weights[n]) for n,v in params.items())
+        assert file_sha256(d/m['files'][0]['file'])==m['files'][0]['sha256']
+        assert file_sha256(pd/pm['files'][0]['file'])==pm['files'][0]['sha256']
+        atomic_json(out,dict(pretrain_checkpoint=pd.name,pretrain_manifest_sha256=file_sha256(pd/'manifest.json'),
+            final_checkpoint=d.name,final_manifest_sha256=file_sha256(d/'manifest.json'),script_sha256=file_sha256(Path(__file__)),
+            scope='Two fixed RECON examples before and after QA; no training or answer prefill',student_upper=upper,
+            records=records,training_payloads_unchanged=True,diagnostic_only=True,M5_passed=False))
+        print(json.dumps(dict(reconstruction_probe_complete=True,records=records)),flush=True)
+        return
     if args.binding_only:
         import time
         known=[x for x in corpus['qa_train'] if x['kind']=='synthetic' and x['variant']==0]
